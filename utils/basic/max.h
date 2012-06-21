@@ -1,16 +1,22 @@
 #ifndef H_H
 #define H_H
 
-#include <tr1/tuple>
+#include "boost/tuple/tuple.hpp"
+
+
+typedef boost::tuples::tuple<double, double, double> tuple;
 
 class max{
 
    public:
 
-      double m_best;
-      double M[];
+      max();
+      max(tuple, tuple);
 
-}
+      tuple m_best;
+      tuple M[];
+
+};
 
 
 
