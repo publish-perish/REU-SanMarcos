@@ -4,10 +4,9 @@ REU-SanMarcos
 REU Graph Theory Summer 2012
 
 Code Structure
-==============
+--------------
 
-Utils
------
+[Utils]
 
 Math libraries.
 
@@ -17,20 +16,17 @@ Header files.
 
 /utils/basic
 
-Executables
------------
+[Executables]
 
 /executables
 
-Build
------
+[Build]
 
 Visualization tools.
 
 /build
 
-SRC
----
+[SRC]
 
 Main code and drivers.
 
