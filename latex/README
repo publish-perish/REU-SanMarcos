@@ -1,0 +1,14 @@
+Latex Report
+============
+
+To generate latex document, either type 
+
+::
+   
+   pdf-latex report.tex
+
+or
+
+::
+
+   ./gen
