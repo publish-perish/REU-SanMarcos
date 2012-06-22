@@ -3,18 +3,19 @@
 
 #include "boost/tuple/tuple.hpp"
 
+using namespace boost::tuples;
 
-typedef boost::tuples::tuple<double, double, double> tuple;
+typedef tuple<double, double, double> T;
 
 class max{
 
    public:
 
       max();
-      max(tuple, tuple);
+      max(T, T);
 
-      tuple m_best;
-      tuple M[];
+      T m_best;
+      T M[];
 
 };
 
