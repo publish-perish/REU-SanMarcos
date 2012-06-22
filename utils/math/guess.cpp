@@ -1,27 +1,45 @@
-#include guess.h //can the complier find guess.h?
+#include "guess.h"
 #include "boost/tuple/tuple.hpp"
 typedef boost::tuple<int, int, int> tuple
-typedef vector< tuple<int,int, int> > tuple_list;
+typedef vector< tuple<int,int, int> > tuple_list
 
 
 
 
 
-int CoefTable::makeCoefTable()
+void CoefTable::makeCoefTable()
 {
 
 for(int i=0; i < genBound; i++)
 {
-	for(int j=0; j <= (genBound-i); j++)
+	for(int j=0; j <= i; j++)
 	{
-		for(int k=0; k <= (genBound -i -j); k++)
+		for(int k=0; k <= j; k++)
 		{
-			coefList.push_back(tuple(i, j, k);
+			Coeftable::filter(i, i-j, k);
 		}	
 	}
 }
 count =0;
-return 0;
+return;
+}
+
+void CoefTable::filter(int x, int y, int z)
+{
+	holdingTank.clear();
+	holdingTank.insert(tuple(x, y, z));
+	holdingTank.insert(tuple(x, z, y));
+	holdingTank.insert(tuple(y, x, z));
+	holdingTank.insert(tuple(y, z, x));
+	holdingTank.insert(tuple(z, x, y));
+	holdingTank.insert(tuple(z, y, x));
+	for(set::iterator i = holdingTank.begin(); i != holdingTank.end; i++)
+     { 
+       coefTable.insert(*i);       
+     }
+     holdingTank.clear();
+	
+return
 }
 
 int CoefTable::size()
@@ -32,15 +50,14 @@ return coefList.size();
 
 tuple CoefTable::guessCoef()
 {
-tuple Q= coefList.at(count);
-count++;
+tuple Q= coefList.at(coCount);
+coCount++;
 return Q;
 }
 
 
 
-
-int GenTable::makeGenTable()
+void GenTable::makeGenTable()
 {
 for(int i=2; i < genBound); i++)
 {
@@ -50,7 +67,7 @@ for(int i=2; i < genBound); i++)
 	}
 }
 count=0;
-return 0;
+return;
 }
 
 int GenTable::size()
@@ -60,8 +77,8 @@ return genList.size();
 
 tuple GenTable::guessGen()
 {
-tuple A= genList.at(count);
-count++;
+tuple A= genList.at(genCount);
+genCount++;
 return A;
 }
 
