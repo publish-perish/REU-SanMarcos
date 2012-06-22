@@ -3,7 +3,6 @@
 
 #include "boost/tuple/tuple.hpp"
 
-using namespace boost::tuples;
 
 typedef boost::tuples::tuple<double, double, double> tuple;
 
