@@ -1,0 +1,180 @@
+\documentclass[article,A4,12pt,oneside]{llncs}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathrsfs, bm}
+\usepackage{fancyhdr}
+
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{subfig}
+\usepackage{epsf,times}
+\usepackage{color}
+\usepackage{wrapfig}
+\usepackage{cases}
+\usepackage{multicol}
+\usepackage{tkz-berge}
+
+\usepackage[T1]{fontenc}
+%\newcommand{\tmname}[1]{\textsc{#1}}
+%\newcommand{\tmop}[1]{\ensuremath{\operatorname{#1}}}
+%\newcommand{\tmsamp}[1]{\textsf{#1}}
+%\newcommand{\tmtextsc}[1]{{\scshape{#1}}}
+%\newcommand{\tmtextsl}[1]{{\slshape{#1}}}
+%\newcommand{\tmtexttt}[1]{{\ttfamily{#1}}}
+
+\leftmargin=0.0cm
+\oddsidemargin=0.5cm
+\evensidemargin=0.5cm
+\topmargin=0cm
+\textwidth=16.0cm
+%\textheight=21.5cm
+\textheight=20.0cm
+\pagestyle{plain}
+\setlength{\columnsep}{20pt}
+
+\def\m{\mathbf{m}}
+\def\H{\mathbf{H}}
+\def\E{\mathbf{E}}
+\newcommand{\vepsi}{{\varepsilon}}
+\def\hnorm#1#2{\vert\,#1\,\vert_{#2}}
+\newcommand{\R}{{\mathbb R}}
+\newcommand{\Sph}{{\mathbb S}}
+\def\x{\mathbf{x}}
+\def\hvec{\overline{\mathbf{h}}}
+\def\evec{\overline{\mathbf{e}}}
+
+\newcommand{ \etal}{\mbox{\emph{et al. }}}
+
+\newcommand\vect[1]{\mbf{#1}}
+\newcommand{\mbf}[1]{\mbox{\boldmath$#1$}} 
+\newcommand{\RC}[1]{#1 $\times$ #1 $\times$ #1}
+\def\um{$\mu$m}
+\def\C{$^{\circ}\mathrm{C}$}
+
+\newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
+
+% DEFINITION OF CUSTOM FONT SIZE
+\newcommand{\customfontA}{\fontsize{50}{55}\selectfont}
+\newcommand{\customfontB}{\fontsize{14.4}{20}\selectfont}
+\newcommand{\customfontC}{\fontsize{30}{35}\selectfont}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\def\clovek#1{\noindent\bgroup\vbox{\noindent#1}\egroup\vskip1em}
+
+% TO INPUT BACKGROUND IMAGE
+%\usepackage{eso-pic}
+%\newcommand\BackgroundPic{
+%\put(0,0){
+%\parbox[b][\paperheight]{\paperwidth}{
+%\vfill
+%\centering
+%\includegraphics[width=\paperwidth,height=\paperheight]{img/karel-frontpage.png}
+%%\includegraphics[width=\paperwidth,height=\paperheight]{img/background.jpg}
+%\vfill
+%}}}
+
+\begin{document}
+
+% INPUTTING BACKGROUND IMAGE
+%\AddToShipoutPicture{\BackgroundPic}
+%\vbox{}
+%\pagestyle{empty}
+%\textwidth=15.5cm
+%\ClearShipoutPicture
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+
+%\begin{figure}[!ht]
+%\begin{center}
+%\includegraphics[width=\textwidth]{img/NCLab-Programming-1.png}
+%\end{center}
+%\end{figure}
+\vbox{}
+\vspace{2cm}
+
+\begin{center}
+{\huge \bf Improving some bounds and whatnot. }
+
+
+\title{ This is the title of our paper\footnote{Supported in part by National Science Foundation (NSF).}}
+\author{Jordan Blocher \and Samantha Hampton \and Christopher Linden}
+\date{\today}
+
+\end{center}
+
+\begin{figure}[!ht]
+\begin{center}
+\vspace{-6mm}
+%\includegraphics[width=0.26\textheight]{imgk/karel-logo.png}\ \ \ \ \ \ 
+%\includegraphics[width=0.2\textheight]{imgp/python-logo.png}
+\vbox{}
+\vspace{-9mm}
+\end{center}
+\end{figure}
+\begin{center}
+{\huge \bf My Latex Doc}
+\end{center}
+\vbox{}
+\vspace{1cm}
+\begin{center}
+\vfill
+{\large
+}
+\end{center}
+\newpage
+\vbox{}
+\vfill
+\begin{center}
+{\large
+}
+\vfill
+
+\end{center}
+
+
+\newpage
+%{\ }
+\setcounter{tocdepth}{2}
+\tableofcontents
+%\pagestyle{plain}
+
+\newpage
+
+\pagestyle{plain}
+\setcounter{page}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{plain}
+\setcounter{page} 1
+\section*{Abstract}
+
+\begin{figure}[!ht]
+\begin{center}
+%\includegraphics[width=0.8\textwidth]{imgk/fore-1.png}
+\end{center}
+\vspace{-2mm}
+\label{fig:f1}
+\vspace{-4mm}
+\end{figure}
+\noindent
+
+
+\part{Introduction}
+
+\input part1.tex
+
+\part{Results}
+
+\input part2.tex
+
+\section{What else?}
+
+
+
+
+
+\end{document}
