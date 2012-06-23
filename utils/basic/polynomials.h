@@ -1,13 +1,11 @@
 #ifndef POLYNOMIAL_H
 #define POLYNOMIAL_H
 
-#include "boost/tuple/tuple.hpp"
 #include <vector>
 #include <map>
+#include "../basic/tuple.h"
 
-using namespace boost::tuples;
-
-typedef tuple<double, double, double> T;
+typedef Tuple<double, 3> T;
 typedef std::vector<T> Vec;
 
 class Polynomial{
@@ -15,13 +13,9 @@ class Polynomial{
    public:
 
       Polynomial();
-      Polynomial(T &x, T &y); 
+      Polynomial(T &A, T &Y); 
 
-      Polynomial operator-(const Polynomial&);
-
-      Vec list;
-      T current;
-
+      T value;
 };
 
 
@@ -33,6 +27,7 @@ class m : public Polynomial{
 
 
 class v : public Polynomial{
+
 
       v(T &A, T &X): Polynomial(A, X){}
 
