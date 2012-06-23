@@ -1,0 +1,34 @@
+Latex Report
+============
+
+To generate latex document, either type 
+
+::
+   
+   pdf-latex report.tex
+
+or
+
+::
+
+   ./gen
+
+
+To use the tkz-Graphs,
+
+1. Copy all the files from the /tools directory to
+
+   /usr/share/texmf-texlive/tex/latex/base/
+
+::
+   
+   sudo cp tools/* /usr/share/texmf-texlive/tex/latex/base
+
+2. Update links
+
+::
+
+   sudo mktexlsr
+
+
+Styles found at http://www.altermundus.fr/pages/downloads/
