@@ -1,9 +1,10 @@
-
+#include "../utils/basic/permutations.h"
 
 
 int main()
 {
-
-   return 0;
+CoefTable C;
+C.makeCoefTable(5);
+return 0;
 
 }
