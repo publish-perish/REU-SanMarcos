@@ -25,7 +25,7 @@ return;
 
 void CoefTable::filter(int x, int y, int z)
 {
-	std::ofstream myfile ("example.txt");
+	std::ofstream myfile ("cotable.txt");
 	holdingTank.clear();
 	holdingTank.insert(T(x, y, z));
 	holdingTank.insert(T(x, z, y));
@@ -66,11 +66,17 @@ return Q;
 
 void GenTable::makeGenTable(int genBound)
 {
-for(int i=2; i < genBound; i++)
+std::ofstream myfile ("gentable.txt");
+for(int i=3; i < genBound; i++)
 {
 	for(int j=1; j < i; j++)
 	{
-		//genList.push_back(T(1, i, j));
+	T A = (1,j,i);
+		if(myfile.is_open())
+     {
+     	std::cout << A;
+     	myfile << A;
+     }
 	}
 }
 //genCount=0;
