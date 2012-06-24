@@ -30,10 +30,12 @@ class Tuple {
     bool operator>(const Tuple&);
     bool operator>=(const Tuple&);
     bool operator<=(const Tuple&);
+
 /*
     ostream& operator<<(ostream& ostr, const Tuple<TP,N>& t);
     ofstream& operator<<(ofstream& fstr, const Tuple<TP,N>& t);
 */
+
 };
 
 #endif

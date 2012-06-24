@@ -3,9 +3,11 @@
 
 #include <vector>
 #include <map>
-#include "../basic/tuple.h"
+//#include "../basic/tuple.h"
+#include "/boost/tuple/tuple.hpp"
 
-typedef Tuple<double, 3> T;
+//typedef Tuple<double, 3> T;
+typedef boost::tuples::tuple<double, double, double> T;
 typedef std::vector<T> Vec;
 
 class Polynomial{
@@ -13,9 +15,9 @@ class Polynomial{
    public:
 
       Polynomial();
-//      Polynomial(T &A, T &Y); 
+      Polynomial(T &A, T &Y); 
 
-    //  T value;
+      T value;
 };
 
 

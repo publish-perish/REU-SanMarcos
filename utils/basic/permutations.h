@@ -6,9 +6,9 @@
 #include <set>
 #include <iostream>
 #include <fstream>
-#include "./tuple.h"
+#include "/boost/tuple/tuple.hpp"
 using namespace std;
-typedef Tuple<int, 3> T;
+typedef Tuple<int, int, int> T;
 
 
 
