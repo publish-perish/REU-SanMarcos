@@ -1,7 +1,8 @@
 #include "../basic/permutations.h"
 #include "boost/tuple/tuple.hpp"
 #include <iterator>
-
+#include "boost/tuple/tuple_io.hpp"
+#include "boost/tuple/tuple_comparison.hpp"
 
 
 
@@ -29,8 +30,8 @@ for(int i=0; i <= diam; i++)
  		    { 
  		    if(colist.is_open())
  		    {
-  		   //	std::cout << *itr;
-  		   	//colist << *itr;
+  		   	std::cout << *itr;
+  		   	colist << *itr;
   		  	}
  		    itr++;     
 	    	}	
@@ -66,8 +67,8 @@ for(int i=0; i < coefBound; i++)
  		    { 
  		    if(mcolist.is_open())
  		    {
-  		   //	std::cout << *itr;
-  		   	//mcolist << *itr;
+  		   	std::cout << *itr;
+  		   	mcolist << *itr;
   		  	}
  		    itr++;     
 	    	}	
@@ -130,8 +131,8 @@ for(int i=3; i < genBound; i++)
 	T A = T(1,j,i);
 		if(myfile.is_open())
      {
-     //	std::cout << A;
-     //	myfile << A;
+     	std::cout << A;
+     	myfile << A;
      }
 	}
 }
