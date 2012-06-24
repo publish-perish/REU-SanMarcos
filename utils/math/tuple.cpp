@@ -138,7 +138,7 @@ bool Tuple<TP, N>::operator<=(const Tuple<TP, N> &t)
    }
    return true;
 }
-
+/*
 template<typename TP, int N>
 ostream& operator<<(ostream& ostr, const Tuple<TP,N>& t)
 {
@@ -164,3 +164,4 @@ ofstream& operator<<(ofstream& ofstr, const Tuple<TP,N>& t)
     ofstr << " )";
     return ofstr;
 }
+*/
