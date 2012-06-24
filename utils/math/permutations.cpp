@@ -1,14 +1,12 @@
 #include "../basic/permutations.h"
-#include "boost/tuple/tuple.hpp"
-#include <iterator>
-#include "boost/tuple/tuple_io.hpp"
-#include "boost/tuple/tuple_comparison.hpp"
+
 
 
 
 
 void CoefTable::makeCoTable(int diam)
 {
+cotSize =0;
 std::ofstream colist ("cotable.txt");
 for(int i=0; i <= diam; i++)
 {
@@ -30,8 +28,9 @@ for(int i=0; i <= diam; i++)
  		    { 
  		    if(colist.is_open())
  		    {
-  		   	std::cout << *itr;
-  		   	colist << *itr;
+  		   	//std::cout << *itr;
+  		   	colist << boost::tuples::set_delimiter(',') << *itr << " ";
+  		   	cotSize++;
   		  	}
  		    itr++;     
 	    	}	
@@ -46,8 +45,20 @@ return;
 }
 
 
+int CoefTable::getCotSize()
+{
+return cotSize;
+}
+
+
+int CoefTable::getMtSize()
+{
+return mtSize;
+}
+
 void CoefTable::makeMcoTable(int coefBound)
 {
+mtSize =0;
 std::ofstream mcolist ("mcotable.txt");
 for(int i=0; i < coefBound; i++)
 {
@@ -67,8 +78,9 @@ for(int i=0; i < coefBound; i++)
  		    { 
  		    if(mcolist.is_open())
  		    {
-  		   	std::cout << *itr;
-  		   	mcolist << *itr;
+  		   	//std::cout << *itr;
+  		   	mcolist << boost::tuples::set_delimiter(',') << *itr << " ";
+  		   	mtSize++;
   		  	}
  		    itr++;     
 	    	}	
@@ -123,6 +135,7 @@ return Q;
 
 void GenTable::makeGenTable(int genBound)
 {
+gSize =0;
 std::ofstream myfile ("gentable.txt");
 for(int i=3; i < genBound; i++)
 {
@@ -131,8 +144,9 @@ for(int i=3; i < genBound; i++)
 	T A = T(1,j,i);
 		if(myfile.is_open())
      {
-     	std::cout << A;
-     	myfile << A;
+     	//std::cout << A;
+     	myfile << boost::tuples::set_delimiter(',') << A << " ";
+     	gSize++;
      }
 	}
 }
@@ -140,12 +154,13 @@ for(int i=3; i < genBound; i++)
 myfile.close();
 return;
 }
-/*
-int GenTable::size()
-{
-return genList.size();
-}
 
+
+int GenTable::getGsize()
+{
+return gSize;
+}
+/*
 T GenTable::guessGen()
 {
 T A= genList.at(genCount);
@@ -153,3 +168,12 @@ genCount++;
 return A;
 }
 */
+
+
+
+T getGens()
+{
+T A;
+cin >> A;
+return A;
+}
