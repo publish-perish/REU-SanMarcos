@@ -1,30 +1,29 @@
 #ifndef P_H
 #define P_H
 
-#include "boost/tuple/tuple_comparison.hpp"
-#include "boost/tuple/tuple.hpp"
-#include <vector>
+
+//#include <vector>
 #include <set>
 #include <iostream>
 #include <fstream>
-#include "boost/tuple/tuple_io.hpp"
-using namespace boost::tuples;
-
-typedef tuple<double, double, double> T;
-
+#include "./tuple.h"
+using namespace std;
+typedef Tuple<int, 3> T;
 
 
- //should never be larger than d
+
+
 
 
 
 class CoefTable
 {
 public:
-void makeCoefTable(int coefBound);
+void makeCoTable(int diam);
+void makeMcoTable(int coefBound);
 private:
-void filter(int x, int y, int z);
-std::set<T> holdingTank;
+//void filter(int x, int y, int z);
+set<T> holdingTank;
 };
 
 class GenTable
