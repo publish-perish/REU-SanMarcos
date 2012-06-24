@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 //#include "../basic/tuple.h"
-#include "/boost/tuple/tuple.hpp"
+#include "boost/tuple/tuple.hpp"
 
 //typedef Tuple<double, 3> T;
 typedef boost::tuples::tuple<double, double, double> T;

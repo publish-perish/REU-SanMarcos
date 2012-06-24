@@ -6,9 +6,12 @@
 #include <set>
 #include <iostream>
 #include <fstream>
-#include "/boost/tuple/tuple.hpp"
+#include "boost/tuple/tuple.hpp"
+#include <iterator>
+
 using namespace std;
-typedef Tuple<int, int, int> T;
+
+typedef boost::tuples::tuple<int, int, int> T;
 
 
 
