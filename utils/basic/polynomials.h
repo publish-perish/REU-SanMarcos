@@ -13,15 +13,15 @@ class Polynomial{
    public:
 
       Polynomial();
-      Polynomial(T &A, T &Y); 
+//      Polynomial(T &A, T &Y); 
 
-      T value;
+    //  T value;
 };
 
 
 class m : public Polynomial{
 
-      m(T &A, T &Q): Polynomial(A, Q){}
+  //    m(T &A, T &Q): Polynomial(A, Q){}
 
 };
 
@@ -29,7 +29,7 @@ class m : public Polynomial{
 class v : public Polynomial{
 
 
-      v(T &A, T &X): Polynomial(A, X){}
+    //  v(T &A, T &X): Polynomial(A, X){}
 
 };
 

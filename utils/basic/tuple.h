@@ -4,6 +4,7 @@
 #include <math.h>
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -14,30 +15,24 @@ class Tuple {
 
     vector<TP> data;
     
-    explicit Tuple(){
-        data.resize(N);
-        for( size_t i=0; i<N; i++)
-            data[i] = 0;
-    }
+    Tuple();
+    Tuple(vector<TP> list);
+    Tuple( const TP& a, const TP& b, const TP& c);
     
-    explicit Tuple(vector<TP> list){
-        if( list.size() > N )
-            throw string("Error: Invalid input size");
-        
-        data.resize(N);
-        for(size_t i=0; i<list.size(); i++)
-            data[i] = list[i];
-    }
+    size_t size()const;
     
-    explicit Tuple( const TP& a, const TP& b, const TP& c ){
-        data.resize(N);
-        data[0] = a;
-        data[1] = b;
-        data[2] = c;
-    }
-
+    TP operator[](const size_t& idx)const;
+    TP& operator[](const size_t& idx);
+ 
     Tuple operator-(const Tuple&);
+    bool operator==(const Tuple&);
+    bool operator<(const Tuple&);
+    bool operator>(const Tuple&);
+    bool operator>=(const Tuple&);
+    bool operator<=(const Tuple&);
 
+    ostream& operator<<(ostream& ostr, const Tuple<TP,N>& t);
+    ofstream& operator<<(ofstream& fstr, const Tuple<TP,N>& t);
 };
 
 #endif
