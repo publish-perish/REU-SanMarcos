@@ -22,6 +22,7 @@ class Polynomial{
       T A, Y;
 
       T value()const;
+      int sum()const;
 };
 
 #endif
