@@ -7,7 +7,7 @@
 void CoefTable::makeCoTable(int diam)
 {
 cotSize =0;
-std::ofstream colist ("cotable.txt");
+std::ofstream colist ("./permutationtables/cotable.txt");
 for(int i=0; i <= diam; i++)
 {
 	for(int j=0; j <= i; j++)
@@ -59,8 +59,8 @@ return mtSize;
 void CoefTable::makeMcoTable(int coefBound)
 {
 mtSize =0;
-std::ofstream mcolist ("mcotable.txt");
-for(int i=0; i < coefBound; i++)
+std::ofstream mcolist ("./permutationtables/mcotable.txt");
+for(int i=0; i <= coefBound; i++)
 {
 	for(int j=0; j <= i; j++)
 	{
@@ -133,15 +133,15 @@ return Q;
 */
 
 
-void GenTable::makeGenTable(int genBound)
+void GenTable::makeGenTable(int genBound)  //order: c, b, 1
 {
 gSize =0;
-std::ofstream myfile ("gentable.txt");
+std::ofstream myfile ("./permutationtables/gentable.txt");
 for(int i=3; i < genBound; i++)
 {
 	for(int j=2; j < i; j++)
 	{
-	T A = T(1,j,i);
+	T A = T(i,j,1);
 		if(myfile.is_open())
      {
      	//std::cout << A;
