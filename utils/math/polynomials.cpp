@@ -18,5 +18,9 @@ T Polynomial::value()const
    return T(get<0>(A)*get<0>(Y), get<1>(A)*get<1>(Y), get<2>(A)*get<2>(Y));
 }
 
+int Polynomial::sum()const
+{
+return((get<0>(A)*get<0>(Y)) + (get<1>(A)*get<1>(Y)) +(get<2>(A)*get<2>(Y)));
+}
 
 
