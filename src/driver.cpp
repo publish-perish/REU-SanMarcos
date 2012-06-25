@@ -1,6 +1,7 @@
 #include "../utils/basic/permutations.h"
 #include "../utils/basic/polynomials.h"
 #include "../utils/basic/subtraction.h"
+#include "string.h"
 #define diamCubed 1000
 #define xSize 286
 using namespace std;
@@ -64,16 +65,17 @@ ifstream xcos; // x3, x2, x1
 T A; //generators
 T Q; //m coefs
 T x; //x coefs
+Polynomial X;
 Polynomial M; //the bound itself
 int m; //holds sum of M
 int mbest = 0; //holds the highest valid m
-gens.open("gentable.txt");
+gens.open("./permutationtables/gentable.txt");
 if(gens)
 {
 	while(!gens.eof())
 	{
 		gens >> A;
-		mcos.open("mcotable.txt");
+		mcos.open("./permutationtables/mcotable.txt");
 		if(mcos)
 		{
 			while(!mcos.eof())
@@ -81,36 +83,41 @@ if(gens)
 				mcos >> Q;
 				M = Polynomial(A, Q);
 				m = M.sum();
-				memset(cover[],false,diamCubed);
+				memset(cover,false,diamCubed);
 				if( m >= mbest)
 				{
-					xcos.open("cotable.txt");
+					xcos.open("./permutationtables/cotable.txt");
 					counter = 0;
 					if(xcos)
 					{
-						while(!xcos.eof())
+							while(!xcos.eof())
+							{
+								xcos >> x;
+								X = Polynomial(A, x);
+								subtract(X, M, temp[counter]);
+								cover[X.sum()] = true;							
+								++counter;
+								
+							}
+						xcos.close();
+						covered = true;
+						for(int i=0; i < m; ++i) //only check the first m of them
 						{
-							xcos >> x;
-							subtract(x, M, temp[counter]);
-							cover[x.sum()] = true;							
-							++counter;
-							
+							if(!cover[i]) //we are not covered
+							{
+								covered =false;
+								break;
+							}
 						}
-					xcos.close();
-					covered = true;
-					for(int i=0, i < m, ++i) //only check the first m of them
-					{
-						if(!cover[i]) //we are not covered
+						if(covered)
 						{
-							covered =false;
-							break;
+							mbest=m;
+							for(int j =0; j < m; ++j)
+								{
+									best[j] = temp[j];
+								}
+							cout << m << endl << A  << endl;
 						}
-					}
-					if(covered)
-					{
-					best = temp;
-					mbest =m;
-					}
 					}
 				}
 						
