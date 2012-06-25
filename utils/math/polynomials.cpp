@@ -34,66 +34,61 @@ bool Polynomial::operator==(const Polynomial &p)
    return((get<0>(A)==get<0>(Y)) && (get<1>(A)==get<1>(Y)) && (get<2>(A)==get<2>(Y)));
 }
 
-Polynomial Polynomial::operator=(Polynomial p)
+Polynomial Polynomial::operator=(const Polynomial &p)
 {
-    Polynomial temp(p.A, p.Y);
-    temp.s = p.s;
-    return temp;
+    A = p.A;
+    Y = p.Y;
 }
 
-void Polynomial::borrowC(Polynomial &p)
+Polynomial Polynomial::borrowC(Polynomial p)
 {
-   std::cout<<p;
+   //std::cout<<"In borrowC "<<p;
    if( get<1>(p.Y) < 0 )
    {
          ++p.s.c_borrowed;
          Polynomial temp(p.A, T(get<0>(p.Y), get<1>(p.Y)+get<0>(p.A), get<2>(p.Y)));
-         p = temp;
-         (borrowC(temp));
+         p = borrowC(temp);
    }
-         std::cout<<"Returned to borrowC "<<p;
+   //std::cout<<"Returned to borrowC "<<p;
+   return p;
 }
 
-void Polynomial::borrowB(Polynomial &p)
+Polynomial Polynomial::borrowB(Polynomial p)
 {
-    std::cout<<p;
+    //std::cout<<"In borrowB "<<p;
     if( get<2>(p.Y) < 0 )
     {
          ++p.s.b_borrowed;
          Polynomial temp(p.A, T(get<0>(p.Y), get<1>(p.Y), get<2>(p.Y)+get<1>(p.A)));
-         p = temp;
-         (borrowB(temp));
+         p = (borrowB(temp));
     }
     else if( get<1>(p.Y) < 0 )
     {
-        std::cout<<"Borrowing from C \n";
-        borrowC(p);
+        p = borrowC(p);
     }
-        std::cout<<"Returned to borrowB "<<p;
+    //    std::cout<<"Returned to borrowB "<<p;
+    return p;
 }
 
 
 Polynomial Polynomial::operator-(Polynomial m)
 {
     Polynomial value = *this;
-    std::cout<<"Testing: \n"<<"   "<<*this<<" - "<<m<<std::endl;
+    //std::cout<<"Testing: \n"<<"   "<<*this<<" - "<<m<<std::endl;
 
     if( (get<0>(Y) > get<0>(m.Y)) )
     {
         ++m.s.m_subtracted;
         Polynomial temp(A, T(get<0>(Y) - get<0>(m.Y), get<1>(Y) - get<1>(m.Y), get<2>(Y) - get<2>(m.Y)));
-        value = temp;
-        temp = temp - m;
-        std::cout<< "Subtracted "<< m.s.m_subtracted<<" times. \n";
-        std::cout<< temp<<std::endl;
+        value = temp - m; // recursive call
+    //    std::cout<< "Subtracted "<< m.s.m_subtracted<<" times. \n";
     }
     else if( get<2>(Y) < 0 )
     {
-          std::cout<<"Borrowing from B \n";
-          borrowB(value);
-          std::cout<<"Returned to main subtract "<<value;
+          value = borrowB(value);
+    //      std::cout<<"Returned to main subtract "<<value;
     }
-    std::cout<<"end subtract \n";
+    //std::cout<<"end subtract \n";
     return value;
 }
 

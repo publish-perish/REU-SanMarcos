@@ -33,11 +33,11 @@ class Polynomial{
       int sum()const;
 
       bool operator==(const Polynomial&);
-      Polynomial operator=(Polynomial);
+      Polynomial operator=(const Polynomial&);
 
       Polynomial operator-(Polynomial);
-      void borrowB(Polynomial&);
-      void borrowC(Polynomial&);
+      Polynomial borrowB(Polynomial);
+      Polynomial borrowC(Polynomial);
 
       friend std::ostream& operator<<(std::ostream&, const Polynomial&);
       friend std::ofstream& operator<<(std::ofstream&, const Polynomial&);
