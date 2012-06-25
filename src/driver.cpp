@@ -37,5 +37,13 @@ C.makeMcoTable(10); //takes an arbitrary? bound
 G.makeGenTable(30); //arbitrary? bound
 std::cout <<"\n cotSize:" << C.getCotSize() << "\n mtSize:" << C.getMtSize() << "\n gSize:" << G.getGsize() << endl;
 return 0;
+#include "../utils/basic/subtraction.h"
+
+int main()
+{
+T A = T(2,12,12);
+T B = T(0,3,2);
+A.subtract(B);
+
 }
 //*/
