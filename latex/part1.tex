@@ -1,49 +1,70 @@
-ection{Introduction}
+\section{Introduction}
 
-Let $\Gamma$ be a finite group with a subset S. The \emph{Cayley digraph}, denoted Cay($\Gamma$,S), is a digraph with vertex set $\Gamma$, such that (x,y) is a directed edge if and only if $yx^{-1}$ $\in$ S. 
+Let $\Gamma$ be a finite group with a subset S. The \emph{Cayley digraph}, denoted Cay($\Gamma$,A), is a digraph with vertex set $\Gamma$, such that (x,y) is a directed edge if and only if $yx^{-1}$ $\in$ A.
+In this paper we will be working with $\mathbb{Z}_m$ as our vertex set, and will denote these Cayley graphs as Cay(m,A). 
 
  
- \begin{figure}[h]
- \begin{center}
+\begin{figure}[h]
+\begin{center}
 
- \begin{tikzpicture}
+\begin{tikzpicture}
 
- \Vertex[x=170.0508492385226pt,y=257.44793707070056pt]{0};
- \Vertex[x=229.43059777036808pt,y=248.64351388167475pt]{1};
- \Vertex[x=256.19943380501326pt,y=195.0860839875888pt]{2};
- \Vertex[x=234.95343715746685pt,y=139.06822600729095pt]{3};
- \Vertex[x=176.6059109911555pt,y=124.48269654626677pt]{4};
- \Vertex[x=127.63862734371301pt,y=158.71121570275264pt]{5};
- \Vertex[x=124.5266485799639pt,y=218.79228696858095pt]{6};
- \tikzset{EdgeStyle/.style={->}}
- \Edge(1)(2)
- \Edge(0)(1)
- \Edge(6)(0)
- \Edge(5)(6)
- \Edge(4)(5)
- \Edge(3)(4)
- \Edge(2)(3)
- \Edge(0)(2)
- \Edge(2)(4)
- \Edge(4)(6)
- \Edge(6)(1)
- \Edge(1)(3)
- \Edge(3)(5)
- \Edge(0)(5)
- \end{tikzpicture}
- \end{center}
- \caption{ A Cayley digraph with 7 vertices and generating set S = \{1,2\}.}
- \end{figure}
+\Vertex[x=170.0508492385226pt,y=257.44793707070056pt]{0};
+\Vertex[x=229.43059777036808pt,y=248.64351388167475pt]{1};
+\Vertex[x=256.19943380501326pt,y=195.0860839875888pt]{2};
+\Vertex[x=234.95343715746685pt,y=139.06822600729095pt]{3};
+\Vertex[x=176.6059109911555pt,y=124.48269654626677pt]{4};
+\Vertex[x=127.63862734371301pt,y=158.71121570275264pt]{5};
+\Vertex[x=124.5266485799639pt,y=218.79228696858095pt]{6};
+\tikzset{EdgeStyle/.style={->}}
+\Edge(1)(2)
+\Edge(0)(1)
+\Edge(6)(0)
+\Edge(5)(6)
+\Edge(4)(5)
+\Edge(3)(4)
+\Edge(2)(3)
+\Edge(0)(2)
+\Edge(2)(4)
+\Edge(4)(6)
+\Edge(6)(1)
+\Edge(1)(3)
+\Edge(3)(5)
+\Edge(0)(5)
+\end{tikzpicture}
+\end{center}
+\caption{ Cay($\mathbb{Z}_7$, \{1,2\}).}
+\end{figure}
 
- For any positive integer $d$ we define
+For any positive integer $d$ we define
 
- \begin{center}
- m(d,A) = max\{m | d(m,A) $\leq$ d\}
- \end{center}
+\begin{center}
+m(d,A) = max\{m | d(m,A) $\leq$ d\},
+\end{center}
+the largest positive integer $m$ such that the diameter, d(m,A), of the Cayley digraph Cay(m,A) is less than or equal to d. For positive integers $d$ and $k$, 
+\begin{center}
+m(d,k) = max\{m(d,A) | there exists a set A with |A| = k \},
+\end{center}
+the maximum modulus m such that there exists a generating set with cardinality equal to k and the diameter of the Cayley digraph is less than or equal to d. 
 
- the largest positive integer $m$ such that the diameter of the Cayley digraph Cay(m,A) is less than or equal to d. For positive integers $d$ and $k$, 
+Current known bounds include
+\begin{center}
+m(1,k) = k+1,
+\end{center}
 
- \begin{center}
- m(d,k) = max\{m(d,A) | there exists a set A with |A| = k \}.
- \end{center}
+\begin{center}
+m(d,1) = d+1, and
+\end{center}
+
+\begin{center}
+m(d,2) = $\lfloor$ $\frac{d(d+4)}{3}$ $\rfloor$ +1 for d $\geq$ 2. 
+\end{center}
+
+In this paper we will examine the case when k = 3. A current lower bound for this case is 
+\begin{center}
+m(d,3) $\geq$ $\frac{176}{2197}$$d^3$ + O($d^3$). 
+\end{center}
+
+
+
 
