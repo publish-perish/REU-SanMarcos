@@ -1,8 +1,8 @@
 #include "../utils/basic/permutations.h"
 #include "../utils/basic/polynomials.h"
 #include "../utils/basic/subtraction.h"
-#define diamCubed = 1000
-#define xSize = 286
+#define diamCubed 1000
+#define xSize 286
 using namespace std;
 ///*
 
@@ -52,7 +52,7 @@ A.subtract(B);
 int main()
 {
 const int diam = 10; //make sure this matches the diam used to generate the tables
-const double lowerbound = (1000 / 16); // diam cubed over 16 
+const double lowerbound = (1000 / 16); // diam cubed over 16
 Subtractions best[xSize]; //holds the xcos table's size many subtractions: gives the complete history
 Subtractions temp[xSize];
 bool cover[diamCubed]; // diam cubed: larger than needed, but hard to make sharp
