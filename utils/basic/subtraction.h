@@ -1,6 +1,8 @@
+#ifndef SUBTRACTION_H
+#define SUBTRACTION_H
+
 #include "boost/tuple/tuple.hpp"
 #include <vector>
-#include "polynomials.h"
 
 using namespace boost::tuples;
 
@@ -11,24 +13,21 @@ class Subtractions{
     public:
 
     Subtractions();
+    Subtractions(int);
+    Subtractions(int, int, int);
+    Subtractions(const Subtractions&);
+
     void clear();
+
+    Subtractions operator=(Subtractions&);
+    Subtractions operator=(int);
 
     int c_borrowed;
     int b_borrowed;
     int m_subtracted;
 };
 
-Subtractions::Subtractions()
-{
-   c_borrowed = b_borrowed = m_subtracted = 0;
-}
-
-void Subtractions::clear()
-{
-   c_borrowed = b_borrowed = m_subtracted = 0;
-}  
-
-
+/*
 Polynomial borrowC(Polynomial p, Subtractions &s)
 {
    Polynomial temp = Polynomial();
@@ -75,6 +74,8 @@ Polynomial subtract(Polynomial x, Polynomial m, Subtractions &s)
         temp.A = x.A;
         temp.Y = T(get<0>(x.Y) - get<0>(m.Y), get<1>(x.Y) - get<1>(m.Y), get<2>(x.Y) - get<2>(m.Y));
         val = subtract(temp, m, s);
+        cout<< "Subtracted "<< s.m_subtracted<<" times."<<endl;
+        cout<< val.Y<<endl;
     }
     else if( get<2>(x.value()) < 0 )
     {
@@ -82,8 +83,8 @@ Polynomial subtract(Polynomial x, Polynomial m, Subtractions &s)
     }
     return val;
 }
-    
+*/
 
-
+#endif
 
 
