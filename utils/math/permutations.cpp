@@ -60,11 +60,11 @@ void CoefTable::makeMcoTable(int coefBound)
 {
 mtSize =0;
 std::ofstream mcolist ("./permutationtables/mcotable.txt");
-for(int i=0; i <= coefBound; i++)
+for(int i=1; i <= coefBound; ++i)
 {
-	for(int j=0; j <= i; j++)
+	for(int j=1; j <= i; ++j)
 	{
-		for(int k=0; k <= j; k++) //filter them in holding tank, then add to file
+		for(int k=1; k <= j; ++k) //filter them in holding tank, then add to file
 		{
 			holdingTank.clear();
 			holdingTank.insert(T(i, j, k));

@@ -2,6 +2,7 @@ NC=-I/usr/local/include
 INC= -g
 LIBS=
 
+
 average_case: driver.o polynomials.o permutations.o subtraction.o
 	g++ $(INC) -o executables/average_case $(LIBS) ./executables/driver.o ./executables/polynomials.o ./executables/permutations.o ./executables/subtraction.o
 test: polynomials.o permutations.o test.o subtraction.o

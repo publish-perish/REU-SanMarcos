@@ -1,0 +1,13 @@
+the main routine will open the generator list txt file, and for each tuple:
+	it opens the mcoef list txt file, and for each tuple:
+		it calculates m, and decides if it is worth checking a covering (consult a lower bound?)
+			if it is, it then checks the covering for m, recording as necessary.
+				open xcoef table, and for each tuple:
+					while greater than m
+						subtract m
+					check 2nd place, borrow as needed, record
+					check 3rd place, borrow as needed, record
+					mark m
+				check to see if every x in the range has been hit, record
+					if it has been covered, print out the relevant data to file
+
