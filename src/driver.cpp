@@ -1,6 +1,6 @@
 #include "../utils/basic/permutations.h"
 using namespace std;
-///*
+/*
 int main()
 {
 T next;
@@ -18,18 +18,18 @@ while(!cot.eof())
 }
 
 }
-//*/
-/*
+*/
+///*
 int main()
 {
 CoefTable C;
 GenTable G;
 //std::cout << "Coefficients:";
 C.makeCoTable(30); // takes diameter
-C.makeMcoTable(30); //takes an arbitrary? bound
+C.makeMcoTable(10); //takes an arbitrary? bound
 //std::cout << "\n Generators: \n";
 G.makeGenTable(30); //arbitrary? bound
 std::cout <<"\n cotSize:" << C.getCotSize() << "\n mtSize:" << C.getMtSize() << "\n gSize:" << G.getGsize() << endl;
 return 0;
 }
-*/
+//*/
