@@ -2,8 +2,6 @@ NC=-I/usr/local/include
 INC= -g
 LIBS=
 
-test: test.o polynomials.o permutations.o tuple.o
-	g++ $(INC) -o executables/test $(LIBS) ./executables/test.o ./executables/polynomials.o ./executables/permutations.o ./executables/tuple.o
 average_case: driver.o polynomials.o permutations.o tuple.o
 	g++ $(INC) -o executables/average_case $(LIBS) ./executables/driver.o ./executables/polynomials.o ./executables/permutations.o ./executables/tuple.o
 driver.o: ./src/driver.cpp

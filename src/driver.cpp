@@ -67,6 +67,7 @@ T Q; //m coefs
 T x; //x coefs
 Polynomial X;
 Polynomial M; //the bound itself
+Polynomial Adj;
 int m; //holds sum of M
 int mbest = 0; //holds the highest valid m
 gens.open("./permutationtables/gentable.txt");
@@ -84,9 +85,9 @@ if(gens)
 				mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q;
 				M = Polynomial(A, Q);
 				m = M.sum();
-				cout <<  m << endl;;
+				//cout <<  m << endl;;
 				memset(cover,false,diamCubed);
-				cout << "memset success" << endl;
+				//cout << "memset success" << endl;
 				if( m >= mbest)
 				{
 					xcos.open("./permutationtables/cotable.txt");
@@ -95,23 +96,22 @@ if(gens)
 					{
 							while(!xcos.eof())
 							{
-							cout << "in the while loop" << endl;
-								xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
-							cout<< "read in"  << endl;
-								//cout << x << endl;
+							//cout << "in the while loop" << endl;
+							xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
+							//cout<< "read in"  << endl;
+							//	cout << x << endl;
 								X = Polynomial(A, x);
-							cout << "assigned poly" << endl;
-							temp[counter].clear();
-								subtract(X, M, temp[counter]);
-							cout << "subtraction done" << endl;
-								cover[X.sum()] = true;							
+								cout << "assigned poly" << A << Q << x << endl;
+								temp[counter].clear();
+							//	cout << "cleared" << endl;
+								Adj = subtract(X, M, temp[counter]);
+							//	cout << "subtraction done" << endl;
+								cover[Adj.sum()] = true;							
 								++counter;
 							}
-						cout << "out of the while" << endl;
-								
-						
+						//cout << "out of the while" << endl;
 						xcos.close();
-						cout << "xcos closed" << endl;
+					//	cout << "xcos closed" << endl;
 						covered = true;
 						for(int i=0; i < m; ++i) //only check the first m of them
 						{
@@ -128,7 +128,7 @@ if(gens)
 								{
 									best[j] = temp[j];
 								}
-							cout << m << endl << A  << endl;
+						//	cout << m << endl << A  << endl;
 						}
 					}
 				}
