@@ -7,34 +7,21 @@
 #include "boost/tuple/tuple.hpp"
 
 //typedef Tuple<double, 3> T;
-typedef boost::tuples::tuple<double, double, double> T;
+typedef boost::tuples::tuple<int, int, int> T;
 typedef std::vector<T> Vec;
+
+using namespace boost::tuples;
 
 class Polynomial{
 
    public:
 
       Polynomial();
-      Polynomial(T &A, T &Y); 
+      Polynomial(T &a, T &y); 
 
-      T value;
+      T A, Y;
+
+      T value()const;
 };
-
-
-class m : public Polynomial{
-
-  //    m(T &A, T &Q): Polynomial(A, Q){}
-
-};
-
-
-class v : public Polynomial{
-
-
-    //  v(T &A, T &X): Polynomial(A, X){}
-
-};
-
-
 
 #endif
