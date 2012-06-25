@@ -92,7 +92,7 @@ if(gens)
 					xcos.open("./permutationtables/cotable.txt");
 					counter = 0;
 					if(xcos)
-					{/*
+					{
 							while(!xcos.eof())
 							{
 							cout << "in the while loop" << endl;
@@ -109,7 +109,7 @@ if(gens)
 							}
 						cout << "out of the while" << endl;
 								
-							}*/
+						
 						xcos.close();
 						cout << "xcos closed" << endl;
 						covered = true;

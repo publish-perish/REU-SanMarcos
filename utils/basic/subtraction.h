@@ -29,7 +29,7 @@ void Subtractions::clear()
 }  
 
 
-Polynomial borrowC(Polynomial p, Subtractions s)
+Polynomial borrowC(Polynomial p, Subtractions &s)
 {
    Polynomial temp = Polynomial();
    Polynomial val = Polynomial();
@@ -44,7 +44,7 @@ Polynomial borrowC(Polynomial p, Subtractions s)
    return val;
 }
 
-Polynomial borrowB(Polynomial p, Subtractions s)
+Polynomial borrowB(Polynomial p, Subtractions &s)
 {
     Polynomial temp = Polynomial();
     Polynomial val = Polynomial();
@@ -64,7 +64,7 @@ Polynomial borrowB(Polynomial p, Subtractions s)
 }
 
 
-Polynomial subtract(Polynomial x, Polynomial m, Subtractions s)
+Polynomial subtract(Polynomial x, Polynomial m, Subtractions &s)
 {
     Polynomial temp = Polynomial();
     Polynomial val = Polynomial();
