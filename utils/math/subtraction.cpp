@@ -24,7 +24,7 @@ Subtractions::Subtractions(const Subtractions &s)
    m_subtracted = s.m_subtracted;
 }
 
-Subtractions Subtractions::operator=(Subtractions &s)
+Subtractions Subtractions::operator=(const Subtractions &s)
 {
    c_borrowed = s.c_borrowed;
    b_borrowed = s.b_borrowed;
@@ -36,9 +36,24 @@ Subtractions Subtractions::operator=(int x)
    c_borrowed = b_borrowed = m_subtracted = x;
 }
 
-
 void Subtractions::clear()
 {
    c_borrowed = b_borrowed = m_subtracted = 0;
+}
+
+std::ostream& operator<<(std::ostream& ostr, const Subtractions &s)
+{
+    ostr << "M subtracted "<<s.m_subtracted<<" times. \n";
+    ostr << "Borrowed from c "<<s.c_borrowed<<" times. \n";
+    ostr << "Borrowed from b "<<s.b_borrowed<<" times. \n";
+    return ostr;
+}
+
+std::ofstream& operator<<(std::ofstream& ofstr, const Subtractions &s)
+{
+    ofstr << "M subtracted "<<s.m_subtracted<<" times. \n";
+    ofstr << "Borrowed from c "<<s.c_borrowed<<" times. \n";
+    ofstr << "Borrowed from b "<<s.b_borrowed<<" times. \n";
+    return ofstr;
 }
 

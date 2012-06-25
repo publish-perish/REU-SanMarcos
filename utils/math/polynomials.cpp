@@ -17,6 +17,7 @@ Polynomial::Polynomial(const Polynomial &p)
 {
     A = p.A;
     Y = p.Y;
+    s = p.s;
 }
 
 T Polynomial::value()const
@@ -31,13 +32,14 @@ int Polynomial::sum()const
 
 bool Polynomial::operator==(const Polynomial &p)
 {
-   return((get<0>(A)==get<0>(Y)) && (get<1>(A)==get<1>(Y)) && (get<2>(A)==get<2>(Y)));
+   return((get<0>(p.Y)==get<0>(Y)) && (get<1>(p.Y)==get<1>(Y)) && (get<2>(p.Y)==get<2>(Y)));
 }
 
 Polynomial Polynomial::operator=(const Polynomial &p)
 {
     A = p.A;
     Y = p.Y;
+    s = p.s;
 }
 
 Polynomial Polynomial::borrowC(Polynomial p)
@@ -76,19 +78,18 @@ Polynomial Polynomial::operator-(Polynomial m)
     Polynomial value = *this;
     //std::cout<<"Testing: \n"<<"   "<<*this<<" - "<<m<<std::endl;
 
-    if( (get<0>(Y) > get<0>(m.Y)) )
+    if( (Y) > (m.Y) )
     {
         ++m.s.m_subtracted;
         Polynomial temp(A, T(get<0>(Y) - get<0>(m.Y), get<1>(Y) - get<1>(m.Y), get<2>(Y) - get<2>(m.Y)));
         value = temp - m; // recursive call
-    //    std::cout<< "Subtracted "<< m.s.m_subtracted<<" times. \n";
+        //std::cout<< "Subtracted "<< m.s.m_subtracted<<" times. \n";
     }
     else if( get<2>(Y) < 0 )
     {
           value = borrowB(value);
-    //      std::cout<<"Returned to main subtract "<<value;
+          //std::cout<<"Returned to main subtract "<<value;
     }
-    //std::cout<<"end subtract \n";
     return value;
 }
 
