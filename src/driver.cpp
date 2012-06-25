@@ -39,14 +39,6 @@ C.makeMcoTable(10); //takes an arbitrary? bound
 G.makeGenTable(10); //arbitrary? bound
 std::cout <<"\n cotSize:" << C.getCotSize() << "\n mtSize:" << C.getMtSize() << "\n gSize:" << G.getGsize() << endl;
 return 0;
-#include "../utils/basic/subtraction.h"
-
-int main()
-{
-T A = T(2,12,12);
-T B = T(0,3,2);
-A.subtract(B);
-
 }
 */
 ///*
@@ -102,10 +94,13 @@ if(gens)
 							//	cout << x << endl;
 								X = Polynomial(A, x);
 								cout << "assigned poly" << A << Q << x << endl;
-								temp[counter].clear();
-							//	cout << "cleared" << endl;
-								Adj = subtract(X, M, temp[counter]);
-							//	cout << "subtraction done" << endl;
+							//	temp[counter].clear();
+								cout << "cleared" << endl;
+								cout << X << endl << M <<endl;
+								Adj = X-M;
+								cout << "count" << counter << endl;
+								temp[counter] = Adj.s;
+								cout << "subtraction done" << endl;
 								cover[Adj.sum()] = true;							
 								++counter;
 							}
@@ -139,7 +134,19 @@ if(gens)
 	}
 gens.close();
 }
-	
+//need to write outto file best, mbest, A, and Q	
 return 0;
 }
 //*/
+/*
+int main()
+{
+T gens = T(3, 2, 1);
+T one = T(1, 0 ,0);
+T zero = T(0,0,1);
+Polynomial A(gens, one);
+Polynomial B(gens, zero);
+Polynomial C;
+C = A-B;
+}
+*/
