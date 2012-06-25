@@ -1,6 +1,12 @@
 #include "../utils/basic/permutations.h"
+#include "../utils/basic/polynomials.h"
+#include "../utils/basic/subtraction.h"
+
 using namespace std;
 ///*
+
+Subtractions s;
+
 int main()
 {
 T next;
@@ -15,6 +21,7 @@ while(!cot.eof())
 	cot >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> next;
 	cout <<next;
 }
+
 }
 
 }
