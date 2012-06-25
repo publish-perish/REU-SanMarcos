@@ -74,16 +74,20 @@ if(gens)
 {
 	while(!gens.eof())
 	{
-		gens >> A;
+		gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
+		//cout << A << endl;
 		mcos.open("./permutationtables/mcotable.txt");
 		if(mcos)
 		{
 			while(!mcos.eof())
 			{
-				mcos >> Q;
+				mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q;
+				//cout << Q << endl;
 				M = Polynomial(A, Q);
 				m = M.sum();
+				cout <<  m << endl;;
 				memset(cover,false,diamCubed);
+				cout << "memset success" << endl;
 				if( m >= mbest)
 				{
 					xcos.open("./permutationtables/cotable.txt");
@@ -92,27 +96,34 @@ if(gens)
 					{
 							while(!xcos.eof())
 							{
-								xcos >> x;
+							cout << "in the while loop" << endl;
+								xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
+							cout<< "read in"  << endl;
+								//cout << x << endl;
 								X = Polynomial(A, x);
+							cout << "assigned poly" << endl;
+							temp[counter].clear();
 								subtract(X, M, temp[counter]);
+							cout << "subtraction done" << endl;
 								cover[X.sum()] = true;							
 								++counter;
-								
 							}
+						cout << "out of the while" << endl;
 						xcos.close();
+						cout << "xcos closed" << endl;
 						covered = true;
 						for(int i=0; i < m; ++i) //only check the first m of them
 						{
 							if(!cover[i]) //we are not covered
 							{
-								covered =false;
+								covered = false;
 								break;
 							}
 						}
 						if(covered)
 						{
 							mbest=m;
-							for(int j =0; j < m; ++j)
+							for(int j =0; j < xSize; ++j)
 								{
 									best[j] = temp[j];
 								}
