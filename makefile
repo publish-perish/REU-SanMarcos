@@ -1,5 +1,5 @@
 NC=-I/usr/local/include
-INC=
+INC= -g
 LIBS=
 
 average_case: driver.o polynomials.o permutations.o tuple.o

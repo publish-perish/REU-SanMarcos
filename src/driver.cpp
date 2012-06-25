@@ -82,7 +82,6 @@ if(gens)
 			while(!mcos.eof())
 			{
 				mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q;
-				//cout << Q << endl;
 				M = Polynomial(A, Q);
 				m = M.sum();
 				cout <<  m << endl;;
@@ -93,7 +92,7 @@ if(gens)
 					xcos.open("./permutationtables/cotable.txt");
 					counter = 0;
 					if(xcos)
-					{
+					{/*
 							while(!xcos.eof())
 							{
 							cout << "in the while loop" << endl;
@@ -109,6 +108,8 @@ if(gens)
 								++counter;
 							}
 						cout << "out of the while" << endl;
+								
+							}*/
 						xcos.close();
 						cout << "xcos closed" << endl;
 						covered = true;

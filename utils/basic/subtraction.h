@@ -6,12 +6,27 @@ using namespace boost::tuples;
 
 typedef boost::tuples::tuple<int, int, int> T;
 
-struct Subtractions{
+class Subtractions{
+
+    public:
+
+    Subtractions();
+    void clear();
 
     int c_borrowed;
     int b_borrowed;
     int m_subtracted;
 };
+
+Subtractions::Subtractions()
+{
+   c_borrowed = b_borrowed = m_subtracted = 0;
+}
+
+void Subtractions::clear()
+{
+   c_borrowed = b_borrowed = m_subtracted = 0;
+}  
 
 
 Polynomial borrowC(Polynomial p, Subtractions s)
