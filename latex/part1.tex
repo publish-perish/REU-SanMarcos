@@ -1,6 +1,7 @@
 \section{Introduction}
 
-Let $\Gamma$ be a finite group with a subset S. The \emph{Cayley digraph}, denoted Cay($\Gamma$,S), is a digraph with vertex set $\Gamma$, such that (x,y) is a directed edge if and only if $yx^{-1}$ $\in$ S. 
+Let $\Gamma$ be a finite group with a subset S. The \emph{Cayley digraph}, denoted Cay($\Gamma$,A), is a digraph with vertex set $\Gamma$, such that (x,y) is a directed edge if and only if $yx^{-1}$ $\in$ A.
+In this paper we will be working with $\mathbb{Z}_m$ as our vertex set, and will denote these Cayley graphs as Cay(m,A). 
 
  
 \begin{figure}[h]
@@ -32,18 +33,38 @@ Let $\Gamma$ be a finite group with a subset S. The \emph{Cayley digraph}, denot
 \Edge(0)(5)
 \end{tikzpicture}
 \end{center}
-\caption{ A Cayley digraph with 7 vertices and generating set S = \{1,2\}.}
+\caption{ Cay($\mathbb{Z}_7$, \{1,2\}).}
 \end{figure}
 
 For any positive integer $d$ we define
 
 \begin{center}
-m(d,A) = max\{m | d(m,A) $\leq$ d\}
+m(d,A) = max\{m | d(m,A) $\leq$ d\},
 \end{center}
+the largest positive integer $m$ such that the diameter, d(m,A), of the Cayley digraph Cay(m,A) is less than or equal to d. For positive integers $d$ and $k$, 
+\begin{center}
+m(d,k) = max\{m(d,A) | there exists a set A with |A| = k \},
+\end{center}
+the maximum modulus m such that there exists a generating set with cardinality equal to k and the diameter of the Cayley digraph is less than or equal to d. 
 
-the largest positive integer $m$ such that the diameter of the Cayley digraph Cay(m,A) is less than or equal to d. For positive integers $d$ and $k$, 
+Current known bounds include
+\begin{center}
+m(1,k) = k+1,
+\end{center}
 
 \begin{center}
-m(d,k) = max\{m(d,A) | there exists a set A with |A| = k \}.
+m(d,1) = d+1, and
 \end{center}
+
+\begin{center}
+m(d,2) = $\lfloor$ $\frac{d(d+4)}{3}$ $\rfloor$ +1 for d $\geq$ 2. 
+\end{center}
+
+In this paper we will examine the case when k = 3. A current lower bound for this case is 
+\begin{center}
+m(d,3) $\geq$ $\frac{176}{2197}$$d^3$ + O($d^3$). 
+\end{center}
+
+
+
 
