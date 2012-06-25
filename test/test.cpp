@@ -22,11 +22,12 @@ int main()
    //std::cout<<x.Y<<std::endl;
    //std::cout<<x.value()<<std::endl;
 
-   Polynomial test = m;
+   Polynomial test;
+   test = m;
    std::cout<<"'test = m' "<<test;
    Polynomial val(x - m);
 
-   std::cout<< val;
+   std::cout<< "Final value "<<val;
   // std::cout<< val.A<<std::endl;
    //std::cout<< val.Y<<std::endl;
 
