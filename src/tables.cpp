@@ -12,7 +12,7 @@ int main()
     CoefTable C;
     GenTable G;
     //std::cout << "Coefficients:";
-    C.makeCoTable(10); // takes diameter
+    C.makeCoTable(5); // takes diameter
     C.makeMcoTable(10); //takes an arbitrary? bound
     //std::cout << "\n Generators: \n";
     G.makeGenTable(10); //arbitrary? bound
