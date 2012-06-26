@@ -53,6 +53,7 @@ Polynomial Polynomial::borrowC(Polynomial p)
    if( get<1>(p.Y) < 0 )
    {
          ++p.s.c_borrowed;
+         // add a 'c' to the second degree term
          Polynomial temp(p.A, T(get<0>(p.Y), get<1>(p.Y)+get<0>(p.A), get<2>(p.Y)));
          p = borrowC(temp);
    }
@@ -66,6 +67,7 @@ Polynomial Polynomial::borrowB(Polynomial p)
     if( get<2>(p.Y) < 0 )
     {
          ++p.s.b_borrowed;
+         // add a 'b' to the first degree term
          Polynomial temp(p.A, T(get<0>(p.Y), get<1>(p.Y), get<2>(p.Y)+get<1>(p.A)));
          p = (borrowB(temp));
     }
@@ -86,6 +88,7 @@ Polynomial Polynomial::operator-(Polynomial m)
     if( (Y) > (m.Y) )
     {
         ++m.s.m_subtracted;
+        // subtract m from x
         Polynomial temp(A, T(get<0>(Y) - get<0>(m.Y), get<1>(Y) - get<1>(m.Y), get<2>(Y) - get<2>(m.Y)));
         value = temp - m; // recursive call
         //std::cout<< "Subtracted "<< m.s.m_subtracted<<" times. \n";
