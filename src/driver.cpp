@@ -2,14 +2,15 @@
 #include "../utils/basic/polynomials.h"
 #include "../utils/basic/subtraction.h"
 #include "string.h"
-#define diamCubed 1000
-#define xSize 286
+
+#define diamCubed 125
+#define xSize 60
 using namespace std;
 
 int main()
 {
-    const int diam = 10; //make sure this matches the diam used to generate the tables
-    const double lowerbound = (1000 / 16); // diam cubed over 16
+    const int diam = 5; //make sure this matches the diam used to generate the tables
+    const double lowerbound = (1); // diam cubed over 16
     Polynomial best[xSize]; //holds the xcos table's size many polynomial: gives the history
     Polynomial temp[xSize];
     bool cover[diamCubed]; // diam cubed: larger than needed, but hard to make sharp
@@ -18,6 +19,7 @@ int main()
     ifstream gens; // c, b, a
     ifstream mcos; // gamma, beta, alpha
     ifstream xcos; // x3, x2, x1
+    ofstream out; //output
     T A; //generators
     T Q; //m coefs
     T x; //x coefs
@@ -44,7 +46,7 @@ int main()
 				    //cout <<  m << endl;;
 				    memset(cover,false,diamCubed);
 				    //cout << "memset success" << endl;
-				    if( m >= mbest) //ignore M that are too small, or badly formed. need a well formed function from polynomial.cpp?
+				    if( m >= mbest && M.wellFormed()) //ignore M that are too small, or badly formed
 				    {
 					    xcos.open("./permutationtables/cotable.txt");
 					    counter = 0;
@@ -99,5 +101,16 @@ int main()
     gens.close();
     }
 //need to write out mbest and best to a file.	
+out.open("./results.txt");
+if(out)
+	{
+		out << "modulus: " << mbest << endl;
+		out << "generators: " << best[0].A << endl;
+		for(int i=0; i < mbest; ++i)
+		{
+			out << best[i];
+		}
+	}
+
 return 0;
 }
