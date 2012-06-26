@@ -30,6 +30,11 @@ int Polynomial::sum()const
    return((get<0>(A)*get<0>(Y)) + (get<1>(A)*get<1>(Y)) +(get<2>(A)*get<2>(Y)));
 }
 
+bool Polynomial::wellFormed()const
+{
+   return ((get<2>(Y) < get<1>(A)) && (get<2>(Y) < get<0>(A)));
+}
+
 bool Polynomial::operator==(const Polynomial &p)
 {
    return((get<0>(p.Y)==get<0>(Y)) && (get<1>(p.Y)==get<1>(Y)) && (get<2>(p.Y)==get<2>(Y)));
@@ -96,12 +101,14 @@ Polynomial Polynomial::operator-(Polynomial m)
 std::ostream& operator<<(std::ostream& ostr, const Polynomial &p)
 {
     ostr << get<2>(p.Y) << "a + " << get<1>(p.Y) << "b + " << get<0>(p.Y) <<"c \n";
+    ostr << p.s;
     return ostr;
 }
 
 std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
 {
     ofstr << get<2>(p.Y) << "a + " << get<1>(p.Y) << "b + " << get<0>(p.Y) <<"c \n";
+    ofstr << p.s;
     return ofstr;
 }
 

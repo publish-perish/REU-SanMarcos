@@ -31,6 +31,7 @@ class Polynomial{
 
       T value()const;
       int sum()const;
+      bool wellFormed()const;
 
       bool operator==(const Polynomial&);
       Polynomial operator=(const Polynomial&);
