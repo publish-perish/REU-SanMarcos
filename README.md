@@ -31,7 +31,7 @@ Tests.
    ./executables/test
 
 Tables takes size parameters for the coefficient tables. 
-C = (x, y, z)
+C = (x, y, z) = diameter (same as in main program)
 M = (alpha, beta, gamma) 
 G = (a, b, c)
 ::

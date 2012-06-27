@@ -126,7 +126,8 @@ if(out)
 			out << best[i];
          out << best[i].s;
 		}
-	}
+	   out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
+   }
 }
 return 0;
 }
