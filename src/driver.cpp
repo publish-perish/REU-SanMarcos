@@ -2,32 +2,42 @@
 #include "../utils/basic/polynomials.h"
 #include "../utils/basic/subtraction.h"
 #include "string.h"
+#include <bitset>
+#include "boost/dynamic_bitset.hpp"
 
-#define diamCubed 125
-#define xSize 60
+typedef std::vector<Polynomial> PolyVec;
+
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-    const int diam = 5; //make sure this matches the diam used to generate the tables
-    const double lowerbound = (1); // diam cubed over 16
-    Polynomial best[xSize]; //holds the xcos table's size many polynomial: gives the history
-    Polynomial temp[xSize];
-    bool cover[diamCubed]; // diam cubed: larger than needed, but hard to make sharp
-    bool covered =false;
-    int counter = 0; //index for the temp array
-    ifstream gens; // c, b, a
-    ifstream mcos; // gamma, beta, alpha
-    ifstream xcos; // x3, x2, x1
-    ofstream out; //output
-    T A; //generators
-    T Q; //m coefs
-    T x; //x coefs
-    Polynomial X;
-    Polynomial M; //the bound itself
-    Polynomial Adj;
-    int m; //holds sum of M
-    int mbest = 0; //holds the highest valid m
+    if(argc<2)
+    {
+       cout<<"Usage: ./executables/average_case diameter (lowerbound) \n";
+       return 0;
+    }
+
+       const int d_cubed = atoi(argv[1])*atoi(argv[1])*atoi(argv[1]); 
+       const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
+       PolyVec best; //holds the xcos table's size many polynomial: gives the history
+       PolyVec temp;
+       boost::dynamic_bitset<> cover(d_cubed); // diam cubed: larger than needed, but hard to make sharp
+       bool covered =false;
+       boost::dynamic_bitset<>::size_type counter = 0; //index for the bit array
+       ifstream gens; // c, b, a
+       ifstream mcos; // gamma, beta, alpha
+       ifstream xcos; // x3, x2, x1
+       ofstream out; //output
+       T A; //generators
+       T Q; //m coefs
+       T x; //x coefs
+       Polynomial X;
+       Polynomial M; //the bound itself
+       Polynomial Adj;
+       Polynomial null;
+       int m; //holds sum of M
+       int mbest = 0; //holds the highest valid m
+    
     gens.open("./permutationtables/gentable.txt");
     if(gens)
     {
@@ -44,7 +54,7 @@ int main()
 				    M = Polynomial(A, Q);
 				    m = M.sum();
 				    //cout <<  m << endl;;
-				    memset(cover,false,diamCubed);
+				    //memset(cover,false,diamCubed);
 				    //cout << "memset success" << endl;
 				    if( m >= mbest && M.wellFormed()) //ignore M that are too small, or badly formed
 				    {
@@ -59,15 +69,17 @@ int main()
 							    //cout<< "read in"  << endl;
 							    //	cout << x << endl;
 								    X = Polynomial(A, x);
-								    cout << "assigned poly" << A << Q << x << endl;
-							    //	temp[counter].clear();
-								    cout << "cleared" << endl;
-								    cout << X << endl << M <<endl;
+								    //cout << "assigned poly" << A << Q << x << endl;
+								    //cout << "cleared" << endl;
+								    cout <<"X "<< X <<" - "<< "M " << M;
 								    Adj = X-M;
-								    cout << "count" << counter << endl;
-								    temp[counter] = Adj;
-								    cout << "subtraction done" << endl;
-								    cover[Adj.sum()] = true;							
+								    //cout << "count" << counter << endl;
+								    temp.push_back(Adj);
+                            best.push_back(null);
+								    //cout << "subtraction done" << endl;
+                            cout<< "Adj "<<Adj<<Adj.s;
+                            cout<< "cover "<<Adj.sum()<<"\n \n";
+								    cover[Adj.sum()] = 1;							
 								    ++counter;
 							    }
 						    //cout << "out of the while" << endl;
@@ -85,15 +97,13 @@ int main()
 						    if(covered)
 						    {
 							    mbest=m;
-							    for(int j =0; j < xSize; ++j)
+							    for(int j =0; j < temp.size() -1; ++j)
 								    {
 									    best[j] = temp[j];
 								    }
 						    //	cout << m << endl << A  << endl;
 						    }
 					    }
-				    }
-						
 			    }
 			    mcos.close();			
 		    }
@@ -111,6 +121,6 @@ if(out)
 			out << best[i];
 		}
 	}
-
+}
 return 0;
 }

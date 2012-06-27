@@ -8,8 +8,6 @@
 #include "../basic/subtraction.h"
 #include "boost/tuple/tuple.hpp"
 
-//typedef Tuple<double, 3> T;
-using namespace boost::tuples;
 
 typedef boost::tuples::tuple<int, int, int> T;
 typedef std::vector<T> Vec;
@@ -24,6 +22,7 @@ class Polynomial{
 
       Polynomial();
       Polynomial(T a, T y);
+      Polynomial(T a, int, int, int);
       Polynomial(const Polynomial&);
 
       T A, Y;

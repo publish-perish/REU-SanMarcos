@@ -43,17 +43,15 @@ void Subtractions::clear()
 
 std::ostream& operator<<(std::ostream& ostr, const Subtractions &s)
 {
-    ostr << "M subtracted "<<s.m_subtracted<<" times. \n";
-    ostr << "Borrowed from c "<<s.c_borrowed<<" times. \n";
-    ostr << "Borrowed from b "<<s.b_borrowed<<" times. \n";
+    ostr << "Subtracted "<<s.m_subtracted<<" M, ";
+    ostr << "Borrowed "<<s.c_borrowed<<" c, "<<s.b_borrowed<<" b\n";
     return ostr;
 }
 
 std::ofstream& operator<<(std::ofstream& ofstr, const Subtractions &s)
 {
-    ofstr << "M subtracted "<<s.m_subtracted<<" times. \n";
-    ofstr << "Borrowed from c "<<s.c_borrowed<<" times. \n";
-    ofstr << "Borrowed from b "<<s.b_borrowed<<" times. \n";
+    ofstr << "Subtracted "<<s.m_subtracted<<" M, ";
+    ofstr << "Borrowed "<<s.c_borrowed<<" c, "<<s.b_borrowed<<" b\n";
     return ofstr;
 }
 
