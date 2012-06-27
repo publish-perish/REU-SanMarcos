@@ -4,6 +4,7 @@
 #include "string.h"
 #include <bitset>
 #include "boost/dynamic_bitset.hpp"
+#include <time.h>
 
 typedef std::vector<Polynomial> PolyVec;
 
@@ -37,7 +38,9 @@ int main(int argc, char *argv[])
        Polynomial null;
        int m; //holds sum of M
        int mbest = 0; //holds the highest valid m
+       clock_t start, end;
     
+    start = clock();
     gens.open("./permutationtables/gentable.txt");
     if(gens)
     {
@@ -97,7 +100,7 @@ int main(int argc, char *argv[])
 						    if(covered)
 						    {
 							    mbest=m;
-							    for(int j =0; j < temp.size() -1; ++j)
+							    for(int j =0; j < temp.size(); ++j)
 								    {
 									    best[j] = temp[j];
 								    }
@@ -110,6 +113,8 @@ int main(int argc, char *argv[])
 	    }
     gens.close();
     }
+    end = clock();
+    cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
 //need to write out mbest and best to a file.	
 out.open("./results.txt");
 if(out)
