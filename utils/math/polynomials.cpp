@@ -51,7 +51,8 @@ int n=1;
 
 Polynomial Polynomial::operator-(Polynomial m)
 {
-    while( get<0>(Y) > get<0>(m.Y) )
+    while( get<0>(Y) > get<0>(m.Y) || ((get<0>(Y) == get<0>(m.Y)) &&  get<1>(Y) > get<1>(m.Y)) 
+    		|| ( (get<0>(Y) == get<0>(m.Y)) &&  (get<1>(Y) == get<1>(m.Y)) && (get<2>(Y) > get<2>(m.Y)) ) )
     {
         ++this->s.m_subtracted;
         //std::cout<<"m subtracted: "<<this->s.m_subtracted<<std::endl;;
@@ -76,6 +77,7 @@ Polynomial Polynomial::operator-(Polynomial m)
           //std::cout<<"result from C borrow # "<<n<<": "<<temp;++n;
           //*this = temp - m;
     }
+    
     return *this;
 }
 
