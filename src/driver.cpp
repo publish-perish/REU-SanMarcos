@@ -59,9 +59,9 @@ int main(int argc, char *argv[])
 				    M = Polynomial(A, Q);
 				    //cout <<  m << endl;;
 				    //memset(cover,false,diamCubed);
-                cover.reset();
+               		cover.reset();
 				    //cout << "memset success" << endl;
-				    if( M.sum() > mbest.sum() && M.wellFormed()) //ignore M that are too small, or badly formed
+				    if( M.sum() > mbest.sum() && M.wellFormed() && M.sum() <= d_cubed) //ignore M that are too small, or badly formed
 				    {
 					    xcos.open("./permutationtables/cotable.txt");
 					    counter = 0;
@@ -72,24 +72,24 @@ int main(int argc, char *argv[])
 							    //cout << "in the while loop" << endl;
 							    xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
 							    //cout<< "read in"  << endl;
-                            cout<< "generators: "<<A <<endl;
+                        //    cout<< "generators: "<<A <<endl;
 							    //	cout << x << endl;
 								    X = Polynomial(A, x);
-                            if( X.wellFormed() )
-                            {
-                               //cout << "assigned poly" << A << Q << x << endl;
-                               //cout << "cleared" << endl;
-                               cout <<"X "<< X <<" - "<< "M " << M;
-                               Adj = X-M;
-                               //cout << "count" << counter << endl;
-                               temp.at(counter) = Adj;
-                               //best.push_back(null);
-                               //cout << "subtraction done" << endl;
-                               cout<< "Adj "<<Adj<<Adj.s;
-                               cout<< "cover "<<Adj.sum()<<"\n \n";
-                               cover[Adj.sum()] = 1;							
-                               ++counter;
-                            }
+                           		 if(true)//X.wellFormed() )
+                          	 		 {
+                          	     //cout << "assigned poly" << A << Q << x << endl;
+                          	     //cout << "cleared" << endl;
+                          //		     cout <<"X "<< X <<" - "<< "M " << M;
+                          		     Adj = X-M;
+                          		     //cout << "count" << counter << endl;
+                          		     temp.at(counter) = Adj;
+                          		     //best.push_back(null);
+                          		     //cout << "subtraction done" << endl;
+                          	//	     cout<< "Adj "<<Adj<<Adj.s;
+                          		//     cout<< "cover "<<Adj.sum()<<"\n \n";
+                          		     cover[Adj.sum()] = 1;							
+                          		     ++counter;
+                          			 }
 							    }// end xcos loop
 						    //cout << "out of the while" << endl;
 						    xcos.close();
@@ -100,8 +100,8 @@ int main(int argc, char *argv[])
 							    if(cover[i]==0) //we are not covered
 							    {
 								    covered = false;
-                            cout<<"NOT COVERED\n";
-								   // break;
+                           // cout<<"NOT COVERED\n";
+								    break;
 							    }
 						    }
 						    if(covered)
