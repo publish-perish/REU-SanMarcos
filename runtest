@@ -1,4 +1,4 @@
 make tables
-./executables/tables 5 20 20
+./executables/tables 5 10 10
 make
 ./executables/average_case 5 1 > test.txt

@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	    {
 		    gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
 		    //cout << A << endl;
-		    mcos.open("./permutationtables/mcotable.txt");
+		    mcos.open("./permutationtables/mcotable.txt");cout<<"opening mcos\n";
 		    if(mcos)
 		    {
 			    while(!mcos.eof())
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 				    //cout <<  m << endl;;
 				    //memset(cover,false,diamCubed);
 				    //cout << "memset success" << endl;
-				    if( m >= mbest)// && M.wellFormed()) //ignore M that are too small, or badly formed
+				    if( m >= mbest && M.wellFormed()) //ignore M that are too small, or badly formed
 				    {
 					    xcos.open("./permutationtables/cotable.txt");cout<<"opening xcos\n";
 					    counter = 0;
@@ -107,13 +107,11 @@ int main(int argc, char *argv[])
 								    }
 						    //	cout << m << endl << A  << endl;
 						    }
-					    }
+					  }
 			    }// done with xcos
-			    mcos.close();			
-		    }
+		    }   mcos.close();			
 	    }// done with mcos
-    gens.close();
-    }
+    }  gens.close();
     end = clock();
     cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
 //need to write out mbest and best to a file.	
