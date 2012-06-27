@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	    {
 		    gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
 		    //cout << A << endl;
-		    mcos.open("./permutationtables/mcotable.txt");cout<<"opening mcos\n";
+		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
 		    {
 			    while(!mcos.eof())
@@ -58,10 +58,11 @@ int main(int argc, char *argv[])
 				    m = M.sum();
 				    //cout <<  m << endl;;
 				    //memset(cover,false,diamCubed);
+                cover.reset();
 				    //cout << "memset success" << endl;
 				    if( m >= mbest && M.wellFormed()) //ignore M that are too small, or badly formed
 				    {
-					    xcos.open("./permutationtables/cotable.txt");cout<<"opening xcos\n";
+					    xcos.open("./permutationtables/cotable.txt");
 					    counter = 0;
 					    if(xcos)
 					    {
@@ -82,7 +83,7 @@ int main(int argc, char *argv[])
                             best.push_back(null);
 								    //cout << "subtraction done" << endl;
                             cout<< "Adj "<<Adj<<Adj.s;
-                            cout<< "cover "<<Adj.sum()<<"\n \n";
+                            //cout<< "cover "<<Adj.sum()<<"\n \n";
 								    cover[Adj.sum()] = 1;							
 								    ++counter;
 							    }// end xcos loop

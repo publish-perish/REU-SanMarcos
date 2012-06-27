@@ -33,6 +33,7 @@ class Polynomial{
       bool wellFormed()const;
 
       bool operator==(const Polynomial&);
+      bool operator>=(const Polynomial&);
       Polynomial operator=(const Polynomial&);
 
       Polynomial operator-(Polynomial);
