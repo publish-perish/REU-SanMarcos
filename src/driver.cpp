@@ -41,8 +41,8 @@ int main(int argc, char *argv[])
 
     
     start = clock();
- 	best.resize(d_cubed);
-	temp.resize(d_cubed);
+ 	 best.resize(d_cubed);
+	 temp.resize(d_cubed);
     gens.open("./permutationtables/gentable.txt");
     if(gens)
     {
@@ -75,18 +75,21 @@ int main(int argc, char *argv[])
                             cout<< "generators: "<<A <<endl;
 							    //	cout << x << endl;
 								    X = Polynomial(A, x);
-								    //cout << "assigned poly" << A << Q << x << endl;
-								    //cout << "cleared" << endl;
-								    cout <<"X "<< X <<" - "<< "M " << M;
-								    Adj = X-M;
-								    //cout << "count" << counter << endl;
-								    temp.at(counter) = Adj;
-                            //best.push_back(null);
-								    //cout << "subtraction done" << endl;
-                            cout<< "Adj "<<Adj<<Adj.s;
-                            cout<< "cover "<<Adj.sum()<<"\n \n";
-								    cover[Adj.sum()] = 1;							
-								    ++counter;
+                            if( X.wellFormed() )
+                            {
+                               //cout << "assigned poly" << A << Q << x << endl;
+                               //cout << "cleared" << endl;
+                               cout <<"X "<< X <<" - "<< "M " << M;
+                               Adj = X-M;
+                               //cout << "count" << counter << endl;
+                               temp.at(counter) = Adj;
+                               //best.push_back(null);
+                               //cout << "subtraction done" << endl;
+                               cout<< "Adj "<<Adj<<Adj.s;
+                               cout<< "cover "<<Adj.sum()<<"\n \n";
+                               cover[Adj.sum()] = 1;							
+                               ++counter;
+                            }
 							    }// end xcos loop
 						    //cout << "out of the while" << endl;
 						    xcos.close();
@@ -94,10 +97,11 @@ int main(int argc, char *argv[])
 						    covered = true;
 						    for(int i=0; i < M.sum(); ++i) //only check the first m of them
 						    {
-							    if(!cover[i]) //we are not covered
+							    if(cover[i]==0) //we are not covered
 							    {
 								    covered = false;
-								    break;
+                            cout<<"NOT COVERED\n";
+								   // break;
 							    }
 						    }
 						    if(covered)
