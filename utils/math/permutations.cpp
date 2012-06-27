@@ -137,11 +137,11 @@ void GenTable::makeGenTable(int genBound)  //order: c, b, 1
 {
 gSize =0;
 std::ofstream myfile ("./permutationtables/gentable.txt");
-for(int i=3; i < genBound; i++)
+for(int i=1; i < genBound; i++)
 {
-	for(int j=2; j < i; j++)
+	for(int j=1; j < genBound; j++)
 	{
-	T A = T(i,j,1);
+	T A = T(i*j,j,1);
 		if(myfile.is_open())
      {
      	//std::cout << A;
