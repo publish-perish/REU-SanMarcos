@@ -124,6 +124,7 @@ if(out)
 		for(int i=0; i < mbest; ++i)
 		{
 			out << best[i];
+         out << best[i].s;
 		}
 	}
 }
