@@ -313,16 +313,18 @@ For any positive integer $d$ we define
 m(d,A) =\ max\{m | d(m,A) \leq d\},
 \]
 the largest positive integer $m$ such that the diameter, d(m,A), of the Cayley digraph Cay(m,A) is less than or equal to d. For positive integers $d$ and $k$,
-\[ 
-m(1,k) = k+1,
-\]
-\[ 
-m(d,1) = d+1\text{, and}
-\]
 \[
-m(d,2) = \lfloor \frac{d(d+4)}{3} \rfloor+1 \text{ for all } d\geq2.
+m(d,k) = max\{m(d,A) | \text{ there exists a set A with } |A| = k \},
 \]
+the maximum modulus m such that there exists a generating set with cardinality equal to k and the diameter of the Cayley digraph is less than or equal to d. 
+$\\$
 
+Current known bounds include
+\begin{align*}
+m(1,k)& = k+1,\\
+m(d,1) &= d+1\text{, and}\\
+m(d,2) &=\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1 \text{ for all } d\geq2.
+\end{align*}
  
 In this paper we will examine the case when k = 3. The current bounds for this case, as $d\to\infty$, are
 \[
