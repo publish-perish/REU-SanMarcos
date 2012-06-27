@@ -313,13 +313,18 @@ For any positive integer $d$ we define
 m(d,A) =\ max\{m | d(m,A) \leq d\},
 \]
 the largest positive integer $m$ such that the diameter, d(m,A), of the Cayley digraph Cay(m,A) is less than or equal to d. For positive integers $d$ and $k$,
-\[ 1) = d+1\text{, and}
+\[ 
+m(1,k) = k+1,
+\]
+\[ 
+m(d,1) = d+1\text{, and}
 \]
 \[
-m(d,2) = \lfloor \frac{d(d+4)}{3} \rfloor +\text{1 for $d$} \geq 2.
+m(d,2) = \lfloor \frac{d(d+4)}{3} \rfloor+1 \text{ for all } d\geq2.
 \]
+
  
-In this paper we will examine the case when k = 3. The current bounds for this case is
+In this paper we will examine the case when k = 3. The current bounds for this case, as $d\to\infty$, are
 \[
 \frac{176}{2197}d^3 + O(d^2) \leq m(d,3) \leq \frac{1}{14-3\sqrt{3}}(d+3)^3 .
 \]
