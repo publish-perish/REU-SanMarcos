@@ -59,9 +59,9 @@ int main(int argc, char *argv[])
 				    //cout <<  m << endl;;
 				    //memset(cover,false,diamCubed);
 				    //cout << "memset success" << endl;
-				    if( m >= mbest && M.wellFormed()) //ignore M that are too small, or badly formed
+				    if( m >= mbest)// && M.wellFormed()) //ignore M that are too small, or badly formed
 				    {
-					    xcos.open("./permutationtables/cotable.txt");
+					    xcos.open("./permutationtables/cotable.txt");cout<<"opening xcos\n";
 					    counter = 0;
 					    if(xcos)
 					    {
@@ -70,6 +70,7 @@ int main(int argc, char *argv[])
 							    //cout << "in the while loop" << endl;
 							    xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
 							    //cout<< "read in"  << endl;
+                            cout<< "generators: "<<A <<endl;
 							    //	cout << x << endl;
 								    X = Polynomial(A, x);
 								    //cout << "assigned poly" << A << Q << x << endl;
@@ -84,7 +85,7 @@ int main(int argc, char *argv[])
                             cout<< "cover "<<Adj.sum()<<"\n \n";
 								    cover[Adj.sum()] = 1;							
 								    ++counter;
-							    }
+							    }// end xcos loop
 						    //cout << "out of the while" << endl;
 						    xcos.close();
 					    //	cout << "xcos closed" << endl;
@@ -107,10 +108,10 @@ int main(int argc, char *argv[])
 						    //	cout << m << endl << A  << endl;
 						    }
 					    }
-			    }
+			    }// done with xcos
 			    mcos.close();			
 		    }
-	    }
+	    }// done with mcos
     gens.close();
     }
     end = clock();
@@ -128,6 +129,6 @@ if(out)
 		}
 	   out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
    }
-}
+    }// done with genscos
 return 0;
 }

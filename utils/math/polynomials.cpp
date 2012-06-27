@@ -32,7 +32,7 @@ int Polynomial::sum()const
 
 bool Polynomial::wellFormed()const
 {
-   return ((get<2>(Y) < get<1>(A)) && (get<2>(Y) < get<0>(A)));
+   return ((get<2>(Y) < get<1>(A)) && (get<1>(Y) < get<0>(A)));
 }
 
 bool Polynomial::operator==(const Polynomial &p)
