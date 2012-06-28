@@ -61,10 +61,10 @@ int main(int argc, char *argv[])
 				    //memset(cover,false,diamCubed);
                		cover.reset();
 				    //cout << "memset success" << endl;
-				    if( M.sum() > mbest.sum() && M.wellFormed() && M.sum() <= d_cubed) //ignore M that are too small, or badly formed
+				    if( M.sum() > mbest.sum() && M.wellFormed() && M.sum() < d_cubed) //ignore M that are too small, or badly formed
 				    {
 					    xcos.open("./permutationtables/cotable.txt");
-					    counter = 0;
+					   // counter = 0;
 					    if(xcos)
 					    {
 							    while(!xcos.eof())
@@ -82,13 +82,13 @@ int main(int argc, char *argv[])
                           //		     cout <<"X "<< X <<" - "<< "M " << M;
                           		     Adj = X-M;
                           		     //cout << "count" << counter << endl;
-                          		     temp.at(counter) = Adj;
-                          		     //best.push_back(null);
+                          		     temp.at(Adj.sum()) = Adj;
+                          		    // best.at(counter)= null;
                           		     //cout << "subtraction done" << endl;
                           	//	     cout<< "Adj "<<Adj<<Adj.s;
                           		//     cout<< "cover "<<Adj.sum()<<"\n \n";
                           		     cover[Adj.sum()] = 1;							
-                          		     ++counter;
+                          		     //++counter;
                           			 }
 							    }// end xcos loop
 						    //cout << "out of the while" << endl;
