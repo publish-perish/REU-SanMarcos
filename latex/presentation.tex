@@ -387,9 +387,43 @@ This is not a Cayley digraph.
                  
 \end{itemize}
 
+}
+
+
+\frame {
+	\frametitle{\underline{Introduction to Cayley Graphs}}
+	\only<1>{
+	\begin{itemize}
+                  \item<1-> For positive integers $d$ and $k$, we define:
+\begin{align*}
+m(d,A) &=\max\{m | diam(Cay(\mathbb{Z}_m,A)) \leq d\} \text{,} \\
+m(d,k) &= \max_{A: |A| = k}\{m(d,A)  \}.
+\end{align*}
+
+
+	\end{itemize}
+}
+
+
 
 }
 
+\frame {
+	\frametitle{\underline{Introduction to Cayley Graphs}}
+	\only<1>{
+	\begin{itemize}
+                  \item<1-> Current known values include:
+\begin{align*}
+m(1,k) &= k+1,
+\\
+m(d,1) &= d+1\text{, and}
+\\
+m(d,2) &= \left\lfloor \frac{d(d+4)}{3} \right\rfloor+1 \text{ for all } d\geq2.
+\end{align*}
+
+	\end{itemize}
+}
+}
 
 \frame{
 
@@ -465,67 +499,5 @@ The proof is complete.
 }
 
 
-\frame {
-	\frametitle{\underline{Introduction to Cayley Graphs}}
-	\only<1>{
-	\begin{itemize}
-                  \item<1-> For positive integers $d$ and $k$, we define:
-\begin{align*}
-m(d,A) &=\max\{m | diam(Cay(\mathbb{Z}_m,A)) \leq d\} \text{,} \\
-m(d,k) &= \max_{A: |A| = k}\{m(d,A)  \}.
-\end{align*}
-
-
-	\end{itemize}
-}
-}
-
-\frame {
-	\frametitle{\underline{Introduction to Cayley Graphs}}
-	\only<1>{
-	\begin{itemize}
-                  \item<1-> Current known values include:
-\begin{align*}
-m(1,k) &= k+1,
-\\
-m(d,1) &= d+1\text{, and}
-\\
-m(d,2) &= \left\lfloor \frac{d(d+4)}{3} \right\rfloor+1 \text{ for all } d\geq2.
-\end{align*}
-
-	\end{itemize}
-}
-}
-
-
-\section{Next Section}
-
-\subsection{First Sub Section}
-
-\frame {
-	\frametitle{Second Frame}
-	This text will stay on all pages.
-	\only<1>{
-		\begin{itemize}
-			\item<1-> \[
-\frac{176}{2197}d^3 + O(d^2) \leq m(d,3) \leq \frac{1}{14-3\sqrt{3}}(d+3)^3 .
-\]
-			\item<1->This is also only for the first page
-		\end{itemize}
-	}
-	\only<2>{
-		\begin{itemize}
-			\item<2->This will only appear on the second page
-		\item<2->This is also only for the second page
-		\end{itemize}
-      }
-}
-
-\subsection{Second Sub Section}
-
-\frame {
-	\frametitle{Last Frame}
-	This is the last frame
-}
 
 \end{document}
