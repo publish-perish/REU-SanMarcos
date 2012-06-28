@@ -1,0 +1,34 @@
+
+
+\section{The Algorithm}
+
+We now provide an algorithm that takes as an input a set of generators as well as two other permutation sets. These inputs are used to test the ability of a generated lower bound to provide a set covering for our Cayley Graph. The algorithm iterates through permutations of the generating set and possible coverings, giving as an output the maximal generating set as well as the optimal polynomial bound.
+\\ \\
+Let $d$ be a fixed diameter for $\Cay(m, k)$.
+\\ \\
+Given $d$ define $d_{1}$ to be $\frac{d}{\lambda}$, also define $a_{1} = \frac{a}{\lambda}$, $b_{1} = \frac{b}{\lambda}$, and $c_{1} = \frac{c}{\lambda b}$, etc.., so $\lambda$ is a large number determined by $d$. The parameter $\lambda$ will not appear in the code, but it enables us to compute a lower bound as a function of $d$.
+\\ \\
+Our lower bound on $m(d, k)$ will be defined as $m =\alpha \lambda a_{1} + \beta \lambda b_{1} + \gamma \lambda c_{1}$+ ... $\psi \lambda z_{1}$.  To determine the validity of the lower bound, we compute every point in $dA$ as a polynomial in terms of $\lambda$.
+\\ \\
+%%\\ \\
+%%For notational simplicity, we will denote $a_{1}$, $b_{1}$ and $c_{1}$ as $a, b$ and $c$.
+%\\ \\
+%%To check that a given polynomial bound is correct, we 
+%%$\forall$  $\mathcal{A}$ = $\{(a,  b,  c, ... ,  z)  \vert  (\alpha  a, \beta  b, \gamma  c, .. , \psi  z) \} \subseteq \mathbb{Z}_{m}$, find $\mathbb{Z}_{m}$ with the largest cardinality such that $dA \cong \mathbb{Z}_{m}$.
+%\\ \\
+Take ($x_{1}, x_{2}, ... , x_{n}$) such that $x_{1} \leq b_{1}, x_{2} \leq c_{1}, .. , x_{n} \leq \psi$ and $\sum_{i} x_{i} \leq d$ %%t$, where $t$ represents the number of cycles needed by each generating set to complete a covering of $\mathbb{Z}_{m}$.
+\\ \\
+$\forall$ constructed lower bounds $x_{1}a + x_{2}b + .. + x_{n}k$, we remove dependent linear combinations by comparing the coefficients $(x_{1}, x_{2}, x_{3}, .. , x_{n})$ and $(\alpha, \beta, \gamma, .. , \psi)$ from their respective polynomials.
+\\ \\
+$\forall x = (x_{1}, x_{2}, .. , x_{k}) \in dA$ if $x \notin Z_m$, we can identify $x$ with point $x' = (x'_{1}, x'_{2}, .. , x'_{k}) \in \mathbb{Z}_{m}$ congruent to $x$ $(mod$ $m)$.  Then if every point $n \in \mathbb{Z}_{m}$ is either equal to some $x$ or $x'$, $dA = \mathbb{Z}_m$. 
+\\ \\
+To construct a lower bound, we systematically check combinations of generators $A$ and coefficients, and record the largest $m$ (and corresponding generators) such that a covering by $dA$ is achieved.
+
+\subsection{Pseudocode}
+
+\begin{algorithmic}
+
+\ForAll{$X = (ax_{1} + bx_{2} + cx_{3} + .. + zx_{n}), M = (\alpha a + \beta b + \gamma c + .. + \psi z)$}  
+\State X - M
+\EndFor
+\end{algorithmic}

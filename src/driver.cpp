@@ -100,7 +100,6 @@ int main(int argc, char *argv[])
 							    if(cover[i]==0) //we are not covered
 							    {
 								    covered = false;
-                           // cout<<"NOT COVERED\n";
 								    break;
 							    }
 						    }
