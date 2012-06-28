@@ -13,6 +13,23 @@
 \date{28 June 2012}
 \institute[2008]{REU - Texas State}
 
+ \def\ddd{\displaystyle}
+ \def\R{\mbox{$\mathbb R$}}
+ \def\Q{\mbox{$\mathbb Q$}}
+ \def\Z{\mbox{$\mathbb Z$}}
+ \def\N{\mbox{$\mathbb N$}}
+ \def\C{\mbox{$\mathbb C$}}
+
+
+\def\Sym{\operatorname{Sym}}
+\def\lcm{\operatorname{lcm}}
+\def\adj{\operatorname{adj}}
+\def\inc{\operatorname{inc}}
+\def\Cay{\operatorname{Cay}}
+\def\Geom{\operatorname{\cal G}}
+\def\diam{\operatorname{diam}}
+\def\rank{\operatorname{rank}}
+
 
 \begin{document}
 
@@ -214,24 +231,19 @@ Cay($\mathbb{Z}_{25}$, \{$\pm$1,$\pm$4,$\pm$6,$\pm$8\})
 
 
 
-\section[Outline]{}
-\frame{\tableofcontents}
-
-\section{Introduction}
-\subsection{We are going to present our research}
-
 \frame {
 	\frametitle{\underline{Introduction to Cayley Graphs}}
 	\only<1>{
 	\begin{itemize}
-                  \item<1-> Definition:  Let $\Gamma$ be a finite group with a subset A. The \emph{Cayley digraph}, denoted Cay($\Gamma$,A), is a digraph with vertex set $\Gamma$, such that (x,y) is a directed edge if and only if $yx^{-1}$ $\in$ A
+                  \item<1-> Definition:  Let $\Gamma$ be a finite group with a subset A. The \underline{\emph{Cayley digraph}}, denoted Cay($\Gamma$,A), is a digraph with vertex set $\Gamma$, such that (x,y) is a directed edge if and only if $yx^{-1}$ $\in$ A
 
-		\item<1->\emph{Cayley digraphs} are vertex-transitive
+		\item<1->\emph{Cayley digraphs} are vertex transitive.
 
 
 	\end{itemize}
 }
 }
+
 
 \frame{
 
@@ -379,21 +391,77 @@ This is not a Cayley digraph.
 }
 
 
+\frame{
 
+The following theorem can be used to construct large efficient generating sets $A$  so that $m(d,A)$
+is large by using small efficient generating sets.
+
+\begin{theorem} \label{thm:addition.theorem.for.m(d,k)}
+Let $d_1\ge2$, $d_2\ge2$, $k_1\ge1$, and $k_2\ge1$ be integers.  Then
+\[
+m(d_{1}+d_{2},k_1+k_2)\ge m(d_1,k_1)m(d_2,k_2).
+\]
+\end{theorem}
+
+\begin{proof} Let 
+$A_s=\{0<a_{s1}<a_{s2}<\cdots<a_{sk_s}\}$ be a set of integers with
+\[
+m(d_s,A_s)=m(d_s,k_s)=m_s\qquad\hbox{for}\quad s=1,2.
+\]
+We may assume, without loss of generality, that $a_{sk_{s}}<m_{s}$ for $s=1,2$.
+Define
+\[
+A=A_1\cup\{m_1a_{2j}\ |\ j=1,2,\ldots,k_2\}.
+\]
+Since $|A|=k_1+k_2$, we only need to prove that $A$ is a $(d_1+d_2)$-basis for $\Z_{m_1m_2}$.
+
+ Let $n$ be any nonnegative integer. Since $A_1$ is an $d_{1}$-basis for $\Z_{m_1}$, we see that
+\[
+n\equiv \sum_{i=1}^{k_1}x_{i}a_{1i}\pmod{m_1},
+\]
+where $x_{i}$'s are nonnegative integers with  $\ddd\sum_{i=1}^{k_{1}}x_{i}\le d_{1}$.  Assume
+\[
+n=\sum_{i=1}^{k_1}x_{i}a_{1i}+qm_1
+\]
+for some integer $q$. It follows from the fact that $A_2$ is a
+$d_{2}$-basis for $\Z_{m_2}$ that
+\[
+q=\sum_{j=1}^{k_2}y_{j}a_{2j}+pm_2,
+\]
+where $y_{j}$'s are nonnegative integers with  $\ddd\sum_{j=1}^{k_{2}}y_{j}\le d_{2}$, and $p$ is an integer.
+ Therefore,
+\[
+n\equiv\sum_{i=1}^{k_1}x_{i}a_{1i}+\sum_{j=1}^{k_2}y_{j}m_1a_{2j}\pmod{m_1m_2},
+\]
+where
+\[
+\sum_{i=1}^{k_{1}}x_{i}+\sum_{j=1}^{k_{2}}y_{j}\le d_{1}+d_{2}.
+\]
+This implies that $n\in (d_1+d_2)A_{0}$, where $A_{0}=A\cup\{0\}$. Hence, $A$ is a $(d_{1}+d_{2})$-basis for $\Z_{m_1m_2}$. Therefore,
+\[
+m(d_{1},k_{1})m(d_{2},k_{2})=m_{1}m_{2}\le m(d_{1}+d_{2},k_{1}+k_{2}).
+\]
+The proof is complete.
+\end{proof}
+
+
+
+
+
+
+
+
+}
 
 \frame {
 	\frametitle{\underline{Introduction to Cayley Graphs}}
 	\only<1>{
 	\begin{itemize}
-                  \item<1-> For any positive integer $d$,
-\[
-m(d,A) =\ max\{m | diam(Cay(Z_m,A)) \leq d\},
-\]
-
-		\item<1->For positive integers $d$ and $k$,
-\[
-m(d,k) = max\{m(d,A) | \text{ there exists a set A with } |A| = k \},
-\]
+                  \item<1-> For positive integers $d$ and $k$, we define:
+\begin{align*}
+m(d,A) &=\max\{m | diam(Cay(\mathbb{Z}_m,A)) \leq d\} \text{,} \\
+m(d,k) &= \max_{A: |A| = k}\{m(d,A)  \}.
+\end{align*}
 
 
 	\end{itemize}
@@ -404,7 +472,7 @@ m(d,k) = max\{m(d,A) | \text{ there exists a set A with } |A| = k \},
 	\frametitle{\underline{Introduction to Cayley Graphs}}
 	\only<1>{
 	\begin{itemize}
-                  \item<1-> Current known bounds include:
+                  \item<1-> Current known values include:
 \begin{align*}
 m(1,k) &= k+1,
 \\
