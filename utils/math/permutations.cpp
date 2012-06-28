@@ -8,11 +8,11 @@ void CoefTable::makeCoTable(int diam)
 {
 cotSize =0;
 std::ofstream colist ("./permutationtables/cotable.txt");
-for(int i=0; i <= diam; i++)
+for(int i=diam; i >= 0; --i)
 {
-	for(int j=0; j <= i; j++)
+	for(int j=i; j >= 0; --j)
 	{
-		for(int k=0; k <= j; k++) //filter them in holding tank, then add to file
+		for(int k=j;k >= 0; --k) //filter them in holding tank, then add to file
 		{
 		if(i+j+k <= diam)
 		{
@@ -39,12 +39,33 @@ for(int i=0; i <= diam; i++)
 		}	
 	}
 }
+
 //coCount =0;
+
 colist.close();
 return;
 }
+/*
+void CoefTable::makeCoTable(int diam)
+{
+cotSize =0;
+std::ofstream colist ("./permutationtables/cotable.txt");
+for(int i=0; i <= diam; i++)
+{
+	for(int j=0; j <= diam - i; j++)
+	{
+		for(int k=0; k <= diam - i -j; k++) //filter them in holding tank, then add to file
+		{
+		colist << boost::tuples::set_delimiter(',') << T(k, j, i) << " ";
+  		cotSize++;
+			
+		}	
+	}
+}
+return; 
 
-
+}
+*/
 int CoefTable::getCotSize()
 {
 return cotSize;
