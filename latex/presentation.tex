@@ -392,13 +392,16 @@ This is not a Cayley digraph.
 \begin{itemize}
 \item<1-> \underline{Definition}: The Cayley digraph Cay($\Z_2^n$, \{$e_1$, $e_2$, ... , $e_n\}$)
 \item<1-> Common choice for interconnection network designs
-
+ \item<1-> The diameter of a network represents the maximum communication delay between two nodes in the network. 
+               \item<1-> For a fixed diameter and vertex degree, there are circulant graphs that contain more vertices than the corresponding n-cube.
+ \item<1-> Hence, circulant graphs give better communication networks than cubes
 \end{itemize}
 
 }
 
+
+
 \frame {
-	\frametitle{\underline{N-Cube}}
 	\only<1>{
 	\begin{itemize}
                   \item<1-> For positive integers $d$ and $k$, we define:
@@ -415,8 +418,7 @@ m(d,k) &= \max_{A: |A| = k}\{m(d,A)  \}.
 
 }
 
-\frame {
-	\frametitle{\underline{N-Cube}}
+\frame{
 	\only<1>{
 	\begin{itemize}
                   \item<1-> Current known values include:
@@ -432,16 +434,7 @@ m(d,2) &= \left\lfloor \frac{d(d+4)}{3} \right\rfloor+1 \text{ for all } d\geq2.
 }
 }
 
-\frame{
-	\frametitle{\underline{N-Cube}}
 
-	\begin{itemize}
-               \item<1-> For a fixed diameter and vertex degree, there are circulant graphs that contain more vertices than the corresponding n-cube.
- \item<1-> ie circulant graphs give better communication networks than cubes
- \item<1->  the diameter of a network represents that maximum communication delay between two nodes in the network. 
-
-	\end{itemize}
-}
 
 
 
@@ -461,8 +454,8 @@ m(d_{1}+d_{2},k_1+k_2)\ge m(d_1,k_1)m(d_2,k_2).
 }
 
 \frame{
-
-\begin{proof} Let 
+\underline{Proof}\\
+ Let 
 $A_s=\{0<a_{s1}<a_{s2}<\cdots<a_{sk_s}\}$ be a set of integers with
 \[
 m(d_s,A_s)=m(d_s,k_s)=m_s\qquad\hbox{for}\quad s=1,2.
@@ -473,8 +466,8 @@ Define
 A=A_1\cup\{m_1a_{2j}\ |\ j=1,2,\ldots,k_2\}.
 \]
 Since $|A|=k_1+k_2$, we only need to prove that $A$ is a $(d_1+d_2)$-basis for $\Z_{m_1m_2}$.
-]
-\end{proof}
+
+
 }
 
 \frame
@@ -521,10 +514,11 @@ The proof is complete.
 
 \frame
 {
-\frametitle{\underline{Introduction to Cayley Graphs}}
+\frametitle{\underline{The General Case}}
 \only<1> 
 \begin{itemize}
-\item<1-> hello world
+\item<1->By repeated application of this inequality, and using lower bounds for small values of k
+we can construct a bound for general k 
 
 \end{itemize}
 
