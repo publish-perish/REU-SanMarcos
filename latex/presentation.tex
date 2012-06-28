@@ -403,6 +403,10 @@ m(d_{1}+d_{2},k_1+k_2)\ge m(d_1,k_1)m(d_2,k_2).
 \]
 \end{theorem}
 
+}
+
+\frame{
+
 \begin{proof} Let 
 $A_s=\{0<a_{s1}<a_{s2}<\cdots<a_{sk_s}\}$ be a set of integers with
 \[
@@ -414,7 +418,12 @@ Define
 A=A_1\cup\{m_1a_{2j}\ |\ j=1,2,\ldots,k_2\}.
 \]
 Since $|A|=k_1+k_2$, we only need to prove that $A$ is a $(d_1+d_2)$-basis for $\Z_{m_1m_2}$.
+]
+\end{proof}
+}
 
+\frame
+{
  Let $n$ be any nonnegative integer. Since $A_1$ is an $d_{1}$-basis for $\Z_{m_1}$, we see that
 \[
 n\equiv \sum_{i=1}^{k_1}x_{i}a_{1i}\pmod{m_1},
@@ -423,12 +432,22 @@ where $x_{i}$'s are nonnegative integers with  $\ddd\sum_{i=1}^{k_{1}}x_{i}\le d
 \[
 n=\sum_{i=1}^{k_1}x_{i}a_{1i}+qm_1
 \]
-for some integer $q$. It follows from the fact that $A_2$ is a
+for some integer $q$.
+
+}
+\frame
+{
+ It follows from the fact that $A_2$ is a
 $d_{2}$-basis for $\Z_{m_2}$ that
 \[
 q=\sum_{j=1}^{k_2}y_{j}a_{2j}+pm_2,
 \]
 where $y_{j}$'s are nonnegative integers with  $\ddd\sum_{j=1}^{k_{2}}y_{j}\le d_{2}$, and $p$ is an integer.
+
+}
+
+\frame
+{
  Therefore,
 \[
 n\equiv\sum_{i=1}^{k_1}x_{i}a_{1i}+\sum_{j=1}^{k_2}y_{j}m_1a_{2j}\pmod{m_1m_2},
@@ -442,16 +461,9 @@ This implies that $n\in (d_1+d_2)A_{0}$, where $A_{0}=A\cup\{0\}$. Hence, $A$ is
 m(d_{1},k_{1})m(d_{2},k_{2})=m_{1}m_{2}\le m(d_{1}+d_{2},k_{1}+k_{2}).
 \]
 The proof is complete.
-\end{proof}
-
-
-
-
-
-
-
 
 }
+
 
 \frame {
 	\frametitle{\underline{Introduction to Cayley Graphs}}
