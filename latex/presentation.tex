@@ -1,4 +1,3 @@
-
 \documentclass{beamer}
 \usetheme{Montpellier} 
 \usecolortheme{dolphin} 
@@ -9,7 +8,7 @@
 \usepackage{amsmath}
 \usepackage{array}
 
-\title{Our Nice Presentation}
+\title{Extremal Cayley Graphs}
 \author{Jordan Blocher, Christopher Linden,  Samantha Hampton}
 \date{28 June 2012}
 \institute[2008]{REU - Texas State}
@@ -19,8 +18,6 @@
 
 \frame{\titlepage}
 \frame{
-
-
 
 \begin{center}
 \begin{tikzpicture}[scale=.6]
@@ -227,14 +224,161 @@ Cay($\mathbb{Z}_{25}$, \{$\pm$1,$\pm$4,$\pm$6,$\pm$8\})
 	\frametitle{\underline{Introduction to Cayley Graphs}}
 	\only<1>{
 	\begin{itemize}
-                  \item<1-> Definition:  Let $\Gamma$ be a finite group with a subset A. The \underline{\emph{Cayley digraph}}, denoted Cay($\Gamma$,A), is a digraph with vertex set $\Gamma$, such that (x,y) is a directed edge if and only if $yx^{-1}$ $\in$ A
+                  \item<1-> Definition:  Let $\Gamma$ be a finite group with a subset A. The \emph{Cayley digraph}, denoted Cay($\Gamma$,A), is a digraph with vertex set $\Gamma$, such that (x,y) is a directed edge if and only if $yx^{-1}$ $\in$ A
 
-		\item<1->\emph{Cayley digraphs} are vertex-symmetric
+		\item<1->\emph{Cayley digraphs} are vertex-transitive
 
 
 	\end{itemize}
 }
 }
+
+\frame{
+
+\frametitle{\underline{Introduction to Cayley Graphs}}
+
+\begin{itemize}
+		\item<1->
+
+The bicycle wheel
+
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=.5]
+
+
+\GraphInit[vstyle=Simple]
+\tikzset{VertexStyle/.append style = {minimum size =2pt, inner sep = 0pt}}
+
+
+\Vertex[x=187.5pt,y=337.5pt]{0};
+\Vertex[x=262.5pt,y=317.4038105676658pt]{1};
+\Vertex[x=317.4038105676658pt,y=262.5pt]{2};
+\Vertex[x=337.5pt,y=187.5pt]{3};
+\Vertex[x=317.4038105676658pt,y=112.50000000000004pt]{4};
+\Vertex[x=262.5pt,y=57.596189432334185pt]{5};
+\Vertex[x=187.50000000000003pt,y=37.5pt]{6};
+\Vertex[x=112.50000000000004pt,y=57.596189432334185pt]{7};
+\Vertex[x=57.59618943233425pt,y=112.49999999999991pt]{8};
+\Vertex[x=37.5pt,y=187.49999999999997pt]{9};
+\Vertex[x=57.59618943233421pt,y=262.5pt]{10};
+\Vertex[x=112.49999999999994pt,y=317.4038105676658pt]{11};
+
+
+\SetUpEdge[lw         = .5pt,
+            color      =black,
+            labelcolor = black]
+\Edge(0)(1)
+\Edge(1)(2)
+\Edge(2)(3)
+\Edge(3)(4)
+\Edge(4)(5)
+\Edge(5)(6)
+\Edge(6)(7)
+\Edge(7)(8)
+\Edge(8)(9)
+\Edge(9)(10)
+\Edge(10)(11)
+\Edge(11)(0)
+
+\SetUpEdge[lw         = .5pt,
+            color      =orange,
+            labelcolor = black]
+
+\Edge(0)(6)
+\Edge(9)(3)
+\Edge(2)(8)
+\Edge(7)(1)
+\Edge(11)(5)
+\Edge(10)(4)
+
+\end{tikzpicture}
+\end{center}
+
+\begin{itemize}
+		\item<1->
+\begin{center}
+Cay($\mathbb{Z}_{12}$, \{$\pm$1,$\pm$6,\})     
+\end{center}
+                 
+\end{itemize}
+
+
+}
+
+
+\frame{
+\frametitle{\underline{Introduction to Cayley Graphs}}
+
+\begin{itemize}
+		\item<1->  The Petersen Graph
+
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=.6]
+
+
+\GraphInit[vstyle=Simple]
+\tikzset{VertexStyle/.append style = {minimum size =2pt, inner sep = 0pt}}
+
+\Vertex[x=76.42941276749721pt,y=222.11672788567688pt]{0};
+\Vertex[x=188.99428167091503pt,y=311.04722529413755pt]{1};
+\Vertex[x=313.69705213095506pt,y=233.22858659510686pt]{2};
+\Vertex[x=269.05636402340275pt,y=91.41442753601768pt]{3};
+\Vertex[x=123.08023124502833pt,y=89.1708736174299pt]{4};
+\Vertex[x=139.9280102908217pt,y=205.8448415441469pt]{5};
+\Vertex[x=195.1737949263097pt,y=245.68890432812992pt]{6};
+\Vertex[x=253.59353344956895pt,y=209.6206717576203pt]{7};
+\Vertex[x=231.46826299919053pt,y=144.8606369231964pt]{8};
+\Vertex[x=163.80751418745828pt,y=140.21907743256966pt]{9};
+
+\Edge(0)(1)
+\Edge(1)(2)
+\Edge(2)(3)
+\Edge(4)(0)
+\Edge(4)(3)
+
+\SetUpEdge[lw         = .5pt,
+            color      =purple,
+            labelcolor = black]
+\Edge(5)(7)
+\Edge(7)(9)
+\Edge(9)(6)
+\Edge(6)(8)
+\Edge(8)(5)
+
+
+\SetUpEdge[lw         = .5pt,
+            color      =blue,
+            labelcolor = black]
+
+\Edge(9)(4)
+\Edge(0)(5)
+\Edge(1)(6)
+\Edge(7)(2)
+\Edge(3)(8)
+
+
+
+\end{tikzpicture}
+
+
+\end{center}
+
+\begin{itemize}
+		\item<1->
+\begin{center}
+This is not a Cayley digraph. 
+\end{center}
+                 
+\end{itemize}
+
+
+}
+
+
 
 
 \frame {
@@ -243,7 +387,7 @@ Cay($\mathbb{Z}_{25}$, \{$\pm$1,$\pm$4,$\pm$6,$\pm$8\})
 	\begin{itemize}
                   \item<1-> For any positive integer $d$,
 \[
-m(d,A) =\ max\{m | d(m,A) \leq d\},
+m(d,A) =\ max\{m | diam(Cay(Z_m,A)) \leq d\},
 \]
 
 		\item<1->For positive integers $d$ and $k$,
