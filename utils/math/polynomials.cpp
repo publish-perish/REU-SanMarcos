@@ -78,7 +78,7 @@ Polynomial Polynomial::operator-(Polynomial m)
     {
           ++this->s.c_borrowed;
           //std::cout<<"c borrowed: "<<this->s.c_borrowed<<std::endl;
-          this->Y = T(get<0>(Y), get<1>(Y)+get<0>(A), get<2>(Y));
+          this->Y = T(get<0>(Y), get<1>(Y)+(get<0>(A)/get<1>(A)), get<2>(Y));
           //std::cout<<"result from C borrow # "<<n<<": "<<temp;++n;
           //*this = temp - m;
     }
