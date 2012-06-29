@@ -81,11 +81,11 @@ void CoefTable::makeMcoTable(int diam)
 {
 mtSize =0;
 std::ofstream mcolist ("./permutationtables/mcotable.txt");
-for(int i=1; i <= (diam*diam*diam /6); ++i)
+for(int i=1; i < (diam*4); ++i)
 {
-	for(int j=1; j <= (diam*diam*diam /6); ++j)
+	for(int j=1; j < (diam*4); ++j)
 	{
-		for(int k=1; k <= (diam*diam*diam /6); ++k) //filter them in holding tank, then add to file
+		for(int k=1; k < (diam*4); ++k) //filter them in holding tank, then add to file
 		{
 			
  		    { 
@@ -146,12 +146,12 @@ void GenTable::makeGenTable(int diam)  //order: c, b, 1
 {
 gSize =0;
 std::ofstream myfile ("./permutationtables/gentable.txt");
-for(int i=1; i < (diam*diam*diam /6); i++)
+for(int i=1; i < (diam*diam*diam/6); i++)
 {
-	for(int j=1; j < (diam*diam*diam /6); j++)
+	for(int j=1; j < (diam*diam*diam/6); j++)
 	{
 	T A = T(i*j,j,1);
-		if(myfile.is_open() && i*j <= (diam*diam*diam /6))
+		if(myfile.is_open() && i*j < (diam*diam*diam/6) )
      {
      	//std::cout << A;
      	myfile << boost::tuples::set_delimiter(',') << A << " ";
