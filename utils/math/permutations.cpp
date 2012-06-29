@@ -77,15 +77,15 @@ int CoefTable::getMtSize()
 return mtSize;
 }
 
-void CoefTable::makeMcoTable(int diam)
+void CoefTable::makeMcoTable(int diam, int b, int c)
 {
 mtSize =0;
 std::ofstream mcolist ("./permutationtables/mcotable.txt");
-for(int i=1; i < (diam*4); ++i)
+for(int i=1; i < (diam*diam*diam / (b*c)); ++i)
 {
-	for(int j=1; j < (diam*4); ++j)
+	for(int j=1; j < (b); ++j)
 	{
-		for(int k=1; k < (diam*4); ++k) //filter them in holding tank, then add to file
+		for(int k=1; k < (c); ++k) //filter them in holding tank, then add to file
 		{
 			
  		    { 

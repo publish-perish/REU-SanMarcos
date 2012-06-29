@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
        GenTable G;
        //std::cout << "Coefficients:";
        C.makeCoTable(atoi(argv[1]));
-       C.makeMcoTable(atoi(argv[1]));
+      // C.makeMcoTable(atoi(argv[1]));
        //std::cout << "\n Generators: \n";
        G.makeGenTable(atoi(argv[1]));
        end = clock();

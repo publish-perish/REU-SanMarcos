@@ -25,7 +25,7 @@ class CoefTable
 {
 public:
 void makeCoTable(int diam);
-void makeMcoTable(int coefBound);
+void makeMcoTable(int diam, int b, int c);
 //T getNextCoefs();
 //T getNextMco();
 int getCotSize();
@@ -40,7 +40,7 @@ int mtSize;
 class GenTable
 {
 public:
-void makeGenTable(int genBound);
+void makeGenTable(int diam);
 //T getNextGen();
 int getGsize();
 private:

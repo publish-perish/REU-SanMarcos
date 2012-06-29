@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
        cout<<"Usage: ./executables/average_case diameter (lowerbound) \n";
        return 0;
     }
-
+	   CoefTable C;
        const int d_cubed = atoi(argv[1])*atoi(argv[1])*atoi(argv[1]); 
        const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
        PolyVec best; //holds the xcos table's size many polynomial: gives the history
@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
 	    {
 		    gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
 		    cout << A << endl;
+		    C.makeMcoTable(atoi(argv[1]), get<1>(A), get<0>(A) / get<1>(A));
 		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
 		    {
