@@ -20,9 +20,9 @@ Polynomial::Polynomial(const Polynomial &p)
     s = p.s;
 }
 
-T Polynomial::value()const
+int Polynomial::value()const
 {
-   return T(get<0>(A)*get<0>(Y), get<1>(A)*get<1>(Y), get<2>(A)*get<2>(Y));
+   return (get<0>(A)*get<0>(Y));
 }
 
 int Polynomial::sum()const

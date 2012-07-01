@@ -146,9 +146,9 @@ void GenTable::makeGenTable(int diam)  //order: c, b, 1
 {
 gSize =0;
 std::ofstream myfile ("./permutationtables/gentable.txt");
-for(int i=1; i < (diam*diam*diam/6); i++)
+for(int i=2; i < (diam*diam*diam/6); i++)
 {
-	for(int j=1; j < (diam*diam*diam/6); j++)
+	for(int j=2; j < (diam*diam*diam/6); j++)
 	{
 	T A = T(i*j,j,1);
 		if(myfile.is_open() && i*j < (diam*diam*diam/6) )
