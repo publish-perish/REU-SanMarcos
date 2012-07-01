@@ -28,7 +28,7 @@ class Polynomial{
       T A, Y;
       Subtractions s;
 
-      T value()const;
+      int value()const;
       int sum()const;
       bool wellFormed()const;
 

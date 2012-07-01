@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 	    {
 		    gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
 		    cout << A << endl;
-		    C.makeMcoTable(atoi(argv[1]), get<1>(A), get<0>(A) / get<1>(A));
+		    C.makeMcoTable(lowerbound, get<1>(A), get<0>(A) / get<1>(A));
 		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
 		    {
@@ -58,43 +58,28 @@ int main(int argc, char *argv[])
 			    {
 				    mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q;
 				    M = Polynomial(A, Q);
-				    //cout <<  m << endl;;
-				    //memset(cover,false,diamCubed);
                		cover.reset();
-				    //cout << "memset success" << endl;
-				    if( M.sum() > mbest.sum() && M.wellFormed() && M.sum() < d_cubed) //ignore M that are too small, or badly formed
+				    if( (M.value() > mbest.value()) && (M.value() > lowerbound) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
 				    {
 					    xcos.open("./permutationtables/cotable.txt");
-					   // counter = 0;
+
 					    if(xcos)
 					    {
 							    while(!xcos.eof())
 							    {
-							    //cout << "in the while loop" << endl;
+
 							    xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
-							    //cout<< "read in"  << endl;
-                        //    cout<< "generators: "<<A <<endl;
-							    //	cout << x << endl;
+
 								    X = Polynomial(A, x);
-                           		 if(true)//X.wellFormed() )
+                           		 if(X.wellFormed())
                           	 		 {
-                          	     //cout << "assigned poly" << A << Q << x << endl;
-                          	     //cout << "cleared" << endl;
-                          //		     cout <<"X "<< X <<" - "<< "M " << M;
                           		     Adj = X-M;
-                          		     //cout << "count" << counter << endl;
                           		     temp.at(Adj.sum()) = Adj;
-                          		    // best.at(counter)= null;
-                          		     //cout << "subtraction done" << endl;
-                          	//	     cout<< "Adj "<<Adj<<Adj.s;
-                          		//     cout<< "cover "<<Adj.sum()<<"\n \n";
-                          		     cover[Adj.sum()] = 1;							
-                          		     //++counter;
+                          		     cover[Adj.sum()] = 1;	
+      
                           			 }
 							    }// end xcos loop
-						    //cout << "out of the while" << endl;
 						    xcos.close();
-					    //	cout << "xcos closed" << endl;
 						    covered = true;
 						    for(int i=0; i < M.sum(); ++i) //only check the first m of them
 						    {
@@ -111,7 +96,6 @@ int main(int argc, char *argv[])
 								    {
 									    best[j] = temp[j];
 								    }
-						    //	cout << m << endl << A  << endl;
 						    }
 					  }
 			    }// done with xcos
@@ -124,6 +108,7 @@ int main(int argc, char *argv[])
 out.open("./results.txt");
 if(out)
 	{
+		out << "d: " << argv[1] << endl;
 		out << "modulus: " << mbest << endl;
 		out << "generators: " << best[0].A << endl;
 		for(int i=0; i < mbest.sum(); ++i)
