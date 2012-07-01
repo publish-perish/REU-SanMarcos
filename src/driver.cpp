@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 	    {
 		    gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
 		    cout << A << endl;
-		    C.makeMcoTable(atoi(argv[1]), get<1>(A), get<0>(A) / get<1>(A));
+		    C.makeMcoTable(lowerbound, get<1>(A), get<0>(A) / get<1>(A));
 		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
 		    {
