@@ -72,13 +72,12 @@ int main(int argc, char *argv[])
 							    xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
 
 								    X = Polynomial(A, x);
-                           		 if(true)//X.wellFormed())
+                           		 if(true)
                           	 		 {
                           		     Adj = X-M;
                           		     
                           		     temp.at(Adj.sum()%M.sum()) = Adj;
-                          		     cover[Adj.sum()] = 1;	
-                          		     cout << Adj << endl;
+                          		     cover[Adj.sum()%M.sum()] = 1;	
                           			 }
 							    }// end xcos loop
 						    xcos.close();
