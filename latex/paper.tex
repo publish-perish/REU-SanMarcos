@@ -22,6 +22,9 @@
 \usepackage{fancyhdr}
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
+\usepackage{changepage}
+
+\newenvironment{block}{\begin{adjustwidth}{1.3cm}{1.3cm}\noindent}{\end{adjustwidth}}
 
 \newtheorem{proposition}{Proposition}
 \newtheorem{theorem}{Theorem}
@@ -55,6 +58,7 @@
 \def\outer{\operatorname{Out}}
 \def\crossing{\operatorname{cr}}
 \def\cent{\textcent}
+\def\n{\\ \vspace{1.7mm}}
  
 \renewcommand{\emptyset}{\O}
  
