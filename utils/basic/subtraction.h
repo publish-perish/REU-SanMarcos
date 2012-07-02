@@ -28,6 +28,8 @@ class Subtractions{
 
     Subtractions operator=(const Subtractions&);
     Subtractions operator=(int);
+    Subtractions operator==(const Subtractions&);
+
 
     friend std::ostream& operator<<(std::ostream&, const Subtractions&);
     friend std::ofstream& operator<<(std::ofstream&, const Subtractions&);

@@ -36,6 +36,10 @@ Subtractions Subtractions::operator=(int x)
    c_borrowed = b_borrowed = m_subtracted = x;
 }
 
+Subtractions Subtractions::operator==(const Subtractions &s)
+{
+   return((c_borrowed == s.c_borrowed) && (b_borrowed == s.b_borrowed) && (m_subtracted == s.m_subtracted));
+}
 void Subtractions::clear()
 {
    c_borrowed = b_borrowed = m_subtracted = 0;

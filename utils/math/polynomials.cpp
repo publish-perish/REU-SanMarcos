@@ -20,9 +20,9 @@ Polynomial::Polynomial(const Polynomial &p)
     s = p.s;
 }
 
-T Polynomial::value()const
+int Polynomial::value()const
 {
-   return T(get<0>(A)*get<0>(Y), get<1>(A)*get<1>(Y), get<2>(A)*get<2>(Y));
+   return (get<0>(A)*get<0>(Y));
 }
 
 int Polynomial::sum()const
@@ -32,12 +32,17 @@ int Polynomial::sum()const
 
 bool Polynomial::wellFormed()const
 {
-   return ((get<2>(Y) < get<1>(A)) && (get<2>(Y) < get<0>(A)));
+   return ((get<2>(Y) < get<1>(A)) && ( get<1>(Y) < (float)( get<0>(A) / get<1>(A)) ) );
 }
 
 bool Polynomial::operator==(const Polynomial &p)
 {
    return((get<0>(p.Y)==get<0>(Y)) && (get<1>(p.Y)==get<1>(Y)) && (get<2>(p.Y)==get<2>(Y)));
+}
+
+bool Polynomial::operator>=(const Polynomial &p)
+{
+   return(sum()>=p.sum());
 }
 
 Polynomial Polynomial::operator=(const Polynomial &p)
@@ -51,7 +56,8 @@ int n=1;
 
 Polynomial Polynomial::operator-(Polynomial m)
 {
-    while( get<0>(Y) > get<0>(m.Y) )
+    loop:
+    while( Y > m.Y )
     {
         ++this->s.m_subtracted;
         //std::cout<<"m subtracted: "<<this->s.m_subtracted<<std::endl;;
@@ -72,10 +78,11 @@ Polynomial Polynomial::operator-(Polynomial m)
     {
           ++this->s.c_borrowed;
           //std::cout<<"c borrowed: "<<this->s.c_borrowed<<std::endl;
-          this->Y = T(get<0>(Y), get<1>(Y)+get<0>(A), get<2>(Y));
+          this->Y = T(get<0>(Y), get<1>(Y)+(get<0>(A)/get<1>(A)), get<2>(Y));
           //std::cout<<"result from C borrow # "<<n<<": "<<temp;++n;
           //*this = temp - m;
     }
+    if( Y > m.Y ){ goto loop; }
     return *this;
 }
 

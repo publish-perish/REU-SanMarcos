@@ -8,13 +8,13 @@ void CoefTable::makeCoTable(int diam)
 {
 cotSize =0;
 std::ofstream colist ("./permutationtables/cotable.txt");
-for(int i=0; i <= diam; i++)
+for(int i=diam; i >= 0; --i)
 {
-	for(int j=0; j <= i; j++)
+	for(int j=i; j >= 0; --j)
 	{
-		for(int k=0; k <= j; k++) //filter them in holding tank, then add to file
+		for(int k=j;k >= 0; --k) //filter them in holding tank, then add to file
 		{
-		if(i+j+k <= diam)
+		if(i+j+k <= diam - 3)
 		{
 			holdingTank.clear();
 			holdingTank.insert(T(i, j, k));
@@ -39,12 +39,33 @@ for(int i=0; i <= diam; i++)
 		}	
 	}
 }
+
 //coCount =0;
+
 colist.close();
 return;
 }
+/*
+void CoefTable::makeCoTable(int diam)
+{
+cotSize =0;
+std::ofstream colist ("./permutationtables/cotable.txt");
+for(int i=0; i <= diam; i++)
+{
+	for(int j=0; j <= diam - i; j++)
+	{
+		for(int k=0; k <= diam - i -j; k++) //filter them in holding tank, then add to file
+		{
+		colist << boost::tuples::set_delimiter(',') << T(k, j, i) << " ";
+  		cotSize++;
+			
+		}	
+	}
+}
+return; 
 
-
+}
+*/
 int CoefTable::getCotSize()
 {
 return cotSize;
@@ -56,36 +77,24 @@ int CoefTable::getMtSize()
 return mtSize;
 }
 
-void CoefTable::makeMcoTable(int coefBound)
+void CoefTable::makeMcoTable(int diam, int b, int c)
 {
 mtSize =0;
 std::ofstream mcolist ("./permutationtables/mcotable.txt");
-for(int i=1; i <= coefBound; ++i)
+for(int i=1; i < (diam*diam*diam / (b*c)); ++i)
 {
-	for(int j=1; j <= i; ++j)
+	for(int j=1; j < (b); ++j)
 	{
-		for(int k=1; k <= j; ++k) //filter them in holding tank, then add to file
+		for(int k=1; k < (c); ++k) //filter them in holding tank, then add to file
 		{
-			holdingTank.clear();
-			holdingTank.insert(T(i, j, k));
-			holdingTank.insert(T(i, k, j));
-			holdingTank.insert(T(j, i, k));
-			holdingTank.insert(T(j, k, i));
-			holdingTank.insert(T(k, i, j));
-			holdingTank.insert(T(k, j, i));
-			std::set<T>::iterator itr = holdingTank.begin();
-			while(itr != holdingTank.end())
+			
  		    { 
  		    if(mcolist.is_open())
- 		    {
   		   	//std::cout << *itr;
-  		   	mcolist << boost::tuples::set_delimiter(',') << *itr << " ";
+  		   	mcolist << boost::tuples::set_delimiter(',') << T(i, j, k) << " ";
   		   	mtSize++;
-  		  	}
- 		    itr++;     
-	    	}	
-			holdingTank.clear();			
-		}	
+  		   	}
+		}
 	}
 }
 //coCount =0;
@@ -133,16 +142,16 @@ return Q;
 */
 
 
-void GenTable::makeGenTable(int genBound)  //order: c, b, 1
+void GenTable::makeGenTable(int diam)  //order: c, b, 1
 {
 gSize =0;
 std::ofstream myfile ("./permutationtables/gentable.txt");
-for(int i=3; i < genBound; i++)
+for(int i=2; i < (diam*diam*diam/6); i++)
 {
-	for(int j=2; j < i; j++)
+	for(int j=2; j < (diam*diam*diam/6); j++)
 	{
-	T A = T(i,j,1);
-		if(myfile.is_open())
+	T A = T(i*j,j,1);
+		if(myfile.is_open() && i*j < (diam*diam*diam/6) )
      {
      	//std::cout << A;
      	myfile << boost::tuples::set_delimiter(',') << A << " ";

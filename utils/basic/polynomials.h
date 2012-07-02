@@ -28,11 +28,12 @@ class Polynomial{
       T A, Y;
       Subtractions s;
 
-      T value()const;
+      int value()const;
       int sum()const;
       bool wellFormed()const;
 
       bool operator==(const Polynomial&);
+      bool operator>=(const Polynomial&);
       Polynomial operator=(const Polynomial&);
 
       Polynomial operator-(Polynomial);

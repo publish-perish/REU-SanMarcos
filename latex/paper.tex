@@ -20,9 +20,12 @@
 \usepackage{tikz}
 \usepackage{tkz-berge}
 \usepackage{fancyhdr}
- 
- 
- 
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{changepage}
+
+\newenvironment{block}{\begin{adjustwidth}{1.3cm}{1.3cm}\noindent}{\end{adjustwidth}}
+
 \newtheorem{proposition}{Proposition}
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -55,6 +58,7 @@
 \def\outer{\operatorname{Out}}
 \def\crossing{\operatorname{cr}}
 \def\cent{\textcent}
+\def\n{\\ \vspace{1.7mm}}
  
 \renewcommand{\emptyset}{\O}
  
@@ -310,24 +314,28 @@ In this paper we will be working with $\mathbb{Z}_m$ as our vertex set, and will
 An important property of Cayley digraphs is the Cayley digraph Cay(m,A) is vertex-symmetric. This property allows us to define extremal functions for these digraphs. 
 For any positive integer $d$ we define
 \[
-m(d,A) =\ max\{m | d(m,A) \leq d\},
+m(d,A) =\ max\{m | diam(Cay(m,A)) \leq d\},
 \]
 the largest positive integer $m$ such that the diameter, d(m,A), of the Cayley digraph Cay(m,A) is less than or equal to d. For positive integers $d$ and $k$,
-\[ 
-m(1,k) = k+1,
-\]
-\[ 
-m(d,1) = d+1\text{, and}
-\]
 \[
-m(d,2) = \lfloor \frac{d(d+4)}{3} \rfloor+1 \text{ for all } d\geq2.
+m(d,k) = max\{m(d,A) | \text{ there exists a set A with } |A| = k \},
 \]
+the maximum modulus m such that there exists a generating set with cardinality equal to k and the diameter of the Cayley digraph is less than or equal to d. 
+$\\$
 
+Current known bounds include
+\begin{align*}
+m(1,k)& = k+1,\\
+m(d,1) &= d+1\text{, and}\\
+m(d,2) &=\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1 \text{ for all } d\geq2.
+\end{align*}
  
 In this paper we will examine the case when k = 3. The current bounds for this case, as $d\to\infty$, are
 \[
 \frac{176}{2197}d^3 + O(d^2) \leq m(d,3) \leq \frac{1}{14-3\sqrt{3}}(d+3)^3 .
 \]
  
- 
+
+\input{algorithm}
+
 \end {document}
