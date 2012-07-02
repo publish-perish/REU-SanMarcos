@@ -399,7 +399,50 @@ This is not a Cayley digraph.
 
 }
 
+\frame{
+\frametitle{\underline{N-Cubes}}
 
+\begin{itemize}
+		\item<1->  The 3-Cube
+
+\end{itemize}
+
+\begin{center}
+
+\begin{tikzpicture}[scale=.8]
+
+
+\GraphInit[vstyle=Simple]
+\tikzset{VertexStyle/.append style = {minimum size =2pt, inner sep = 0pt}}
+
+\Vertex[x=110.02862790300208pt,y=131.87672511866043pt]{0};
+\Vertex[x=96.30215571622227pt,y=237.05155446176758pt]{1};
+\Vertex[x=217.91321401104452pt,y=165.84697363526885pt]{2};
+\Vertex[x=195.20255762041074pt,y=276.1568088613707pt]{3};
+\Vertex[x=178.15328202069801pt,y=92.3523239240585pt]{4};
+\Vertex[x=155.65806918738338pt,y=202.2468746629973pt]{5};
+\Vertex[x=277.20023675235643pt,y=130.94281761218554pt]{6};
+\Vertex[x=263.36068740090917pt,y=236.3676312568985pt]{7};
+
+\Edge(0)(1)
+\Edge(1)(3)
+\Edge(3)(2)
+\Edge(2)(0)
+\Edge(4)(5)
+\Edge(5)(7)
+\Edge(7)(6)
+\Edge(6)(4)
+\Edge(4)(0)
+\Edge(5)(1)
+\Edge(7)(3)
+\Edge(6)(2)
+
+\end{tikzpicture}
+
+\end{center}
+
+
+}
 
 \frame {
 	\only<1>{
@@ -440,7 +483,7 @@ m(d,2) &= \left\lfloor \frac{d(d+4)}{3} \right\rfloor+1 \text{ for all } d\geq2.
 
 
 \frame{
-
+\frametitle{\underline{The General Case}}
 The following theorem can be used to construct large efficient generating sets $A$  so that $m(d,A)$
 is large by using small efficient generating sets.
 
@@ -454,6 +497,7 @@ m(d_{1}+d_{2},k_1+k_2)\ge m(d_1,k_1)m(d_2,k_2).
 }
 
 \frame{
+\frametitle{\underline{The General Case}}
 \underline{Proof}\\
  Let 
 $A_s=\{0<a_{s1}<a_{s2}<\cdots<a_{sk_s}\}$ be a set of integers with
@@ -471,7 +515,7 @@ Since $|A|=k_1+k_2$, we only need to prove that $A$ is a $(d_1+d_2)$-basis for $
 }
 
 \frame
-{
+{\frametitle{\underline{The General Case}}
  Let $n$ be any nonnegative integer. Since $A_1$ is an $d_{1}$-basis for $\Z_{m_1}$, we see that
 \[
 n\equiv \sum_{i=1}^{k_1}x_{i}a_{1i}\pmod{m_1},
@@ -484,7 +528,7 @@ for some integer $q$.
 
 }
 \frame
-{
+{\frametitle{\underline{The General Case}}
  It follows from the fact that $A_2$ is a
 $d_{2}$-basis for $\Z_{m_2}$ that
 \[
@@ -495,7 +539,7 @@ where $y_{j}$'s are nonnegative integers with  $\ddd\sum_{j=1}^{k_{2}}y_{j}\le d
 }
 
 \frame
-{
+{\frametitle{\underline{The General Case}}
  Therefore,
 \[
 n\equiv\sum_{i=1}^{k_1}x_{i}a_{1i}+\sum_{j=1}^{k_2}y_{j}m_1a_{2j}\pmod{m_1m_2},
@@ -521,9 +565,6 @@ The proof is complete.
 we can construct a bound for general k 
 
 \end{itemize}
-
 }
 
 
-
-\end{document}

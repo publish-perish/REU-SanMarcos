@@ -6,12 +6,12 @@ We now provide an algorithm that takes as an input a set of generators as well a
 The algorithm takes advantage of the fact that there exists a one-to-one correspondance between representations of the residual classes of $\mathbb{Z}_{m}$ and the set of integers $[0, m-1]$.\n
 
 \noindent
-Let $d$ be the diameter for $\Cay(m, k)$.\n 
+Let $d$ be the diameter for $\Cay(m, A)$.\n 
 
 \begin{centering}
 \begin{block}
 \noindent
-\textsl{Given $d$ define \emph{\bf{$d_{1}$ fixed}} to be $\frac{d}{\lambda}$. Define $\mathcal{A}$ to be a \emph{\bf{set of generators}}, $\mathcal{A} = \{ (a_{i}) \vert a_{i} < a_{i+1},  \forall i \in [0, k-1] \} $, and $\vert \mathcal{A} \vert = k$. Also define a set of \emph{\bf{non-negative coefficients}} $c_{1}, c_{2}, .. , c_{k}$ such that $a_{i+1} = \alpha_{i}a_{i} \lambda$.\n
+\textsl{Given $d$ define \emph{\bf{$d_{1}$ fixed}} to be $\frac{d}{\lambda}$. Define $\mathcal{A}$ to be a \emph{\bf{set of generators}}, $\mathcal{A} = \{ (a_{i}) \vert a_{i+1} = \alpha_{i}a_{i},  \forall i \in [0, k-1] \} $, with $a_i$ a sequence of nonnegative coefficients, and $\vert \mathcal{A} \vert = k$. Also define a set of \emph{\bf{non-negative coefficients}} $c_{1}, c_{2}, .. , c_{k}$ such that $a_{i+1} = \alpha_{i}a_{i} \lambda$.\n
 ($\lambda$ is a large number determined by $d$. The parameter $\lambda$ will not appear in the code, but it enables us to compute a lower bound as a function of $d$.)\n
 Our lower bound on $m(d, k)$ will be defined as $m(d, k) = a_{i}c_{i} \lambda$. To determine the validity of the lower bound, we compute every point in $d \mathcal{A}$ as a polynomial in terms of $\lambda$.\n
 Let $ \{ (x_{1}, x_{2}, ... , x_{n}) \vert x_{1} \leq c_{1}, x_{2} \leq c_{2}, .. , x_{k} \leq c_{k}$, and $\sum_{i} x_{i} \leq d_{1} \}$ define polynomials $x$ that are considered to be minimal.\n
