@@ -2,30 +2,41 @@
 
 \section{The Algorithm}
 
-We now provide an algorithm that takes as an input a set of generators as well as two other permutation sets. These inputs are used to test the ability of a generated lower bound to provide a set covering for our Cayley Graph. The algorithm iterates through permutations of the generating set and possible coverings, giving as an output the maximal generating set as well as the optimal polynomial bound.\\
+We now provide an algorithm that takes as an input a set of generators as well as two other permutation sets. These inputs are used to test the ability of a generated lower bound to provide a set covering for our Cayley Graph. The algorithm iterates through permutations of the generating set and possible coverings, giving as an output the maximal generating set as well as the optimal polynomial bound.
 
-Let $d$ be the diameter for $\Cay(m, k)$.\\
+\noindent
+The algorithm takes advantage of the fact that there exists a one-to-one correspondance between representations of the residual classes of $\mathbb{Z}_{m}$ and the set of integers $[0, m-1]$.\n
 
-Given $d$ define $d_{1}$ fixed to be $\frac{d}{\lambda}$, also define $a_{1} = \frac{a}{\lambda}$, $b_{1} = \frac{b}{\lambda}$, and $c_{1} = \frac{c}{\lambda b}$, etc.., so $\lambda$ is a large number determined by $d$. The parameter $\lambda$ will not appear in the code, but it enables us to compute a lower bound as a function of $d$.\\
+\noindent
+Let $d$ be the diameter for $\Cay(m, k)$.\n 
 
-Our lower bound on $m(d, k)$ will be defined as $m =\alpha \lambda a + \beta \lambda b + \gamma \lambda c$+ ... $\psi \lambda z$.  To determine the validity of the lower bound, we compute every point in $dA$ as a polynomial in terms of $\lambda$.\\
-
-$\forall \{ (x_{1}, x_{2}, ... , x_{n}) \vert x_{1} \leq b_{1}, x_{2} \leq c_{1}, .. , x_{n} \leq \psi, \sum_{i} x_{i} \leq d \}$ define polynomials that are considered to be (new term needed here).\\
-
-For all constructed polynomial $x = x_{1}a + x_{2}b + .. + x_{n}z$, we define a representative $x' \in [1, m-1]$ to which we will map all congruent polynomials.\\
-
-The constructed lower bounds are defined to be regular if $x \in [0, m-1]$. In this way we are able to check $dA \cong to \mathbb{Z}_{m}$ by only considering a single representative of $\mathbb{Z}_{m}$.
-\\ Note that a regular polynomial need not be (new term).\\
-
-We force regularity by comparing the coefficients $(x_{1}, x_{2}, x_{3}, .. , x_{n})$ and $(\alpha, \beta, \gamma, .. , \psi)$ from their respective polynomials.\\
-
-$\forall x \in dA$ if $x \notin [0, m-1]$, we can identify $x$ with point $x' = (x'_{1}, x'_{2}, .. , x'_{k}) \in \mathbb{Z}_{m}$ congruent to $x$ $(mod$ $m)$.  Then if every point $n \in \mathbb{Z}_{m}$ is either equal to some $x$ or $x'$, $dA = \mathbb{Z}_m$. \\
-
-Consider the case, $x > m(d, k)$, where $x$ is not regular. We perform a recursive polynomial subtraction of the coefficients where $\alpha, \beta, \gamma, ... , \psi$ is subtracted term-by-term from $x_{1}, x{2}, x{3}, ... , x{n}$. The resulting low-order coefficients are then forced to be positive by adding the generator associated with the next higher-order term.\\
-
-For example, a resulting polynomial that has been forced to be well formed may look as, $[\lambda(x_{1} - 2 \alpha) + 1]a_{1} + [\lambda(x_{2} - 2 \beta) + 2]b_{1} + [\lambda(x_{3} - 2 \gamma]c_{1} + ... + [\lambda(x_{n} - 2 \psi]z_{1}]$.\\
-
-To construct a lower bound, we systematically check combinations of generators $A$ and coefficients, and record the largest $m$ (and corresponding generators) such that a covering by $dA$ is achieved.
+\begin{centering}
+\begin{block}
+\noindent
+\textsl{
+Given $d$ define,\n
+\emph{\bf{$d_{1}$ fixed}} to be $\frac{d}{\lambda}$.\n
+$\mathcal{A}$ to be a \emph{\bf{set of generators}}, $\mathcal{A} = \{ (a_{i} \vert \mathcal{A} \vert = k$, $a_{i} < a_{i+1},  \forall i \in [0, k-1] \} $.\n
+A set of \emph{\bf{non-negative coefficients}} $c_{1}, c_{2}, .. , c_{k}$ such that $a_{i+1} = \alpha_{i}a_{i} \lambda$.\n \n
+($\lambda$ is a large number determined by $d$. The parameter $\lambda$ will not appear in the code, but it enables us to compute a lower bound as a function of $d$.)\n
+Our lower bound on $m(d, k)$ will be defined as $m(d, k) = a_{i}c_{i} \lambda$. To determine the validity of the lower bound, we compute every point in $d \mathcal{A}$ as a polynomial in terms of $\lambda$.\n
+Let $ \{ (x_{1}, x_{2}, ... , x_{n}) \vert x_{1} \leq c_{1}, x_{2} \leq c_{2}, .. , x_{k} \leq c_{k}$, and $\sum_{i} x_{i} \leq d_{1} \}$ define polynomials $x$ that are considered to be minimal.\n
+For all constructed polynomials $x = x_{1}a_{1} + x_{2}a_{2} + .. + x_{k}a_{k}$, we define a representative $x' \in [1, m-1]$ to which we will map all congruent polynomials, forming our residue class $\bar{x}$ of regular polynomials.\n
+$\forall n \in \mathbb{Z}_{m}$, where n is the residue class of $\mathbb{Z}_{m}$, if $\exists  x$ such that $\bar{x} = \bar{x'}= n$, then $d \mathcal{A} = \mathbb{Z}_{m}$.\n
+Let $ \{ (x_{1}, x_{2}, ... , x_{n}) \vert x_{1} \leq c_{1}, x_{2} \leq c_{2}, .. , x_{k} \leq c_{k}$, and $\sum_{i} x_{i} \leq d_{1} \}$ define polynomials $x$ that are considered to be minimal.\n
+For all constructed polynomial $x = x_{1}a_{1} + x_{2}a_{2} + .. + x_{k}a_{k}$, we define a representative $x' \in [1, m-1]$ to which we will map all congruent polynomials, forming our residue class $\bar{x}$ of regular polynomials.\n
+The constructed polynomial $x$ is defined to be regular if $x \in [0, m-1]$. In this way we are able to check $d \mathcal{A} = \mathbb{Z}_{m}$ by only considering a single covering of $\mathbb{Z}_{m}$.\n
+Note that a regular polynomial need not be minimal.\n
+The constructed polynomial $x$ is defined to be regular if $x \in [0, m-1]$. In this way we are able to check $d \mathcal{A} = \mathbb{Z}_{m}$ by only considering a single covering of $\mathbb{Z}_{m}$.\n
+Note that a regular polynomial need not be minimal.\n
+We check for regularity by comparing the coefficients $(x_{1}, x_{2}, x_{3}, .. , x_{k})$ and $(c_{1}, c_{2}, .. , c_{k})$ from their respective polynomials.\n
+$\forall x \in d \mathcal{A}$ if $x \notin [0, m-1]$, we can identify $x$ with point $x' = (x'_{1}, x'_{2}, .. , x'_{k}) \in [0, m-1]$ congruent to $x$ $(mod$ $m)$.  Then if every point $n \in \mathbb{Z}_{m}$ is either equal to some $x$ or $x'$, then $d \mathcal{A} \cong \mathbb{Z}_m$.\n
+Consider the case, $x > m(d, k)$, where $x$ is not regular. We perform a recursive polynomial subtraction of the coefficients where $c_{1}, c_{2}, c_{3}$ is subtracted term-by-term from $x_{1}, x{2}, x{3}, ... , x_{n}$. The resulting low-order coefficients are then forced to be positive by adding the generator associated with the next higher-order term.\n
+For example, a resulting polynomial that has been forced to be well formed may look as, $[\lambda(x_{1} - 2 c_{1}) + 1]a_{1} + [\lambda(x_{2} - 2 c_{2}) + 2]a_{2} + [\lambda(x_{3} - 2 \gamma]a_{3} + ... + [\lambda(x_{k} - 2 c_{k}]a_{k}$.\n
+To construct a lower bound, we systematically check combinations of generators $\mathcal{A}$ and coefficients, and record the largest $m$ (and corresponding generators) such that a covering by $d \mathcal{A}$ is achieved.
+}
+\end{block}
+\end{centering}
 
 \subsection{Pseudocode}
 
