@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 			    {
 				    mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q;
 				    M = Polynomial(A, Q);
-				    cout << M <<endl;
+				    //cout << M <<endl;
                		cover.reset();
 				    if( (M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed (M.value() > lowerbound)
 				    {
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
                           		     
                           		     temp.at(Adj.sum()%M.sum()) = Adj;
                           		     cover[Adj.sum()] = 1;	
-                          		     cout << Adj << endl;
+                          		     //cout << Adj << endl;
                           			 }
 							    }// end xcos loop
 						    xcos.close();
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 						    {
 							    if(cover[i]==0) //we are not covered
 							    {
-							    	cout << "uncovered: " << i << endl;
+							    	//cout << "uncovered: " << i << endl;
 								    covered = false;
 								    break;
 							    }
