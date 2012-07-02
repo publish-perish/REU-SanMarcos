@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
        Polynomial M; //the bound itself
        Polynomial Adj;
        Polynomial null;
-       Polynomial mbest; //holds the highest valid m
+       Polynomial mbest = Polynomial(T(0,0,0), T(0,0,0)); //holds the highest valid m
        clock_t start, end;
 
     
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 	    {
 		    gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
 		    cout << A << endl;
-		    C.makeMcoTable(lowerbound, get<1>(A), get<0>(A) / get<1>(A));
+		    C.makeMcoTable(atoi(argv[1]), get<1>(A), (float)(get<0>(A) / get<1>(A)));
 		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
 		    {
@@ -58,8 +58,9 @@ int main(int argc, char *argv[])
 			    {
 				    mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q;
 				    M = Polynomial(A, Q);
+				    cout << M <<endl;
                		cover.reset();
-				    if( (M.value() > mbest.value()) && (M.value() > lowerbound) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
+				    if( (M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed (M.value() > lowerbound)
 				    {
 					    xcos.open("./permutationtables/cotable.txt");
 
@@ -71,12 +72,13 @@ int main(int argc, char *argv[])
 							    xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
 
 								    X = Polynomial(A, x);
-                           		 if(X.wellFormed())
+                           		 if(true)//X.wellFormed())
                           	 		 {
                           		     Adj = X-M;
-                          		     temp.at(Adj.sum()) = Adj;
+                          		     
+                          		     temp.at(Adj.sum()%M.sum()) = Adj;
                           		     cover[Adj.sum()] = 1;	
-      
+                          		     cout << Adj << endl;
                           			 }
 							    }// end xcos loop
 						    xcos.close();
@@ -85,6 +87,7 @@ int main(int argc, char *argv[])
 						    {
 							    if(cover[i]==0) //we are not covered
 							    {
+							    	cout << "uncovered: " << i << endl;
 								    covered = false;
 								    break;
 							    }
