@@ -70,7 +70,6 @@ int main(int argc, char *argv[])
 							    {
 
 							    xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
-
 								    X = Polynomial(A, x);
                            		 if(X.wellFormed())
                           	 		 {
