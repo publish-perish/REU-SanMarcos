@@ -72,14 +72,15 @@ int main(int argc, char *argv[])
 							    xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
 
 								    X = Polynomial(A, x);
-                           		 if(true)//X.wellFormed())
+                           		 if(X.wellFormed())
                           	 		 {
                           		     Adj = X-M;
                           		     
-                          		     temp.at(Adj.sum()%M.sum()) = Adj;
+                          		     temp.at(Adj.sum()) = Adj;
                           		     cover[Adj.sum()] = 1;	
                           		     //cout << Adj << endl;
                           			 }
+
 							    }// end xcos loop
 						    xcos.close();
 						    covered = true;
@@ -87,7 +88,7 @@ int main(int argc, char *argv[])
 						    {
 							    if(cover[i]==0) //we are not covered
 							    {
-							    	//cout << "uncovered: " << i << endl;
+							    	cout << "uncovered: " << i << endl;
 								    covered = false;
 								    break;
 							    }
