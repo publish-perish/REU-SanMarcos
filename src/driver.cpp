@@ -48,17 +48,15 @@ int main(int argc, char *argv[])
     archive.open("./ms.txt");
     if(gens)
     {
-	    while(!gens.eof())
-	    {
-		    gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
+	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
+       {
 		    cout << A << endl;
 		    C.makeMcoTable(atoi(argv[1]), get<1>(A), (float)(get<0>(A) / get<1>(A)));
 		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
 		    {
-			    while(!mcos.eof())
-			    {
-				    mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q;
+			    while(mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
+             {
 				    M = Polynomial(A, Q);
 				    //cout << M <<endl;
                		cover.reset();
@@ -68,10 +66,8 @@ int main(int argc, char *argv[])
 
 					    if(xcos)
 					    {
-							    while(!xcos.eof())
-							    {
-
-							    xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
+							    while(xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x)
+                         {
 								    X = Polynomial(A, x);
                            		 if(X.wellFormed())
                           	 		 {
@@ -89,7 +85,7 @@ int main(int argc, char *argv[])
 						    {
 							    if(cover[i]==0) //we are not covered
 							    {
-							    	cout << "uncovered: " << i << endl;
+							    	//cout << "uncovered: " << i << endl;
 								    covered = false;
 								    break;
 							    }
