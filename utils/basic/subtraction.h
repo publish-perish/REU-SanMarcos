@@ -4,10 +4,9 @@
 
 #include "boost/tuple/tuple.hpp"
 #include "boost/tuple/tuple_comparison.hpp"
-=======
-#include "/boost/tuples/tuple.hpp"
+
 #include "polynomials.h"
->>>>>>> 0618ae94dd968919865d43b487264a0d230ff5c6
+
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -45,8 +44,7 @@ class Subtractions{
 #endif
 
 
-<<<<<<< HEAD
-=======
+
 subtract(const Tuple<double, double, double> &t)
 {
    double a, b, c; // temp variables for polynomial ax + bx^2 + cx^3
@@ -70,4 +68,3 @@ subtract(const Tuple<double, double, double> &t)
          return val;
    }
 }
->>>>>>> 0618ae94dd968919865d43b487264a0d230ff5c6

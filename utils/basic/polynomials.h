@@ -8,15 +8,10 @@
 #include "../basic/subtraction.h"
 #include "boost/tuple/tuple.hpp"
 
-<<<<<<< HEAD
 
 typedef boost::tuples::tuple<int, int, int> T;
 typedef std::vector<T> Vec;
-=======
-//typedef Tuple<double, 3> T;
-typedef boost::tuples::tuple<double, double, double> T;
-typedef std::vector<T> Vec; 
->>>>>>> 0618ae94dd968919865d43b487264a0d230ff5c6
+
 
 using namespace boost::tuples;
 
@@ -26,7 +21,7 @@ class Polynomial{
 
    public:
 
-<<<<<<< HEAD
+
       Polynomial();
       Polynomial(T a, T y);
       Polynomial(T a, int, int, int);
@@ -51,15 +46,5 @@ class Polynomial{
       friend std::ofstream& operator<<(std::ofstream&, const Polynomial&);
 };
 
-=======
-      Polynomial(T &a, T &m, T &q): A(a), Q(q), M(m){}
 
-      T A;
-      T M;
-      T Q;
-
-};
-
-
->>>>>>> 0618ae94dd968919865d43b487264a0d230ff5c6
 #endif
