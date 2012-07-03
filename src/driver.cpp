@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
        ifstream mcos; // gamma, beta, alpha
        ifstream xcos; // x3, x2, x1
        ofstream out; //output
+       ofstream archive;
        T A; //generators
        T Q; //m coefs
        T x; //x coefs
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
  	 best.resize(d_cubed);
 	 temp.resize(d_cubed);
     gens.open("./permutationtables/gentable.txt");
+    archive.open("./ms.txt");
     if(gens)
     {
 	    while(!gens.eof())
@@ -99,6 +101,7 @@ int main(int argc, char *argv[])
 								    {
 									    best[j] = temp[j];
 								    }
+								archive << mbest << mbest.A << endl;
 						    }
 					  }
 			    }// done with xcos
@@ -122,5 +125,7 @@ if(out)
 	   out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
    }
     }// done with genscos
+out.close();
+archive.close();
 return 0;
 }
