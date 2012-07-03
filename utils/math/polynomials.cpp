@@ -4,6 +4,9 @@
 
 Polynomial::Polynomial()
 {
+   A = T(0, 0, 0);
+   Y = T(0, 0, 0);
+   s = 0;
 }
 
 Polynomial::Polynomial(T a, T y)
