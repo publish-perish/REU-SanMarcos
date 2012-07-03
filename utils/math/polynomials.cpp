@@ -4,12 +4,12 @@
 
 Polynomial::Polynomial()
 {
-   A = T(0, 0, 0);
+   A = TP(0, 0, 0, 0);
    Y = T(0, 0, 0);
    s = 0;
 }
 
-Polynomial::Polynomial(T a, T y)
+Polynomial::Polynomial(TP a, T y)
 {
    A = a;
    Y = y;
@@ -30,7 +30,7 @@ int Polynomial::value()const
 
 int Polynomial::sum()const
 {
-   return((get<0>(A)*get<0>(Y)) + (get<1>(A)*get<1>(Y)) +(get<2>(A)*get<2>(Y)));
+   return(((get<0>(A)+get<1>(A))*get<0>(Y)) + (get<2>(A)*get<1>(Y)) +(get<3>(A)*get<2>(Y)));
 }
 
 bool Polynomial::wellFormed()const
@@ -73,7 +73,7 @@ Polynomial Polynomial::operator-(Polynomial m)
     {
           ++this->s.b_borrowed;
           //std::cout<<"b borrowed: "<<this->s.b_borrowed<<std::endl;;
-          this->Y = T(get<0>(Y), get<1>(Y), get<2>(Y)+get<1>(A));
+          this->Y = T(get<0>(Y), get<1>(Y), (get<2>(Y)+get<3>(A)));
           //std::cout<<"result from B borrow # "<<n<<": "<<temp;++n;
           //*this = temp - m;
     }
@@ -81,7 +81,7 @@ Polynomial Polynomial::operator-(Polynomial m)
     {
           ++this->s.c_borrowed;
           //std::cout<<"c borrowed: "<<this->s.c_borrowed<<std::endl;
-          this->Y = T(get<0>(Y), get<1>(Y)+(get<0>(A)/get<1>(A)), get<2>(Y));
+          this->Y = T(get<0>(Y), get<1>(Y)+(get<0>(A)/get<2>(A)), get<2>(Y)+get<1>(A));
           //std::cout<<"result from C borrow # "<<n<<": "<<temp;++n;
           //*this = temp - m;
     }
@@ -91,13 +91,11 @@ Polynomial Polynomial::operator-(Polynomial m)
 
 std::ostream& operator<<(std::ostream& ostr, const Polynomial &p)
 {
-    ostr << get<2>(p.Y) << "a + " << get<1>(p.Y) << "b + " << get<0>(p.Y) <<"c \n";
+    ostr << get<0>(p.Y) << "c + " << get<1>(p.Y) << "b + " << get<2>(p.Y) <<"a \n";
 }
 
 std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
 {
-    ofstr << get<2>(p.Y) << "a + " << get<1>(p.Y) << "b + " << get<0>(p.Y) <<"c \n";
+    ofstr << get<0>(p.Y) << "c + " << get<1>(p.Y) << "b + " << get<2>(p.Y) <<"a \n";
 }
-
-
 

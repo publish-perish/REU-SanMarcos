@@ -14,18 +14,14 @@
 using namespace std;
 
 typedef boost::tuples::tuple<int, int, int> T;
-
-
-
-
-
+typedef boost::tuples::tuple<int, int, int, int> TP;
 
 
 class CoefTable
 {
 public:
 void makeCoTable(int diam);
-void makeMcoTable(int diam, int b, int c);
+void makeMcoTable(int diam, int b, int c1, int c2);
 //T getNextCoefs();
 //T getNextMco();
 int getCotSize();

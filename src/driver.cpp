@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 	   CoefTable C;
        const int d_cubed = atoi(argv[1])*atoi(argv[1])*atoi(argv[1]); 
        const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
-       PolyVec best; //holds the xcos table's size many polynomial: gives the history
-       PolyVec temp;
+       PolyVec best(d_cubed); //holds the xcos table's size many polynomial: gives the history
+       PolyVec temp(d_cubed);
        boost::dynamic_bitset<> cover(d_cubed); // diam cubed: larger than needed, but hard to make sharp
        bool covered =false;
        int counter = 0; //index for the bit array
@@ -29,20 +29,17 @@ int main(int argc, char *argv[])
        ifstream mcos; // gamma, beta, alpha
        ifstream xcos; // x3, x2, x1
        ofstream out; //output
-       T A; //generators
+       TP A; //generators
        T Q; //m coefs
        T x; //x coefs
        Polynomial X;
        Polynomial M; //the bound itself
        Polynomial Adj;
-       Polynomial null;
-       Polynomial mbest = Polynomial(T(0,0,0), T(0,0,0)); //holds the highest valid m
+       Polynomial mbest; //holds the highest valid m
        clock_t start, end;
 
     
     start = clock();
- 	 best.resize(d_cubed);
-	 temp.resize(d_cubed);
     gens.open("./permutationtables/gentable.txt");
     if(gens)
     {
@@ -50,7 +47,7 @@ int main(int argc, char *argv[])
 	    {
 		    gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
 		    cout << A << endl;
-		    C.makeMcoTable(atoi(argv[1]), get<1>(A), (float)(get<0>(A) / get<1>(A)));
+		    C.makeMcoTable(atoi(argv[1]), get<2>(A), (float)(get<0>(A) / get<2>(A)), get<1>(A));
 		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
 		    {
