@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
        ifstream mcos; // gamma, beta, alpha
        ifstream xcos; // x3, x2, x1
        ofstream out; //output
+       ofstream archive;
        T A; //generators
        T Q; //m coefs
        T x; //x coefs
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
  	 best.resize(d_cubed);
 	 temp.resize(d_cubed);
     gens.open("./permutationtables/gentable.txt");
+    archive.open("./ms.txt");
     if(gens)
     {
 	    while(!gens.eof())
@@ -70,16 +72,16 @@ int main(int argc, char *argv[])
 							    {
 
 							    xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
-
 								    X = Polynomial(A, x);
-                           		 if(true)//X.wellFormed())
+                           		 if(X.wellFormed())
                           	 		 {
                           		     Adj = X-M;
                           		     
-                          		     temp.at(Adj.sum()%M.sum()) = Adj;
+                          		     temp.at(Adj.sum()) = Adj;
                           		     cover[Adj.sum()] = 1;	
                           		     //cout << Adj << endl;
                           			 }
+
 							    }// end xcos loop
 						    xcos.close();
 						    covered = true;
@@ -87,7 +89,7 @@ int main(int argc, char *argv[])
 						    {
 							    if(cover[i]==0) //we are not covered
 							    {
-							    	//cout << "uncovered: " << i << endl;
+							    	cout << "uncovered: " << i << endl;
 								    covered = false;
 								    break;
 							    }
@@ -99,6 +101,7 @@ int main(int argc, char *argv[])
 								    {
 									    best[j] = temp[j];
 								    }
+								archive << mbest << mbest.A << endl;
 						    }
 					  }
 			    }// done with xcos
@@ -122,5 +125,7 @@ if(out)
 	   out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
    }
     }// done with genscos
+out.close();
+archive.close();
 return 0;
 }
