@@ -63,7 +63,6 @@ int main(int argc, char *argv[])
 				    if( (M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed (M.value() > lowerbound)
 				    {
 					    xcos.open("./permutationtables/cotable.txt");
-
 					    if(xcos)
 					    {
 							    while(!xcos.eof())

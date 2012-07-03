@@ -1,6 +1,7 @@
 #include "../basic/polynomials.h"
 
 
+<<<<<<< HEAD
 
 Polynomial::Polynomial()
 {
@@ -97,4 +98,6 @@ std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
 }
 
 
+=======
+>>>>>>> 0618ae94dd968919865d43b487264a0d230ff5c6
 
