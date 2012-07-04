@@ -35,7 +35,7 @@ int Polynomial::sum()const
 
 bool Polynomial::wellFormed()const
 {
-   return ((get<2>(Y) < get<1>(A)) && ( get<1>(Y) < (float)( get<0>(A) / get<1>(A)) ) );
+   return ((get<2>(Y) < get<2>(A)) && ( get<1>(Y) < (float)( get<0>(A) / get<2>(A)) ) );
 }
 
 bool Polynomial::operator==(const Polynomial &p)
@@ -69,14 +69,6 @@ Polynomial Polynomial::operator-(Polynomial m)
         //std::cout<<"result from m subtraction # "<<n<<": "<<temp;++n;
         //*this = temp - m; // recursive call
     }
-    while( get<2>(Y) < 0 )
-    {
-          ++this->s.b_borrowed;
-          //std::cout<<"b borrowed: "<<this->s.b_borrowed<<std::endl;;
-          this->Y = T(get<0>(Y), get<1>(Y), (get<2>(Y)+get<3>(A)));
-          //std::cout<<"result from B borrow # "<<n<<": "<<temp;++n;
-          //*this = temp - m;
-    }
     while( get<1>(Y) < 0 )
     {
           ++this->s.c_borrowed;
@@ -85,7 +77,15 @@ Polynomial Polynomial::operator-(Polynomial m)
           //std::cout<<"result from C borrow # "<<n<<": "<<temp;++n;
           //*this = temp - m;
     }
-    if( Y > m.Y || this->sum() > m.sum()){ goto loop; }
+    while( get<2>(Y) < 0 )
+    {
+          ++this->s.b_borrowed;
+          //std::cout<<"b borrowed: "<<this->s.b_borrowed<<std::endl;;
+          this->Y = T(get<0>(Y), get<1>(Y), (get<2>(Y)+get<3>(A)));
+          //std::cout<<"result from B borrow # "<<n<<": "<<temp;++n;
+          //*this = temp - m;
+    }
+    if( Y > m.Y || this->sum() > m.sum() ){ goto loop; }
     return *this;
 }
 

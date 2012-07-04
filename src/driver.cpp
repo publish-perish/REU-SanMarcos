@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
 	   CoefTable C;
        const int d_cubed = atoi(argv[1])*atoi(argv[1])*atoi(argv[1]); 
        const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
-       PolyVec best(d_cubed); //holds the xcos table's size many polynomial: gives the history
-       PolyVec temp(d_cubed);
-       boost::dynamic_bitset<> cover(d_cubed); // diam cubed: larger than needed, but hard to make sharp
+       PolyVec best(d_cubed*d_cubed*2); //holds the xcos table's size many polynomial: gives the history
+       PolyVec temp(d_cubed*d_cubed*2);
+       boost::dynamic_bitset<> cover(d_cubed*d_cubed*2); // diam cubed: larger than needed, but hard to make sharp
        bool covered =false;
        int counter = 0; //index for the bit array
        ifstream gens; // c, b, a
@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
     {
 	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
        {
+         // cout<< "A "<<A;
 		    C.makeMcoTable(atoi(argv[1]), get<2>(A), (float)(get<0>(A) / get<2>(A)), get<1>(A));
 		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
 			    while(mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
              {
 				    M = Polynomial(A, Q);
-				    //cout << M <<endl;
+				 //   cout <<"M "<< M <<endl;
                		cover.reset();
 				    if( (M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed (M.value() > lowerbound)
 				    {
@@ -67,41 +68,46 @@ int main(int argc, char *argv[])
 								    X = Polynomial(A, x);
                            		 if(X.wellFormed())
                           	 		 {
-                          		     Adj = X-M;
+                                  //  cout <<"A :" A << "x: " x  << "M: " <<  M.Y << endl;
+                          		     Adj =  X-M;
                           		     
                           		     temp.at(Adj.sum()) = Adj;
                           		     cover[Adj.sum()] = 1;	
-                          		     cout << Adj << endl;
+                          		   //  cout << Adj << "sum "<<Adj.sum()<<endl;
                           			 }
 
 							    }// end xcos loop
 						    xcos.close();
 						    covered = true;
+                     // if(M.sum() == 44)
+                       //  cout  << M.A << endl;
 						    for(int i=0; i < M.sum(); ++i) //only check the first m of them
 						    {
-							    if(cover[i]==0) //we are not covered
+							    if(true)//(cover[i]==0) //we are not covered
 							    {
-							    	//cout << "uncovered: " << i << endl;
+                       //     cout << "uncovered: " << i << endl;
 								    covered = false;
 								    break;
 							    }
 						    }
-						    if(covered)
+						  /*  if(covered)
 						    {
-							    mbest=M;
+					//		   cout << "covered" << endl;
+                        mbest=M;
 							    for(int j =0; j < mbest.sum(); ++j)
 								    {
 									    best[j] = temp[j];
 								    }
 								archive << mbest << mbest.A << endl;
 						    }
-					  }
+					 */ }
 			    }// done with xcos
 		    }   mcos.close();			
 	    }// done with mcos
-    }  gens.close();
+    }  }
+    gens.close();
     end = clock();
-    cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
+ /*   cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
 //need to write out mbest and best to a file.	
 out.open("./results.txt");
 if(out)
@@ -115,8 +121,7 @@ if(out)
          out << best[i].s;
 		}
 	   out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
-   }
-    }// done with genscos
+   }*/
 out.close();
 archive.close();
 return 0;
