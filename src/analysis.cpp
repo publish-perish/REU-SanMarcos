@@ -25,7 +25,6 @@ int main(int argc, char *argv[])
        boost::dynamic_bitset<> cover(d_cubed); // diam cubed: larger than needed, but hard to make sharp
        bool covered =false;
        int counter = 0; //index for the bit array
-       //ifstream xcos; // x3, x2, x1
        ofstream out; //output
        T A = T(atoi(argv[2]), atoi(argv[3]), atoi(argv[4])); //generators
        T Q = T(atoi(argv[5]), atoi(argv[6]), atoi(argv[7])); //m coefs

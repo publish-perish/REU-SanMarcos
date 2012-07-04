@@ -85,7 +85,7 @@ Polynomial Polynomial::operator-(Polynomial m)
           //std::cout<<"result from C borrow # "<<n<<": "<<temp;++n;
           //*this = temp - m;
     }
-    if( Y > m.Y ){ goto loop; }
+    if( Y > m.Y || this->sum() > m.sum()){ goto loop; }
     return *this;
 }
 
