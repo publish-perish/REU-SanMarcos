@@ -39,6 +39,7 @@ public:
 void makeGenTable(int diam);
 //T getNextGen();
 int getGsize();
+set<TP> holdingTank;
 private:
 int gSize;
 };
