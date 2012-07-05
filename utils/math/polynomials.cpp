@@ -55,7 +55,6 @@ Polynomial Polynomial::operator=(const Polynomial &p)
     s = p.s;
 }
 
-int n=1;
 
 Polynomial Polynomial::operator-(Polynomial m)
 {
@@ -98,4 +97,5 @@ std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
 {
     ofstr << get<0>(p.Y) << "c + " << get<1>(p.Y) << "b + " << get<2>(p.Y) <<"a \n";
 }
+
 

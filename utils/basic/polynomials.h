@@ -12,6 +12,7 @@
 typedef boost::tuples::tuple<int, int, int> T;
 typedef boost::tuples::tuple<int, int, int, int> TP;
 
+
 typedef std::vector<T> Vec;
 
 using namespace boost::tuples;
@@ -21,6 +22,12 @@ class Subtractions;
 class Polynomial{
 
    public:
+      Polynomial(T &a, T &m, T &q): A(a), Q(q), M(m){}
+
+      T A;
+      T M;
+      T Q;
+
 
       Polynomial();
       Polynomial(TP a, T y);
@@ -30,6 +37,7 @@ class Polynomial{
       TP A;
       T Y;
       Subtractions s;
+
 
       int value()const;
       int sum()const;
