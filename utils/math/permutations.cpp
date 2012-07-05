@@ -151,7 +151,7 @@ for(int i=2; i < (diam*diam*diam/6); i++)
 {
 	for(int j=2; j < (diam*diam*diam/6); j++)
 	{
-      for(int k=0; k < j; k++)
+      for(int k=0; k < j && k < i; k++)
       {
 	   TP A(i*j, k, j, 1);
 		if(myfile.is_open() && i*j < (diam*diam*diam/6) ) 
