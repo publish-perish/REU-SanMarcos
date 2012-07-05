@@ -77,7 +77,7 @@ int CoefTable::getMtSize()
 return mtSize;
 }
 
-void CoefTable::makeMcoTable(int diam, int b, int c1, int c2)
+void CoefTable::makeMcoTable(int diam, int b, int c1)
 {
 mtSize =0;
 std::ofstream mcolist ("./permutationtables/mcotable.txt");
@@ -151,10 +151,10 @@ for(int i=2; i < (diam*diam*diam/6); i++)
 {
 	for(int j=2; j < (diam*diam*diam/6); j++)
 	{
-      for(int k=0; k< (diam*diam*diam/6); k++)
+      for(int k=0; k < j; k++)
       {
 	   TP A(i*j, k, j, 1);
-		if(myfile.is_open() && i*j < (diam*diam*diam/6) && k < j)
+		if(myfile.is_open() && i*j < (diam*diam*diam/6) ) 
       {
      	//std::cout << A;
      	myfile << boost::tuples::set_delimiter(',') << A << " ";

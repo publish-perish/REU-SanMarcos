@@ -35,7 +35,7 @@ int Polynomial::sum()const
 
 bool Polynomial::wellFormed()const
 {
-   return ((get<2>(Y) < get<2>(A)) && ( get<1>(Y) < (float)( get<0>(A) / get<2>(A)) ) );
+   return ((get<2>(Y) < get<2>(A)) && ( get<1>(Y) <= (float)( get<0>(A) / get<2>(A)) ) );
 }
 
 bool Polynomial::operator==(const Polynomial &p)
@@ -85,7 +85,7 @@ Polynomial Polynomial::operator-(Polynomial m)
           //std::cout<<"result from B borrow # "<<n<<": "<<temp;++n;
           //*this = temp - m;
     }
-    if( Y > m.Y || this->sum() > m.sum() ){ goto loop; }
+    if( Y > m.Y ){ goto loop; }
     return *this;
 }
 
