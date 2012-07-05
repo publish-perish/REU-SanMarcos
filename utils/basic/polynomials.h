@@ -22,13 +22,6 @@ class Subtractions;
 class Polynomial{
 
    public:
-      Polynomial(T &a, T &m, T &q): A(a), Q(q), M(m){}
-
-      T A;
-      T M;
-      T Q;
-
-
       Polynomial();
       Polynomial(TP a, T y);
       Polynomial(TP a, int, int, int, int);
