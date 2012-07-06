@@ -13,15 +13,15 @@ using namespace std;
 
 
 int makeTables(int diam, XCoTable *X, GenTable *A)
-{cout<<"making tables "<<endl;
+{
     clock_t start, end;
     start = clock();
     X->makeXCoTable(diam);
-    cout <<"\nSize of X-Coefficient Table = " << X->size << endl << endl;
+    cout <<"Size of X-Coefficient Table = " << X->size;
     A->makeGenTable(diam);
-    cout <<"\nSize of Generator Table = " << A->size << endl;
+    cout <<"\nSize of Generator Table = " << A->size;
     end = clock();
-    cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
+    cout<<"\nTables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
     return 0;
 }
 
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
    out.open("./results.txt");
    if(out)
       {
-         out << "d: " << argv[1] << endl;
+         out << "d: " << diam << endl;
          out << "modulus: " << mbest << endl;
          out << "generators: " << best[0].A << endl;
          for(int i=0; i < mbest.sum(); ++i)

@@ -24,7 +24,7 @@ void XCoTable::makeXCoTable(int diam)
             std::set<T>::iterator itr = holdingTank.begin();
             while(itr != holdingTank.end())
             {
-                 out << boost::tuples::set_delimiter(',') << *itr <<" ";
+                 out << boost::tuples::set_open(' ') << boost::tuples::set_close(' ') << *itr;
                  ++size;
                  itr++;     
             }	
