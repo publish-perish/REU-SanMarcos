@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
        ifstream mcos; // gamma, beta, alpha
        ifstream xcos; // x3, x2, x1
        ofstream out; //output
+       ofstream archive;
        T A; //generators
        T Q; //m coefs
        T x; //x coefs
@@ -44,40 +45,40 @@ int main(int argc, char *argv[])
  	 best.resize(d_cubed);
 	 temp.resize(d_cubed);
     gens.open("./permutationtables/gentable.txt");
+    archive.open("./ms.txt");
     if(gens)
     {
-	    while(!gens.eof())
-	    {
-		    gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
-		    cout << A << endl;
+	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
+       {
+		    //cout << A << endl;
 		    C.makeMcoTable(atoi(argv[1]), get<1>(A), (float)(get<0>(A) / get<1>(A)));
 		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
 		    {
-			    while(!mcos.eof())
-			    {
-				    mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q;
+			    while(mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
+             {
 				    M = Polynomial(A, Q);
-				    cout << M <<endl;
+				    //cout << M <<endl;
                		cover.reset();
 				    if( (M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed (M.value() > lowerbound)
 				    {
 					    xcos.open("./permutationtables/cotable.txt");
 					    if(xcos)
 					    {
-							    while(!xcos.eof())
-							    {
-
-							    xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x;
-
+							    while(xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x)
+                         {
 								    X = Polynomial(A, x);
-                           		 if(true)
-                          	 		 {
+
+
+                          	 		 
                           		     Adj = X-M;
-                          		     
-                          		     temp.at(Adj.sum()%M.sum()) = Adj;
-                          		     cover[Adj.sum()%M.sum()] = 1;	
+                          		     if(Adj.wellFormed())
+                          		     {
+                          		     temp.at(Adj.sum()) = Adj;
+                          		     cover[Adj.sum()] = 1;	
+                          		     //cout << Adj << endl;
                           			 }
+
 							    }// end xcos loop
 						    xcos.close();
 						    covered = true;
@@ -85,7 +86,7 @@ int main(int argc, char *argv[])
 						    {
 							    if(cover[i]==0) //we are not covered
 							    {
-							    	cout << "uncovered: " << i << endl;
+							    	//cout << "uncovered: " << i << endl;
 								    covered = false;
 								    break;
 							    }
@@ -97,6 +98,7 @@ int main(int argc, char *argv[])
 								    {
 									    best[j] = temp[j];
 								    }
+								archive << mbest << mbest.A << endl;
 						    }
 					  }
 			    }// done with xcos
@@ -120,5 +122,7 @@ if(out)
 	   out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
    }
     }// done with genscos
+out.close();
+archive.close();
 return 0;
 }

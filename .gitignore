@@ -1,6 +1,10 @@
 *.aux
 *.toc
 *.log
+*.out
+*.nav
+*.snm
+*.pdf
 *.*~
 *.swp
 executables/*

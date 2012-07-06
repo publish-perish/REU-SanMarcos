@@ -1,8 +1,6 @@
 #include "../basic/polynomials.h"
 
 
-<<<<<<< HEAD
-
 Polynomial::Polynomial()
 {
 }
@@ -83,7 +81,9 @@ Polynomial Polynomial::operator-(Polynomial m)
           //std::cout<<"result from C borrow # "<<n<<": "<<temp;++n;
           //*this = temp - m;
     }
-    if( Y > m.Y || this->value() > m.value() ){ goto loop; }
+
+    if( Y > m.Y) { goto loop; }
+
     return *this;
 }
 
@@ -98,6 +98,5 @@ std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
 }
 
 
-=======
->>>>>>> 0618ae94dd968919865d43b487264a0d230ff5c6
+
 
