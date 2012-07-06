@@ -19,8 +19,9 @@ class MCoTable{
    public:
 
       void makeMCoTable(const int, int, double);
+      //int getMtsize();
 
-      Vec MCoeffs;
+      //Vec MCoeffs;
       int size;
 };
 
@@ -29,8 +30,9 @@ class XCoTable{
    public:
 
       void makeXCoTable(int);
+      //int getXsize();
 
-      Vec XCoeffs;
+      //Vec XCoeffs;
       set<T> holdingTank;
       int size;
 };
@@ -40,8 +42,9 @@ class GenTable{
    public:
 
       void makeGenTable(int);
+      //int getGsize();
 
-      Vec Generators;
+     // Vec Generators;
       int size;
 };
 #endif

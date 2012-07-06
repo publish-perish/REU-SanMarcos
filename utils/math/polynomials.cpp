@@ -31,7 +31,7 @@ int Polynomial::sum()const
 
 bool Polynomial::wellFormed()const
 {
-   return ((get<2>(Y) < get<2>(A)) && ( get<1>(Y) <= (float)( get<0>(A) / get<2>(A)) ) );
+   return ((get<2>(Y) < get<1>(A)) && ( get<1>(Y) <= (float)( get<0>(A) / get<1>(A)) ) );
 }
 
 bool Polynomial::operator==(const Polynomial &p)
