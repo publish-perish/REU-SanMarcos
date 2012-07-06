@@ -102,7 +102,7 @@ void CoefTable::makeMcoTable(int diam, int d, int c, int b)
 {
 mtSize =0;
 std::ofstream mcolist ("./permutationtables/mcotable.txt");
-for(int i=1; i < (diam*diam*diam*diam / (d*c*b)); ++i)
+for(int i=1; i < (diam*diam*diam*diam / (24*d*c*b)); ++i)
 {
 	for(int j=1; j < (d/c); ++j)
 	{
@@ -172,9 +172,9 @@ gSize =0;
 std::ofstream myfile ("./permutationtables/gentable.txt");
 for(int i=2; i < (diam*diam*diam*diam/24); i++)
 {
-	for(int j=2; j < (diam*diam*diam*diam/24); j++)
+	for(int j=2; j < (diam*diam*diam*diam/(i*24)); j++)
 	{
-      for(int k=2; k < (diam*diam*diam*diam/24); k++)
+      for(int k=2; k < (diam*diam*diam*diam/(i*j*24)); k++)
       {
 	   TP A(i*j*k, j*k, j, 1);
 		if(myfile.is_open() && i*j*k < (diam*diam*diam*diam/24) ) 

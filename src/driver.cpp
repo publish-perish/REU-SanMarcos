@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
                           		  //    cout << "worked"<< endl;
                           		     if(Adj.wellFormed())
                           		     {
-                          		     temp.at(Adj.sum()) = Adj;
+                          		     //temp.at(Adj.sum()) = Adj;
                           		     cover[Adj.sum()] = 1;	
                           		     }
                           		   //  cout << Adj << "sum "<<Adj.sum()<<endl;
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
                         mbest=M;
 							    for(int j =0; j < mbest.sum(); ++j)
 								    {
-									    best[j] = temp[j];
+									//    best[j] = temp[j];
 								    }
 								archive << mbest << mbest.A << endl;
 						    }
@@ -120,8 +120,8 @@ if(out)
 		out << "generators: " << best[0].A << endl;
 		for(int i=0; i < mbest.sum(); ++i)
 		{
-			out << best[i];
-         out << best[i].s;
+		//	out << best[i];
+        // out << best[i].s;
 		}
 	   out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
    }
