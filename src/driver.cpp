@@ -124,7 +124,6 @@ int main(int argc, char *argv[])
           }
        }
    end = clock();
-   cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
 //need to write out mbest and best to a file.	
    out.open("./results.txt");
    if(out)

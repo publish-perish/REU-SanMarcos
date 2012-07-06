@@ -12,6 +12,7 @@
 typedef boost::tuples::tuple<int, int, int> T;
 typedef std::vector<T> Vec;
 
+
 using namespace boost::tuples;
 
 class Subtractions;
@@ -19,6 +20,7 @@ class Subtractions;
 class Polynomial{
 
    public:
+
 
       Polynomial();
       Polynomial(T a, T y);
@@ -43,5 +45,6 @@ class Polynomial{
       friend std::ostream& operator<<(std::ostream&, const Polynomial&);
       friend std::ofstream& operator<<(std::ofstream&, const Polynomial&);
 };
+
 
 #endif
