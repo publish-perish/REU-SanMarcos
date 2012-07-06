@@ -18,10 +18,10 @@ class MCoTable{
    
    public:
 
-      void makeMCoTable(const int, int, float);
+      void makeMCoTable(const int, int, double);
 
       Vec MCoeffs;
-      size_t MTableSize()const {return MCoeffs.size();};
+      int size;
 };
 
 class XCoTable{
@@ -32,7 +32,7 @@ class XCoTable{
 
       Vec XCoeffs;
       set<T> holdingTank;
-      size_t XTableSize()const {return XCoeffs.size();};
+      int size;
 };
 
 class GenTable{
@@ -42,6 +42,6 @@ class GenTable{
       void makeGenTable(int);
 
       Vec Generators;
-      size_t GenTableSize()const {return Generators.size();};
+      int size;
 };
 #endif

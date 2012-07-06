@@ -13,27 +13,15 @@ using namespace std;
 
 
 int makeTables(int diam, XCoTable *X, GenTable *A)
-{
+{cout<<"making tables "<<endl;
     clock_t start, end;
     start = clock();
     X->makeXCoTable(diam);
-    /*cout << "X Coeffs \n";
-    for(std::vector<T>::iterator x = X->XCoeffs.begin(); x != X->XCoeffs.end(); ++x)
-    {
-      cout << *x << " ";
-    }
-    cout <<"\nSize of X-Coefficient Table = " << X->XTableSize() << endl << endl;
-    */
+    cout <<"\nSize of X-Coefficient Table = " << X->size << endl << endl;
     A->makeGenTable(diam);
-    /*cout << "Generators \n";
-	 for(std::vector<T>::iterator a = A->Generators.begin(); a != A->Generators.end(); ++a)
-    {
-      cout << *a <<" ";
-    }
-    cout <<"\nSize of Generator Table = " << A->GenTableSize() << endl;
-    */
+    cout <<"\nSize of Generator Table = " << A->size << endl;
     end = clock();
-    //cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
+    cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
     return 0;
 }
 
@@ -56,11 +44,8 @@ int main(int argc, char *argv[])
        boost::dynamic_bitset<> cover(d_cubed); // diam cubed: larger than needed, but hard to make sharp
        bool covered =false;
        int counter = 0; //index for the bit array
-       ifstream gens; // c, b, a
-       ifstream mcos; // gamma, beta, alpha
-       ifstream xcos; // x3, x2, x1
-       ofstream out; //output
-       ofstream archive;
+       ifstream gens, xcoeffs, mcoeffs;
+       ofstream out, archive;
        T A; //generators
        T Q; //m coefs
        T x; //x coefs
@@ -72,43 +57,48 @@ int main(int argc, char *argv[])
        
        clock_t start, end;
 
-    
        start = clock();
        makeTables(diam, &XTable, &ATable);
+       gens.open("./permutationtables/GenTable.txt");
+       if(gens){
        archive.open("./ms.txt");
-	    for(std::vector<T>::iterator a = ATable.Generators.begin(); a != ATable.Generators.end(); ++a)
+	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
        {
-		    //cout << *A << endl;
-          double c1 = get<0>(*a)/get<1>(*a);
-		    QTable.makeMCoTable(diam, get<1>(*a), c1);
-			 for(std::vector<T>::iterator q = QTable.MCoeffs.begin(); q != QTable.MCoeffs.end(); ++q) 
+		    cout << "gens" << endl;
+          double c1 = get<0>(A)/get<1>(A);
+		    QTable.makeMCoTable(diam, get<1>(A), c1);
+          mcoeffs.open("./permutationtables/MTable.txt");
+          if(mcoeffs){
+          while(mcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
           {
-             M = Polynomial(*a, *q);
-             //cout <<"M "<< M;
+             M = Polynomial(A, Q);
+             cout <<"M "<< M;
              cover.reset();
-             if( (M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
+             if((M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
              {
-                for(std::vector<T>::iterator x = XTable.XCoeffs.begin(); x != XTable.XCoeffs.end(); ++x)
+                cout<<"Well-formed \n";
+                xcoeffs.open("./permutationtables/XTable.txt");
+                if(xcoeffs){
+                while(xcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
                 {
-                   X = Polynomial(*a, *x);
-                   if(X.wellFormed())
-                   {
-                    X_prime = X-M;
-                    
-                    temp.at(X_prime.sum()) = X_prime;
-                    cover[X_prime.sum()] = 1;	
-                    //cout << X_prime << endl;
-                   }
-                }// end xcos loop
+                   cout<<"x table "<<endl;
+                   X = Polynomial(A, x);
+                   X_prime = X-M;
+                   cout<<X;
+                   if(X_prime.wellFormed()){ 
+                   temp.at(X_prime.sum()) = X_prime;
+                   cover[X_prime.sum()] = 1;}	
+                   cout << X_prime << endl;
+                }}xcoeffs.close();
                 // check covering
                 covered = true;
                 for(int i=0; i < M.sum(); ++i) //only check the first m of them
                 {
                    if(cover[i]==0) //we are not covered
                    {
-                     //cout << "uncovered: " << i << endl;
-                   covered = false;
-                   break;
+                     cout << "uncovered: " << i << endl;
+                     covered = false;
+                     break;
                    }
                 }
                 if(covered)
@@ -120,9 +110,9 @@ int main(int argc, char *argv[])
                       }
                    archive << mbest << mbest.A << endl;
                 }
-             }
-          }
-       }
+            }
+          }}mcoeffs.close();
+       }}gens.close();
    end = clock();
 //need to write out mbest and best to a file.	
    out.open("./results.txt");
