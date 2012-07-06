@@ -1,8 +1,12 @@
+
 #ifndef SUBTRACTION_H
 #define SUBTRACTION_H
 
 #include "boost/tuple/tuple.hpp"
 #include "boost/tuple/tuple_comparison.hpp"
+
+//#include "polynomials.h"
+
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -38,5 +42,6 @@ class Subtractions{
 
 
 #endif
+
 
 

@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     {
 	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
        {
-		    cout << A << endl;
+		    //cout << A << endl;
 		    C.makeMcoTable(atoi(argv[1]), get<1>(A), (float)(get<0>(A) / get<1>(A)));
 		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
@@ -63,16 +63,17 @@ int main(int argc, char *argv[])
 				    if( (M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed (M.value() > lowerbound)
 				    {
 					    xcos.open("./permutationtables/cotable.txt");
-
 					    if(xcos)
 					    {
 							    while(xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x)
                          {
 								    X = Polynomial(A, x);
-                           		 if(X.wellFormed())
-                          	 		 {
+
+
+                          	 		 
                           		     Adj = X-M;
-                          		     
+                          		     if(Adj.wellFormed())
+                          		     {
                           		     temp.at(Adj.sum()) = Adj;
                           		     cover[Adj.sum()] = 1;	
                           		     //cout << Adj << endl;
