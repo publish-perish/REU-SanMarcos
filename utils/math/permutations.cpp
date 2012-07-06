@@ -24,7 +24,7 @@ void XCoTable::makeXCoTable(int diam)
             std::set<T>::iterator itr = holdingTank.begin();
             while(itr != holdingTank.end())
             {
-                 out<< boost::tuples::set_delimiter(',') << *itr <<" ";
+                 out << boost::tuples::set_delimiter(',') << *itr <<" ";
                  ++size;
                  itr++;     
             }	
@@ -32,7 +32,7 @@ void XCoTable::makeXCoTable(int diam)
          }			
          }	
       }
-   }out.close();}
+   }out << endl; out.close();}
    return;
 }
 
@@ -53,7 +53,7 @@ void MCoTable::makeMCoTable(const int diam, int b, double c1)
             ++size;
          }
       }
-   }out.close();}
+   }out << endl; out.close();}
    return;
 }
 
@@ -68,10 +68,13 @@ void GenTable::makeGenTable(int diam)  //order: c, b, 1
    {
       for(int j=2; j < (diam*diam*diam/6); j++)
       {
-         out<< boost::tuples::set_delimiter(',') << T(i*j,j,1) <<" ";
-         ++size;
+         if(i*j < diam*diam*diam/6)
+         {
+            out<< boost::tuples::set_delimiter(',') << T(i*j,j,1) <<" ";
+            ++size;
+         }
       }
-   }out.close();}
+   } out<< endl; out.close();}
    return;
 }
 

@@ -71,15 +71,16 @@ int main(int argc, char *argv[])
           if(mcoeffs){
           while(mcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
           {
+             cout<< " m tables \n";
              M = Polynomial(A, Q);
-             cout <<"M "<< M;
+             //cout <<"M.sum() "<< M.sum();
              cover.reset();
              if((M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
              {
                 cout<<"Well-formed \n";
                 xcoeffs.open("./permutationtables/XTable.txt");
                 if(xcoeffs){
-                while(xcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
+                while(xcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x)
                 {
                    cout<<"x table "<<endl;
                    X = Polynomial(A, x);
@@ -89,7 +90,7 @@ int main(int argc, char *argv[])
                    temp.at(X_prime.sum()) = X_prime;
                    cover[X_prime.sum()] = 1;}	
                    cout << X_prime << endl;
-                }}xcoeffs.close();
+                }xcoeffs.close();
                 // check covering
                 covered = true;
                 for(int i=0; i < M.sum(); ++i) //only check the first m of them
@@ -110,7 +111,7 @@ int main(int argc, char *argv[])
                       }
                    archive << mbest << mbest.A << endl;
                 }
-            }
+            }}
           }}mcoeffs.close();
        }}gens.close();
    end = clock();
