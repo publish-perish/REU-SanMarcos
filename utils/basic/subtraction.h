@@ -18,11 +18,12 @@ class Subtractions{
 
     Subtractions();
     Subtractions(int);
-    Subtractions(int, int, int);
+    Subtractions(int, int, int, int);
     Subtractions(const Subtractions&);
 
     void clear();
    
+    int d_borrowed;
     int c_borrowed;
     int b_borrowed;
     int m_subtracted;

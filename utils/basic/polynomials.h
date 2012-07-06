@@ -23,12 +23,12 @@ class Polynomial{
 
    public:
       Polynomial();
-      Polynomial(TP a, T y);
+      Polynomial(TP a, TP y);
       Polynomial(TP a, int, int, int, int);
       Polynomial(const Polynomial&);
 
       TP A;
-      T Y;
+      TP Y;
       Subtractions s;
 
 

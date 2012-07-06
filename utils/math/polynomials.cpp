@@ -5,11 +5,11 @@
 Polynomial::Polynomial()
 {
    A = TP(0, 0, 0, 0);
-   Y = T(0, 0, 0);
+   Y = TP(0, 0, 0, 0);
    s = 0;
 }
 
-Polynomial::Polynomial(TP a, T y)
+Polynomial::Polynomial(TP a, TP y)
 {
    A = a;
    Y = y;
@@ -30,17 +30,17 @@ int Polynomial::value()const
 
 int Polynomial::sum()const
 {
-   return(((get<0>(A)+get<1>(A))*get<0>(Y)) + (get<2>(A)*get<1>(Y)) +(get<3>(A)*get<2>(Y)));
+   return((get<0>(A)*get<0>(Y)) + (get<1>(A)*get<1>(Y))+ (get<2>(A)*get<2>(Y)) + (get<3>(A)*get<3>(Y)));
 }
 
 bool Polynomial::wellFormed()const
 {
-   return ((get<2>(Y) < get<2>(A)) && ( get<1>(Y) <= (float)( get<0>(A) / get<2>(A)) ) );
+   return (get<3>(Y) < get<2>(A) && (get<2>(Y) < (float)(get<1>(A) / get<2>(A)) ) && ( get<1>(Y) < (float)( get<0>(A) / get<1>(A)) ) );
 }
 
 bool Polynomial::operator==(const Polynomial &p)
 {
-   return((get<0>(p.Y)==get<0>(Y)) && (get<1>(p.Y)==get<1>(Y)) && (get<2>(p.Y)==get<2>(Y)));
+   return((get<0>(p.Y)==get<0>(Y)) && (get<1>(p.Y)==get<1>(Y)) && (get<2>(p.Y)==get<2>(Y)) && (get<3>(p.Y)==get<3>(Y)));
 }
 
 bool Polynomial::operator>=(const Polynomial &p)
@@ -56,46 +56,43 @@ Polynomial Polynomial::operator=(const Polynomial &p)
 }
 
 
-Polynomial Polynomial::operator-(Polynomial m)
+Polynomial Polynomial::operator-(Polynomial m) // needs updating for k=4
 {
     loop:
     while( Y > m.Y )
     {
         ++this->s.m_subtracted;
-        //std::cout<<"m subtracted: "<<this->s.m_subtracted<<std::endl;;
-        // subtract m from x
-        this->Y = T(get<0>(Y) - get<0>(m.Y), get<1>(Y) - get<1>(m.Y), get<2>(Y) - get<2>(m.Y));
-        //std::cout<<"result from m subtraction # "<<n<<": "<<temp;++n;
-        //*this = temp - m; // recursive call
+        this->Y = TP(get<0>(Y) - get<0>(m.Y), get<1>(Y) - get<1>(m.Y), get<2>(Y) - get<2>(m.Y), get<3>(Y) - get<3>(m.Y));
+
     }
     while( get<1>(Y) < 0 )
     {
-          ++this->s.c_borrowed;
-          //std::cout<<"c borrowed: "<<this->s.c_borrowed<<std::endl;
-          this->Y = T(get<0>(Y), get<1>(Y)+(get<0>(A)/get<2>(A)), get<2>(Y)+get<1>(A));
-          //std::cout<<"result from C borrow # "<<n<<": "<<temp;++n;
-          //*this = temp - m;
+          ++this->s.d_borrowed;
+          this->Y = TP(get<0>(Y), get<1>(Y)+(float)(get<0>(A)/get<1>(A)), get<2>(Y), get<3>(Y) );
     }
     while( get<2>(Y) < 0 )
     {
-          ++this->s.b_borrowed;
-          //std::cout<<"b borrowed: "<<this->s.b_borrowed<<std::endl;;
-          this->Y = T(get<0>(Y), get<1>(Y), (get<2>(Y)+get<3>(A)));
-          //std::cout<<"result from B borrow # "<<n<<": "<<temp;++n;
-          //*this = temp - m;
+          ++this->s.c_borrowed;
+          this->Y = TP(get<0>(Y), get<1>(Y), get<2>(Y) + (float)((get<1>(A)/get<2>(A))), get<3>(Y) );
     }
-    if( Y > m.Y ){ goto loop; }
+    while( get<3>(Y) < 0 )
+    {
+          ++this->s.b_borrowed;
+          this->Y = TP(get<0>(Y), get<1>(Y), get<2>(Y), get<3>(Y) + (float)(get<2>(A)/get<3>(A)));
+
+    }
+    if( Y > m.Y ){ goto loop; } 
     return *this;
 }
 
 std::ostream& operator<<(std::ostream& ostr, const Polynomial &p)
 {
-    ostr << get<0>(p.Y) << "c + " << get<1>(p.Y) << "b + " << get<2>(p.Y) <<"a \n";
+    ostr << get<0>(p.Y)<< "d + " << get<1>(p.Y) << "c + " << get<2>(p.Y) << "b + " << get<3>(p.Y) <<"a \n";
 }
 
 std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
 {
-    ofstr << get<0>(p.Y) << "c + " << get<1>(p.Y) << "b + " << get<2>(p.Y) <<"a \n";
+    ofstr << get<0>(p.Y)<< "d + " << get<1>(p.Y) << "c + " << get<2>(p.Y) << "b + " << get<3>(p.Y) <<"a \n";
 }
 
 

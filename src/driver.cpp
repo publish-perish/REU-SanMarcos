@@ -31,8 +31,8 @@ int main(int argc, char *argv[])
        ofstream out; //output
        ofstream archive;
        TP A; //generators
-       T Q; //m coefs
-       T x; //x coefs
+       TP Q; //m coefs
+       TP x; //x coefs
        Polynomial X;
        Polynomial M; //the bound itself
        Polynomial Adj;
@@ -47,15 +47,15 @@ int main(int argc, char *argv[])
     {
 	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
        {
-          //cout<< "A "<<A;
-		    C.makeMcoTable(atoi(argv[1]), get<2>(A), (float)(get<0>(A) / get<2>(A)));
+          //cout<< "A "<<A << endl;
+		    C.makeMcoTable(atoi(argv[1]), get<0>(A), get<1>(A), get<2>(A));
 		    mcos.open("./permutationtables/mcotable.txt");
 		    if(mcos)
 		    {
 			    while(mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
              {
 				    M = Polynomial(A, Q);
-				 //   cout <<"M "<< M <<endl;
+				  //  cout <<"M "<< M <<endl;
                		cover.reset();
 				    if( (M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed (M.value() > lowerbound)
 				    {
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
                                     //cout <<"A :"<< A << "x: " << x  << "M: " <<  M.Y << endl;
                                    // cout << "x: " << x << "A: " << A << "M: " << M.Y << endl;
                           		     Adj =  X-M;
-                          		    //  cout << "worked"<< endl;
+                          		  //    cout << "worked"<< endl;
                           		     if(Adj.wellFormed())
                           		     {
                           		     temp.at(Adj.sum()) = Adj;

@@ -21,14 +21,14 @@ class CoefTable
 {
 public:
 void makeCoTable(int diam);
-void makeMcoTable(int diam, int b, int c1);
+void makeMcoTable(int diam, int d, int c, int b );
 //T getNextCoefs();
 //T getNextMco();
 int getCotSize();
 int getMtSize();
 private:
 //void filter(int x, int y, int z);
-set<T> holdingTank;
+set<TP> holdingTank;
 int cotSize;
 int mtSize;
 };
