@@ -56,7 +56,6 @@ int main(int argc, char *argv[])
        Polynomial mbest = Polynomial(T(0,0,0), T(0,0,0)); //holds the highest valid m
        
        clock_t start, end;
-
        start = clock();
        makeTables(diam, &XTable, &ATable);
        gens.open("./permutationtables/GenTable.txt");
@@ -64,32 +63,25 @@ int main(int argc, char *argv[])
        archive.open("./ms.txt");
 	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
        {
-		    cout << "gens" << endl;
           double c1 = get<0>(A)/get<1>(A);
 		    QTable.makeMCoTable(diam, get<1>(A), c1);
           mcoeffs.open("./permutationtables/MTable.txt");
           if(mcoeffs){
           while(mcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
           {
-             cout<< " m tables \n";
              M = Polynomial(A, Q);
-             //cout <<"M.sum() "<< M.sum();
              cover.reset();
-             if((M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
+             if((M.value() > mbest.value())/* && M.wellFormed()*/ && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
              {
-                cout<<"Well-formed \n";
                 xcoeffs.open("./permutationtables/XTable.txt");
                 if(xcoeffs){
                 while(xcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x)
                 {
-                   cout<<"x table "<<endl;
                    X = Polynomial(A, x);
                    X_prime = X-M;
-                   cout<<X;
-                   if(X_prime.wellFormed()){ 
+                   if(true)//X_prime.wellFormed()){ 
                    temp.at(X_prime.sum()) = X_prime;
-                   cover[X_prime.sum()] = 1;}	
-                   cout << X_prime << endl;
+                   cover[X_prime.sum()] = 1;	
                 }xcoeffs.close();
                 // check covering
                 covered = true;
@@ -97,7 +89,7 @@ int main(int argc, char *argv[])
                 {
                    if(cover[i]==0) //we are not covered
                    {
-                     cout << "uncovered: " << i << endl;
+                     //cout << "uncovered: " << i << endl;
                      covered = false;
                      break;
                    }
@@ -131,5 +123,7 @@ int main(int argc, char *argv[])
       }
    out.close();
    archive.close();
+   cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
+ 
    return 0;
 }
