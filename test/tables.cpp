@@ -16,16 +16,16 @@ int main(int argc, char *argv[])
     }
     else{
        start = clock();
-       CoefTable C;
-       GenTable G;
+       XCoTable XTable;
+       GenTable GenTable;
        //std::cout << "Coefficients:";
-       C.makeCoTable(atoi(argv[1]));
+       XTable.makeXCoTable(atoi(argv[1]));
       // C.makeMcoTable(atoi(argv[1]));
        //std::cout << "\n Generators: \n";
-       G.makeGenTable(atoi(argv[1]));
+       GenTable.makeGenTable(atoi(argv[1]));
        end = clock();
-       //std::cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
-       //std::cout <<"\n cotSize:" << C.getCotSize() << "\n mtSize:" << C.getMtSize() << "\n gSize:" << G.getGsize() << endl;
+       std::cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
+       std::cout <<"\nSize of X-Coeff Table:" << XTable.size << "\nSize of Generator Table:" << GenTable.size  << endl;
        
        return 0;
     }

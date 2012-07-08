@@ -13,15 +13,15 @@ using namespace std;
 
 
 int makeTables(int diam, XCoTable *X, GenTable *A)
-{cout<<"making tables "<<endl;
+{
     clock_t start, end;
     start = clock();
     X->makeXCoTable(diam);
-    cout <<"\nSize of X-Coefficient Table = " << X->size << endl << endl;
+    cout <<"\nSize of X-Coefficient Table = " << X->size;
     A->makeGenTable(diam);
-    cout <<"\nSize of Generator Table = " << A->size << endl;
+    cout <<"\nSize of Generator Table = " << A->size;
     end = clock();
-    cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
+    cout<<"\nTables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
     return 0;
 }
 
@@ -120,11 +120,11 @@ int main(int argc, char *argv[])
             out << best[i];
             out << best[i].s;
          }
-         out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
+         out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n \n";
       }
    out.close();
    archive.close();
-   cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
+   cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n \n";
  
    return 0;
 }
