@@ -1,126 +1,147 @@
 #include "../utils/basic/permutations.h"
-#include "../utils/basic/polynomials.h"
-#include "../utils/basic/subtraction.h"
+#include "../utils/basic/tuple.h"
 #include "string.h"
 #include <bitset>
 #include "boost/dynamic_bitset.hpp"
 #include <time.h>
 #include <iterator>
 
-typedef std::vector<Polynomial> PolyVec;
+
 
 using namespace std;
 
 
-int makeTables(int diam, XCoTable *X, GenTable *A)
+int makeTables( SITable *SI, TTable *T)
 {cout<<"making tables "<<endl;
     clock_t start, end;
     start = clock();
-    X->makeXCoTable(diam);
-    cout <<"\nSize of X-Coefficient Table = " << X->size << endl << endl;
-    A->makeGenTable(diam);
-    cout <<"\nSize of Generator Table = " << A->size << endl;
+    
+    cout <<"\nSize of SI Table = " << SI->makeSITables() << endl << endl;
+    cout <<"\nSize of T Table = " << T->makeTTable() << endl;
     end = clock();
     cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
     return 0;
 }
 
 
-int main(int argc, char *argv[])
+int main()
 {
-    if(argc<2)
-    {
-       cout<<"Usage: ./executables/average_case diameter (lowerbound) \n";
-       return 0;
-    }
-	    XCoTable XTable;
-       MCoTable QTable;
-       GenTable ATable;
-       const int diam = atoi(argv[1]);
-       const int d_cubed = diam*diam*diam; 
-       const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
-       PolyVec best(d_cubed); //holds the xcos table's size many polynomial: gives the history
-       PolyVec temp(d_cubed);
-       boost::dynamic_bitset<> cover(d_cubed); // diam cubed: larger than needed, but hard to make sharp
-       bool covered =false;
-       int counter = 0; //index for the bit array
-       ifstream gens, xcoeffs, mcoeffs;
+ 
+	   SITable SItab;
+       TTable Ttab;
+
+       boost::dynamic_bitset<> cover(64); //a squared
+       int counter = 0; //counts the size of the cover
+       int best = 0;
+       bool covered;
+       ifstream Slist, Ilist, Tlist;
        ofstream out, archive;
-       T A; //generators
-       T Q; //m coefs
-       T x; //x coefs
-       Polynomial X;
-       Polynomial M; //the bound itself
-       Polynomial X_prime;
-       Polynomial null;
-       Polynomial mbest = Polynomial(T(0,0,0), T(0,0,0)); //holds the highest valid m
-       
+       T s; 
+       T i; 
+       T t; 
        clock_t start, end;
        start = clock();
-       makeTables(diam, &XTable, &ATable);
-       gens.open("./permutationtables/GenTable.txt");
-       if(gens){
+       makeTables( &SItab, &Ttab);
        archive.open("./ms.txt");
-	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
+       Slist.open("./permutationtables/STable.txt");
+       if(Slist){
+	    while(Slist >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> s)
        {
-          double c1 = get<0>(A)/get<1>(A);
-		    QTable.makeMCoTable(diam, get<1>(A), c1);
-          mcoeffs.open("./permutationtables/MTable.txt");
-          if(mcoeffs){
-          while(mcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
+          Ilist.open("./permutationtables/ITable.txt");
+          if(Ilist){
+          while(Ilist >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> i)
           {
-             M = Polynomial(A, Q);
-             cover.reset();
-             if(!M.wellFormed()){cout << "NOT WELL FORMED!" << endl;}
-             if((M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
-             {
-                xcoeffs.open("./permutationtables/XTable.txt");
-                if(xcoeffs){
-                while(xcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x)
+             Tlist.open("./permutationtables/TTable.txt");
+             if(Tlist){
+                while(Tlist >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> t)
                 {
-                   X = Polynomial(A, x);
-                   X_prime = X-M;
-                   if(true)//X_prime.wellFormed()){ 
-                   temp.at(X_prime.sum()) = X_prime;
-                   cover[X_prime.sum()] = 1;	
-                }xcoeffs.close();
-                // check covering
-                covered = true;
-                for(int i=0; i < M.sum(); ++i) //only check the first m of them
-                {
-                   if(cover[i]==0) //we are not covered
-                   {
-                     //cout << "uncovered: " << i << endl;
-                     covered = false;
-                     break;
-                   }
+                cover.reset();
+                
+                cover[boost::tuples::get<0>(s) + boost::tuples::get<0>(i)] = 1;
+                cover[boost::tuples::get<0>(s) + boost::tuples::get<1>(i)] = 1;
+                cover[boost::tuples::get<0>(s) + boost::tuples::get<2>(i)] = 1;
+                cover[boost::tuples::get<0>(s) + boost::tuples::get<3>(i)] = 1;
+                cover[boost::tuples::get<1>(s) + boost::tuples::get<0>(i)] = 1;
+                cover[boost::tuples::get<1>(s) + boost::tuples::get<1>(i)] = 1;
+                cover[boost::tuples::get<1>(s) + boost::tuples::get<2>(i)] = 1;
+                cover[boost::tuples::get<1>(s) + boost::tuples::get<3>(i)] = 1;
+                cover[boost::tuples::get<2>(s) + boost::tuples::get<0>(i)] = 1;
+                cover[boost::tuples::get<2>(s) + boost::tuples::get<1>(i)] = 1;
+                cover[boost::tuples::get<2>(s) + boost::tuples::get<2>(i)] = 1;
+                cover[boost::tuples::get<2>(s) + boost::tuples::get<3>(i)] = 1;
+                cover[boost::tuples::get<3>(s) + boost::tuples::get<0>(i)] = 1;
+                cover[boost::tuples::get<3>(s) + boost::tuples::get<1>(i)] = 1;
+                cover[boost::tuples::get<3>(s) + boost::tuples::get<2>(i)] = 1;
+                cover[boost::tuples::get<3>(s) + boost::tuples::get<3>(i)] = 1;
+                
+                cover[boost::tuples::get<0>(t) + boost::tuples::get<0>(i)] = 1;
+                cover[boost::tuples::get<0>(t) + boost::tuples::get<1>(i)] = 1;
+                cover[boost::tuples::get<0>(t) + boost::tuples::get<2>(i)] = 1;
+                cover[boost::tuples::get<0>(t) + boost::tuples::get<3>(i)] = 1;
+                cover[boost::tuples::get<1>(t) + boost::tuples::get<0>(i)] = 1;
+                cover[boost::tuples::get<1>(t) + boost::tuples::get<1>(i)] = 1;
+                cover[boost::tuples::get<1>(t) + boost::tuples::get<2>(i)] = 1;
+                cover[boost::tuples::get<1>(t) + boost::tuples::get<3>(i)] = 1;
+                cover[boost::tuples::get<2>(t) + boost::tuples::get<0>(i)] = 1;
+                cover[boost::tuples::get<2>(t) + boost::tuples::get<1>(i)] = 1;
+                cover[boost::tuples::get<2>(t) + boost::tuples::get<2>(i)] = 1;
+                cover[boost::tuples::get<2>(t) + boost::tuples::get<3>(i)] = 1;
+                cover[boost::tuples::get<3>(t) + boost::tuples::get<0>(i)] = 1;
+                cover[boost::tuples::get<3>(t) + boost::tuples::get<1>(i)] = 1;
+                cover[boost::tuples::get<3>(t) + boost::tuples::get<2>(i)] = 1;
+                cover[boost::tuples::get<3>(t) + boost::tuples::get<3>(i)] = 1;
+                
+                //cover[boost::tuples::get<0>(s) + boost::tuples::get<0>(t) ] = 1;
+                //cover[boost::tuples::get<0>(s) + boost::tuples::get<1>(t) ] = 1;
+                //cover[boost::tuples::get<0>(s) + boost::tuples::get<2>(t) ] = 1;
+                //cover[boost::tuples::get<0>(s) + boost::tuples::get<3>(t) ] = 1;
+                cover[boost::tuples::get<1>(s) + boost::tuples::get<0>(t) ] = 1;
+                cover[boost::tuples::get<1>(s) + boost::tuples::get<1>(t) ] = 1;
+                cover[boost::tuples::get<1>(s) + boost::tuples::get<2>(t) ] = 1;
+                cover[boost::tuples::get<1>(s) + boost::tuples::get<3>(t) ] = 1;
+                cover[boost::tuples::get<2>(s) + boost::tuples::get<0>(t) ] = 1;
+                cover[boost::tuples::get<2>(s) + boost::tuples::get<1>(t) ] = 1;
+                cover[boost::tuples::get<2>(s) + boost::tuples::get<2>(t) ] = 1;
+                cover[boost::tuples::get<2>(s) + boost::tuples::get<3>(i) ] = 1;
+                cover[boost::tuples::get<3>(s) + boost::tuples::get<0>(t) ] = 1;
+                cover[boost::tuples::get<3>(s) + boost::tuples::get<1>(t) ] = 1;
+                cover[boost::tuples::get<3>(s) + boost::tuples::get<2>(t) ] = 1;
+                cover[boost::tuples::get<3>(s) + boost::tuples::get<3>(i) ] = 1;
+                
+                
+				covered = true;
+				counter = 0;
+				for(int d =0; d < 64; ++d) //size of bitarray
+				{
+					if(cover[d] == 1)
+					{
+						counter++;
+						
+					}
+					else
+					{
+					covered = false;
+					break;
+					}
+				}
+				if( counter > best )
+				{
+				best = counter;
+				archive <<"value " << best << s <<  i  << t << endl;
+				}
                 }
-                if(covered)
-                {
-                   mbest=M;
-                   for(int j =0; j < mbest.sum(); ++j)
-                      {
-                         best[j] = temp[j];
-                      }
-                   archive << mbest << mbest.A << endl;
-                }
-            }}
-          }}mcoeffs.close();
-       }}gens.close();
+                }Tlist.close();
+          }
+          }Ilist.close();
+       }
+       }Slist.close();
    end = clock();
-//need to write out mbest and best to a file.	
+
    out.open("./results.txt");
    if(out)
       {
-         out << "d: " << argv[1] << endl;
-         out << "modulus: " << mbest << endl;
-         out << "generators: " << best[0].A << endl;
-         for(int i=0; i < mbest.sum(); ++i)
-         {
-            out << best[i];
-            out << best[i].s;
-         }
-         out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
+        //output your best value
+        out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
       }
    out.close();
    archive.close();

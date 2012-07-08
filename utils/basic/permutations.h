@@ -11,40 +11,24 @@
 
 using namespace std;
 
-typedef boost::tuples::tuple<int, int, int> T;
-typedef std::vector<T> Vec;
+typedef boost::tuples::tuple<int, int, int, int> T;
 
-class MCoTable{
+class SITable{
    
    public:
 
-      void makeMCoTable(const int, int, double);
-      //int getMtsize();
+      int makeSITables();
 
-      //Vec MCoeffs;
-      int size;
+      int Ssize;
+      int Isize;
 };
-
-class XCoTable{
-
+class TTable{
+   
    public:
 
-      void makeXCoTable(int);
-      //int getXsize();
+      int makeTTable();
 
-      //Vec XCoeffs;
-      set<T> holdingTank;
       int size;
 };
 
-class GenTable{
-
-   public:
-
-      void makeGenTable(int);
-      //int getGsize();
-
-     // Vec Generators;
-      int size;
-};
 #endif

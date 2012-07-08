@@ -1,80 +1,69 @@
 #include "../basic/permutations.h"
 
-void XCoTable::makeXCoTable(int diam)
+int SITable::makeSITables()
 {
-   ofstream out;
-   out.open("./permutationtables/XTable.txt");
-   size = 0;
-   if(out.is_open()){
-   for(int i=diam; i >= 0; --i)
+   ofstream sout;
+   ofstream iout;
+   iout.open("./permutationtables/ITable.txt");
+   sout.open("./permutationtables/STable.txt");
+   Isize = 0;
+   Ssize = 0;
+   if(iout.is_open())
    {
-      for(int j=i; j >= 0; --j)
+   for(int i=3; i < 45; ++i)
+   {
+      for(int j=2; j < i; ++j)
       {
-         for(int k=j;k >= 0; --k) //filter them in holding tank, then add to file
-         {
-         if(i+j+k <= diam - 3)
-         {
-            holdingTank.clear();
-            holdingTank.insert(T(i, j, k));
-            holdingTank.insert(T(i, k, j));
-            holdingTank.insert(T(j, i, k));
-            holdingTank.insert(T(j, k, i));
-            holdingTank.insert(T(k, i, j));
-            holdingTank.insert(T(k, j, i));
-            std::set<T>::iterator itr = holdingTank.begin();
-            while(itr != holdingTank.end())
-            {
-                 out << boost::tuples::set_delimiter(',') << *itr <<" ";
-                 ++size;
-                 itr++;     
-            }	
-            holdingTank.clear();
-         }			
-         }	
+ 			for(int k=1; k < j; ++k)
+      		{
+       		iout << boost::tuples::set_delimiter(',') << T(0, k, j, i) << " ";
+     
+       		++Isize;
+       		}
       }
-   }out << endl; out.close();}
-   return;
+   }
+   if(sout.is_open())
+   {
+   //for(int i=0; i < 45; ++i)
+   //{
+   //for(int j=1; j < i; ++j)
+      //{
+   	
+   		sout << boost::tuples::set_delimiter(',') << T(0, 1, 2, 3) << " ";
+   		++Ssize;
+   	  //}
+   //}
+   }
+   sout << endl; sout.close();
+   iout << endl; iout.close();
+   }
+   return Isize * Ssize;
 }
 
 
-void MCoTable::makeMCoTable(const int diam, int b, double c1)
+int TTable::makeTTable()
 {
    ofstream out;
-   out.open("./permutationtables/MTable.txt");
+   out.open("./permutationtables/TTable.txt");
    size = 0;
    if(out.is_open()){
-   for(int i=1; i < (diam*diam*diam / (6 *b*c1)); ++i)
+   for(int i=3; i < 45; ++i)
    {
-      for(int j=1; j < c1; ++j)
+      for(int j=2; j < i; ++j)
       {
-         for(int k=1; k < b; ++k)
+         for(int k=1; k < j; ++k)
          {
-            out << boost::tuples::set_delimiter(',') << T(i, j, k) <<" ";
-            ++size;
-         }
+         	for(int l=0; l < k; ++l)
+         	{
+        	   				
+           	 	out << boost::tuples::set_delimiter(',') << T(l, k, j, i) <<" ";
+            	++size;
+            }
+        }
+            	
+         
       }
    }out << endl; out.close();}
-   return;
-}
-
-
-void GenTable::makeGenTable(int diam)  //order: c, b, 1
-{
-   ofstream out;
-   out.open("./permutationtables/GenTable.txt");
-   size = 0;
-   if(out.is_open()){
-   for(int i=2; i < (diam*diam*diam/6); i++)
-   {
-      for(int j=2; j < (diam*diam*diam/6); j++)
-      {
-         if(i*j < diam*diam*diam/6)
-         {
-            out<< boost::tuples::set_delimiter(',') << T(i*j,j,1) <<" ";
-            ++size;
-         }
-      }
-   } out<< endl; out.close();}
-   return;
+   return size;
 }
 
