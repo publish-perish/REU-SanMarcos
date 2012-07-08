@@ -43,11 +43,11 @@ void MCoTable::makeMCoTable(const int diam, int b, double c1)
    out.open("./permutationtables/MTable.txt");
    size = 0;
    if(out.is_open()){
-   for(int i=1; i < (diam*diam*diam / (b*c1)); ++i)
+   for(int i=1; i < (diam*diam*diam / (6 *b*c1)); ++i)
    {
-      for(int j=1; j < (b); ++j)
+      for(int j=1; j < c1; ++j)
       {
-         for(int k=1; k < (c1); ++k) //filter them in holding tank, then add to file
+         for(int k=1; k < b; ++k)
          {
             out << boost::tuples::set_delimiter(',') << T(i, j, k) <<" ";
             ++size;
