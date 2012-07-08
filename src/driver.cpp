@@ -71,7 +71,8 @@ int main(int argc, char *argv[])
           {
              M = Polynomial(A, Q);
              cover.reset();
-             if((M.value() > mbest.value())/* && M.wellFormed()*/ && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
+             if(!M.wellFormed()){cout << "NOT WELL FORMED!" << endl;}
+             if((M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
              {
                 xcoeffs.open("./permutationtables/XTable.txt");
                 if(xcoeffs){
