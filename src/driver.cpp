@@ -5,10 +5,27 @@
 #include <bitset>
 #include "boost/dynamic_bitset.hpp"
 #include <time.h>
+#include <iterator>
 
 typedef std::vector<Polynomial> PolyVec;
 
 using namespace std;
+
+
+
+int makeTables(int diam, XCoTable *X, GenTable *A)
+{cout<<"making tables "<<endl;
+    clock_t start, end;
+    start = clock();
+    X->makeXCoTable(diam);
+    cout <<"\nSize of X-Coefficient Table = " << X->size << endl << endl;
+    A->makeGenTable(diam);
+    cout <<"\nSize of Generator Table = " << A->size << endl;
+    end = clock();
+    cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
+    return 0;
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -17,12 +34,15 @@ int main(int argc, char *argv[])
        cout<<"Usage: ./executables/average_case diameter (lowerbound) \n";
        return 0;
     }
-	   CoefTable C;
-       const int d_cubed = atoi(argv[1])*atoi(argv[1])*atoi(argv[1]); 
-       const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
-       PolyVec best(d_cubed*d_cubed*2); //holds the xcos table's size many polynomial: gives the history
-       PolyVec temp(d_cubed*d_cubed*2);
-       boost::dynamic_bitset<> cover(d_cubed*d_cubed*2); // diam cubed: larger than needed, but hard to make sharp
+	   XCoTable XTable;
+       MCoTable QTable;
+       GenTable ATable;
+       const int diam = atoi(argv[1]);
+       //const int d_cubed = diam*diam*diam; 
+       //const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
+       //PolyVec best(d_cubed*d_cubed*2); //holds the xcos table's size many polynomial: gives the history
+       //PolyVec temp(d_cubed*d_cubed*2);
+       boost::dynamic_bitset<> cover(diam*diam*diam*diam); // diam 4th: larger than needed, but hard to make sharp
        bool covered =false;
        int counter = 0; //index for the bit array
        ifstream gens; // c, b, a
@@ -39,7 +59,7 @@ int main(int argc, char *argv[])
        Polynomial mbest; //holds the highest valid m
        clock_t start, end;
 
-    
+    makeTables(diam, &XTable, &ATable);
     start = clock();
     gens.open("./permutationtables/gentable.txt");
     archive.open("./ms.txt");
@@ -47,19 +67,19 @@ int main(int argc, char *argv[])
     {
 	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
        {
-          //cout<< "A "<<A << endl;
-		    C.makeMcoTable(atoi(argv[1]), get<0>(A), get<1>(A), get<2>(A));
-		    mcos.open("./permutationtables/mcotable.txt");
+          	//cout<< "A "<<A << endl;
+		    QTable.makeMCoTable(diam, get<0>(A), get<1>(A), get<2>(A));
+		    mcos.open("./permutationtables/MTable.txt");
 		    if(mcos)
 		    {
 			    while(mcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
              {
 				    M = Polynomial(A, Q);
-				  //  cout <<"M "<< M <<endl;
+				    //cout <<"M "<< M <<endl;
                		cover.reset();
-				    if( (M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed (M.value() > lowerbound)
+				    if( (M.value() > mbest.value())) /*&& M.wellFormed()) //*&& (M.sum() < d_cubed)*/ //ignore M that are too small, or badly formed (M.value() > lowerbound)
 				    {
-					    xcos.open("./permutationtables/cotable.txt");
+					    xcos.open("./permutationtables/XTable.txt");
 					    if(xcos)
 					    {
 							    while(xcos >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x)
@@ -68,9 +88,9 @@ int main(int argc, char *argv[])
                            		 if(true)//X.wellFormed())
                           	 		 {
                                     //cout <<"A :"<< A << "x: " << x  << "M: " <<  M.Y << endl;
-                                   // cout << "x: " << x << "A: " << A << "M: " << M.Y << endl;
+                                    //cout << "x: " << x << "A: " << A << "M: " << M.Y << endl;
                           		     Adj =  X-M;
-                          		  //    cout << "worked"<< endl;
+                          		     // cout << "worked"<< endl;
                           		     if(Adj.wellFormed())
                           		     {
                           		     //temp.at(Adj.sum()) = Adj;
@@ -87,16 +107,16 @@ int main(int argc, char *argv[])
 						    for(int i=0; i < M.sum(); ++i) //only check the first m of them
 						    {
 							    if(cover[i]==0) //we are not covered
-							    {
-					
+							    {					
 								    covered = false;
+								    //cout << i << endl;
 								    break;
 							    }
 						    }
 						    if(covered)
 						    {
 							  // cout << "covered" << endl;
-                        mbest=M;
+                       		 mbest=M;
 							    for(int j =0; j < mbest.sum(); ++j)
 								    {
 									//    best[j] = temp[j];
@@ -105,8 +125,8 @@ int main(int argc, char *argv[])
 						    }
 					  }
 			    }// done with xcos
-		    }   mcos.close();			
-	    }// done with mcos
+		    }   			
+	    }mcos.close();// done with mcos
     }  }
     gens.close();
     end = clock();
@@ -115,9 +135,9 @@ int main(int argc, char *argv[])
 out.open("./results.txt");
 if(out)
 	{
-		out << "d: " << argv[1] << endl;
-		out << "modulus: " << mbest << endl;
-		out << "generators: " << best[0].A << endl;
+		//out << "d: " << argv[1] << endl;
+		//out << "modulus: " << mbest << endl;
+		//out << "generators: " << best[0].A << endl;
 		for(int i=0; i < mbest.sum(); ++i)
 		{
 		//	out << best[i];
@@ -128,4 +148,5 @@ if(out)
 out.close();
 archive.close();
 return 0;
+
 }

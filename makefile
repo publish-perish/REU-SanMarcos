@@ -22,8 +22,7 @@ subtraction.o: ./utils/math/subtraction.cpp
 	g++ $(LIB) $(INC) -c -o executables/subtraction.o ./utils/math/subtraction.cpp
 test.o: ./test/test.cpp
 	g++ $(LIB) $(INC) -c -o executables/test.o ./test/test.cpp
-tables.o: ./src/tables.cpp
-	g++ $(LIB) $(INC) -c -o executables/tables.o ./src/tables.cpp
+tables.o: ./test/tables.cpp
+	g++ $(LIB) $(INC) -c -o executables/tables.o ./test/tables.cpp
 clean:
 	rm executables/*
-

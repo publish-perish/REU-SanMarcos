@@ -1,7 +1,6 @@
 #include "../basic/polynomials.h"
 
 
-
 Polynomial::Polynomial()
 {
    A = TP(0, 0, 0, 0);
@@ -56,7 +55,7 @@ Polynomial Polynomial::operator=(const Polynomial &p)
 }
 
 
-Polynomial Polynomial::operator-(Polynomial m) // needs updating for k=4
+Polynomial Polynomial::operator-(Polynomial m) 
 {
     loop:
     while( Y > m.Y )
@@ -82,6 +81,8 @@ Polynomial Polynomial::operator-(Polynomial m) // needs updating for k=4
 
     }
     if( Y > m.Y ){ goto loop; } 
+
+
     return *this;
 }
 

@@ -1,8 +1,6 @@
 #ifndef P_H
 #define P_H
-
-
-//#include <vector>
+#include <vector>
 #include <set>
 #include <iostream>
 #include <fstream>
@@ -13,40 +11,42 @@
 
 using namespace std;
 
-typedef boost::tuples::tuple<int, int, int> T;
+
 typedef boost::tuples::tuple<int, int, int, int> TP;
 
 
-class CoefTable
-{
-public:
-void makeCoTable(int diam);
-void makeMcoTable(int diam, int d, int c, int b );
-//T getNextCoefs();
-//T getNextMco();
-int getCotSize();
-int getMtSize();
-private:
-//void filter(int x, int y, int z);
-set<TP> holdingTank;
-int cotSize;
-int mtSize;
+
+class MCoTable{
+   
+   public:
+
+      void makeMCoTable(const int, int, int, int);
+      //int getMtsize();
+
+      //Vec MCoeffs;
+      int size;
 };
 
-class GenTable
-{
-public:
-void makeGenTable(int diam);
-//T getNextGen();
-int getGsize();
-set<TP> holdingTank;
-private:
-int gSize;
+class XCoTable{
+
+   public:
+
+
+      void makeXCoTable(int);
+      //int getXsize();
+      int size;
 };
 
 
 
-T getNextGens(int index);
+class GenTable{
 
+   public:
 
+      void makeGenTable(int);
+      //int getGsize();
+
+     // Vec Generators;
+      int size;
+};
 #endif
