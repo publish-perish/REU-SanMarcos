@@ -10,8 +10,8 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     clock_t start, end;
-    if(argc<2){
-       std::cout<< "Usage: ./executables/tables diameter \n";
+    if(argc<3){
+       std::cout<< "Usage: ./executables/tables diameter numprocs \n";
        return 0;
     }
     else{
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
        XCoTable XTable;
        GenTable GenTable;
        //std::cout << "Coefficients:";
-       XTable.makeXCoTable(atoi(argv[1]));
+       XTable.makeXCoTable(atoi(argv[1]), atoi(argv[2]));
       // C.makeMcoTable(atoi(argv[1]));
        //std::cout << "\n Generators: \n";
        GenTable.makeGenTable(atoi(argv[1]));

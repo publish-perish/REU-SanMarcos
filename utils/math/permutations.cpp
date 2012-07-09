@@ -1,46 +1,53 @@
 #include "../basic/permutations.h"
 
-void XCoTable::makeXCoTable(int diam)
+void XCoTable::makeXCoTable(int diam, int numprocs)
 {
    ofstream out;
-   out.open("./permutationtables/XTable.txt");
-   size = 0;
-   if(out.is_open()){
-   for(int i=diam; i >= 0; --i)
+   for(int rank=1; rank <= numprocs; rank++)
    {
-      for(int j=i; j >= 0; --j)
-      {
-         for(int k=j;k >= 0; --k) //filter them in holding tank, then add to file
-         {
-         if(i+j+k <= diam - 3)
-         {
-            holdingTank.clear();
-            holdingTank.insert(T(i, j, k));
-            holdingTank.insert(T(i, k, j));
-            holdingTank.insert(T(j, i, k));
-            holdingTank.insert(T(j, k, i));
-            holdingTank.insert(T(k, i, j));
-            holdingTank.insert(T(k, j, i));
-            std::set<T>::iterator itr = holdingTank.begin();
-            while(itr != holdingTank.end())
-            {
-                 out << boost::tuples::set_open(' ') << boost::tuples::set_close(' ') << *itr;
-                 ++size;
-                 itr++;     
-            }	
-            holdingTank.clear();
-         }			
-         }	
-      }
-   }out << endl; out.close();}
+       string s = boost::lexical_cast<string>(rank);
+       string fname = "./permutationtables/XTable.txt";
+       out.open((fname.insert(fname.length()-4, s)).c_str());
+       size = 0;
+       if(out.is_open()){
+       for(int i=diam; i >= 0; --i)
+       {
+          for(int j=i; j >= 0; --j)
+          {
+             for(int k=j;k >= 0; --k) //filter them in holding tank, then add to file
+             {
+             if(i+j+k <= diam - 3)
+             {
+                holdingTank.clear();
+                holdingTank.insert(T(i, j, k));
+                holdingTank.insert(T(i, k, j));
+                holdingTank.insert(T(j, i, k));
+                holdingTank.insert(T(j, k, i));
+                holdingTank.insert(T(k, i, j));
+                holdingTank.insert(T(k, j, i));
+                std::set<T>::iterator itr = holdingTank.begin();
+                while(itr != holdingTank.end())
+                {
+                     out << boost::tuples::set_delimiter(',') << *itr <<" ";
+                     ++size;
+                     itr++;     
+                }	
+                holdingTank.clear();
+             }			
+             }	
+          }
+       }out << endl; out.close();}
+   }
    return;
 }
 
 
-void MCoTable::makeMCoTable(const int diam, int b, double c1)
+void MCoTable::makeMCoTable(const int diam, int b, double c1, int rank)
 {
    ofstream out;
-   out.open("./permutationtables/MTable.txt");
+   string s = boost::lexical_cast<string>(rank);
+   string fname = "./permutationtables/MTable.txt";
+   out.open((fname.insert(fname.length()-4, s)).c_str());
    size = 0;
    if(out.is_open()){
    for(int i=1; i < (diam*diam*diam / (b*c1)); ++i)

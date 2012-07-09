@@ -8,6 +8,8 @@
 #include "boost/tuple/tuple.hpp"
 #include "boost/tuple/tuple_io.hpp"
 #include "boost/tuple/tuple_comparison.hpp"
+#include "string.h"
+#include <boost/lexical_cast.hpp>
 
 using namespace std;
 
@@ -18,7 +20,7 @@ class MCoTable{
    
    public:
 
-      void makeMCoTable(const int, int, double);
+      void makeMCoTable(const int, int, double, int);
 
       Vec MCoeffs;
       int size;
@@ -28,7 +30,7 @@ class XCoTable{
 
    public:
 
-      void makeXCoTable(int);
+      void makeXCoTable(int, int);
 
       Vec XCoeffs;
       set<T> holdingTank;

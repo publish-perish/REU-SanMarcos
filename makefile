@@ -17,7 +17,7 @@ permutations.o: ./utils/math/permutations.cpp
 subtraction.o: ./utils/math/subtraction.cpp
 	g++ $(LIBS) $(INC) -c -o executables/subtraction.o ./utils/math/subtraction.cpp
 test.o: ./test/test.cpp
-	mpic++ $(LIBS) $(INC) -c -o executables/test.o ./test/test.cpp
+	mpic++ $(INC) $(LIBS) -c -o executables/test.o ./test/test.cpp
 tables.o: ./test/tables.cpp
 	g++ $(LIBS) $(INC) -c -o executables/tables.o ./test/tables.cpp
 clean:

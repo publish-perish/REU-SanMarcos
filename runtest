@@ -1,2 +1,2 @@
 make test
-mpirun -np 3 --hostfile ./test/hostfile ./executables/test 5
+mpirun -np 4 --hostfile ./test/hostfile ./executables/test 5

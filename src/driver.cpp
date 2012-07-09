@@ -16,7 +16,7 @@ int makeTables(int diam, XCoTable *X, GenTable *A)
 {
     clock_t start, end;
     start = clock();
-    X->makeXCoTable(diam);
+    X->makeXCoTable(diam, 1);
     cout <<"Size of X-Coefficient Table = " << X->size;
     A->makeGenTable(diam);
     cout <<"\nSize of Generator Table = " << A->size;
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
        {
           double c1 = get<0>(A)/get<1>(A);
-		    QTable.makeMCoTable(diam, get<1>(A), c1);
+		    QTable.makeMCoTable(diam, get<1>(A), c1, 1);
           mcoeffs.open("./permutationtables/MTable.txt");
           if(mcoeffs){
           while(mcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
