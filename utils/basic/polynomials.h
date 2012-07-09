@@ -7,11 +7,14 @@
 #include <iostream>
 #include "../basic/subtraction.h"
 #include "boost/tuple/tuple.hpp"
+#include "boost/tuple/tuple_comparison.hpp"
 
 
-typedef boost::tuples::tuple<int, int, int> T;
-typedef std::vector<T> Vec;
 
+typedef boost::tuples::tuple<int, int, int, int> TP;
+
+
+typedef std::vector<TP> Vec;
 
 using namespace boost::tuples;
 
@@ -21,14 +24,15 @@ class Polynomial{
 
    public:
 
-
       Polynomial();
-      Polynomial(T a, T y);
-      Polynomial(T a, int, int, int);
+      Polynomial(TP a, TP y);
+      Polynomial(TP a, int, int, int, int);
       Polynomial(const Polynomial&);
 
-      T A, Y;
+      TP A;
+      TP Y;
       Subtractions s;
+
 
       int value()const;
       int sum()const;
