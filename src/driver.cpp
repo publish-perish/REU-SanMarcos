@@ -30,7 +30,7 @@ int main()
 	   SITable SItab;
        TTable Ttab;
 
-       boost::dynamic_bitset<> cover(64); //a squared
+       boost::dynamic_bitset<> cover(144); //a squared
        int counter = 0; //counts the size of the cover
        int best = 0;
        bool covered;
@@ -56,62 +56,74 @@ int main()
                 while(Tlist >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> t)
                 {
                 cover.reset();
-                int m = 19;
+                int m = 44;
                 cover[(boost::tuples::get<0>(s) + boost::tuples::get<0>(i))%m] = 1;
                 cover[(boost::tuples::get<0>(s) + boost::tuples::get<1>(i))%m] = 1;
                 cover[(boost::tuples::get<0>(s) + boost::tuples::get<2>(i))%m] = 1;
-                //cover[(boost::tuples::get<0>(s) + boost::tuples::get<3>(i))%m] = 1;
+                cover[(boost::tuples::get<0>(s) + boost::tuples::get<3>(i))%m] = 1;
+                
                 cover[(boost::tuples::get<1>(s) + boost::tuples::get<0>(i))%m] = 1;
                 cover[(boost::tuples::get<1>(s) + boost::tuples::get<1>(i))%m] = 1;
                 cover[(boost::tuples::get<1>(s) + boost::tuples::get<2>(i))%m] = 1;
-                //cover[(boost::tuples::get<1>(s) + boost::tuples::get<3>(i))%m] = 1;
+                cover[(boost::tuples::get<1>(s) + boost::tuples::get<3>(i))%m] = 1;
+                
                 cover[(boost::tuples::get<2>(s) + boost::tuples::get<0>(i))%m] = 1;
                 cover[(boost::tuples::get<2>(s) + boost::tuples::get<1>(i))%m] = 1;
                 cover[(boost::tuples::get<2>(s) + boost::tuples::get<2>(i))%m] = 1;
-                //cover[(boost::tuples::get<2>(s) + boost::tuples::get<3>(i))%m] = 1;
-                //cover[(boost::tuples::get<3>(s) + boost::tuples::get<0>(i))%m] = 1;
-                //cover[(boost::tuples::get<3>(s) + boost::tuples::get<1>(i))%m] = 1;
-                //cover[(boost::tuples::get<3>(s) + boost::tuples::get<2>(i))%m] = 1;
-                //cover[(boost::tuples::get<3>(s) + boost::tuples::get<3>(i))%m] = 1;
+                cover[(boost::tuples::get<2>(s) + boost::tuples::get<3>(i))%m] = 1;
+                
+                cover[(boost::tuples::get<3>(s) + boost::tuples::get<0>(i))%m] = 1;
+                cover[(boost::tuples::get<3>(s) + boost::tuples::get<1>(i))%m] = 1;
+                cover[(boost::tuples::get<3>(s) + boost::tuples::get<2>(i))%m] = 1;
+                cover[(boost::tuples::get<3>(s) + boost::tuples::get<3>(i))%m] = 1;
+                
+                
                 
                 cover[(boost::tuples::get<0>(t) + boost::tuples::get<0>(i))%m] = 1;
                 cover[(boost::tuples::get<0>(t) + boost::tuples::get<1>(i))%m] = 1;
                 cover[(boost::tuples::get<0>(t) + boost::tuples::get<2>(i))%m] = 1;
-                //cover[(boost::tuples::get<0>(t) + boost::tuples::get<3>(i))%m] = 1;
+                cover[(boost::tuples::get<0>(t) + boost::tuples::get<3>(i))%m] = 1;
+                
                 cover[(boost::tuples::get<1>(t) + boost::tuples::get<0>(i))%m] = 1;
                 cover[(boost::tuples::get<1>(t) + boost::tuples::get<1>(i))%m] = 1;
                 cover[(boost::tuples::get<1>(t) + boost::tuples::get<2>(i))%m] = 1;
-                //cover[(boost::tuples::get<1>(t) + boost::tuples::get<3>(i))%m] = 1;
-                //cover[(boost::tuples::get<2>(t) + boost::tuples::get<0>(i))%m] = 1;
-                //cover[(boost::tuples::get<2>(t) + boost::tuples::get<1>(i))%m] = 1;
-                //cover[(boost::tuples::get<2>(t) + boost::tuples::get<2>(i))%m] = 1;
-                //cover[(boost::tuples::get<2>(t) + boost::tuples::get<3>(i))%m] = 1;
-                //cover[(boost::tuples::get<3>(t) + boost::tuples::get<0>(i))%m] = 1;
-                //cover[(boost::tuples::get<3>(t) + boost::tuples::get<1>(i))%m] = 1;
-                //cover[(boost::tuples::get<3>(t) + boost::tuples::get<2>(i))%m] = 1;
-                //cover[(boost::tuples::get<3>(t) + boost::tuples::get<3>(i))%m] = 1;
+                cover[(boost::tuples::get<1>(t) + boost::tuples::get<3>(i))%m] = 1;
+                
+                cover[(boost::tuples::get<2>(t) + boost::tuples::get<0>(i))%m] = 1;
+                cover[(boost::tuples::get<2>(t) + boost::tuples::get<1>(i))%m] = 1;
+                cover[(boost::tuples::get<2>(t) + boost::tuples::get<2>(i))%m] = 1;
+                cover[(boost::tuples::get<2>(t) + boost::tuples::get<3>(i))%m] = 1;
+                cover[(boost::tuples::get<3>(t) + boost::tuples::get<0>(i))%m] = 1;
+                cover[(boost::tuples::get<3>(t) + boost::tuples::get<1>(i))%m] = 1;
+                cover[(boost::tuples::get<3>(t) + boost::tuples::get<2>(i))%m] = 1;
+                cover[(boost::tuples::get<3>(t) + boost::tuples::get<3>(i))%m] = 1;
+                
+                
                 
                 //cover[(boost::tuples::get<0>(s) + boost::tuples::get<0>(t))%m ] = 1;
                 //cover[(boost::tuples::get<0>(s) + boost::tuples::get<1>(t))%m ] = 1;
                 //cover[(boost::tuples::get<0>(s) + boost::tuples::get<2>(t))%m ] = 1;
                 //cover[(boost::tuples::get<0>(s) + boost::tuples::get<3>(t))%m ] = 1;
+                
                 cover[(boost::tuples::get<1>(s) + boost::tuples::get<0>(t))%m ] = 1;
                 cover[(boost::tuples::get<1>(s) + boost::tuples::get<1>(t))%m ] = 1;
-                //cover[(boost::tuples::get<1>(s) + boost::tuples::get<2>(t))%m ] = 1;
-                //cover[(boost::tuples::get<1>(s) + boost::tuples::get<3>(t))%m ] = 1;
+                cover[(boost::tuples::get<1>(s) + boost::tuples::get<2>(t))%m ] = 1;
+                cover[(boost::tuples::get<1>(s) + boost::tuples::get<3>(t))%m ] = 1;
+                
                 cover[(boost::tuples::get<2>(s) + boost::tuples::get<0>(t))%m ] = 1;
                 cover[(boost::tuples::get<2>(s) + boost::tuples::get<1>(t))%m ] = 1;
-                //cover[(boost::tuples::get<2>(s) + boost::tuples::get<2>(t))%m ] = 1;
-                //cover[(boost::tuples::get<2>(s) + boost::tuples::get<3>(i))%m ] = 1;
-                //cover[(boost::tuples::get<3>(s) + boost::tuples::get<0>(t))%m ] = 1;
-                //cover[(boost::tuples::get<3>(s) + boost::tuples::get<1>(t))%m ] = 1;
-                //cover[(boost::tuples::get<3>(s) + boost::tuples::get<2>(t))%m ] = 1;
-                //cover[(boost::tuples::get<3>(s) + boost::tuples::get<3>(i))%m ] = 1;
+                cover[(boost::tuples::get<2>(s) + boost::tuples::get<2>(t))%m ] = 1;
+                cover[(boost::tuples::get<2>(s) + boost::tuples::get<3>(i))%m ] = 1;
+                
+                cover[(boost::tuples::get<3>(s) + boost::tuples::get<0>(t))%m ] = 1;
+                cover[(boost::tuples::get<3>(s) + boost::tuples::get<1>(t))%m ] = 1;
+                cover[(boost::tuples::get<3>(s) + boost::tuples::get<2>(t))%m ] = 1;
+                cover[(boost::tuples::get<3>(s) + boost::tuples::get<3>(i))%m ] = 1;
                 
                 
 				covered = true;
 				counter = 0;
-				for(int d =0; d < 64; ++d) //size of bitarray
+				for(int d =0; d < 144; ++d) //size of bitarray
 				{
 					if(cover[d] == 1)
 					{
