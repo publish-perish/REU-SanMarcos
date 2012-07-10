@@ -1,6 +1,6 @@
 \section{ The Proof}
 
-Let k $\geq$ 11 be an integer. Let $k_1 = \left \lfloor \frac{k - 3}{11} \right \rfloor$. Let m = $37k_1^2$.  Define the intervals
+Let k $\geq$ 14 be an integer. Let $k_1 = \left \lfloor \frac{k - 3}{11} \right \rfloor$. Let m = $37k_1^2$.  Define the intervals
 \begin{align*}
 I_0 &= [0, k_1], \\
 I_4 &= [4k_1^2, 4k_1^2+k_1], \\
@@ -30,18 +30,72 @@ such that T = $T_{10} \cup T_{20} \cup T_{30} .$
 
 Let $A = I \cup S \cup T$, where $|A| = 11k_1 + 3 \leq k$. We claim that A is a 2-$basis$ for $\Z_m$.
 \\ 
-
-We begin by claiming $I_a + T_b$ $\supseteq$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$. 
 \begin{proof}
+We begin by claiming $I_a + T_b$ $\supseteq$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$. 
+
 Let n $\epsilon$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$.
 Then we can write n as 
 \[
-n = (a + b) k_1^2 + ck_1 + d
+n = (a + b) k_1^2 + ck_1 + d \in I_a + T_b
 \]
 where $0 \leq c \leq k_1$ and $0 \leq d \leq k_1$. 
+
+Next we claim that  $I_a + S_b$ $\supseteq$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$. 
+Let n $\epsilon$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$.
+Then we can write n as 
+\[
+n = (a + b) k_1^2 + ck_1 + d 
+\]
+where  $0 \leq c < k_1$ and $0 \leq d \leq k_1$. 
+
+case 1: d $\geq$ c
+\[
+n = ak_1^2 + (d - c) + bk_1^2 + c(k_1 + 1) \in I_a + S_b
+\]
+
+case 2: d $<$ c
+\[
+n = ak_1^2 + (k_1 + 1 + d - c) + bk_1^2 + (c - 1)(k_1 + 1) \in  I_a + S_b
+\]
+
+Our final claim is $T_a$ + S $\supseteq$ $((a +1)k_1^2 ,  (a + 3)k_1^2]$. 
+Let n $\epsilon$ $((a +1)k_1^2 ,  (a + 3)k_1^2]$.
+Then we can write n as 
+\[
+n = (a + b) k_1^2 + ck_1 + d 
+\]
+where $1 \leq b \leq 3$, $0 \leq c < k_1$, and $0 \leq d \leq k_1$. 
+
+case 1: b $\geq$ c
+\[
+n = ak_1^2 + (b - c) + bk_1^2 + c(k_1 + 1) \in T_a + S_b
+\]
+
+case 2: b $<$ c
+\[
+n = ak_1^2 + (k_1 + 1 + b - c) + (b - 1)k_1^2 + c(k_1 + 1) \in  T_a + S_{b-1}
+\]
 Hence 
 \[
-n = ak_1^2 + d + bk_1^2 + ck_1 \epsilon I_a + T_b.
+n = ak_1^2 + d + bk_1^2 + ck_1 \in I_a + T_b.
 \].
+
+Note that
+\begin{align*}
+8 &\equiv 45 (mod 37),\\
+ 9 &\equiv 46 (mod 37),  \text{and} \\
+19 &\equiv 56 (mod 37).
+\end{align*} 
+So we cover $(8k_1^2, 9k_1^2]$ by instead covering $(45k_1^2, 46k_1^2]$, and likewise for $(9k_1^2, 10k_1^2]$, and $(19k_1^2, 20k_1^2]$. 
+
+It now follows that 
+\[
+A + A \supseteq [0, 37k_1^2],
+\]
+hence
+\[
+m(2,k) \geq \frac{37}{121}k^2 - O(k). 
+\]
+
 
 \end{proof}
