@@ -1,0 +1,47 @@
+\section{ The Proof}
+
+Let k $\geq$ 11 be an integer. Let $k_1 = \left \lfloor \frac{k - 3}{11} \right \rfloor$. Let m = $37k_1^2$.  Define the intervals
+\begin{align*}
+I_0 &= [0, k_1], \\
+I_4 &= [4k_1^2, 4k_1^2+k_1], \\
+I_{15} &= [15k_1^2, 15k_1^2+k_1], and \\
+I_{26} &= [26k_1^2, 26k_1^2+k_1] 
+\end{align*}
+such that I = $I_0 \cup I_4 \cup I_{15} \cup I_{26}.$
+
+Define the sets
+
+\begin{align*}
+S_0 &= \{i(k_1 + 1) | i = 0 : k_1 - 1\},\\
+S_1 &= \{k_1^2 + i(k_1 + 1) | i = 0 : k_1 - 1\},\\
+S_2 &= \{2k_1^2 + i(k_1 + 1) | i = 0 : k_1 - 1\}, \text{and}\\
+S_3 &= \{3k_1^2 + i(k_1 + 1) | i = 0 : k_1 - 1\}
+\end{align*}
+such that S = $S_0 \cup S_1 \cup S_2 \cup S_3.$
+
+Define the sets
+
+\begin{align*}
+T_{10} &= \{k_1(10k_1 + i) | i = 0 : k_1\},\\
+T_{20} &= \{k_1(20k_1 + i) | i = 0 : k_1\}, \text{and}\\
+T_{30} &= \{k_1(30k_1 + i) | i = 0 : k_1\}
+\end{align*}
+such that T = $T_{10} \cup T_{20} \cup T_{30} .$
+
+Let $A = I \cup S \cup T$, where $|A| = 11k_1 + 3 \leq k$. We claim that A is a 2-$basis$ for $\Z_m$.
+\\ 
+
+We begin by claiming $I_a + T_b$ $\supseteq$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$. 
+\begin{proof}
+Let n $\epsilon$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$.
+Then we can write n as 
+\[
+n = (a + b) k_1^2 + ck_1 + d
+\]
+where $0 \leq c \leq k_1$ and $0 \leq d \leq k_1$. 
+Hence 
+\[
+n = ak_1^2 + d + bk_1^2 + ck_1 \epsilon I_a + T_b.
+\].
+
+\end{proof}
