@@ -58,8 +58,8 @@ case 2: d $<$ c
 n = ak_1^2 + (k_1 + 1 + d - c) + bk_1^2 + (c - 1)(k_1 + 1) \in  I_a + S_b
 \]
 
-Our final claim is $T_a$ + S $\supseteq$ $((a +1)k_1^2 ,  (a + 3)k_1^2]$. 
-Let n $\epsilon$ $((a +1)k_1^2 ,  (a + 3)k_1^2]$.
+Our final claim is $T_a$ + S $\supseteq$ $((a +1)k_1^2 ,  (a + 4)k_1^2]$. 
+Let n $\epsilon$ $((a +1)k_1^2 ,  (a + 4)k_1^2]$.
 Then we can write n as 
 \[
 n = (a + b) k_1^2 + ck_1 + d 
@@ -82,11 +82,18 @@ n = ak_1^2 + d + bk_1^2 + ck_1 \in I_a + T_b.
 
 Note that
 \begin{align*}
-8 &\equiv 45 (mod 37),\\
- 9 &\equiv 46 (mod 37),  \text{and} \\
-19 &\equiv 56 (mod 37).
+8 &\equiv 45 (mod\text{ }37),\\
+ 9 &\equiv 46 (mod\text{ }37),  \text{and} \\
+19 &\equiv 56 (mod\text{ }37).
 \end{align*} 
 So we cover $(8k_1^2, 9k_1^2]$ by instead covering $(45k_1^2, 46k_1^2]$, and likewise for $(9k_1^2, 10k_1^2]$, and $(19k_1^2, 20k_1^2]$. 
+
+Hence 
+\begin{align*}
+S + I &\supseteq [1, 8k_1^2] \cup (15k_1^2, 19k_1^2] \cup (26k_1^2, 30k_1^2],\\
+I + T &\supseteq (8k_1^2, 11k_1^2] \cup (14k_1^2, 15k_1^2] \cup (19k_1^2, 21k_1^2] \cup (24k_1^2, 26k_1^2] \cup (30k_1^2, 31k_1^2] \cup (34k_1^2, 37k_1^2],\text{ and}\\
+S + T &\supseteq (11k_1^2, 14k_1^2] \cup (21k_1^2, 24k_1^2] \cup (31k_1^2, 34k_1^2]. 
+\end{align*}
 
 It now follows that 
 \[
