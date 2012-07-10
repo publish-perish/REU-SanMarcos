@@ -1,5 +1,10 @@
 \section{ The Proof}
+Let k $\geq$ 14 be an integer. We claim that
+ \[
+m(2,k) \geq \frac{37}{121}k^2 - O(k). 
+\]
 
+\begin{proof}
 Let k $\geq$ 14 be an integer. Let $k_1 = \left \lfloor \frac{k - 3}{11} \right \rfloor$. Let m = $37k_1^2$.  Define the intervals
 \begin{align*}
 I_0 &= [0, k_1], \\
@@ -29,8 +34,7 @@ T_{30} &= \{k_1(30k_1 + i) | i = 0 : k_1\}
 such that T = $T_{10} \cup T_{20} \cup T_{30} .$
 
 Let $A = I \cup S \cup T$, where $|A| = 11k_1 + 3 \leq k$. We claim that A is a 2-$basis$ for $\Z_m$.
-\\ 
-\begin{proof}
+
 We begin by claiming $I_a + T_b$ $\supseteq$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$. 
 
 Let n $\epsilon$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$.
