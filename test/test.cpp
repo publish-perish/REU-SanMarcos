@@ -1,11 +1,10 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<mpi.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <mpi.h>
 #include "../utils/basic/permutations.h"
 #include "../utils/basic/polynomials.h"
 #include "../utils/basic/subtraction.h"
 #include "string.h"
-#include <bitset>
 #include "boost/dynamic_bitset.hpp"
 #include <time.h>
 #include <iterator>
@@ -29,20 +28,20 @@ struct Poly{
     Tuple Y;
 };
 
+//MPI Datatypes
 MPI_Datatype MPI_Tuple;
 MPI_Datatype MPI_Polynomial;
 
-void master(int, int);
+void master(int, int, Polynomial&);
 void slave(int);
 void construct_MPI_DataTypes();
 void clear_Poly(Poly&);
 
 
-
 int main (int argc, char *argv[]) {
   if(argc<2)
   {
-     cout<<"Usage: ./executables/average_case diameter (lowerbound) \n";
+     printf("Usage: ./executables/average_case diameter (lowerbound) \n");
      return 0;
   }
 
@@ -51,7 +50,8 @@ int main (int argc, char *argv[]) {
   const int d_cubed = diam*diam*diam; 
   const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
   clock_t start, end;
-  
+  Polynomial mbest;
+
   start = clock();
   //makeTables(diam);
 
@@ -63,46 +63,67 @@ int main (int argc, char *argv[]) {
       fprintf(stderr,"Catastrophic MPI problem.\n");
       MPI_Abort(MPI_COMM_WORLD,1);
   }
-
-  construct_MPI_DataTypes();
-   
+  
+    construct_MPI_DataTypes();
+    
+    printf("I am process %d \n", rank);
     if(rank == 0)
     {
-       master(diam, size);
-    }else slave(diam);
+       master(diam, size, mbest);
+    }
+    MPI_Barrier(MPI_COMM_WORLD);
+    if(rank != 0){ 
+        slave(diam);
+    }
+
+    printf("I am process %d \n",rank);
+    
+    MPI_Type_free(&MPI_Tuple);
+    MPI_Type_free(&MPI_Polynomial);
 
     MPI_Finalize();
 
+//cout<<"mbest "<<mbest;
+//cout<<"(c b a) "<<  get<0>(mbest.A)<< get<1>(mbest.A)<< get<2>(mbest.A)<<endl;
+//printf("Diameter: %d \n Generators: (%d, %d, %d), Location: (%d, %d, %d)\n", diam, get<0>(mbest.A), get<1>(mbest.A), get<2>(mbest.A), get<0>(mbest.Y), get<1>(mbest.Y), get<2>(mbest.Y)); 
+
+ 
     return 0;
+    exit(1);    
 }
 
 
-void master(int diam, int size)
+void master(int diam, int size, Polynomial &mbest)
 {
+   // Buffers
+   Poly sendbuf[size], recvbuf[size], send, recv;
+   //MPI_Alloc_mem(sizeof(struct Poly)*size, MPI_INFO_NULL, &out);
+   //MPI_Alloc_mem(sizeof(struct Poly)*size, MPI_INFO_NULL, &in);
+
    int i;
-   Poly out, in;
    T A, m;
    MPI_Request request;
    MPI_Status status;
    ifstream gens;
    PolyVec results;
-   Polynomial mbest, M;
-
-   clear_Poly(out);
-   clear_Poly(in);
+   Polynomial M;
 
    gens.open("./permutationtables/GenTable.txt");if(gens){
    // Assign generators to each process.
-   for(i=1; i<size; i++)
+   for(i=1; i<size; ++i)
    {
-       cout<<"sending to "<<i<<endl;
       gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
-      out.A.x = get<2>(A);
-      out.A.y = get<1>(A);
-      out.A.z = get<0>(A);
-      MPI_Send(&out,sizeof(out),MPI_Polynomial,i,WORKTAG,MPI_COMM_WORLD);
+      sendbuf[i-1].A.x = get<2>(A);
+      sendbuf[i-1].A.y = get<1>(A);
+      sendbuf[i-1].A.z = get<0>(A);
+   printf("sending ( %d %d %d ) to %d \n",sendbuf[i-1].A.x, sendbuf[i-1].A.y, sendbuf[i-1].A.z, i);
+      MPI_Send(&sendbuf[i-1],1, MPI_Polynomial,i,WORKTAG,MPI_COMM_WORLD);
    }
-
+//   MPI_Scatter(&sendbuf[0],1,MPI_Polynomial,&recvbuf[0],1,MPI_Polynomial,0,MPI_COMM_WORLD);
+   //for(i=1; i<size; ++i)
+  // {
+  // cout<<"getting ("<<out[i-1]->A.x<<" "<<out[i-1]->A.y<<" "<<out[i-1]->A.z<<") from "<<i<<endl;
+  // }
    // As processes finish, assign them new generators.
    //while(!gens.eof())
    //{
@@ -110,7 +131,7 @@ void master(int diam, int size)
     
       // Put into results
       //M = Polynomial(T(in.A.z,in.A.y,in.A.x),T(in.Y.z,in.Y.y,in.Y.z));
-      if(M.value() > mbest.value()){mbest = M;}
+//      if(M.value() > mbest.value()){mbest = M;}
       //results.push_back(M);
      // cout<<"Testing "<<M.A <<" generators, returned location "<<M.Y;
 
@@ -121,25 +142,26 @@ void master(int diam, int size)
 
       //MPI_Send(&A,sizeof(A),MPI_Polynomial,status.MPI_SOURCE,WORKTAG,MPI_COMM_WORLD);
    //}gens.close();
-
+printf("Size: %d \n", size);
    // No more generators, wait for processes to finish.
-   for(i=1; i<size; i++)
+   for(i=1; i<size; ++i)
    {
-	   MPI_Recv(&in,1,MPI_Polynomial,MPI_ANY_SOURCE,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
-   cout<<status.MPI_SOURCE<<" returned.\n";
+//      MPI_Recv(&recv,sizeof(struct Poly),MPI_Polynomial,MPI_ANY_SOURCE,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
+  // cout<<status.MPI_SOURCE<<" returned with A ("<<recv.A.x<<" "<<recv.A.y<<" "<<recv.A.z<<")\n";
    }
-     
+
    // Exit all slaves.
-   for(i=0; i<size; i++)
-   {
+   for(i=1; i<size; ++i)
+   {printf("Exiting slave %d \n",i);
       MPI_Send(0,0,MPI_INT,i,DIETAG,MPI_COMM_WORLD);
    }}else{
       fprintf(stderr,"Could not read GenTable \n");
       MPI_Abort(MPI_COMM_WORLD,2);
    }
-   
+  
 
-   printf("Diameter: %d \n Generators: (%d, %d, %d), Location: (%d, %d, %d)", diam, get<0>(mbest.A), get<1>(mbest.A), get<2>(mbest.A), get<0>(mbest.Y), get<1>(mbest.Y), get<2>(mbest.Y)); 
+   // MPI_Free_mem(out);
+    //MPI_Free_mem(in);
 
     return;
 }
@@ -150,31 +172,38 @@ void slave(int diam)
    T Q, x, A;
    struct Poly in, out;
    MPI_Status status;
+   MPI_Request request;
    ifstream mcoeffs, xcoeffs;
    Polynomial X, X_prime, mbest, M;
    double c1;
    boost::dynamic_bitset<> cover(diam*diam*diam);
    bool covered = false;
    MCoTable QTable;
-   int rank;
+   int rank, die;
    string fmcoeff = "./permutationtables/MTable.txt";
    string fxcoeff = "./permutationtables/XTable.txt";
 
-   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-   string s = boost::lexical_cast<string>(rank);
-   clear_Poly(in);
-   clear_Poly(out);
 
-   while(1)
-   {
-      MPI_Recv(&in,sizeof(in),MPI_Polynomial,0,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
-cout<<"Recieved ("<<in.A.x<<" "<<in.A.y<<" "<<in.A.z<<")\n";
-      if(status.MPI_TAG == DIETAG) return;
+//   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  // string s = boost::lexical_cast<string>(rank);
+   //clear_Poly(in);
+   //clear_Poly(out);
+   
+   //while(1)
+   //{
+       MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    string s = boost::lexical_cast<string>(rank);
+   printf("I am slave %d \n",rank);
+      MPI_Recv(&in,sizeof(struct Poly),MPI_Polynomial,0,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
+      if(status.MPI_TAG == DIETAG){ return;}
+MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+printf("Process %d recieved (%d %d %d) \n",rank, in.A.x, in.A.y, in.A.z);
 /*
       A = T(in.A.x, in.A.y, in.A.z);  
       c1 = in.A.z/in.A.y;
-      QTable.makeMCoTable(diam, in.A.y, c1, rank);
-      mcoeffs.open((fmcoeff.insert(fmcoeff.length()-4, s)).c_str());if(mcoeffs){
+      QTable.makeMCoTable(diam, in.A.y, c1, 1);
+      cout<<"made MTable"<<rank<<".txt\n";
+      mcoeffs.open((fmcoeff.insert(fmcoeff.length()-4, s)).c_str());cout<<"opening "<<(fmcoeff.insert(fmcoeff.length()-4, s)).c_str()<<endl;if(mcoeffs){
       while(mcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
       {
          M = Polynomial(A, Q);
@@ -211,16 +240,16 @@ cout<<"Recieved ("<<in.A.x<<" "<<in.A.y<<" "<<in.A.z<<")\n";
       MPI_Abort(MPI_COMM_WORLD,2);
       }
 
-      out[0].x = get<2>(M.A);
-      out[0].y = get<1>(M.A);
-      out[0].z = get<0>(M.A);
-      out[1].x = get<2>(M.Y);
-      out[1].y = get<1>(M.Y);
-      out[1].z = get<0>(M.Y);
+      out.A.x = get<2>(M.A);
+      out.A.y = get<1>(M.A);
+      out.A.z = get<0>(M.A);
+      out.Y.x = get<2>(M.Y);
+      out.Y.y = get<1>(M.Y);
+      out.Y.z = get<0>(M.Y);
 */
-      MPI_Send(&in, 1, MPI_Polynomial, 0, 0, MPI_COMM_WORLD);
-   }
-
+      MPI_Send(&in,sizeof(struct Poly),MPI_Polynomial,0,WORKTAG,MPI_COMM_WORLD);
+    printf("Sent back from %d\n", rank);
+    //}
 }
 
 
@@ -260,7 +289,7 @@ void construct_MPI_DataTypes()
 
 
 void clear_Poly(Poly &p)
-{
+{     
      p.Y.x = 0;
      p.Y.y = 0;
      p.Y.z = 0;
@@ -270,6 +299,8 @@ void clear_Poly(Poly &p)
 
      return;
 }
+
+
 /*
 int makeTables(int diam)
 {
