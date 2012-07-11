@@ -1,0 +1,108 @@
+\section{ The Proof}
+\begin{theorem}
+Let k $\geq$ 14 be an integer. We claim that
+ \[
+m(2,k) \geq \frac{37}{121}k^2 + O(k). 
+\]
+\end{theorem}
+\begin{proof}
+Let k $\geq$ 14 be an integer. Let $k_1 = \left \lfloor \frac{k - 3}{11} \right \rfloor$. Let m = $37k_1^2$.  Define the intervals
+\begin{align*}
+I_0 &= [0, k_1], \\
+I_4 &= [4k_1^2, 4k_1^2+k_1], \\
+I_{15} &= [15k_1^2, 15k_1^2+k_1], and \\
+I_{26} &= [26k_1^2, 26k_1^2+k_1] 
+\end{align*}
+such that I = $I_0 \cup I_4 \cup I_{15} \cup I_{26}.$
+
+Define the sets
+
+\begin{align*}
+S_0 &= \{i(k_1 + 1) | i = 0 : k_1 - 1\},\\
+S_1 &= \{k_1^2 + i(k_1 + 1) | i = 0 : k_1 - 1\},\\
+S_2 &= \{2k_1^2 + i(k_1 + 1) | i = 0 : k_1 - 1\}, \text{and}\\
+S_3 &= \{3k_1^2 + i(k_1 + 1) | i = 0 : k_1 - 1\}
+\end{align*}
+such that S = $S_0 \cup S_1 \cup S_2 \cup S_3.$
+
+Define the sets
+
+\begin{align*}
+T_{10} &= \{k_1(10k_1 + i) | i = 0 : k_1\},\\
+T_{20} &= \{k_1(20k_1 + i) | i = 0 : k_1\}, \text{and}\\
+T_{30} &= \{k_1(30k_1 + i) | i = 0 : k_1\}
+\end{align*}
+such that T = $T_{10} \cup T_{20} \cup T_{30} .$
+
+Let $A = I \cup S \cup T$, where $|A| = 11k_1 + 3 \leq k$. We claim that A is a 2-$basis$ for $\Z_m$.
+
+We begin by claiming $I_a + T_b$ $\supseteq$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$. Let n $\epsilon$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$.
+Then we can write n as 
+\[
+n = (a + b) k_1^2 + ck_1 + d \in I_a + T_b
+\]
+where $0 \leq c \leq k_1$ and $0 \leq d \leq k_1$. 
+
+Next we claim that  $I_a + S_b$ $\supseteq$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$. Let n $\epsilon$ $((a + b)k_1^2 ,  (a + b + 1)k_1^2]$.
+Then we can write n as 
+\[
+n = (a + b) k_1^2 + ck_1 + d 
+\]
+where  $0 \leq c < k_1$ and $0 \leq d \leq k_1$. 
+
+case 1: d $\geq$ c
+\[
+n = ak_1^2 + (d - c) + bk_1^2 + c(k_1 + 1) \in I_a + S_b
+\]
+
+case 2: d $<$ c
+\[
+n = ak_1^2 + (k_1 + 1 + d - c) + bk_1^2 + (c - 1)(k_1 + 1) \in  I_a + S_b
+\]
+
+Our final claim is $T_a$ + S $\supseteq$ $((a +1)k_1^2 ,  (a + 4)k_1^2]$. 
+Let n $\epsilon$ $((a +1)k_1^2 ,  (a + 4)k_1^2]$.
+Then we can write n as 
+\[
+n = (a + b) k_1^2 + ck_1 + d 
+\]
+where $1 \leq b \leq 3$, $0 \leq c < k_1$, and $0 \leq d \leq k_1$. 
+
+case 1: b $\geq$ c
+\[
+n = ak_1^2 + (b - c) + bk_1^2 + c(k_1 + 1) \in T_a + S_b
+\]
+
+case 2: b $<$ c
+\[
+n = ak_1^2 + (k_1 + 1 + b - c) + (b - 1)k_1^2 + c(k_1 + 1) \in  T_a + S_{b-1}
+\]
+Hence 
+\[
+n = ak_1^2 + d + bk_1^2 + ck_1 \in I_a + T_b.
+\].
+
+Note that
+\begin{align*}
+8 &\equiv 45\pmod{37},\\
+ 9 &\equiv 46\pmod{37},  \text{ and} \\
+19 &\equiv 56\pmod{37 }.
+\end{align*} 
+So we cover $(8k_1^2, 9k_1^2]$ by instead covering $(45k_1^2, 46k_1^2]$, and likewise for $(9k_1^2, 10k_1^2]$, and $(19k_1^2, 20k_1^2]$. 
+
+Hence 
+\begin{align*}
+S + I &\supseteq [1, 8k_1^2] \cup (15k_1^2, 19k_1^2] \cup (26k_1^2, 30k_1^2],\\
+I + T &\supseteq (8k_1^2, 11k_1^2] \cup (14k_1^2, 15k_1^2] \cup (19k_1^2, 21k_1^2] \cup (24k_1^2, 26k_1^2] \cup (30k_1^2, 31k_1^2] \cup (34k_1^2, 37k_1^2],\text{ and}\\
+S + T &\supseteq (11k_1^2, 14k_1^2] \cup (21k_1^2, 24k_1^2] \cup (31k_1^2, 34k_1^2]. 
+\end{align*}
+
+It now follows that 
+\[
+A + A \supseteq [0, 37k_1^2],
+\]
+hence
+\[
+m(2,k) \geq \frac{37}{121}k^2 + O(k). \qedhere
+\]
+\end{proof}
