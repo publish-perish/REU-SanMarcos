@@ -44,7 +44,17 @@ bool Polynomial::operator==(const Polynomial &p)
 
 bool Polynomial::operator>=(const Polynomial &p)
 {
-   return(sum()>=p.sum());
+   return((get<0>(p.Y)>=get<0>(Y)) && (get<1>(p.Y)>=get<1>(Y)) && (get<2>(p.Y)>=get<2>(Y)));
+}
+
+bool Polynomial::operator!=(const Polynomial &p)
+{
+   return((get<0>(p.Y)!=get<0>(Y)) && (get<1>(p.Y)!=get<1>(Y)) && (get<2>(p.Y)!=get<2>(Y)));
+}
+
+bool Polynomial::operator!=(int num)
+{
+   return((get<0>(Y)!=num) && (get<1>(Y)!=num) && (get<2>(Y)!=num));
 }
 
 Polynomial Polynomial::operator=(const Polynomial &p)

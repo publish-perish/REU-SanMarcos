@@ -36,6 +36,8 @@ class Polynomial{
 
       bool operator==(const Polynomial&);
       bool operator>=(const Polynomial&);
+      bool operator!=(const Polynomial&);
+      bool operator!=(int);
       Polynomial operator=(const Polynomial&);
 
       Polynomial operator-(Polynomial);

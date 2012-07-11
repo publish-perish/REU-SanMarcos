@@ -1,0 +1,15 @@
+#!/bin/bash
+
+EXPECTED_ARGS=3
+E_BADARGS=65
+
+if [ $# -ne $EXPECTED_ARGS ]
+    then
+      echo "Usage: runparallel diam numprocs hostfile"
+        exit $E_BADARGS
+        fi
+make
+make tables
+./executables/tables $1 $2
+make parallel
+mpirun -np $2 --hostfile $3 ./executables/parallel $1 > parallel.txt
