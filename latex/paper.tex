@@ -12,8 +12,7 @@
 \usepackage{pst-tree}
 \usepackage{pst-poly}
 \usepackage{calc,ifthen}
-\usepackage{float}
-\usepackage{multicol}
+\usepackage{float}\usepackage{multicol}
 \usepackage{multirow}
 \usepackage{array}
 \usepackage{longtable}
@@ -82,6 +81,8 @@
  
 \begin{document}
  
+\baselineskip6mm\parskip4mm
+
 \maketitle
 \begin{center}
 \begin{tikzpicture}
@@ -337,5 +338,6 @@ We will begin by examine the case when k = 3. The current bounds for this case, 
  
 
 \input{algorithm}
+\pagebreak
 \input{proof}
 \end {document}
