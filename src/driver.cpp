@@ -61,13 +61,13 @@ int main(int argc, char *argv[])
        gens.open("./permutationtables/GenTable.txt");
        if(gens){
        archive.open("./ms.txt");
-	    while(gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A)
+	    while(gens >> A)
        {
           double c1 = get<0>(A)/get<1>(A);
 		    QTable.makeMCoTable(diam, get<1>(A), c1, 1);
           mcoeffs.open("./permutationtables/MTable.txt");
           if(mcoeffs){
-          while(mcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> Q)
+          while(mcoeffs >> Q)
           {
              M = Polynomial(A, Q);
              cover.reset();
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
              {
                 xcoeffs.open("./permutationtables/XTable.txt");
                 if(xcoeffs){
-                while(xcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x)
+                while(xcoeffs >> x)
                 {
                    X = Polynomial(A, x);
                    X_prime = X-M;

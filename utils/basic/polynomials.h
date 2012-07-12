@@ -1,21 +1,17 @@
 #ifndef POLYNOMIAL_H
 #define POLYNOMIAL_H
 
-#include "env.h"
+#include "tuple.h"
 #include <vector>
 #include <map>
 #include <fstream>
 #include <iostream>
-#include "../basic/subtraction.h"
+#include "subtraction.h"
 
-
-typedef boost::tuples::tuple<int, int, int> T;
 typedef std::vector<T> Vec;
 
-
-using namespace boost::tuples;
-
 class Subtractions;
+template class Tuple<int, 3>;
 
 class Polynomial{
 

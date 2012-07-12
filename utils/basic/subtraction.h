@@ -1,14 +1,11 @@
 #ifndef SUBTRACTION_H
 #define SUBTRACTION_H
 
-#include "env.h"
+#include "tuple.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
 
-using namespace boost::tuples;
-
-typedef boost::tuples::tuple<int, int, int> T;
 
 class Subtractions{
 

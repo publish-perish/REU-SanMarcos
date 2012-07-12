@@ -1,16 +1,16 @@
 #ifndef P_H
 #define P_H
-#include "env.h"
+#include "tuple.h"
 #include <vector>
 #include <set>
 #include <iostream>
 #include <fstream>
 #include <iterator>
 #include "string.h"
+#include <sstream>
 
 using namespace std;
 
-typedef boost::tuples::tuple<int, int, int> T;
 typedef std::vector<T> Vec;
 
 class MCoTable{

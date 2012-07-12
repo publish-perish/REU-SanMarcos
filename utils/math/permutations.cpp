@@ -5,9 +5,10 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
    ofstream out;
    for(int rank=1; rank <= numprocs; rank++)
    {
-       string s = boost::lexical_cast<string>(rank);
+       stringstream s;
        string fname = "./permutationtables/XTable.txt";
-       out.open((fname.insert(fname.length()-4, s)).c_str());
+       s << rank;
+       out.open((fname.insert(fname.length()-4, s.str())).c_str());
        size = 0;
        if(out.is_open()){
        for(int i=diam; i >= 0; --i)
@@ -28,7 +29,7 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
                 std::set<T>::iterator itr = holdingTank.begin();
                 while(itr != holdingTank.end())
                 {
-                     out << boost::tuples::set_delimiter(',') << *itr <<" ";
+                     out << *itr;
                      ++size;
                      itr++;     
                 }	
@@ -45,9 +46,10 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
 bool MCoTable::makeMCoTable(const int diam, int b, double c1, int rank)
 {
    ofstream out;
-   string s = boost::lexical_cast<string>(rank);
+   stringstream s;
    string fname = "./permutationtables/MTable.txt";
-   out.open((fname.insert(fname.length()-4, s)).c_str());
+   s << rank;
+   out.open((fname.insert(fname.length()-4, s.str())).c_str());
    size = 0;
    if(out.is_open()){
    for(int i=1; i < (diam*diam*diam / (b*c1)); ++i)
@@ -56,7 +58,7 @@ bool MCoTable::makeMCoTable(const int diam, int b, double c1, int rank)
       {
          for(int k=1; k < (b); ++k) //filter them in holding tank, then add to file
          {
-            out << boost::tuples::set_delimiter(',') << T(i, j, k) <<" ";
+            out << T(i, j, k) ;
             ++size;
          }
       }
@@ -77,7 +79,7 @@ void GenTable::makeGenTable(int diam)  //order: c, b, 1
       {
          if(i*j < diam*diam*diam/6)
          {
-            out<< boost::tuples::set_delimiter(',') << T(i*j,j,1) <<" ";
+            out<< T(i*j,j,1) ;
             ++size;
          }
       }

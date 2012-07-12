@@ -1,4 +1,4 @@
-#include "../utils/basic/env.h"
+#include "../utils/basic/tuple.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
@@ -9,6 +9,7 @@
 #include <time.h>
 #include <iterator>
 #include <fstream>
+#include <sstream>
 
 #define WORKTAG 1
 #define DIETAG 2
@@ -16,15 +17,15 @@
 typedef std::vector<Polynomial> PolyVec;
 
 
-struct Tuple{
+struct tuple{
     int x;
     int y;
     int z;
   };
 
 struct Poly{
-    Tuple A;
-    Tuple Y;
+    tuple A;
+    tuple Y;
 };
 
 //MPI Datatypes
@@ -35,7 +36,7 @@ void master(int, int, Polynomial&);
 void slave(int, int);
 void construct_MPI_DataTypes();
 void check_cover(T, int, int, Polynomial&);
-
+void clear_cover(int[]);
 
 int main (int argc, char *argv[]) {
   if(argc<2)
@@ -86,7 +87,7 @@ int main (int argc, char *argv[]) {
    
     end = clock();
     if(mbest != 0){
-        printf("\nDiameter: %d \nGenerators: (%d, %d, %d), Location: (%d, %d, %d)\n", diam, get<0>(mbest.A), get<1>(mbest.A), get<2>(mbest.A), get<0>(mbest.Y), get<1>(mbest.Y), get<2>(mbest.Y)); 
+        printf("\nDiameter: %d \nGenerators: (%d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.Y[0], mbest.Y[1], mbest.Y[2]); 
     }else if(rank == 0){printf("\nProcesses did not find a cover \n");
         printf("\nProgram ran for %f seconds \n\n",(double)(end - start)/(double)CLOCKS_PER_SEC);}
     
@@ -112,11 +113,11 @@ void master(int diam, int numprocs, Polynomial &mbest)
    // Assign generators to each process.
    for(i=0; i<numprocs-1; ++i)
    {
-      gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
+      gens >> A;
       
-      sendbuf[i].A.z = get<0>(A);
-      sendbuf[i].A.y = get<1>(A);
-      sendbuf[i].A.x = get<2>(A);
+      sendbuf[i].A.z = A[0];
+      sendbuf[i].A.y = A[1];
+      sendbuf[i].A.x = A[2];
 //printf("Master Sending ( %d %d %d ) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
       MPI_Send(&sendbuf[i],1, MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD);
    }
@@ -138,11 +139,11 @@ void master(int diam, int numprocs, Polynomial &mbest)
           //results.push_back(M);
           //cout<<"Testing "<<M.A <<" generators, returned location "<<M.Y;
 
-          gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
+          gens >> A;
                 
-          sendbuf[i].A.x = get<2>(A);
-          sendbuf[i].A.y = get<1>(A);
-          sendbuf[i].A.z = get<0>(A);
+          sendbuf[i].A.x = A[2];
+          sendbuf[i].A.y = A[1];
+          sendbuf[i].A.z = A[0];
 
           MPI_Send(&sendbuf[i],1,MPI_Polynomial,status[i].MPI_SOURCE,WORKTAG,MPI_COMM_WORLD);
       }
@@ -184,7 +185,6 @@ void slave(int diam, int numprocs)
    Polynomial mbest;
 
    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-   string s = boost::lexical_cast<string>(rank);
    
    while(1)
    {
@@ -198,12 +198,12 @@ void slave(int diam, int numprocs)
     A = T(recvbuf[rank].A.z, recvbuf[rank].A.y, recvbuf[rank].A.x);  
     check_cover(A, rank, diam, mbest);
     
-    sendbuf[rank].Y.x = get<2>(mbest.Y);
-    sendbuf[rank].Y.y = get<1>(mbest.Y);
-    sendbuf[rank].Y.z = get<0>(mbest.Y);
-    sendbuf[rank].A.x = get<2>(mbest.A);
-    sendbuf[rank].A.y = get<1>(mbest.A);
-    sendbuf[rank].A.z = get<0>(mbest.A);
+    sendbuf[rank].Y.x = mbest.Y[2];
+    sendbuf[rank].Y.y = mbest.Y[1];
+    sendbuf[rank].Y.z = mbest.Y[0];
+    sendbuf[rank].A.x = mbest.A[2];
+    sendbuf[rank].A.y = mbest.A[1];
+    sendbuf[rank].A.z = mbest.A[0];
 //printf("Process %d returning ( %d %d %d ) from slave \n",rank, sendbuf[rank].A.z, sendbuf[rank].A.y, sendbuf[rank].A.x);
     
     MPI_Send(&sendbuf[rank],1,MPI_Polynomial,0,WORKTAG,MPI_COMM_WORLD);
@@ -217,29 +217,31 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
    int i,j,k;
    ifstream xcoeffs;
    Polynomial X, X_prime, M;
-   boost::dynamic_bitset<> cover(diam*diam*diam);
+   int cover[diam*diam*diam];
    bool covered = false;
    MCoTable QTable;
-   double c1 = (float)get<0>(A)/get<1>(A);
-   string s = boost::lexical_cast<string>(rank);
+   double c1 = (float)A[0]/A[1];
+   stringstream s;
    string fxcoeffs = "./permutationtables/XTable.txt";
-   fxcoeffs = (fxcoeffs.insert(fxcoeffs.length()-4, s)).c_str();
-  
+   s << rank;
+   fxcoeffs = (fxcoeffs.insert(fxcoeffs.length()-4, s.str())).c_str();
+   //clear_cover(cover);
+
    // Loop over m and xcoeffs
-   for(i=1; i < (diam*diam*diam / (get<1>(A)*c1)); ++i)
+   for(i=1; i < (diam*diam*diam / (A[1]*c1)); ++i)
    {
     for(j=1; j < (c1); ++j)
     {
-     for(k=1; k < (get<1>(A)); ++k) //filter them in holding tank, then add to file
+     for(k=1; k < (A[1]); ++k) //filter them in holding tank, then add to file
      {
          Q = T(i, j, k);
          //cout<<"Q "<<Q;
          M = Polynomial(A, Q);
-         cover.reset();
+         //cover = {0};
          if((M.value() > mbest.value()) && M.wellFormed() && (M.sum() < (diam*diam*diam))) //ignore M that are too small, or badly formed
          {
            xcoeffs.open(fxcoeffs.c_str());if(xcoeffs){
-            while(xcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x)
+            while(xcoeffs >> x)
             {
              //cout << "x "<<x<<endl;
              X = Polynomial(A, x);
@@ -271,11 +273,20 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
 
 }
 
+void clear_cover(int cover[])
+{
+    for(int i=0; i<sizeof(cover); ++i)
+    {
+        cover[i] = 0;
+    }
+    return;
+}
+
 void construct_MPI_DataTypes()
 {
   int i, err = 0;
 
-  // Construct MPI Tuple
+  // Construct MPI tuple
   MPI_Type_contiguous(3, MPI_INT, &MPI_Tuple);
   MPI_Type_commit(&MPI_Tuple);
 
@@ -286,7 +297,7 @@ void construct_MPI_DataTypes()
   int pbase;
   int pblocklen[3] = {12, 12};
 
-  // MPI description of Tuple
+  // MPI description of tuple
   err = MPI_Get_address(&aPoly.Y, pdisp); 
   err = MPI_Get_address(&aPoly.A, pdisp+1); 
   if(err){
