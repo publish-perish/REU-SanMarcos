@@ -104,26 +104,20 @@ void master(int diam, int numprocs, Polynomial &mbest)
    T A, m;
    int i;
    double c1;
-   bool table = true;
    ifstream gens;
    PolyVec results;
    Polynomial M;
-   MCoTable QTable;
 
    gens.open("./permutationtables/GenTable.txt");if(gens){
    // Assign generators to each process.
-   for(i=0; i<numprocs-1 && table; ++i)
+   for(i=0; i<numprocs-1; ++i)
    {
-      table = false;
       gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
-      
-      //c1 = (float)get<2>(A)/get<1>(A);
-      //table = QTable.makeMCoTable(diam, get<1>(A), c1, i+1);
       
       sendbuf[i].A.z = get<0>(A);
       sendbuf[i].A.y = get<1>(A);
       sendbuf[i].A.x = get<2>(A);
-printf("Master Sending ( %d %d %d ) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
+//printf("Master Sending ( %d %d %d ) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
       MPI_Send(&sendbuf[i],1, MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD);
    }
    
@@ -132,12 +126,13 @@ printf("Master Sending ( %d %d %d ) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, se
    {
       for(i=0; i<numprocs-1; ++i)
       {
+//printf("Waiting for return from slave %d \n", i+1);
           MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status[i]);
           
           // Put into results
           M = Polynomial(T(recvbuf[i].A.z,recvbuf[i].A.y,recvbuf[i].A.x),T(recvbuf[i].Y.z,recvbuf[i].Y.y,recvbuf[i].Y.z));
-printf("Process %d in slave recieved (%d %d %d) as generators ",status[i].MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
-printf("and (%d %d %d) as M-coeffs \n",status[i].MPI_SOURCE, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x);
+//printf("Process %d in slave returned (%d %d %d) as generators ",status[i].MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
+//printf("and (%d %d %d) as M-coeffs \n",status[i].MPI_SOURCE, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x);
 //cout<<"Master recieved M "<<M;
           if(M.value() > mbest.value()){mbest = M;}
           //results.push_back(M);
@@ -145,9 +140,6 @@ printf("and (%d %d %d) as M-coeffs \n",status[i].MPI_SOURCE, recvbuf[i].Y.z, rec
 
           gens >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> A;
                 
-          //c1 = (float)get<2>(A)/get<1>(A);
-          //QTable.makeMCoTable(diam, get<1>(A), c1, status[i].MPI_SOURCE);
-
           sendbuf[i].A.x = get<2>(A);
           sendbuf[i].A.y = get<1>(A);
           sendbuf[i].A.z = get<0>(A);
@@ -199,8 +191,8 @@ void slave(int diam, int numprocs)
 //printf("I am slave %d in slave\n",rank);
       MPI_Recv(&recvbuf[rank],1,MPI_Polynomial,0,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
       if(status.MPI_TAG == DIETAG){return;}
-   //   mbest = Polynomial(T(0,0,0), T(0,0,0));
-printf("Process %d in slave recieved (%d %d %d) \n",rank, recvbuf[rank].A.z, recvbuf[rank].A.y, recvbuf[rank].A.x);
+      mbest = Polynomial(T(0,0,0), T(0,0,0));
+//printf("Process %d in slave recieved (%d %d %d) \n",rank, recvbuf[rank].A.z, recvbuf[rank].A.y, recvbuf[rank].A.x);
     
     // Check cover
     A = T(recvbuf[rank].A.z, recvbuf[rank].A.y, recvbuf[rank].A.x);  
@@ -212,7 +204,7 @@ printf("Process %d in slave recieved (%d %d %d) \n",rank, recvbuf[rank].A.z, rec
     sendbuf[rank].A.x = get<2>(mbest.A);
     sendbuf[rank].A.y = get<1>(mbest.A);
     sendbuf[rank].A.z = get<0>(mbest.A);
-printf("Process %d returning ( %d %d %d ) from slave \n",rank, sendbuf[rank].A.z, sendbuf[rank].A.y, sendbuf[rank].A.x);
+//printf("Process %d returning ( %d %d %d ) from slave \n",rank, sendbuf[rank].A.z, sendbuf[rank].A.y, sendbuf[rank].A.x);
     
     MPI_Send(&sendbuf[rank],1,MPI_Polynomial,0,WORKTAG,MPI_COMM_WORLD);
     }
@@ -223,18 +215,17 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
 {
    T Q, x;
    int i,j,k;
-   ifstream mcoeffs, xcoeffs;
+   ifstream xcoeffs;
    Polynomial X, X_prime, M;
    boost::dynamic_bitset<> cover(diam*diam*diam);
    bool covered = false;
    MCoTable QTable;
-   string fmcoeff = "./permutationtables/MTable.txt";
-   string fxcoeff = "./permutationtables/XTable.txt";
-   string s = boost::lexical_cast<string>(rank);
    double c1 = (float)get<0>(A)/get<1>(A);
-   fmcoeff = (fmcoeff.insert(fmcoeff.length()-4, s)).c_str();
-   fxcoeff = (fxcoeff.insert(fxcoeff.length()-4, s)).c_str();
-   
+   string s = boost::lexical_cast<string>(rank);
+   string fxcoeffs = "./permutationtables/XTable.txt";
+   fxcoeffs = (fxcoeffs.insert(fxcoeffs.length()-4, s)).c_str();
+  
+   // Loop over m and xcoeffs
    for(i=1; i < (diam*diam*diam / (get<1>(A)*c1)); ++i)
    {
     for(j=1; j < (c1); ++j)
@@ -247,15 +238,16 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
          cover.reset();
          if((M.value() > mbest.value()) && M.wellFormed() && (M.sum() < (diam*diam*diam))) //ignore M that are too small, or badly formed
          {
-            xcoeffs.open(fxcoeff.c_str());if(xcoeffs){
+           xcoeffs.open(fxcoeffs.c_str());if(xcoeffs){
             while(xcoeffs >> boost::tuples::set_open('(') >> boost::tuples::set_close(')') >> boost::tuples::set_delimiter(',') >> x)
             {
-               //cout << "x "<<x;
-               X = Polynomial(A, x);
-               X_prime = X-M;
-               if(X_prime.wellFormed()){ 
-               cover[X_prime.sum()] = 1;	
-            }
+             //cout << "x "<<x<<endl;
+             X = Polynomial(A, x);
+             X_prime = X-M;
+             if(X_prime.wellFormed())
+             { 
+                cover[X_prime.sum()] = 1;	
+             }}xcoeffs.close();
              // check covering
              covered = true;
              for(int i=0; i < M.sum(); ++i) //only check the first m of them
@@ -267,15 +259,14 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
                 }
              }
              if(covered){mbest = M;}
-            }xcoeffs.close();}else{fprintf(stderr,"Could not read %s \n", fxcoeff.c_str());
-            MPI_Abort(MPI_COMM_WORLD,2);
-            }
-
+             }else{
+                fprintf(stderr,"Could not read XCoeffs \n");
+                MPI_Abort(MPI_COMM_WORLD,2);
+             }
          }
+      }
      }
     }
-   }
-  
   return;
 
 }

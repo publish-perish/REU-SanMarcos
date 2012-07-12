@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
        MCoTable MTable;
        XTable.makeXCoTable(atoi(argv[1]), atoi(argv[2]));
        cout<<"Made X-Coeffs\n";
-       MTable.makeMCoTable(atoi(argv[1]), 0, 0, atoi(argv[2]));
+      // MTable.makeMCoTable(atoi(argv[1]), 0, 0, atoi(argv[2]));
        cout<<"Made M-Coeffs\n";
        GenTable.makeGenTable(atoi(argv[1]));
        cout<<"Made Generators\n";

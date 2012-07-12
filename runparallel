@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXPECTED_ARGS=3
+EXPECTED_ARGS=2
 E_BADARGS=65
 
 if [ $# -ne $EXPECTED_ARGS ]
@@ -12,4 +12,4 @@ make
 make tables
 ./executables/tables $1 $2
 make parallel
-mpirun -np $2 --hostfile $3 ./executables/parallel $1 > parallel.txt
+mpirun -np $2 --hostfile ./test/hostfile ./executables/parallel $1 > parallel.txt
