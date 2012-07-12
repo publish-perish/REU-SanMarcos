@@ -42,7 +42,7 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
 }
 
 
-void MCoTable::makeMCoTable(const int diam, int b, double c1, int rank)
+bool MCoTable::makeMCoTable(const int diam, int b, double c1, int rank)
 {
    ofstream out;
    string s = boost::lexical_cast<string>(rank);
@@ -61,7 +61,7 @@ void MCoTable::makeMCoTable(const int diam, int b, double c1, int rank)
          }
       }
    }out << endl; out.close();}
-   return;
+   return true;
 }
 
 

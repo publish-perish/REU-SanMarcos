@@ -1,12 +1,12 @@
 #ifndef POLYNOMIAL_H
 #define POLYNOMIAL_H
 
+#include "env.h"
 #include <vector>
 #include <map>
 #include <fstream>
 #include <iostream>
 #include "../basic/subtraction.h"
-#include "boost/tuple/tuple.hpp"
 
 
 typedef boost::tuples::tuple<int, int, int> T;
