@@ -31,10 +31,9 @@ To construct a lower bound, we systematically check combinations of generators $
 \end{block}
 \end{centering}
 
-\pagebreak
+
 \subsection{Pseudocode}
 We begin with 3 generators
-\vspace{3mm}
 
 \begin{centering}
 \begin{block}\textbf{For each generator }  
@@ -42,64 +41,48 @@ We begin with 3 generators
 \hspace{5mm}create a coefficients table  // $x_1$ $<$ $b_1$ , $x_2$ $<$ c \\
 \textbf{end}
 
-\vspace{3mm}
 \textbf{Define} Constant 
 
 \hspace{5mm}Integer $d_{cubed}$ = $diameter * diameter * diameter$
-\vspace{5mm}
 
-\vspace{3mm}
 \textbf{Define} Tuples
 
 \hspace{5mm}Tuple $A$ // generators\\
 \hspace{5mm}Tuple $Q$  // m coefficients\\
 \hspace{5mm}Tuple $x$  // x coefficients\\
-\vspace{5mm}
 
-
+\pagebreak
 \textbf{Define} Polynomials
 
 \hspace{5mm}Polynomial $X$ // \\
 \hspace{5mm}Polynomial $M$  // The bound itself\\
 \hspace{5mm}Polynomial $X_{prime}$  // \\
-\vspace{5mm}
 
 \textbf{Define} $M$ a polynomial of $A$ and $Q$
-\vspace{3mm}
 
 \textbf{Loop} through every choice of $m$ coeffiecient
-\vspace{2mm}
 
 \hspace{5mm}\textbf{If} $M$ meets criteria // M well formed, less than $d_{cubed}$
 
 \hspace{38mm}// and greater than current best  value
-\vspace{2mm}
 
 \hspace{10mm}\textbf{Define} $X$ a polynomial of $A$ and $x$
-\vspace{2mm}
 
 \hspace{10mm}\textbf{Set} Polynomial $X_{prime}$ = $X-M$
-\vspace{2mm}
 
 \hspace{10mm}\textbf{If} $X$ is well formed
-\vspace{1mm}
 
 \hspace{15mm}check covering
-
-\vspace{1mm}
 
 \hspace{15mm}\textbf{If} covering is $true$
 
 \hspace{20mm}save the polynomial $M$ 
 
 \hspace{15mm}\textbf{end}
-\vspace{2mm}
 
 \hspace{10mm}\textbf{end}
-\vspace{2mm}
 
 \hspace{5mm}\textbf{end}
-\vspace{2mm}
 
 \textbf{end}
 
