@@ -29,19 +29,18 @@ int main(int argc, char *argv[])
        end = clock();
        std::cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
        std::cout <<"\nSize of X-Coeff Table:" << XTable.size << "\nSize of Generator Table:" << GenTable.size;
-       std::cout<<"\nTesting M-Coeff Table, size is :"<<MTable.size<<endl;
+       //std::cout<<"\nTesting M-Coeff Table, size is :"<<MTable.size<<endl;
 
        ifstream gens;
 
-       T A;
+       T A, B;
        gens.open("./permutationtables/GenTable.txt");
        if(gens){
            while(!gens.eof()){
-           gens >> A;}
-       }
+           gens >> A >> B;
 
-       Polynomial P;
-
+       Polynomial P(A, B);
+cout<< P;}}
        return 0;
     }
 

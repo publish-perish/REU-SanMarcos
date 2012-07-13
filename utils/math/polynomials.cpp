@@ -1,6 +1,5 @@
 #include "../basic/polynomials.h"
 
-
 Polynomial::Polynomial()
 {
     A = T(0, 0, 0);
@@ -8,7 +7,7 @@ Polynomial::Polynomial()
     s = 0;
 }
 
-Polynomial::Polynomial(T a, T y)
+Polynomial::Polynomial(T &a, T &y)
 {
    A = a;
    Y = y;

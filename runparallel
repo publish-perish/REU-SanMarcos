@@ -8,8 +8,7 @@ if [ $# -ne $EXPECTED_ARGS ]
       echo "Usage: runparallel diam numprocs hostfile"
         exit $E_BADARGS
         fi
-make
 make tables
 ./executables/tables $1 $2
 make parallel
-mpirun -np $2 --hostfile ./test/hostfile ./executables/parallel $1 > parallel.txt
+mpirun -np $2 --hostfile ./test/hostfile ./executables/parallel $1

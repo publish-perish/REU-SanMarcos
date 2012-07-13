@@ -11,7 +11,6 @@
 typedef std::vector<T> Vec;
 
 class Subtractions;
-template class Tuple<int, 3>;
 
 class Polynomial{
 
@@ -19,7 +18,7 @@ class Polynomial{
 
 
       Polynomial();
-      Polynomial(T a, T y);
+      Polynomial(T &a, T &y);
       Polynomial(T a, int, int, int);
       Polynomial(const Polynomial&);
 

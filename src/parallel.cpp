@@ -65,7 +65,7 @@ int main (int argc, char *argv[]) {
 
   construct_MPI_DataTypes();
   
-//printf("I am process %d in main\n", rank);
+printf("I am process %d in main\n", rank);
     if(rank == 0)
     {
        master(diam, numprocs, mbest);
@@ -75,7 +75,7 @@ int main (int argc, char *argv[]) {
         slave(diam, numprocs);
     }
 
-//printf("I am process %d leaving main \n",rank);
+printf("I am process %d leaving main \n",rank);
     
     MPI_Barrier(MPI_COMM_WORLD);
 
@@ -118,7 +118,7 @@ void master(int diam, int numprocs, Polynomial &mbest)
       sendbuf[i].A.z = A[0];
       sendbuf[i].A.y = A[1];
       sendbuf[i].A.x = A[2];
-//printf("Master Sending ( %d %d %d ) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
+printf("Master Sending ( %d %d %d ) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
       MPI_Send(&sendbuf[i],1, MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD);
    }
    
@@ -127,13 +127,15 @@ void master(int diam, int numprocs, Polynomial &mbest)
    {
       for(i=0; i<numprocs-1; ++i)
       {
-//printf("Waiting for return from slave %d \n", i+1);
+printf("Waiting for return from slave %d \n", i+1);
           MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status[i]);
           
           // Put into results
-          M = Polynomial(T(recvbuf[i].A.z,recvbuf[i].A.y,recvbuf[i].A.x),T(recvbuf[i].Y.z,recvbuf[i].Y.y,recvbuf[i].Y.z));
-//printf("Process %d in slave returned (%d %d %d) as generators ",status[i].MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
-//printf("and (%d %d %d) as M-coeffs \n",status[i].MPI_SOURCE, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x);
+          T a(recvbuf[i].A.z,recvbuf[i].A.y,recvbuf[i].A.x);
+          T y(recvbuf[i].Y.z,recvbuf[i].Y.y,recvbuf[i].Y.z);
+          M = Polynomial(a, y);
+printf("Process %d in slave returned (%d %d %d) as generators ",status[i].MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
+printf("and (%d %d %d) as M-coeffs \n",status[i].MPI_SOURCE, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x);
 //cout<<"Master recieved M "<<M;
           if(M.value() > mbest.value()){mbest = M;}
           //results.push_back(M);
@@ -152,15 +154,15 @@ void master(int diam, int numprocs, Polynomial &mbest)
    // No more generators, wait for processes to finish.
    for(i=0; i<numprocs-1; ++i)
    { 
-//printf("Waiting in master for return from %d \n", i+1);
+printf("Waiting in master for return from %d \n", i+1);
       MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status[i]);
-//printf("GOTIT! Process %d returned (%d %d %d) to master \n",status[i].MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
+printf("GOTIT! Process %d returned (%d %d %d) to master \n",status[i].MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
   }
 
    // Exit all slaves.
    for(i=0; i<numprocs-1; ++i)
    {    
-//printf("Exiting slave %d \n",i+1);
+printf("Exiting slave %d \n",i+1);
       MPI_Send(0,0,MPI_INT,i+1,DIETAG,MPI_COMM_WORLD);
    }
    }else{
@@ -188,11 +190,11 @@ void slave(int diam, int numprocs)
    
    while(1)
    {
-//printf("I am slave %d in slave\n",rank);
+printf("I am slave %d in slave\n",rank);
       MPI_Recv(&recvbuf[rank],1,MPI_Polynomial,0,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
       if(status.MPI_TAG == DIETAG){return;}
-      mbest = Polynomial(T(0,0,0), T(0,0,0));
-//printf("Process %d in slave recieved (%d %d %d) \n",rank, recvbuf[rank].A.z, recvbuf[rank].A.y, recvbuf[rank].A.x);
+     // mbest = Polynomial(T(0,0,0), T(0,0,0));
+printf("Process %d in slave recieved (%d %d %d) \n",rank, recvbuf[rank].A.z, recvbuf[rank].A.y, recvbuf[rank].A.x);
     
     // Check cover
     A = T(recvbuf[rank].A.z, recvbuf[rank].A.y, recvbuf[rank].A.x);  
@@ -204,7 +206,7 @@ void slave(int diam, int numprocs)
     sendbuf[rank].A.x = mbest.A[2];
     sendbuf[rank].A.y = mbest.A[1];
     sendbuf[rank].A.z = mbest.A[0];
-//printf("Process %d returning ( %d %d %d ) from slave \n",rank, sendbuf[rank].A.z, sendbuf[rank].A.y, sendbuf[rank].A.x);
+printf("Process %d returning ( %d %d %d ) from slave \n",rank, sendbuf[rank].A.z, sendbuf[rank].A.y, sendbuf[rank].A.x);
     
     MPI_Send(&sendbuf[rank],1,MPI_Polynomial,0,WORKTAG,MPI_COMM_WORLD);
     }
@@ -225,7 +227,7 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
    string fxcoeffs = "./permutationtables/XTable.txt";
    s << rank;
    fxcoeffs = (fxcoeffs.insert(fxcoeffs.length()-4, s.str())).c_str();
-   //clear_cover(cover);
+   clear_cover(cover);
 
    // Loop over m and xcoeffs
    for(i=1; i < (diam*diam*diam / (A[1]*c1)); ++i)
@@ -237,7 +239,7 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
          Q = T(i, j, k);
          //cout<<"Q "<<Q;
          M = Polynomial(A, Q);
-         //cover = {0};
+         clear_cover(cover);
          if((M.value() > mbest.value()) && M.wellFormed() && (M.sum() < (diam*diam*diam))) //ignore M that are too small, or badly formed
          {
            xcoeffs.open(fxcoeffs.c_str());if(xcoeffs){
