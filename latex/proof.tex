@@ -1,0 +1,110 @@
+\section{ The Proof}
+\begin{theorem}
+Let k $\geq$ 17 be an integer. We claim that
+ \[
+m(2,k) \geq \frac{37}{121}k^2 + O(k). 
+\]
+\end{theorem}
+\begin{proof}
+Let k $\geq$ 14 be an integer. Let $k_1 = \left \lfloor \frac{k - 6}{11} \right \rfloor$. Let m = $37k_1^2$.  Define 
+\begin{align*}
+I_0 &= [0, k_1], \\
+I_4 &= [4k_1^2, 4k_1^2+k_1], \\
+I_{15} &= [15k_1^2, 15k_1^2+k_1],\\
+I_{26} &= [26k_1^2, 26k_1^2+k_1], \\
+S_0 &= \{ik_1 \ |\  i = 0 , 1, ... , k_1 - 1\},\\
+S_1 &= \{k_1^2 + ik_1 \ |\  i = 0 , 1, ... , k_1 - 1\},\\
+S_2 &= \{2k_1^2 + ik_1 \ |\  i = 0 , 1, ... , k_1 - 1\}, \\
+S_3 &= \{3k_1^2 +ik_1 \ |\   i = 0 , 1, ... , k_1 - 1\}, \\
+T_{10} &= \{10k_1^2+ i(k_1 - 1) \ |\   i = 0 , 1, ... , k_1 + 1\},\\
+T_{20} &= \{20k_1^2 + i(k_1 - 1) \ |\  i = 0 , 1, ... , k_1 + 1\}, \\
+T_{30} &= \{30k_1^2 + i(k_1 - 1) \ |\  i = 0 , 1, ... , k_1 + 1\}.
+\end{align*}
+Let $T = T_{10} \cup T_{20} \cup T_{30}$, $S = S_{0} \cup S_{1} \cup S_{2} \cup S_{3}$, and $I = I_{0} \cup I_{4} \cup I_{15} \cup I_{26}.$ Note that $|I_n| = k_1 + 1$, $|S_n| = k_1$, and $|T_n| = k_1 + 1$, thus $|I| = 4k_1 + 4$, $|S_n| = 4k_1$, and $|T_n| = 3k_1 + 3$. Define $A = I \cup S \cup T$, where $|A| \leq 11k_1 + 6 \leq k$. Note that when we write $[\alpha, \beta]$, we mean the integers from $\alpha$ to $\beta$. We claim that A is a 2-basis for $\Z_m$, such that every element in $\Z_m$ is the sum of two distinct elements in A.
+
+We begin by claiming $T_a + I_b$ $\supseteq$ $[(a + b)k_1^2 ,  (a + b + 1)k_1^2]$. Let $n \in$ $[(a + b)k_1^2 ,  (a + b + 1)k_1^2]$.
+Then we can write n as 
+\[
+n = (a + b) k_1^2 + ck_1 + d \in I_a + T_b 
+\]
+where $0 \leq c \leq k_1$ and $0 \leq d \leq k_1$.
+
+If $d \geq c$, then
+\[
+n = ak_1^2 + c(k_1 + 1) + bk_1^2 + d -  c 
+\]
+where $ak_1^2 +c(k_1 + 1) \in T_a$, and $bk_1^2 + (d - c) \in I_b$, so $n \in T_a + I_b$. 
+
+If $c>d$, we must have $c \geq 1$, then
+\[
+n = ak_1^2 + (c - 1)(k_1 + 1) + bk_1^2 + k_1 -c + d + 1, 
+\]
+where $ak_1^2 + (c - 1)(k_1 + 1) \in T_a$, and $bk_1^2 + k_1 - c + d + 1 \in I_b$, so $n \in T_a + I_b$. 
+
+Next we claim that  $S_a + I_b$ $\supseteq$ $[(a + b)k_1^2 ,  (a + b + 1)k_1^2]$. Let $n \in$ $[(a + b)k_1^2 ,  (a + b + 1)k_1^2]$.
+Then we can write n as 
+\[
+n = (a + b) k_1^2 + ck_1 + d = ak_1^2 + ck_1 + bk_1^2 + d
+\]
+where  $0 \leq c < k_1$ and $0 \leq d \leq k_1$, such that $ak_1^2 + ck_1 \in S_a$ and $bk_1^2 + d \in I_b$, so $n \in S_a + I_b$. 
+
+Our final claim is $T_a$ + S $\supseteq$ $[(a +1)k_1^2 ,  (a + 4)k_1^2]$. Let $n \in$ $[(a +1)k_1^2 ,  (a + 4)k_1^2]$.
+Then we can write n as 
+\[
+n = (a + b) k_1^2 + ck_1 + d, 
+\]
+where $1 \leq b \leq 3$, $1 \leq c < k_1$, and $0 \leq d \leq k_1$. 
+
+If $d > c$, then
+\[
+n = ak_1^2 + d(k_1 + 1) + (b - 1)k_1^2 + (k_1 + c - d) k_1, 
+\]
+where $ak_1^2 + d(k_1 + 1) \in T_a$ and $(b - 1)k_1^2 + (k_1 + c - d)k_1 \in S_{b - 1}$, so $n \in T_a + S_{b-1}$. 
+
+If $c \geq d$, then
+\[
+n = ak_1^2 + d(k_1 + 1) + bk_1^2 + (c - d) k_1, 
+\]
+where $ak_1^2 + d(k_1 + 1) \in T_a$ and $bk_1^2 + (c - d)k_1 \in S_b$, so $n \in T_a + S_b$. 
+
+Note that
+\begin{align*}
+8 &\equiv 45\pmod{37},\\
+ 9 &\equiv 46\pmod{37}, \\
+19 &\equiv 56\pmod{37 }.
+\end{align*} 
+So $[8k_1^2, 9k_1^2] = [45k_1^2, 46k_1^2]$, $[9k_1^2, 10k_1^2] = [37k_1^2, 38k_1^2]$, and $[19k_1^2, 20k_1^2] = [56k_1^2, 57k_1^2]$. 
+\newpage
+Our interval is covered as follows: 
+
+\begin{align*}
+I_0 + S &\supseteq [1, 14k_1^2],\\
+I_4 + S &\supseteq [4k_1^2, 8k_1^2],\\
+I_{15} + T_{30}  &\supseteq [8k_1^2, 9k_1^2],\\
+I_{26} + T_{20}  &\supseteq [9k_1^2, 10k_1^2],\\
+T_{10} + I_{0}  &\supseteq [10k_1^2, 11k_1^2],\\
+T_{10} + S  &\supseteq [11k_1^2, 14k_1^2],\\
+I_{4} + T_{10}  &\supseteq [14k_1^2, 15k_1^2],\\
+I_{15} + S  &\supseteq [15k_1^2, 19k_1^2],\\
+I_{26} + T_{30}  &\supseteq [19k_1^2, 20k_1^2],\\
+I_{0} + T_{20}  &\supseteq [20k_1^2, 21k_1^2],\\
+S + T_{20}  &\supseteq [21k_1^2, 24k_1^2],\\
+I_{4} + T_{20}  &\supseteq [24k_1^2, 25k_1^2],\\
+I_{15} + T_{10}  &\supseteq [25k_1^2, 26k_1^2],\\
+I_{26} + S  &\supseteq [26k_1^2, 30k_1^2],\\
+I_{0} + T_{30}  &\supseteq [30k_1^2, 31k_1^2],\\
+S + T_{30}  &\supseteq [31k_1^2, 34k_1^2],\\
+I_{4} + T_{30}  &\supseteq [34k_1^2, 35k_1^2],\\
+I_{15} + T_{20}  &\supseteq [35k_1^2, 36k_1^2], \\
+I_{26} + T_{10}  &\supseteq [36k_1^2, 37k_1^2].
+\end{align*}
+
+It now follows that 
+\[
+A + A \supseteq [0, 37k_1^2],
+\]
+hence
+\[
+m(2,k) \geq \frac{37}{121}k^2 + O(k). \qedhere
+\]
+\end{proof}
