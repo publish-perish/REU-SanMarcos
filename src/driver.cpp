@@ -53,6 +53,7 @@ int main()
        if(Ilist){
 	    while(Ilist >> i)
        {
+       	//cout << i << endl;
           Slist.open("./permutationtables/STable.txt");
           if(Slist){
           while(Slist >> s)
@@ -100,31 +101,34 @@ int main()
                 cover[a] = 0;
                 }
                 
-                for(int a =0; a < 5; a++) // I +S : 25
+                for(int a =0; a < 5; a++) // I +S : 15
                 {
-                	for(int b =0; b < 5; b++)
+                	for(int b =0; b < 3; b++)
                 	{
                 	cover[(i[a] +s[b]) ] = 1;
                 	}
                 }
                 
-                for(int a =0; a < 5; a++) // I + T: 25
+                for(int a =0; a < 5; a++) // I + T: 20
                 {
-                	for(int b =0; b < 5; b++)
+                	for(int b =0; b < 4; b++)
                 	{
                 	cover[(i[a] +t[b]) ] = 1;
                 	}
                 }
                
   
-                 for(int a =0; a < 5; a++) // T+S : 20
+                 for(int a =0; a < 4; a++) // T+S : 8
                 {
-                	for(int b =1; b <5; b++)
+                	for(int b =1; b <3; b++)
                 	{
                 	cover[(t[a] +s[b]) ] = 1;                	
                 	
                 	}
 				}
+				// free ones from the odd / even nonsense:
+				//cover[4] =1;
+				//cover[5] =1;
            
 				covered = true;
 				counter = 0;
@@ -141,7 +145,7 @@ int main()
 					break;
 					}
 				}
-				if( counter > best )
+				if( counter >= best )
 				{
 				best = counter;
 				archive <<"value " << best << i <<  s  << t << /*l <<*/ endl;
