@@ -1,72 +1,124 @@
 #include "../basic/permutations.h"
-
-int SITable::makeSITables()
+// 4 3 4
+int Table::makeITable()
 {
-   ofstream sout;
-   ofstream iout;
-   iout.open("./permutationtables/ITable.txt");
-   sout.open("./permutationtables/STable.txt");
-   Isize = 0;
-   Ssize = 0;
-   if(iout.is_open())
-   {
-   for(int i=3; i < 44; ++i)
-   {
-      for(int j=2; j < i; ++j)
-      {
- 			for(int k=1; k < j; ++k)
-      		{
-       		iout << boost::tuples::set_delimiter(',') << T(0, k, j, i) << " ";
-     
-       		++Isize;
-       		}
-      }
-   }
-   if(sout.is_open())
-   {
-   for(int i=0; i < 44; ++i)
-   	{
-   	//for(int j=1; j < i; ++j)
-      //{
-     // for(int k=0; k < j; ++k)
-      //	{
-   	
-   		sout << boost::tuples::set_delimiter(',') << T(i, i+1, i+2, i+3) << " ";
-   		++Ssize;
-   	  	//}
-   	  //}
-   	}
-   }
-   sout << endl; sout.close();
-   iout << endl; iout.close();
-   }
-   return Isize * Ssize;
+ofstream out;
+out.open("./permutationtables/ITable.txt");
+Isize = 0;
+T5 t;
+if(out.is_open())
+{
+for(int a =5; a < 67; a++)
+{
+	for(int b =a+1; b < 68; b++)
+	{
+		for(int c =b+1; c < 69; c++)
+		{
+			for(int d =c+1; d < 70; d++)
+			{
+			t[0] =0;
+			t[1] =a;
+			t[2] =b;
+			t[3] =c;
+			t[4] =d;			
+			out << t;
+			Isize++;
+			}
+		}
+
+	}
+}
+}
+out << endl; out.close();
+return Isize;
+}
+int Table::makeSTable()
+{
+ofstream out;
+out.open("./permutationtables/STable.txt");
+Ssize = 0;
+T5 t;
+if(out.is_open())
+{
+//for(int a =4; a < 35; a++)
+//{
+	//for(int b =a+1; b < 36; b++)
+	//{
+		//for(int c = b+1; c < 37; c++)
+		//{
+		t[0] =0;
+		t[1] =1;
+		t[2] =2;
+		t[3] =3;
+		t[4] =4;
+		out <<  t;
+		Ssize++;
+		//}
+	//}
+
+//}
+}
+out << endl; out.close();
+return Ssize;
 }
 
-
-int TTable::makeTTable()
+int Table::makeTTable()
 {
-   ofstream out;
-   out.open("./permutationtables/TTable.txt");
-   size = 0;
-   if(out.is_open()){
-   for(int i=3; i < 44; ++i)
-   {
-      for(int j=2; j < i; ++j)
-      {
-         for(int k=1; k < j; ++k)
-         {
-         	for(int l=0; l < k; ++l)
-         	{
-        	   				
-           	 	out << boost::tuples::set_delimiter(',') << T(l, k, j, i) <<" ";
-            	++size;
-            }
-        }
-            	
-         
-      }
-   }out << endl; out.close();}
-   return size;
+T5 t;
+ofstream out;
+out.open("./permutationtables/TTable.txt");
+Tsize = 0;
+if(out.is_open())
+{
+for(int a =6; a < 66; a++)
+{
+	for(int b =a+2; b < 67; b++)
+	{
+		for(int c =b+1; c < 68; c++)
+		{
+			for(int d =c+1; d < 69; d++)
+			{
+				for(int e =d+1; e < 70; e++)
+				{
+				t[0] =a;
+				t[1] =b;
+				t[2] =c;
+				t[3] =d;
+				t[4] =e;	
+				out << t;
+				Tsize++;
+				}
+			}
+		}
+	}
 }
+}
+return Tsize;
+} 
 
+/*
+int Table::makeLTable()
+{
+ofstream out;
+out.open("./permutationtables/LTable.txt");
+Lsize = 0;
+if(out.is_open())
+{
+//for(int a =0; a < 44; a++)
+//{
+	//for(int b =a+2; b < 25; b++)
+	//{
+		//for(int c =b+1; c < 29; c++)
+		//{
+			//for(int d =c+1; c < 30; c++)
+			//{
+			out << boost::tuples::set_delimiter(',') << T(3, 4, 0, 0) << ' ';
+			Lsize++;
+			//}
+		//}
+	//}
+//}
+}
+return Lsize;
+}
+*/

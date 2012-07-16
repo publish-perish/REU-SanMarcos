@@ -5,30 +5,24 @@
 #include <iostream>
 #include <fstream>
 #include <iterator>
-#include "boost/tuple/tuple.hpp"
-#include "boost/tuple/tuple_io.hpp"
-#include "boost/tuple/tuple_comparison.hpp"
-
+#include "../basic/tuple.h"
 using namespace std;
 
-typedef boost::tuples::tuple<int, int, int, int> T;
+//typedef boost::tuples::tuple <int, int, int, int, int> T;
 
-class SITable{
+class Table{
    
    public:
 
-      int makeSITables();
+      int makeSTable();
+      int makeITable();
+      int makeTTable();
+      int makeLTable();
 
       int Ssize;
       int Isize;
-};
-class TTable{
-   
-   public:
-
-      int makeTTable();
-
-      int size;
+      int Tsize;
+      int Lsize;
 };
 
 #endif
