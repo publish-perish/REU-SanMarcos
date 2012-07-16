@@ -1,5 +1,5 @@
-\section{ New Lower Bound of m(2, k).}
-Referring back to our definition of m(d, k), if we replace $\Z_m$ with the interval [1, $m$], we obtain the definition for $n(d, k)$. Let d be a positive integer. We define $n(d, k)$ to be the largest positive integer m such that there exists a subset $A$, $|A| = k$, of positive integers with the property that every integer in the interval [1, $m$] is the sum of $d$ not necessarily distinct elements of $A$. It is clear then for all $d \geq 1$ and $k \geq 1$ $m(d, k) \geq n(d, k)$. A common reference when computing $n(d, k)$ is the \emph{the postage stamp problem}. \emph{The postage stamp problem} an old problem in additive number theory and has been heavily studied. 
+\section{ New Lower Bound of $m(2, k)$.}
+Referring back to our definition of $m(d, k)$, if we replace $\Z_m$ with the interval [1, $m$], we obtain the definition for $n(d, k)$. Let d be a positive integer. We define $n(d, k)$ to be the largest positive integer m such that there exists a subset $A$, $|A| = k$, of positive integers with the property that every integer in the interval [1, $m$] is the sum of $d$ not necessarily distinct elements of $A$. It is clear then for all $d \geq 1$ and $k \geq 1$ $m(d, k) \geq n(d, k)$. A common reference when computing $n(d, k)$ is the \emph{the postage stamp problem}. \emph{The postage stamp problem} an old problem in additive number theory and has been heavily studied. 
 
 The following theorem was proved by Mrose in 1979, and gives the current bound for $n(2, k)$.
 \begin{theorem}
@@ -9,13 +9,13 @@ n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\  as \  k \to \infty.
 \end{theorem}
 
 \begin{theorem}
-Let k $\geq$ 17 be an integer. We claim that
+Let $k \geq 17$ be an integer. We claim that
  \[
 m(2,k) \geq \frac{37}{121}k^2 + O(k). 
 \]
 \end{theorem}
 \begin{proof}
-Let k $\geq$ 14 be an integer. Let $k_1 = \left \lfloor \frac{k - 9}{11} \right \rfloor$. Let m = $37k_1^2$.  Define 
+Let $k$ $\geq$ 14 be an integer. Let $k_1 = \left \lfloor \frac{k - 9}{11} \right \rfloor$. Let $m = 37k_1^2$.  Define 
 \begin{align*}
 I_0 &= [0, k_1], \\
 I_4 &= [4k_1^2, 4k_1^2+k_1], \\
