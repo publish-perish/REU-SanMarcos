@@ -34,7 +34,7 @@
 \newtheorem{definition}{Definition}
  
 \title{Cayley Digraphs of Finite Cyclic Groups with Minimal Diameter\footnote{Supported in part by National Science Foundation (NSF).}}
-\author{Jordan Blocher\thanks{Department of Mathematics, University of Nevada-Reno, Reno, NA, USA. jordanblocher@gmail.com.}\and Christopher Linden\thanks{University of California Los Angeles, Los Angeles, CA,USA } \and Samantha Hampton\thanks{Department of Mathematics, University of Arkansas, Fayetteville, AR, USA}}
+\author{Jordan Blocher\thanks{Department of Mathematics, University of Nevada-Reno, Reno, NA, USA. jordanblocher@gmail.com.}\and Samantha Hampton\thanks{Department of Mathematics, University of Arkansas, Fayetteville, AR, USA}\and Christopher Linden\thanks{University of California Los Angeles, Los Angeles, CA,USA } }
 \date{\today}
  
  
@@ -58,6 +58,7 @@
 \def\crossing{\operatorname{cr}}
 \def\cent{\textcent}
 \def\n{\\ \vspace{1.7mm}}
+\def\diam{\operatorname{diam}}
  
 \renewcommand{\emptyset}{\O}
  
@@ -70,7 +71,7 @@
  
  
 \pagestyle{fancyplain}
-\lhead{\fancyplain{}{\small\bfseries Jordan Blocher, Christopher Linden, Samantha Hampton,\ \ Cayley Digraphs of Finite Cyclic Groups with Minimal Diameter}}
+\lhead{\fancyplain{}{\small\bfseries Blocher, Hampton, Linden,\ \ Cayley Digraphs of Finite Cyclic Groups}}
 \rhead{\fancyplain{}{\small\bfseries\thepage}}
 \cfoot{\ \hfill\tiny\sl Draft printed on \today}
  
@@ -315,7 +316,7 @@ In this paper we will be working with $\mathbb{Z}_m$ as our vertex set, and will
 An important property of Cayley digraphs is the Cayley digraph Cay(m,A) is vertex-symmetric. This property allows us to define extremal functions for these digraphs. 
 For any positive integer $d$ we define
 \[
-m(d,A) =\ max\{m | diam(Cay(m,A)) \leq d\},
+m(d,A) =\ max\{m | \diam(Cay(m,A)) \leq d\},
 \]
 the largest positive integer $m$ such that the diameter, $d(m,A)$, of the Cayley digraph Cay(m,A) is less than or equal to $d$. For positive integers $d$ and $k$,
 \[
