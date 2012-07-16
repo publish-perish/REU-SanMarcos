@@ -15,14 +15,14 @@ class Tuple {
 
     vector<TP> data;
 
-    explicit Tuple<TP, N>()
+    Tuple<TP, N>()
     {
         data.resize(N);
         for( size_t i=0; i<N; i++)
             data[i] = 0;
     }
 
-    explicit Tuple<TP, N>(vector<TP> list)
+    Tuple<TP, N>(vector<TP> list)
     {
         if( list.size() > N )
             throw string("Error: Invalid input size");
@@ -32,14 +32,22 @@ class Tuple {
             data[i] = list[i];
     }
 
-    explicit Tuple<TP, N>(const Tuple<TP, N> &t)
+    Tuple<TP, N>(const Tuple<TP, N> &t)
     {
         data.resize(N);
         for(size_t i=0; i<t.size(); i++)
             data[i] = t[i];
     }
 
-    explicit Tuple<TP, N>( const TP& a, const TP& b, const TP& c )
+    Tuple<TP, N>( const TP& a, const TP& b, const TP& c )
+    {
+        data.resize(N);
+        data[0] = a;
+        data[1] = b;
+        data[2] = c;
+    }
+ 
+    Tuple<TP, N>(TP& a, TP& b, TP& c )
     {
         data.resize(N);
         data[0] = a;
@@ -71,6 +79,7 @@ class Tuple {
     bool operator<=(const Tuple&);
     bool operator!=(const Tuple&);
     Tuple operator=(const Tuple&);
+    Tuple operator=(Tuple&);
 
     ostream& operator<<(ostream& ostr);
     ofstream& operator<<(ofstream& ofstr);
@@ -242,13 +251,23 @@ ifstream& operator>>(ifstream& ifstr, Tuple<TP, N> &t)
 template<typename TP, int N>
 Tuple<TP, N> Tuple<TP, N>::operator=(const Tuple<TP, N> &t)
 {
-   Tuple<TP, N> out;
-
+   data.resize(N);
    for(int i=0; i<N; i++)
    {
-      out[i] = t[i];
+      data[i] = t[i];
    }
-   return out;
+   return *this;
+}
+
+template<typename TP, int N>
+Tuple<TP, N> Tuple<TP, N>::operator=(Tuple<TP, N> &t)
+{
+   data.resize(N);
+   for(int i=0; i<N; i++)
+   {
+      data[i] = t[i];
+   }
+   return *this;
 }
 
 template<typename TP, int N>
