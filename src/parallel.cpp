@@ -11,6 +11,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <numeric>
 
 #define WORKTAG 1
 #define DIETAG 2
@@ -38,7 +39,8 @@ void master(int, int, Polynomial&);
 void slave(int, int);
 void construct_MPI_DataTypes();
 void check_cover(T, int, int, Polynomial&);
-void clear_cover(int[]);
+void clear_cover(int[], int);
+void print_cover(vector<bool>, int);
 
 int main (int argc, char *argv[]) {
   if(argc<2)
@@ -145,7 +147,10 @@ printf("Waiting for return from slave %d \n", i+1);
           cout<<"M in master "<<M;
 printf("Process %d in slave returned (%d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
 printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x);
-          if(M.value() > mbest.value()){mbest = M;}
+          if(M.value() > mbest.value())
+          {
+              mbest.A = M.A; mbest.Y = M.Y;
+          }
           cout<<"mbest in master "<<mbest;
           //results.push_back(M);
           //cout<<"Testing "<<M.A <<" generators, returned location "<<M.Y;
@@ -247,7 +252,7 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
    T x;
    ifstream xcoeffs;
    Polynomial M;
-   int cover[diam*diam*diam];
+   vector<bool> cover;
    bool covered = false;
    MCoTable QTable;
    double c1 = (float)A[0]/A[1];
@@ -255,8 +260,8 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
    string fxcoeffs = "./permutationtables/XTable.txt";
    s << rank;
    fxcoeffs = (fxcoeffs.insert(fxcoeffs.length()-4, s.str())).c_str();
-   clear_cover(cover);
-   
+   int n=3;
+
    // Loop over m and xcoeffs
    for(i=1; i < (diam*diam*diam / (A[1]*c1)); ++i)
    {
@@ -268,7 +273,11 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
          //cout<<"Q "<<Q;
          Polynomial M(A, Q);
          //cout<<"M "<<M;
-         clear_cover(cover); cout<<"slave "<<rank<< " clearing cover\n";
+           cover.clear();
+           cover.resize(diam*diam*diam);
+           n = 3;
+           //clear_cover(cover);
+       //  print_cover(cover, diam);
          if((M.value() > mbest.value()) && M.wellFormed()) //ignore M that are too small, or badly formed
          {
            xcoeffs.open(fxcoeffs.c_str());if(xcoeffs){
@@ -281,8 +290,10 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
              //cout<<"X_prime "<<X_prime;
              if(X_prime.wellFormed())
              { 
+                //cover.push_back(1);
+                if(cover[X_prime.sum()]==0){n++;}//wont work. double counts some. but thr loop below should work
                 cover[X_prime.sum()] = 1;
-             }}
+             }}//print_cover(cover, diam);
              // check covering
              covered = true;
              for(int i=0; i < M.sum(); ++i) //only check the first m of them
@@ -293,7 +304,10 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
                   break;
                 }
              }
-             if(covered){mbest = M; cout<<"mbest in cover "<<mbest;}//mbest.A = M.A; mbest.Y = M.Y;}
+             if(covered)//(accumulate(cover.begin(),cover.end(),0) == M.sum())
+             {
+                mbest.A = M.A; mbest.Y = M.Y;
+             }
              xcoeffs.close();}else{
                 fprintf(stderr,"Could not read XCoeffs \n");
                 MPI_Abort(MPI_COMM_WORLD,2);
@@ -306,15 +320,24 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
 
 }
 
-void clear_cover(int cover[])
+void clear_cover(int cover[], int diam)
 {
-    for(int i=0; i<sizeof(cover); ++i)
+    for(int i=0; i<diam*diam*diam; ++i)
     {
         cover[i] = 0;
     }
     return;
 }
 
+void print_cover(vector<bool> cover, int diam)
+{cout<<"cover ";
+    for(int i=0; i<diam*diam*diam; ++i)
+    {
+        cout<<cover[i];
+    }
+    cout<<endl;
+    return;
+}
 void construct_MPI_DataTypes()
 {
   int i, err = 0;
