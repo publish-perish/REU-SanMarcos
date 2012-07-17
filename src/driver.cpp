@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
        const int diam = atoi(argv[1]);
        //const int d_cubed = diam*diam*diam; 
        //const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
-       //PolyVec best(d_cubed*d_cubed*2); //holds the xcos table's size many polynomial: gives the history
-       //PolyVec temp(d_cubed*d_cubed*2);
+       PolyVec best(diam*diam*diam*diam*2); //holds the xcos table's size many polynomial: gives the history
+       PolyVec temp(diam*diam*diam*diam*2);
        boost::dynamic_bitset<> cover(diam*diam*diam*diam); // diam 4th: larger than needed, but hard to make sharp
        bool covered =false;
        int counter = 0; //index for the bit array
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
                           		     // cout << "worked"<< endl;
                           		     if(Adj.wellFormed())
                           		     {
-                          		     //temp.at(Adj.sum()) = Adj;
+                          		     temp.at(Adj.sum()) = Adj;
                           		     cover[Adj.sum()] = 1;	
                           		     }
                           		   //  cout << Adj << "sum "<<Adj.sum()<<endl;
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
                        		 mbest=M;
 							    for(int j =0; j < mbest.sum(); ++j)
 								    {
-									//    best[j] = temp[j];
+									    best[j] = temp[j];
 								    }
 								archive << mbest << mbest.A << endl;
 						    }
@@ -135,13 +135,13 @@ int main(int argc, char *argv[])
 out.open("./results.txt");
 if(out)
 	{
-		//out << "d: " << argv[1] << endl;
-		//out << "modulus: " << mbest << endl;
-		//out << "generators: " << best[0].A << endl;
+		out << "d: " << argv[1] << endl;
+		out << "modulus: " << mbest << endl;
+		out << "generators: " << best[0].A << endl;
 		for(int i=0; i < mbest.sum(); ++i)
 		{
-		//	out << best[i];
-        // out << best[i].s;
+			out << best[i];
+            out << best[i].s;
 		}
 	   out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
    }
