@@ -102,6 +102,7 @@ class Tuple {
 
 typedef Tuple<int, 3> T;
 typedef Tuple<int, 5> T5;
+typedef Tuple<int, 6> T6;
 
 template<typename TP, int N>
 Tuple<TP, N> operator-(const Tuple<TP, N> &t1, const Tuple<TP, N> &t2)
