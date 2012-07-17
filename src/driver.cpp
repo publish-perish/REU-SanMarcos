@@ -101,34 +101,35 @@ int main()
                 cover[a] = 0;
                 }
                 
-                for(int a =0; a < 5; a++) // I +S : 15
+                for(int a =0; a < 3; a++) // I +S : 12
                 {
-                	for(int b =0; b < 3; b++)
+                	for(int b =0; b < 4; b++)
                 	{
                 	cover[(i[a] +s[b]) ] = 1;
                 	}
                 }
                 
-                for(int a =0; a < 5; a++) // I + T: 20
+                for(int a =0; a < 3; a++) // I + T: 9
                 {
-                	for(int b =0; b < 4; b++)
+                	for(int b =0; b < 3; b++)
                 	{
                 	cover[(i[a] +t[b]) ] = 1;
                 	}
                 }
                
   
-                 for(int a =0; a < 4; a++) // T+S : 8
+                 for(int a =0; a < 3; a++) // T+S : 6
                 {
-                	for(int b =1; b <3; b++)
-                	{
-                	cover[(t[a] +s[b]) ] = 1;                	
+                	//for(int b =1; b <4; b++)
+                	//{
+                	cover[(t[a] +s[1]) ] = 1;
+                	cover[(t[a] +s[2]) ] = 1;                	
                 	
-                	}
+                	//}
 				}
 				// free ones from the odd / even nonsense:
-				//cover[4] =1;
-				//cover[5] =1;
+				cover[s[0]+s[2]+2] =1;
+				cover[s[0]+s[2]+3] =1;
            
 				covered = true;
 				counter = 0;
