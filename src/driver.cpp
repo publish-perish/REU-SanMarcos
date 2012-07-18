@@ -1,3 +1,4 @@
+#include "../utils/basic/tuple.h"
 #include "../utils/basic/permutations.h"
 #include "../utils/basic/polynomials.h"
 #include "../utils/basic/subtraction.h"
@@ -33,28 +34,27 @@ int main(int argc, char *argv[])
        cout<<"Usage: ./executables/average_case diameter (lowerbound) \n";
        return 0;
     }
-	    XCoTable XTable;
+	   XCoTable XTable;
        MCoTable QTable;
        GenTable ATable;
        const int diam = atoi(argv[1]);
        const int d_cubed = diam*diam*diam; 
-       const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
-       PolyVec best(d_cubed); //holds the xcos table's size many polynomial: gives the history
-       PolyVec temp(d_cubed);
-       boost::dynamic_bitset<> cover(d_cubed); // diam cubed: larger than needed, but hard to make sharp
-       bool covered =false;
+       const double lowerbound = (argv[2]) ? atoi(argv[2]) : (1); // should change!
+       PolyVec best(diam*diam*diam*diam); //holds the xcos table's size many polynomial: gives the history
+       PolyVec temp(diam*diam*diam*diam);
+       boost::dynamic_bitset<> cover(diam*diam*diam*diam); 
        int counter = 0; //index for the bit array
        ifstream gens, xcoeffs, mcoeffs;
        ofstream out, archive;
-       T A; //generators
-       T Q; //m coefs
-       T x; //x coefs
+       T5 A; //generators
+       T5 Q; //m coefs
+       T5 x; //x coefs
        Polynomial X;
        Polynomial M; //the bound itself
        Polynomial X_prime;
        Polynomial null;
-       Polynomial mbest = Polynomial(T(0,0,0), T(0,0,0)); //holds the highest valid m
-       
+       Polynomial mbest; //holds the highest valid m
+       bool covered;
        clock_t start, end;
        start = clock();
        makeTables(diam, &XTable, &ATable);
@@ -63,26 +63,37 @@ int main(int argc, char *argv[])
        archive.open("./ms.txt");
 	    while(gens >> A)
        {
-          double c1 = get<0>(A)/get<1>(A);
-		    QTable.makeMCoTable(diam, get<1>(A), c1, 1);
+		//cout << "A: " << A << endl;
+		  QTable.makeMCoTable(diam, A[0], A[1], A[2], A[3]);
           mcoeffs.open("./permutationtables/MTable.txt");
           if(mcoeffs){
           while(mcoeffs >> Q)
           {
+			//cout << "in mco loop" << endl;
+			//cout << Polynomial(T5(0,3,6,9,12),T5(1,2,3,4,5));
+			//cout << "assigned a poly" << endl;
              M = Polynomial(A, Q);
+
+			//cout << "made an M" << endl;
+			//cout << M << endl;
              cover.reset();
              if(!M.wellFormed()){cout << "NOT WELL FORMED!" << endl;}
-             if((M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
+             if((M.value() > mbest.value()) && M.wellFormed() ) //ignore M that are too small, or badly formed
              {
                 xcoeffs.open("./permutationtables/XTable.txt");
                 if(xcoeffs){
                 while(xcoeffs >> x)
                 {
+					//cout << "in xco loop" << endl;
                    X = Polynomial(A, x);
+					//cout << "subtracting... ";
                    X_prime = X-M;
-                   if(true)//X_prime.wellFormed()){ 
+					//cout << " subtraction worked" << endl;
+                   if(X_prime.wellFormed())
+					{ 
                    temp.at(X_prime.sum()) = X_prime;
-                   cover[X_prime.sum()] = 1;	
+                   cover[X_prime.sum()] = 1;
+					}	
                 }xcoeffs.close();
                 // check covering
                 covered = true;
