@@ -144,14 +144,12 @@ printf("Waiting for return from slave %d \n", i+1);
           T a(recvbuf[i].A.z,recvbuf[i].A.y,recvbuf[i].A.x);
           T y(recvbuf[i].Y.z,recvbuf[i].Y.y,recvbuf[i].Y.z);
           Polynomial M(a,y);
-          cout<<"M in master "<<M;
 printf("Process %d in slave returned (%d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
 printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x);
           if(M.value() > mbest.value())
           {
               mbest.A = M.A; mbest.Y = M.Y;
           }
-          cout<<"mbest in master "<<mbest;
           //results.push_back(M);
           //cout<<"Testing "<<M.A <<" generators, returned location "<<M.Y;
 
@@ -228,7 +226,6 @@ printf("Process %d in slave recieved (%d %d %d) \n",rank, recvbuf[rank-1].A.z, r
     T A(recvbuf[rank-1].A.z, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);  
     Polynomial mbest;
     check_cover(A, rank, diam, mbest);
-    cout<<"mbest from cover check "<<mbest;
    
     sendbuf[rank-1].Y.x = mbest.Y[2];
     sendbuf[rank-1].Y.y = mbest.Y[1];
@@ -247,7 +244,7 @@ printf("Process %d returning ( %d %d %d ) from slave \n",rank, sendbuf[rank-1].A
 }
 
 void check_cover(T A, int rank, int diam, Polynomial &mbest)
-{cout<<"checking covering on A: "<<A<<endl;
+{   
    int i,j,k;
    T x;
    ifstream xcoeffs;
@@ -330,7 +327,7 @@ void clear_cover(int cover[], int diam)
 }
 
 void print_cover(vector<bool> cover, int diam)
-{cout<<"cover ";
+{    
     for(int i=0; i<diam*diam*diam; ++i)
     {
         cout<<cover[i];
@@ -349,26 +346,7 @@ void construct_MPI_DataTypes()
 
   // Construct MPI Polynomial
   struct Poly aPoly;
-  MPI_Datatype ptype[3] = {MPI_Tuple, MPI_Tuple, MPI_INT};
-  MPI_Aint pdisp[3];
-  int pbase;
-  int pblocklen[3] = {12, 12, 4};
-
-  // MPI description of tuple
-  err = MPI_Get_address(&aPoly.Y, pdisp); 
-  err = MPI_Get_address(&aPoly.A, pdisp+1);
-  err = MPI_Get_address(&aPoly.s, pdisp+2);
-  if(err){
-      fprintf(stderr,"Bad addressing.\n");
-      MPI_Abort(MPI_COMM_WORLD,1);
-  }
-  pbase = pdisp[0]; 
-  for (i=0; i <3; i++) pdisp[i] -= pbase; 
-  err = MPI_Type_create_struct(3, pblocklen, pdisp, ptype, &MPI_Polynomial);
-  if(err){
-      fprintf(stderr,"Can't create struct.\n");
-      MPI_Abort(MPI_COMM_WORLD,1);
-   }
+  MPI_Type_contiguous(2, MPI_Tuple, &MPI_Polynomial);
   MPI_Type_commit(&MPI_Polynomial);
 
   return;
