@@ -16,8 +16,8 @@ int makeTables(int diam, XCoTable *X, GenTable *A)
 {
     clock_t start, end;
     start = clock();
-    X->makeXCoTable(diam, 1);
-    cout <<"Size of X-Coefficient Table = " << X->size;
+    X->makeXCoTable(diam);
+    cout <<"\nSize of X-Coefficient Table = " << X->size;
     A->makeGenTable(diam);
     cout <<"\nSize of Generator Table = " << A->size;
     end = clock();
@@ -71,7 +71,8 @@ int main(int argc, char *argv[])
           {
              M = Polynomial(A, Q);
              cover.reset();
-             if((M.value() > mbest.value())/* && M.wellFormed()*/ && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
+             if(!M.wellFormed()){cout << "NOT WELL FORMED!" << endl;}
+             if((M.value() > mbest.value()) && M.wellFormed() && (M.sum() < d_cubed)) //ignore M that are too small, or badly formed
              {
                 xcoeffs.open("./permutationtables/XTable.txt");
                 if(xcoeffs){
@@ -119,11 +120,11 @@ int main(int argc, char *argv[])
             out << best[i];
             out << best[i].s;
          }
-         out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
+         out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n \n";
       }
    out.close();
    archive.close();
-   cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
+   cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n \n";
  
    return 0;
 }

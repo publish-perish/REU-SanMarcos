@@ -2,10 +2,14 @@
 #define SUBTRACTION_H
 
 #include "tuple.h"
+#include "boost/tuple/tuple.hpp"
 #include <vector>
 #include <iostream>
 #include <fstream>
 
+using namespace boost::tuples;
+
+//typedef boost::tuples::tuple<int, int, int> T;
 
 class Subtractions{
 
@@ -13,11 +17,12 @@ class Subtractions{
 
     Subtractions();
     Subtractions(int);
-    Subtractions(int, int, int);
+    Subtractions(int, int, int, int);
     Subtractions(const Subtractions&);
 
     void clear();
    
+    int d_borrowed;
     int c_borrowed;
     int b_borrowed;
     int m_subtracted;
@@ -34,6 +39,5 @@ class Subtractions{
 
 
 #endif
-
 
 
