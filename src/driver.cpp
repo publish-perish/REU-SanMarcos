@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
        const int diam = atoi(argv[1]);
        const int d_cubed = diam*diam*diam; 
        const double lowerbound = (argv[2]) ? atoi(argv[2]) : (1); // should change!
-       PolyVec best(diam*diam*diam*diam); //holds the xcos table's size many polynomial: gives the history
-       PolyVec temp(diam*diam*diam*diam);
-       boost::dynamic_bitset<> cover(diam*diam*diam*diam); 
+       PolyVec best(diam*diam*diam*diam*diam); //holds the xcos table's size many polynomial: gives the history
+       PolyVec temp(diam*diam*diam*diam*diam);
+       boost::dynamic_bitset<> cover(diam*diam*diam*diam*diam); 
        int counter = 0; //index for the bit array
        ifstream gens, xcoeffs, mcoeffs;
        ofstream out, archive;

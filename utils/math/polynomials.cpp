@@ -51,7 +51,13 @@ bool Polynomial::operator==(const Polynomial &p)
 
 bool Polynomial::operator>=(const Polynomial &p)
 {
-   return((p.Y[0]>=Y[0]) && (p.Y[1]>=Y[1]) && (p.Y[2]>=Y[2]) && (p.Y[3]>=Y[3]) && (p.Y[4]>=Y[4]));
+return(
+(p.Y[0]>=Y[0]) || 
+((p.Y[0]==Y[0]) && (p.Y[1]>=Y[1])) ||
+((p.Y[0]==Y[0]) && (p.Y[1]==Y[1]) &&(p.Y[2]>=Y[2])) ||
+((p.Y[0]==Y[0]) && (p.Y[1]==Y[1]) &&(p.Y[2]==Y[2]) && (p.Y[3]>=Y[3])) ||
+((p.Y[0]==Y[0]) && (p.Y[1]==Y[1]) &&(p.Y[2]==Y[2]) && (p.Y[3]==Y[3])&& (p.Y[4]>=Y[4]) )
+);
 }
 
 bool Polynomial::operator!=(const Polynomial &p)
@@ -61,7 +67,7 @@ bool Polynomial::operator!=(const Polynomial &p)
 
 bool Polynomial::operator!=(int num) //incomplete
 {
-   return((Y[0]!=num) && (Y[1]!=num) && (Y[2]!=num));
+   return((Y[0]!=num) || (Y[1]!=num) || (Y[2]!=num) || (Y[3]!=num) || (Y[4]!=num));
 }
 
 Polynomial Polynomial::operator=(const Polynomial &p)
