@@ -1,3 +1,0 @@
-make test
-valgrind --leak-check=yes  mpirun -np 2 --hostfile ./test/hostfile ./executables/test 5 2 3 2 2>&1 | tee valgrind.log
-#mpirun -np 2 valgrind --leak-check=full --show-reachable=yes ./executables/test 5 > valgrind.log

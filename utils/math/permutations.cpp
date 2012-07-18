@@ -52,11 +52,17 @@ bool MCoTable::makeMCoTable(const int diam, int b, double c1, int rank)
    out.open((fname.insert(fname.length()-4, s.str())).c_str());
    size = 0;
    if(out.is_open()){
-   for(int i=1; i < (diam*diam*diam / (b*c1)); ++i)
+   for(int i=1; i < (diam*diam*diam / (6 *b*c1)); ++i)
    {
+<<<<<<< HEAD
       for(int j=1; j < (c1); ++j)
       {
          for(int k=1; k < (b); ++k) //filter them in holding tank, then add to file
+=======
+      for(int j=1; j < c1; ++j)
+      {
+         for(int k=1; k < b; ++k)
+>>>>>>> ab4ce179a3243c430f4401d34110909c2a867093
          {
             out << T(i, j, k) ;
             ++size;
