@@ -36,9 +36,9 @@ int main()
        bool covered;
        ifstream Slist, Ilist, Tlist;
        ofstream out, archive;
-       T5 s; 
-       T5 i; 
-       T5 t; 
+       T6 s; 
+       T6 i; 
+       T6 t; 
        
 
 
@@ -64,11 +64,10 @@ int main()
                 {
                 cover[a] = 0;
                 }
-                if(i[4] + t[3] > 60)
-                {
+
                 for(int a =0; a < 5; a++) // I +S : 
                 {
-                	for(int b =0; b < 5; b++)
+                	for(int b =0; b < 6; b++)
                 	{
                 	cover[(i[a] +s[b]) ] = 1;
                 	}
@@ -76,16 +75,16 @@ int main()
                 
                 for(int a =0; a < 5; a++) // I + T: 
                 {
-                	for(int b =0; b < 4; b++)
+                	for(int b =0; b < 3; b++)
                 	{
                 	cover[(i[a] +t[b]) ] = 1;
                 	}
                 }
                
   
-                 for(int a =0; a < 4; a++) // T+S : 
+                 for(int a =0; a < 3; a++) // T+S : 
                 {
-                	for(int b =1; b <5; b++)
+                	for(int b =1; b <6; b++)
                 	{
                 	cover[(t[a] +s[1]) ] = 1;
                 	cover[(t[a] +s[2]) ] = 1;                	
@@ -116,7 +115,7 @@ int main()
 				
 				}
 
-				}
+
                 }
                 }Tlist.close();
           }
