@@ -1,52 +1,47 @@
 #ifndef P_H
 #define P_H
-
-
-//#include <vector>
+#include "tuple.h"
+#include <vector>
 #include <set>
 #include <iostream>
 #include <fstream>
 #include <iterator>
-#include "boost/tuple/tuple.hpp"
-#include "boost/tuple/tuple_io.hpp"
-#include "boost/tuple/tuple_comparison.hpp"
+#include "string.h"
+#include <sstream>
 
 using namespace std;
 
-typedef boost::tuples::tuple<int, int, int> T;
-typedef boost::tuples::tuple<int, int, int, int> TP;
+typedef std::vector<T> Vec;
+typedef std::vector<T4> Vec4;
 
+class MCoTable{
+   
+   public:
 
-class CoefTable
-{
-public:
-void makeCoTable(int diam);
-void makeMcoTable(int diam, int b, int c1);
-//T getNextCoefs();
-//T getNextMco();
-int getCotSize();
-int getMtSize();
-private:
-//void filter(int x, int y, int z);
-set<T> holdingTank;
-int cotSize;
-int mtSize;
+      bool makeMCoTable(const int, int, double, int);
+
+      Vec MCoeffs;
+      int size;
 };
 
-class GenTable
-{
-public:
-void makeGenTable(int diam);
-//T getNextGen();
-int getGsize();
-set<TP> holdingTank;
-private:
-int gSize;
+class XCoTable{
+
+   public:
+
+      void makeXCoTable(int, int);
+
+      Vec XCoeffs;
+      set<T> holdingTank;
+      int size;
 };
 
+class GenTable{
 
+   public:
 
-T getNextGens(int index);
+      void makeGenTable(int);
 
-
+      Vec4 Generators;
+      int size;
+};
 #endif

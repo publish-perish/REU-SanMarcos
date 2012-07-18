@@ -9,7 +9,7 @@ Polynomial::Polynomial()
    s = 0;
 }
 
-Polynomial::Polynomial(TP a, T y)
+Polynomial::Polynomial(T4 a, T y)
 {
    A = a;
    Y = y;
