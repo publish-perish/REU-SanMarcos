@@ -29,7 +29,7 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
 			    holdingTank.insert(T(k, i, j));
 			    holdingTank.insert(T(k, j, i));
                 cout<<"done making a set\n";
-			   /* std::set<T>::iterator itr = holdingTank.begin();
+			    std::set<T>::iterator itr = holdingTank.begin();
 			    while(itr != holdingTank.end())
      		    { 
           		   	out << *itr;
@@ -37,7 +37,7 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
          		    itr++;     
 	        	}	
 			    holdingTank.clear();
-		   */ }			
+		    }			
 		    }	
 	    }
         }}
