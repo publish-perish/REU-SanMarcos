@@ -6,6 +6,8 @@
 #include <vector>
 #include <fstream>
 
+#define null_type *int NULL
+
 using namespace std;
 
 template<typename TP, int N>
@@ -39,7 +41,7 @@ class Tuple {
             data[i] = t[i];
     }
 
-    Tuple<TP, N>( const TP& a, const TP& b, const TP& c )
+    Tuple<TP, N>(const TP& a, const TP& b, const TP& c)
     {
         data.resize(N);
         data[0] = a;
@@ -55,6 +57,24 @@ class Tuple {
         data[2] = c;
     }
     
+    Tuple<TP, N>(const TP& a, const TP& b, const TP& c, const TP& d)
+    {
+        data.resize(N);
+        data[0] = a;
+        data[1] = b;
+        data[2] = c;
+        data[3] = d;
+    }
+ 
+    Tuple<TP, N>(TP& a, TP& b, TP& c, TP& d)
+    {
+        data.resize(N);
+        data[0] = a;
+        data[1] = b;
+        data[2] = c;
+        data[3] = d;
+    }
+
     Tuple(Tuple<TP, N> &t)
     {
         data.resize(N);
@@ -96,7 +116,18 @@ class Tuple {
 
     TP& operator[](const size_t& idx)
     {
-        return data[idx];
+        if( idx == -1){
+            data.erase(data.begin());
+            return data;
+        }
+        else return data[idx];
+    }
+
+    Tuple<TP, N>& get_tail(const int idx)
+    {
+        Tuple<TP, N> temp(*this);
+        temp.data.erase(temp.data.begin(), temp.data.begin()+idx);
+        return temp;
     }
 };
 
@@ -104,93 +135,15 @@ typedef Tuple<int, 3> T;
 typedef Tuple<int, 4> T4;
 
 template<typename TP, int N>
-Tuple<TP, N> operator-(const Tuple<TP, N> &t1, const Tuple<TP, N> &t2)
+Tuple<TP, N> operator-(const Tuple<TP, N> &rhs, const Tuple<TP, N> &lhs)
 {
    vector<TP> list;
 
-   for(int i; i<sizeof(t1); i++)
+   for(int i; i<sizeof(rhs); i++)
    {
-       list.push_back(t1.data.at(i)-t2.data.at(i));
+       list.push_back(rhs.data.at(i)-lhs.data.at(i));
    }
    return Tuple<TP, N>(list);
-}
-
-template<typename TP, int N>
-bool operator==(const Tuple<TP, N> &t1, const Tuple<TP, N> &t2)
-{
-   for(int i=0; i<sizeof(t1); i++)
-   {
-      if(t1.data.at(i) != t2.data.at(i))
-      {
-         return false;
-      }
-   }
-   return true;
-}
-
-template<typename TP, int N>
-bool operator>(const Tuple<TP, N> &t1, const Tuple<TP, N> &t2)
-{
-   for(int i=0; i<sizeof(t1); i++)
-   {
-      if(t1.data.at(i) <= t2.data.at(i))
-      {
-         return false;
-      }
-   }
-   return true;
-}
-
-template<typename TP, int N>
-bool operator<(const Tuple<TP, N> &t1, const Tuple<TP, N> &t2)
-{
-   for(int i=0; i<sizeof(t1); i++)
-   {
-      if(t1.data.at(i) >= t2.data.at(i))
-      {
-         return false;
-      }
-   }
-   return true;
-}
-
-template<typename TP, int N>
-bool operator>=(const Tuple<TP, N> &t1, const Tuple<TP, N> &t2)
-{
-   for(int i=0; i<sizeof(t1); i++)
-   {
-      if(t1.data.at(i) < t2.data.at(i))
-      {
-         return false;
-      }
-   }
-   return true;
-}
-
-template<typename TP, int N>
-bool operator<=(const Tuple<TP, N> &t1, const Tuple<TP, N> &t2)
-{
-   for(int i=0; i<sizeof(t1); i++)
-   {
-      if(t1.data.at(i) > t2.data.at(i))
-      {
-         return false;
-      }
-   }
-   return true;
-}
-
-template<typename TP, int N>
-bool operator!=(const Tuple<TP, N> &t1, const Tuple<TP, N> &t2)
-{
-   for(int i=0; i<sizeof(t1); i++)
-   {
-      if(t1.data.at(i) != t2.data.at(i))
-      {
-         return false;
-      }
-   }
-   return true;
 }
 
 template<typename TP, int N>
@@ -247,6 +200,71 @@ ifstream& operator>>(ifstream& ifstr, Tuple<TP, N> &t)
     return ifstr;
 }
 
+// Recursive
+
+template<typename TP, int N>
+bool operator==(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+    if(rhs.size == lhs.size) return eq(rhs, lhs);
+}
+
+template<typename TP, int N>
+bool operator!=(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+    if(rhs.size == lhs.size) return neq(rhs, lhs);
+}
+
+template<typename TP, int N>
+bool operator<(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+    if(rhs.size == lhs.size) return lt(rhs, lhs);
+}
+
+template<typename TP, int N>
+bool operator>(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+    if(rhs.size == lhs.size) return gt(rhs, lhs);
+}
+
+template<typename TP, int N>
+bool operator<=(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+    if(rhs.size == lhs.size) return lteq(rhs, lhs);
+}
+
+template<typename TP, int N>
+bool operator>=(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+    if(rhs.size == lhs.size) return gteq(rhs, lhs);
+}
+
+// Comparison
+
+template<typename TP, int N>
+bool eq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+  return lhs[0] == rhs[0] && eq(lhs[-1],rhs[-1]);
+}
+
+template<typename TP, int N>
+bool neq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+  return lhs[0] != rhs[0]  || neq(lhs[-1], rhs[-1]);
+}
+
+template<typename TP, int N>
+bool lt(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+  return lhs[0] < rhs[0]  || ( !(rhs[0] < lhs[0]) && lt(lhs.get_tail(0), rhs.get_tail(0)));
+}
+
+template<typename TP, int N>
+bool gt(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+  return lhs[0] > rhs[0]  || ( !(rhs[0] > lhs[0]) && gt(lhs.get_tail(0), rhs.get_tail(0)));
+}
+
+template<typename TP, int N>
+bool lteq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+  return lhs[0] <= rhs[0]  && ( !(rhs[0] <= lhs[0]) || lteq(lhs.get_tail(0), rhs.get_tail(0)));
+}
+
+template<typename TP, int N>
+bool gteq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
+  return lhs[0] >= rhs[0]  && ( !(rhs[0] >= lhs[0]) || gteq(lhs.get_tail(0), rhs.get_tail(0)));
+}
+
+
 // Class Functions
 
 template<typename TP, int N>
@@ -274,7 +292,7 @@ Tuple<TP, N> Tuple<TP, N>::operator=(Tuple<TP, N> &t)
 template<typename TP, int N>
 bool Tuple<TP, N>::operator>(const Tuple<TP, N> &t)
 {
-   for(int i=0; i<sizeof(t); i++)
+   for(int i=0; i<N; i++)
    {
       if(data.at(i) <= t.data.at(i))
       {

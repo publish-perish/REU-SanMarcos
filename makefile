@@ -24,8 +24,8 @@ subtraction.o: ./utils/math/subtraction.cpp
 	mpic++ $(INC) $(CFLAGS) -c -o executables/subtraction.o ./utils/math/subtraction.cpp
 test.o: ./test/test.cpp
 	mpic++ $(INC) $(CFLAGS) -c -o executables/test.o ./test/test.cpp
-tables.o: ./test/tables.cpp
-	mpic++ $(LIBS) $(INC) $(CFLAGS) -c -o executables/tables.o ./test/tables.cpp
+tables.o: ./src/tables.cpp
+	mpic++ $(LIBS) $(INC) $(CFLAGS) -c -o executables/tables.o ./src/tables.cpp
 tuple.o: ./utils/math/tuple.cpp
 	mpic++ $(INC) $(CFLAGS) -c -o executables/tuple.o ./utils/math/tuple.cpp
 clean:

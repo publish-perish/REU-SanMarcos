@@ -20,7 +20,7 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
 		    for(int k=j;k >= 0; --k) //filter them in holding tank, then add to file
 		    {
 		    if(i+j+k <= diam - 3)
-		    {
+		    {cout<<"making tuple\n";
 			    holdingTank.clear();
 			    holdingTank.insert(T(i, j, k));
 			    holdingTank.insert(T(i, k, j));
@@ -28,7 +28,8 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
 			    holdingTank.insert(T(j, k, i));
 			    holdingTank.insert(T(k, i, j));
 			    holdingTank.insert(T(k, j, i));
-			    std::set<T>::iterator itr = holdingTank.begin();
+                cout<<"done making a set\n";
+			   /* std::set<T>::iterator itr = holdingTank.begin();
 			    while(itr != holdingTank.end())
      		    { 
           		   	out << *itr;
@@ -36,13 +37,14 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
          		    itr++;     
 	        	}	
 			    holdingTank.clear();
-		    }			
+		   */ }			
 		    }	
 	    }
-}
+        }}
 
     out << endl;
     out.close();
+   }
     return;
 }
 
@@ -76,7 +78,7 @@ void MCoTable::makeMCoTable(int diam, int b, int c1, int rank)
 void GenTable::makeGenTable(int diam)  //order: c, b, 1
 {
     size =0;
-    std::ofstream out("./permutationtables/gentable.txt");
+    std::ofstream out("./permutationtables/GenTable.txt");
     if(out.is_open()){
     for(int i=2; i < (diam*diam*diam/6); i++)
     {
@@ -91,9 +93,8 @@ void GenTable::makeGenTable(int diam)  //order: c, b, 1
          	    size++;
             }
          }
-	}
-    }
-
+        }
+    }}
     out << endl;
     out.close();
     return;

@@ -22,7 +22,8 @@ typedef std::vector<Polynomial> PolyVec;
 struct tuple{
     int x;
     int y;
-    int z;
+    int z2;
+    int z1;
   };
 
 struct Poly{
@@ -38,8 +39,7 @@ MPI_Datatype MPI_Polynomial;
 void master(int, int, Polynomial&);
 void slave(int, int);
 void construct_MPI_DataTypes();
-void check_cover(T, int, int, Polynomial&);
-void clear_cover(int[], int);
+void check_cover(T4, int, int, Polynomial&);
 void print_cover(vector<bool>, int);
 
 int main (int argc, char *argv[]) {
@@ -52,7 +52,7 @@ int main (int argc, char *argv[]) {
   int rank, numprocs, i, err=0;
   const int diam = atoi(argv[1]);
   const int d_4 = diam*diam*diam*diam; 
-  const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
+  const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_4/16.0);
   clock_t start, end;
   Polynomial mbest;
 
@@ -91,7 +91,7 @@ printf("I am process %d leaving main \n",rank);
     MPI_Finalize();
    
     end = clock();
-    if(mbest != 0){
+    if(mbest.A[1] != 0){
         printf("\nDiameter: %d \nGenerators: (%d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.Y[0], mbest.Y[1], mbest.Y[2]); 
     }else if(rank == 0){printf("\nProcesses did not find a cover \n");
         printf("\nProgram ran for %f seconds \n\n",(double)(end - start)/(double)CLOCKS_PER_SEC);}
@@ -107,7 +107,7 @@ void master(int diam, int numprocs, Polynomial &mbest)
    MPI_Request request;
    MPI_Status status;
 
-   T A;
+   T4 A;
    int i, err=0;
    double c1;
    ifstream gens;
@@ -117,11 +117,13 @@ void master(int diam, int numprocs, Polynomial &mbest)
    for(i=0; i<numprocs-1; ++i)
    {
       gens >> A;
-      
-      sendbuf[i].A.z = A[0];
-      sendbuf[i].A.y = A[1];
-      sendbuf[i].A.x = A[2];
-printf("Master Sending ( %d %d %d ) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
+     cout<<A<<endl;
+     cout<<A[0]<<" "<<A[1]<<" "<<A[2]<<" "<<A[3]<<endl;
+      sendbuf[i].A.z1 = A[0];
+      sendbuf[i].A.z2 = A[1];
+      sendbuf[i].A.y = A[2];
+      sendbuf[i].A.x = A[3];
+printf("Master Sending (%d %d %d %d) to %d \n",sendbuf[i].A.z1, sendbuf[i].A.z2, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
       err = MPI_Send(&sendbuf[i],1, MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD);
       if(err){
         fprintf(stderr,"Failed to send.\n");
@@ -141,11 +143,11 @@ printf("Waiting for return from slave %d \n", i+1);
           }
          
           // Put into results
-          T a(recvbuf[i].A.z,recvbuf[i].A.y,recvbuf[i].A.x);
-          T y(recvbuf[i].Y.z,recvbuf[i].Y.y,recvbuf[i].Y.z);
+          T4 a(recvbuf[i].A.z1,recvbuf[i].A.z2,recvbuf[i].A.y,recvbuf[i].A.x);
+          T y(recvbuf[i].Y.z1,recvbuf[i].Y.y,recvbuf[i].Y.x);
           Polynomial M(a,y);
-printf("Process %d in slave returned (%d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
-printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x);
+printf("Process %d in slave returned (%d %d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z1, recvbuf[i].A.z2, recvbuf[i].A.y, recvbuf[i].A.x);
+printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z1, recvbuf[i].Y.y, recvbuf[i].Y.x);
           if(M.value() > mbest.value())
           {
               mbest.A = M.A; mbest.Y = M.Y;
@@ -154,10 +156,12 @@ printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z, recvbu
           //cout<<"Testing "<<M.A <<" generators, returned location "<<M.Y;
 
           gens >> A;
+          cout<< A;
                 
-          sendbuf[i].A.x = A[2];
-          sendbuf[i].A.y = A[1];
-          sendbuf[i].A.z = A[0];
+          sendbuf[i].A.x = A[3];
+          sendbuf[i].A.y = A[2];
+          sendbuf[i].A.z2 = A[1];
+          sendbuf[i].A.z1 = A[0];
 
          err = MPI_Send(&sendbuf[i],1,MPI_Polynomial,status.MPI_SOURCE,WORKTAG,MPI_COMM_WORLD);
          if(err){
@@ -176,7 +180,7 @@ printf("Waiting in master for return from %d \n", i+1);
          fprintf(stderr,"Failed to recieve.\n");
          MPI_Abort(MPI_COMM_WORLD,1);
       }
-printf("GOTIT! Process %d returned (%d %d %d) to master \n",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
+printf("GOTIT! Process %d returned (%d %d %d) to master \n",status.MPI_SOURCE, recvbuf[i].A.z1, recvbuf[i].A.y, recvbuf[i].A.x);
   }
 
    // Exit all slaves.
@@ -220,20 +224,22 @@ printf("I am slave %d in slave\n",rank);
     }
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if(status.MPI_TAG == DIETAG){printf("Slave %d leaving\n", rank);return;}
-printf("Process %d in slave recieved (%d %d %d) \n",rank, recvbuf[rank-1].A.z, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);
+printf("Process %d in slave recieved (%d %d %d %d) \n",rank, recvbuf[rank-1].A.z1, recvbuf[rank-1].A.z2, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);
     
     // Check cover
-    T A(recvbuf[rank-1].A.z, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);  
+    T4 A(recvbuf[rank-1].A.z1, recvbuf[rank-1].A.z2, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);  
     Polynomial mbest;
     check_cover(A, rank, diam, mbest);
    
     sendbuf[rank-1].Y.x = mbest.Y[2];
     sendbuf[rank-1].Y.y = mbest.Y[1];
-    sendbuf[rank-1].Y.z = mbest.Y[0];
-    sendbuf[rank-1].A.x = mbest.A[2];
-    sendbuf[rank-1].A.y = mbest.A[1];
-    sendbuf[rank-1].A.z = mbest.A[0];
-printf("Process %d returning ( %d %d %d ) from slave \n",rank, sendbuf[rank-1].A.z, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x);
+    sendbuf[rank-1].Y.z1 = mbest.Y[0];
+    sendbuf[rank-1].Y.x = mbest.A[3];
+    sendbuf[rank-1].A.y = mbest.A[2];
+    sendbuf[rank-1].A.z2 = mbest.A[1];
+    sendbuf[rank-1].A.z1 = mbest.A[0];
+printf("Process %d returning X = (%d %d %d) from slave \n",rank, sendbuf[rank-1].Y.z1, sendbuf[rank-1].Y.y, sendbuf[rank-1].Y.x);
+printf("Process %d returning A = (%d %d %d %d) from slave \n",rank, sendbuf[rank-1].A.z1, sendbuf[rank-1].A.z2, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x);
     
     err = MPI_Send(&sendbuf[rank-1],1,MPI_Polynomial,0,WORKTAG,MPI_COMM_WORLD);
     if(err){
@@ -243,7 +249,7 @@ printf("Process %d returning ( %d %d %d ) from slave \n",rank, sendbuf[rank-1].A
   }
 }
 
-void check_cover(T A, int rank, int diam, Polynomial &mbest)
+void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
 {   
    int i,j,k;
    T x;
@@ -252,19 +258,18 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
    vector<bool> cover;
    bool covered = false;
    MCoTable QTable;
-   double c1 = (float)A[0]/A[1];
+   double c1 = (float)A[0]/A[2];
    stringstream s;
    string fxcoeffs = "./permutationtables/XTable.txt";
    s << rank;
    fxcoeffs = (fxcoeffs.insert(fxcoeffs.length()-4, s.str())).c_str();
-   int n=3;
 
    // Loop over m and xcoeffs
-   for(i=1; i < (diam*diam*diam / (A[1]*c1)); ++i)
+   for(i=1; i < (diam*diam*diam / (A[2]*c1)); ++i)
    {
-    for(j=1; j < (c1); ++j)
+    for(j=1; j < A[2]; ++j)
     {
-     for(k=1; k < (A[1]); ++k) //filter them in holding tank, then add to file
+     for(k=1; k < c1; ++k) //filter them in holding tank, then add to file
      {
          T Q(i, j, k);
          //cout<<"Q "<<Q;
@@ -272,9 +277,7 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
          //cout<<"M "<<M;
            cover.clear();
            cover.resize(diam*diam*diam*diam);
-           n = 3;
-           //clear_cover(cover);
-       //  print_cover(cover, diam);
+         //print_cover(cover, diam);
          if((M.value() > mbest.value()) && M.wellFormed()) //ignore M that are too small, or badly formed
          {
            xcoeffs.open(fxcoeffs.c_str());if(xcoeffs){
@@ -288,7 +291,6 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
              if(X_prime.wellFormed())
              { 
                 //cover.push_back(1);
-                if(cover[X_prime.sum()]==0){n++;}//wont work. double counts some. but thr loop below should work
                 cover[X_prime.sum()] = 1;
              }}//print_cover(cover, diam);
              // check covering
@@ -317,15 +319,6 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
 
 }
 
-void clear_cover(int cover[], int diam)
-{
-    for(int i=0; i<diam*diam*diam; ++i)
-    {
-        cover[i] = 0;
-    }
-    return;
-}
-
 void print_cover(vector<bool> cover, int diam)
 {    
     for(int i=0; i<diam*diam*diam; ++i)
@@ -341,7 +334,7 @@ void construct_MPI_DataTypes()
 
   // Construct MPI tuple
   struct tuple atuple;
-  MPI_Type_contiguous(3, MPI_INT, &MPI_Tuple);
+  MPI_Type_contiguous(4, MPI_INT, &MPI_Tuple);
   MPI_Type_commit(&MPI_Tuple);
 
   // Construct MPI Polynomial

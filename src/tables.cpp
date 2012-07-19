@@ -3,6 +3,8 @@
 #include "../utils/basic/subtraction.h"
 #include "string.h"
 #include "time.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -10,22 +12,25 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     clock_t start, end;
-    if(argc<2){
-       std::cout<< "Usage: ./executables/tables diameter \n";
+    if(argc<3){
+       std::cout<< "Usage: ./executables/tables diameter numprocs \n";
        return 0;
     }
-    else{
+    else{cout<<"Making Tables. "<<endl;
        start = clock();
-       CoefTable C;
-       GenTable G;
-       //std::cout << "Coefficients:";
-       C.makeCoTable(atoi(argv[1]));
-      // C.makeMcoTable(atoi(argv[1]));
-       //std::cout << "\n Generators: \n";
-       G.makeGenTable(atoi(argv[1]));
+       XCoTable XTable;
+       GenTable GenTable;
+       MCoTable MTable;
+       XTable.makeXCoTable(atoi(argv[1]), atoi(argv[2]));
+       cout<<"Made X-Coeffs\n";
+      // MTable.makeMCoTable(atoi(argv[1]), 0, 0, atoi(argv[2]));
+       cout<<"Made M-Coeffs\n";
+       GenTable.makeGenTable(atoi(argv[1]));
+       cout<<"Made Generators\n";
        end = clock();
        std::cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
-       std::cout <<"\n cotSize:" << C.getCotSize() << "\n mtSize:" << C.getMtSize() << "\n gSize:" << G.getGsize() << endl;
+       std::cout <<"\nSize of X-Coeff Table:" << XTable.size << "\nSize of Generator Table:" << GenTable.size<<endl;
+      // std::cout <<"\nSize of M-Coeff Table: "<<MTable.size<< endl;
        
        return 0;
     }

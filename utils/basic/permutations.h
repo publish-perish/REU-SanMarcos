@@ -18,7 +18,7 @@ class MCoTable{
    
    public:
 
-      bool makeMCoTable(const int, int, double, int);
+      void makeMCoTable(const int, int, int, int);
 
       Vec MCoeffs;
       int size;
