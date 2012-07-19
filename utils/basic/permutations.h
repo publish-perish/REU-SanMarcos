@@ -8,18 +8,19 @@
 #include <iterator>
 #include "string.h"
 #include <sstream>
+#include "./tuple.h"
 
 using namespace std;
 
 
-typedef boost::tuples::tuple<int, int, int, int> TP;
+typedef Tuple<int, 5> T5;
 
 
 class MCoTable{
    
    public:
 
-      void makeMCoTable(const int, int, int, int);
+      void makeMCoTable(const int, int, int, int, int);
       //int getMtsize();
 
       //Vec MCoeffs;

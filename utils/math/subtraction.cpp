@@ -54,7 +54,7 @@ void Subtractions::clear()
 std::ostream& operator<<(std::ostream& ostr, const Subtractions &s)
 {
     ostr << "Subtracted "<<s.m_subtracted<<" M, ";
-    ostr << "Borrowed " <<s.d_borrowed<<" e, " <<s.e_borrowed<<" d, " <<s.c_borrowed<<" c, "<<s.b_borrowed<<" b\n";
+    ostr << "Borrowed " <<s.e_borrowed<<" e, " <<s.d_borrowed<<" d, " <<s.c_borrowed<<" c, "<<s.b_borrowed<<" b\n";
     return ostr;
 }
 
