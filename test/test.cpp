@@ -33,29 +33,39 @@ int main(int argc, char *argv[])
 
        ifstream gens;
 
-       T A, B;
+       T A, B, C, Z;
        B = T(1, 2, 4);
-       A = T(3, 5, 4);
-cout<<"A "<<A<<" B "<<B<<endl;
-       A = B;
-       cout<<"B "<<B<<endl;
-       B = T(3, 3, 3);
-       cout<<"B "<<B<<endl;
-       Polynomial P;
+       A = T(10, 5, 1);
+       C = T(1, 1, 1);
 
-       Polynomial p(B, A);
+       cout<< "A : "<<A<<" B : "<<B<<endl;
+      // C = A - B;
 
-cout<<p;
+       //cout<< C<<endl;
+       cout<<"A>B :"<< (A>B)<<endl;
 
-       cout<<P;
-       P.A = A;
 
-cout<<P;
-P.Y = p.Y;
-cout<<P;
+       Polynomial P1(C, A);
+       Polynomial P2(C, B);
 
+       cout<<"P1 "<<P1;
+       cout<<"P2 "<<P2;
        
-       /*
+       Polynomial P3 = (P1-P2);
+
+       cout<<"P1.Y > P2.Y :"<< (P1.Y > P2.Y)<<endl;
+       cout<<"P3 = P1 - P2  :\n";
+       cout <<P3;
+       
+       
+       Polynomial P4(A, C);
+       Polynomial P5(P4 - P2);
+
+       cout<<"P5 = P4 - P2  :"<<P5;
+
+       P5 = P4;
+/*
+       
        cout<<B<<endl;
        gens.open("./permutationtables/GenTable.txt");
        if(gens){

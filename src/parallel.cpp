@@ -120,7 +120,7 @@ void master(int diam, int numprocs, Polynomial &mbest)
       sendbuf[i].A.z = A[0];
       sendbuf[i].A.y = A[1];
       sendbuf[i].A.x = A[2];
-//printf("Master Sending ( %d %d %d ) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
+printf("Master Sending ( %d %d %d ) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
       err = MPI_Send(&sendbuf[i],1, MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD);
       if(err){
         fprintf(stderr,"Failed to send.\n");
@@ -129,11 +129,11 @@ void master(int diam, int numprocs, Polynomial &mbest)
   }
    
    // As processes finish, assign them new generators.
-   while(!gens.eof())
+ /*  while(!gens.eof())
    {
       for(i=0; i<numprocs-1; ++i)
       { 
-//printf("Waiting for return from slave %d \n", i+1);
+printf("Waiting for return from slave %d \n", i+1);
           err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status);
           if(err){
             fprintf(stderr,"Failed to recieve.\n");
@@ -144,8 +144,8 @@ void master(int diam, int numprocs, Polynomial &mbest)
           T a(recvbuf[i].A.z,recvbuf[i].A.y,recvbuf[i].A.x);
           T y(recvbuf[i].Y.z,recvbuf[i].Y.y,recvbuf[i].Y.z);
           Polynomial M(a,y);
-//printf("Process %d in slave returned (%d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
-//printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x);
+printf("Process %d in slave returned (%d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
+printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x);
           if(M.value() > mbest.value())
           {
               mbest.A = M.A; mbest.Y = M.Y;
@@ -165,18 +165,18 @@ void master(int diam, int numprocs, Polynomial &mbest)
             MPI_Abort(MPI_COMM_WORLD,1);
          }
       }
-   }gens.close();
+   }*/gens.close();
 
    // No more generators, wait for processes to finish.
    for(i=0; i<numprocs-1; ++i)
    { 
-//printf("Waiting in master for return from %d \n", i+1);
+printf("Waiting in master for return from %d \n", i+1);
       err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status);
       if(err){
          fprintf(stderr,"Failed to recieve.\n");
          MPI_Abort(MPI_COMM_WORLD,1);
       }
-//printf("GOTIT! Process %d returned (%d %d %d) to master \n",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
+printf("GOTIT! Process %d returned (%d %d %d) to master \n",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x);
   }
 
    // Exit all slaves.
@@ -219,7 +219,7 @@ void slave(int diam, int numprocs)
     }
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     if(status.MPI_TAG == DIETAG){return;}
-//printf("Process %d in slave recieved (%d %d %d) \n",rank, recvbuf[rank-1].A.z, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);
+printf("Process %d in slave recieved (%d %d %d) \n",rank, recvbuf[rank-1].A.z, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);
     
     // Check cover
     T A(recvbuf[rank-1].A.z, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);  
@@ -232,7 +232,7 @@ void slave(int diam, int numprocs)
     sendbuf[rank-1].A.x = mbest.A[2];
     sendbuf[rank-1].A.y = mbest.A[1];
     sendbuf[rank-1].A.z = mbest.A[0];
-//printf("Process %d returning ( %d %d %d ) from slave \n",rank, sendbuf[rank-1].A.z, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x);
+printf("Process %d returning ( %d %d %d ) from slave \n",rank, sendbuf[rank-1].A.z, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x);
     
     err = MPI_Send(&sendbuf[rank-1],1,MPI_Polynomial,0,WORKTAG,MPI_COMM_WORLD);
     if(err){
@@ -247,7 +247,7 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
    int i,j,k;
    T x;
    ifstream xcoeffs;
-   Polynomial M;
+   Polynomial M, X_prime;
    vector<bool> cover;
    bool covered = false;
    MCoTable QTable;
@@ -267,7 +267,7 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
          T Q(i, j, k);
          //cout<<"Q "<<Q;
          Polynomial M(A, Q);
-         //cout<<"M "<<M;
+         cout<<"M "<<M;
            cover.clear();
            cover.resize(diam*diam*diam);
         //print_cover(cover, diam);
@@ -278,9 +278,9 @@ void check_cover(T A, int rank, int diam, Polynomial &mbest)
             {
              //cout << "x "<<x<<endl;
              Polynomial X(A, x);
-             //cout<<"X "<<X;
-             Polynomial X_prime(X-M);
-             //cout<<"X_prime "<<X_prime;
+             cout<<"X "<<X;
+             Polynomial X_prime = (X-M);
+             cout<<"X_prime "<<X_prime;
              if(X_prime.wellFormed())
              { 
                 cover[X_prime.sum()] = 1;

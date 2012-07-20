@@ -19,23 +19,10 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
              {
              if(i+j+k <= diam - 3)
              {
-                holdingTank.clear();
-                holdingTank.insert(T(i, j, k));
-                holdingTank.insert(T(i, k, j));
-                holdingTank.insert(T(j, i, k));
-                holdingTank.insert(T(j, k, i));
-                holdingTank.insert(T(k, i, j));
-                holdingTank.insert(T(k, j, i));
-                std::set<T>::iterator itr = holdingTank.begin();
-                while(itr != holdingTank.end())
-                {
-                     out << *itr;
-                     ++size;
-                     itr++;     
-                }	
-                holdingTank.clear();
-             }			
-             }	
+                out<< T(i, j, k);
+                ++size;
+             }
+             }
           }
        }out << endl; out.close();}
    }
