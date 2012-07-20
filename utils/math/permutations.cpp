@@ -20,23 +20,9 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
 		    for(int k=j;k >= 0; --k) //filter them in holding tank, then add to file
 		    {
 		    if(i+j+k <= diam - 3)
-		    {cout<<"making tuple\n";
-			    holdingTank.clear();
-			    holdingTank.insert(T(i, j, k));
-			    holdingTank.insert(T(i, k, j));
-			    holdingTank.insert(T(j, i, k));
-			    holdingTank.insert(T(j, k, i));
-			    holdingTank.insert(T(k, i, j));
-			    holdingTank.insert(T(k, j, i));
-                cout<<"done making a set\n";
-			    std::set<T>::iterator itr = holdingTank.begin();
-			    while(itr != holdingTank.end())
-     		    { 
-          		   	out << *itr;
+		    {
+          		   	out << T(i,j,k);
           		   	++size;
-         		    itr++;     
-	        	}	
-			    holdingTank.clear();
 		    }			
 		    }	
 	    }

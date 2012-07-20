@@ -287,27 +287,27 @@ Tuple<TP, N> Tuple<TP, N>::operator=(Tuple<TP, N> &t)
 
 template<typename TP, int N>
 bool Tuple<TP, N>::operator==(const Tuple<TP, N>& rhs) {
-    if(rhs.size() == this->size()) return eq(rhs, *this);
+    if(rhs.size() == this->size()) return eq(*this, rhs);
 }
 
 template<typename TP, int N>
 bool Tuple<TP, N>::operator!=(const Tuple<TP, N>& rhs) {
-    if(rhs.size() == this->size()) return neq(rhs, *this);
+    if(rhs.size() == this->size()) return neq(*this, rhs);
 }
 
 template<typename TP, int N>
 bool Tuple<TP, N>::operator<(const Tuple<TP, N>& rhs) {
-    if(rhs.size() == this->size()) return lt(rhs, *this);
+    if(rhs.size() == this->size()) return lt(*this, rhs);
 }
 
 template<typename TP, int N>
 bool Tuple<TP, N>::operator>(const Tuple<TP, N>& rhs) {
-    if(rhs.size() == this->size()) return gt(rhs, *this);
+    if(rhs.size() == this->size()) return gt(*this, rhs);
 }
 
 template<typename TP, int N>
 bool Tuple<TP, N>::operator<=(const Tuple<TP, N>& rhs) {
-    if(rhs.size() == this->size()) return lteq(rhs, *this);
+    if(rhs.size() == this->size()) return lteq(*this, rhs);
 }
 
 template<typename TP, int N>
