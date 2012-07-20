@@ -15,9 +15,9 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
     if(out.is_open()){
         for(int i=diam; i >= 0; --i)
         {
-	    for(int j=i; j >= 0; --j)
+	    for(int j=diam-i; j >= 0; --j)
 	    {
-		    for(int k=j;k >= 0; --k) //filter them in holding tank, then add to file
+		    for(int k=diam-j-i;k >= 0; --k) //filter them in holding tank, then add to file
 		    {
 		    if(i+j+k <= diam - 3)
 		    {

@@ -117,8 +117,6 @@ void master(int diam, int numprocs, Polynomial &mbest)
    for(i=0; i<numprocs-1; ++i)
    {
       gens >> A;
-     cout<<A<<endl;
-     cout<<A[0]<<" "<<A[1]<<" "<<A[2]<<" "<<A[3]<<endl;
       sendbuf[i].A.z1 = A[0];
       sendbuf[i].A.z2 = A[1];
       sendbuf[i].A.y = A[2];
@@ -156,7 +154,6 @@ printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z1, recvb
           //cout<<"Testing "<<M.A <<" generators, returned location "<<M.Y;
 
           gens >> A;
-          cout<< A;
                 
           sendbuf[i].A.x = A[3];
           sendbuf[i].A.y = A[2];
@@ -234,7 +231,7 @@ printf("Process %d in slave recieved (%d %d %d %d) \n",rank, recvbuf[rank-1].A.z
     sendbuf[rank-1].Y.x = mbest.Y[2];
     sendbuf[rank-1].Y.y = mbest.Y[1];
     sendbuf[rank-1].Y.z1 = mbest.Y[0];
-    sendbuf[rank-1].Y.x = mbest.A[3];
+    sendbuf[rank-1].A.x = mbest.A[3];
     sendbuf[rank-1].A.y = mbest.A[2];
     sendbuf[rank-1].A.z2 = mbest.A[1];
     sendbuf[rank-1].A.z1 = mbest.A[0];
@@ -263,7 +260,8 @@ void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
    string fxcoeffs = "./permutationtables/XTable.txt";
    s << rank;
    fxcoeffs = (fxcoeffs.insert(fxcoeffs.length()-4, s.str())).c_str();
-
+   mbest.A = A;
+   
    // Loop over m and xcoeffs
    for(i=1; i < (diam*diam*diam / (A[2]*c1)); ++i)
    {
@@ -274,7 +272,7 @@ void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
          T Q(i, j, k);
          //cout<<"Q "<<Q;
          Polynomial M(A, Q);
-         //cout<<"M "<<M;
+         cout<<"M "<<M;
            cover.clear();
            cover.resize(diam*diam*diam*diam);
          //print_cover(cover, diam);
@@ -285,7 +283,7 @@ void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
             {
              //cout << "x "<<x<<endl;
              Polynomial X(A, x);
-             //cout<<"X "<<X;
+             cout<<"X "<<X;
              Polynomial X_prime(X-M);
              //cout<<"X_prime "<<X_prime;
              if(X_prime.wellFormed())

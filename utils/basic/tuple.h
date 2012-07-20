@@ -131,13 +131,13 @@ typedef Tuple<int, 3> T;
 typedef Tuple<int, 4> T4;
 
 template<typename TP, int N>
-Tuple<TP, N> operator-(const Tuple<TP, N> &rhs, const Tuple<TP, N> &lhs)
+Tuple<TP, N> operator-(const Tuple<TP, N> &lhs, const Tuple<TP, N> &rhs)
 {
    vector<TP> list;
 
    for(int i; i<N; i++)
    {
-       list.push_back(rhs.data.at(i)-lhs.data.at(i));
+       list.push_back(lhs.data.at(i)-rhs.data.at(i));
    }
    return Tuple<TP, N>(list);
 }
@@ -200,64 +200,78 @@ ifstream& operator>>(ifstream& ifstr, Tuple<TP, N> &t)
 
 template<typename TP, int N>
 bool operator==(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-    if(rhs.size() == lhs.size()) return eq(rhs, lhs);
+    if(rhs.size() == lhs.size()) return eq(lhs, rhs);
 }
 
 template<typename TP, int N>
 bool operator!=(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-    if(rhs.size() == lhs.size()) return neq(rhs, lhs);
+    if(rhs.size() == lhs.size()) return neq(lhs, rhs);
 }
 
 template<typename TP, int N>
 bool operator<(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-    if(rhs.size() == lhs.size()) return lt(rhs, lhs);
+    Tuple<TP, N> zero;
+    if((rhs.size() == lhs.size()) && (lhs == rhs == zero)) return false;
+    else if(rhs.size() == lhs.size()) return lt(lhs, rhs);
 }
 
 template<typename TP, int N>
 bool operator>(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-    if(rhs.size() == lhs.size()) return gt(rhs, lhs);
+    Tuple<TP, N> zero;
+    if((rhs.size() == lhs.size()) && (lhs == rhs == zero)) return false;
+    else if(rhs.size() == lhs.size()) return gt(lhs, rhs);
 }
 
 template<typename TP, int N>
 bool operator<=(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-    if(rhs.size() == lhs.size()) return lteq(rhs, lhs);
+    Tuple<TP, N> zero;
+    if((rhs.size() == lhs.size()) && (lhs == rhs == zero)) return true;
+    else if(rhs.size() == lhs.size()) return lteq(lhs, rhs);
 }
 
 template<typename TP, int N>
 bool operator>=(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-    if(rhs.size() == lhs.size()) return gteq(rhs, lhs);
+    Tuple<TP, N> zero;
+    if((rhs.size() == lhs.size()) && (lhs == rhs == zero)) return true;
+    else if(rhs.size() == lhs.size()) return gteq(lhs, rhs);
 }
 
 // Comparison
 
 template<typename TP, int N>
 bool eq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-  return lhs[0] == rhs[0] && eq(lhs.get_tail(0),rhs.get_tail(0));
+  if ((lhs[0] == rhs[0] == 0) && (lhs.data.size() == 1)){ return true; }
+  else return lhs[0] == rhs[0] && eq(lhs.get_tail(),rhs.get_tail());
 }
 
 template<typename TP, int N>
 bool neq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-  return lhs[0] != rhs[0]  || neq(lhs.get_tail(0), rhs.get_tail(0));
+ if ((lhs[0] == rhs[0] == 0) && (lhs.data.size() == 1)){ return false; }
+ else return lhs[0] != rhs[0]  || neq(lhs.get_tail(), rhs.get_tail());
 }
 
 template<typename TP, int N>
 bool lt(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-    return lhs[0] < rhs[0]  || ( !(rhs[0] < lhs[0]) && lt(lhs.get_tail(), rhs.get_tail()));
+    if ((lhs[0] == rhs[0] == 0) && (lhs.data.size() == 1)){ return false; }
+    else return lhs[0] < rhs[0]  || ( !(rhs[0] < lhs[0]) && lt(lhs.get_tail(), rhs.get_tail()));
 }
 
 template<typename TP, int N>
 bool gt(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-    return lhs[0] > rhs[0]  || ( !(rhs[0] > lhs[0]) && gt(lhs.get_tail(), rhs.get_tail()));
+    if ((lhs[0] == rhs[0] == 0) && (lhs.data.size() == 1)){ return false; }
+    else return lhs[0] > rhs[0]  || ( !(rhs[0] > lhs[0]) && gt(lhs.get_tail(), rhs.get_tail()));
 }
 
 template<typename TP, int N>
 bool lteq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-  return lhs[0] <= rhs[0]  && ( !(rhs[0] <= lhs[0]) || lteq(lhs.get_tail(0), rhs.get_tail(0)));
+  if ((lhs[0] == rhs[0] == 0) && (lhs.data.size() == 1)){ return true; }
+  else return lhs[0] <= rhs[0]  && ( !(rhs[0] <= lhs[0]) || lteq(lhs.get_tail(), rhs.get_tail()));
 }
 
 template<typename TP, int N>
 bool gteq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
-  return lhs[0] >= rhs[0]  && ( !(rhs[0] >= lhs[0]) || gteq(lhs.get_tail(0), rhs.get_tail(0)));
+  if (lhs[0] == rhs[0] == 0 && (lhs.data.size() == 1)){ return true; }
+  else return lhs[0] >= rhs[0]  && ( !(rhs[0] >= lhs[0]) || gteq(lhs.get_tail(), rhs.get_tail()));
 }
 
 
@@ -312,7 +326,7 @@ bool Tuple<TP, N>::operator<=(const Tuple<TP, N>& rhs) {
 
 template<typename TP, int N>
 bool Tuple<TP, N>::operator>=(const Tuple<TP, N>& rhs) {
-    if(rhs.size() == this->size()) return gteq(rhs, *this);
+    if(rhs.size() == this->size()) return gteq(*this, rhs);
 }
 
 

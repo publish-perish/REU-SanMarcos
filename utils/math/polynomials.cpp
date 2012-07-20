@@ -54,7 +54,7 @@ Polynomial Polynomial::operator=(const Polynomial &p)
     Y = p.Y;
     s = p.s;
 }
-
+int n = 1;
 
 Polynomial Polynomial::operator-(Polynomial m)
 {
@@ -62,26 +62,26 @@ Polynomial Polynomial::operator-(Polynomial m)
     while( Y > m.Y )
     {
         ++this->s.m_subtracted;
-        //std::cout<<"m subtracted: "<<this->s.m_subtracted<<std::endl;;
+        std::cout<<"m subtracted: "<<this->s.m_subtracted<<std::endl;;
         // subtract m from x
         this->Y = T(Y[0] - m.Y[0], Y[1] - m.Y[1], Y[2] - m.Y[2]);
-        //std::cout<<"result from m subtraction # "<<n<<": "<<temp;++n;
+        std::cout<<"result from m subtraction # "<<n<<": "<<*this;++n;
         //*this = temp - m; // recursive call
     }
     while( Y[1] < 0 )
     {
           ++this->s.c_borrowed;
-          //std::cout<<"c borrowed: "<<this->s.c_borrowed<<std::endl;
+          std::cout<<"c borrowed: "<<this->s.c_borrowed<<std::endl;
           this->Y = T(Y[0], Y[1]+(A[0]/A[2]), Y[2]+A[1]);
-          //std::cout<<"result from C borrow # "<<n<<": "<<temp;++n;
+          std::cout<<"result from C borrow # "<<n<<": "<<*this;++n;
           //*this = temp - m;
     }
     while( Y[2] < 0 )
     {
           ++this->s.b_borrowed;
-          //std::cout<<"b borrowed: "<<this->s.b_borrowed<<std::endl;;
-          this->Y = T(Y[0], Y[1], (Y[2]+A[3]));
-          //std::cout<<"result from B borrow # "<<n<<": "<<temp;++n;
+          std::cout<<"b borrowed: "<<this->s.b_borrowed<<std::endl;;
+          this->Y = T(Y[0], Y[1], (Y[2]+A[2]));
+          std::cout<<"result from B borrow # "<<n<<": "<<*this;++n;
           //*this = temp - m;
     }
     if( Y > m.Y ){ goto loop; }
@@ -90,7 +90,7 @@ Polynomial Polynomial::operator-(Polynomial m)
 
 std::ostream& operator<<(std::ostream& ostr, const Polynomial &p)
 {
-    ostr << p.Y[0] << "c + " << p.Y[1] << "b + " << p.Y[2] <<"a \n";
+    ostr << "Generators: ("<< p.A[0] << ", " << p.A[1] << ", " << p.A[2] <<") Coeffs: ("<< p.Y[0] <<", "<< p.Y[1] <<", "<< p.Y[2] <<")\n";
 }
 
 std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
