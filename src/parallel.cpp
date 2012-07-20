@@ -91,8 +91,8 @@ printf("I am process %d leaving main \n",rank);
     MPI_Finalize();
    
     end = clock();
-    if(mbest.A[1] != 0){
-        printf("\nDiameter: %d \nGenerators: (%d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.Y[0], mbest.Y[1], mbest.Y[2]); 
+    if(mbest.A[0] != 0){
+        printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.Y[0], mbest.Y[1], mbest.Y[2]); 
     }else if(rank == 0){printf("\nProcesses did not find a cover \n");
         printf("\nProgram ran for %f seconds \n\n",(double)(end - start)/(double)CLOCKS_PER_SEC);}
     
@@ -272,7 +272,7 @@ void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
          T Q(i, j, k);
          //cout<<"Q "<<Q;
          Polynomial M(A, Q);
-         cout<<"M "<<M;
+         //cout<<"M "<<M;
            cover.clear();
            cover.resize(diam*diam*diam*diam);
          //print_cover(cover, diam);
@@ -283,7 +283,7 @@ void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
             {
              //cout << "x "<<x<<endl;
              Polynomial X(A, x);
-             cout<<"X "<<X;
+             //cout<<"X "<<X;
              Polynomial X_prime(X-M);
              //cout<<"X_prime "<<X_prime;
              if(X_prime.wellFormed())
