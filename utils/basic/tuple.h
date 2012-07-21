@@ -1,6 +1,8 @@
 #ifndef TUPLE_H
 #define TUPLE_H
 
+
+
 #include <math.h>
 #include <iostream>
 #include <vector>
@@ -54,6 +56,16 @@ class Tuple {
         data[1] = b;
         data[2] = c;
     }
+
+	Tuple<TP, N>(TP a, TP b, TP c, TP d, TP e )
+    {
+        data.resize(N);
+        data[0] = a;
+        data[1] = b;
+        data[2] = c;
+		data[3] = d;
+        data[4] = e;
+    }
     
     Tuple(Tuple<TP, N> &t)
     {
@@ -100,7 +112,8 @@ class Tuple {
     }
 };
 
-typedef Tuple<int, 3> T;
+typedef Tuple<int, 5> T5;
+
 
 template<typename TP, int N>
 Tuple<TP, N> operator-(const Tuple<TP, N> &t1, const Tuple<TP, N> &t2)
@@ -263,15 +276,18 @@ template<typename TP, int N>
 Tuple<TP, N> Tuple<TP, N>::operator=(Tuple<TP, N> &t)
 {
    data.resize(N);
+	//cout << "resized" << endl;
    for(int i=0; i<N; i++)
    {
       data[i] = t[i];
    }
+	//cout << "returning" << endl;
    return *this;
 }
 
+
 template<typename TP, int N>
-bool Tuple<TP, N>::operator>(const Tuple<TP, N> &t)
+bool Tuple<TP, N>::operator>(const Tuple<TP, N> &t) //this looks wrong: not lexographic order
 {
    for(int i=0; i<sizeof(t); i++)
    {
