@@ -34,7 +34,7 @@ int Polynomial::sum()const
 
 bool Polynomial::wellFormed()const
 {
-   return (Y[3] < A[2] && (Y[2] < (float)(A[1] /A[2]) ) && ( Y[1] < (float)( A[0] / A[1]) ) );
+   return (Y[3] <= A[2] && (Y[2] <= (float)(A[1] /A[2]) ) && ( Y[1] <= (float)( A[0] / A[1]) ) );
 }
 
 bool Polynomial::operator==(const Polynomial &p)
@@ -58,32 +58,41 @@ Polynomial Polynomial::operator=(const Polynomial &p)
 
 Polynomial Polynomial::operator-(Polynomial m) 
 {
+	//cout << "trying to compare" << endl;
     loop:
     while( Y > m.Y )
     {
+    	//cout << "Y " << Y << endl;
+    	//cout << "m.Y " << m.Y << endl;
         ++this->s.m_subtracted;
         this->Y = T4(Y[0] - m.Y[0], Y[1] - m.Y[1], Y[2] - m.Y[2], Y[3] - m.Y[3]);
+        //cout << "new Y " << Y << endl;
 
     }
     while( Y[1] < 0 )
     {
           ++this->s.d_borrowed;
           this->Y = T4(Y[0], Y[1]+(float)(A[0]/A[1]), Y[2], Y[3] );
+          //cout << "new Y " << Y << endl;
     }
     while( Y[2] < 0 )
     {
           ++this->s.c_borrowed;
           this->Y = T4(Y[0], Y[1], Y[2] +(float)(A[1]/A[2]), Y[3] );
+          //cout << "new Y " << Y << endl;
     }
     while( Y[3] < 0 )
     {
           ++this->s.b_borrowed;
           this->Y = T4(Y[0], Y[1], Y[2], Y[3]+(float)(A[2]/A[3]) );
+          //cout << "new Y (bborrowed) " << Y << endl;
 
     }
-    if( Y > m.Y ){ goto loop; } 
+    if( Y > m.Y ){ 
+    //cout << "goto "<< endl;
+    goto loop; } 
 
-
+	//cout << "calling the return" << endl;
     return *this;
 }
 

@@ -1,6 +1,7 @@
 #include "../utils/basic/permutations.h"
 #include "../utils/basic/polynomials.h"
 #include "../utils/basic/subtraction.h"
+#include "stdlib.h"
 #include "string.h"
 #include <bitset>
 #include <time.h>
@@ -73,7 +74,9 @@ int main(int argc, char *argv[])
 		    {
 			    while(mcos >>  Q)
              {
+             		//cout << "Trying to make an M .. ";
 				    M = Polynomial(A, Q);
+				    //cout << "M Made" << endl;
 				    //cout <<"M "<< M <<endl;
                		cover.clear();
                		cover.resize(diam*diam*diam*diam);
@@ -84,13 +87,21 @@ int main(int argc, char *argv[])
 					    {
 							while(xcos >> x)
                         	{
+                        	//cout << "Trying to make an X ... ";
 							X = Polynomial(A, x);
-                           	X_Prime =  X-M;
+							//cout << "X made" << endl;
+							//cout << "Trying to Subtract" << endl;
+							//cout << "X " << X  << "X.A " << X.A << endl;
+							//cout << "M " << M  << "M.A " << M.A << endl;
+                           	X_Prime = X-M;  	
+                           	//cout << "Subtraction successful" << endl;
                           	if(X_Prime.wellFormed())
                           	{
+                          	//cout << "wait, what?" << endl;
                           	temp.at(X_Prime.sum()) = X_Prime;
                           	cover[X_Prime.sum()] = true;	
                           	}
+                          	//cout << "past the if" << endl;
 							}
 
 						}// end xcos loop
@@ -98,7 +109,7 @@ int main(int argc, char *argv[])
 						    covered = true;
 						    for(int i=0; i < M.sum(); ++i) //only check the first m of them
 						    {
-							    if(cover[i]==0) //we are not covered
+							    if(cover[i]==false) //we are not covered
 							    {					
 								    covered = false;
 								    break;
