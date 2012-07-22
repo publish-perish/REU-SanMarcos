@@ -19,21 +19,8 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
              {
              if(i+j+k <= diam - 3)
              {
-                holdingTank.clear();
-                holdingTank.insert(T(i, j, k));
-                holdingTank.insert(T(i, k, j));
-                holdingTank.insert(T(j, i, k));
-                holdingTank.insert(T(j, k, i));
-                holdingTank.insert(T(k, i, j));
-                holdingTank.insert(T(k, j, i));
-                std::set<T>::iterator itr = holdingTank.begin();
-                while(itr != holdingTank.end())
-                {
-                     out << *itr;
+                     out << T(i, j, k);
                      ++size;
-                     itr++;     
-                }	
-                holdingTank.clear();
              }			
              }	
           }
@@ -54,15 +41,9 @@ bool MCoTable::makeMCoTable(const int diam, int b, double c1, int rank)
    if(out.is_open()){
    for(int i=1; i < (diam*diam*diam / (6 *b*c1)); ++i)
    {
-<<<<<<< HEAD
-      for(int j=1; j < (c1); ++j)
-      {
-         for(int k=1; k < (b); ++k) //filter them in holding tank, then add to file
-=======
       for(int j=1; j < c1; ++j)
       {
          for(int k=1; k < b; ++k)
->>>>>>> ab4ce179a3243c430f4401d34110909c2a867093
          {
             out << T(i, j, k) ;
             ++size;
