@@ -22,11 +22,12 @@ class Subtractions{
 
     Subtractions();
     Subtractions(int);
-    Subtractions(int, int, int, int, int);
+    Subtractions(int, int, int, int, int, int);
     Subtractions(const Subtractions&);
 
     void clear();
    
+   	int f_borrowed;
 	int e_borrowed;
     int d_borrowed;
     int c_borrowed;

@@ -57,7 +57,7 @@ class Tuple {
         data[2] = c;
     }
     
-    Tuple<TP, N>(const TP& a, const TP& b, const TP& c, const TP& d, const TP& e)
+    Tuple<TP, N>(const TP& a, const TP& b, const TP& c, const TP& d, const TP& e, const TP& f)
     {
         data.resize(N);
         data[0] = a;
@@ -65,9 +65,10 @@ class Tuple {
         data[2] = c;
         data[3] = d;
         data[4] = e;
+        data[5] = f;
     }
  
-    Tuple<TP, N>(TP& a, TP& b, TP& c, TP& d, TP& e)
+    Tuple<TP, N>(TP& a, TP& b, TP& c, TP& d, TP& e, TP& f)
     {
         data.resize(N);
         data[0] = a;
@@ -75,6 +76,7 @@ class Tuple {
         data[2] = c;
         data[3] = d;
         data[4] = e;
+        data[5] = f;
     }
 
     Tuple(Tuple<TP, N> &t)
@@ -129,8 +131,8 @@ class Tuple {
     }
 };
 
-typedef Tuple<int, 3> T;
-typedef Tuple<int, 5> T5;
+//typedef Tuple<int, 3> T;
+typedef Tuple<int, 6> T6;
 
 template<typename TP, int N>
 Tuple<TP, N> operator-(const Tuple<TP, N> &lhs, const Tuple<TP, N> &rhs)

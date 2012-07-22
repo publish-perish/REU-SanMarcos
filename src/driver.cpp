@@ -47,9 +47,9 @@ int main(int argc, char *argv[])
        int counter = 0; //index for the bit array
        ifstream gens, xcoeffs, mcoeffs;
        ofstream out, archive;
-       T5 A; //generators
-       T5 Q; //m coefs
-       T5 x; //x coefs
+       T6 A; //generators
+       T6 Q; //m coefs
+       T6 x; //x coefs
        Polynomial X;
        Polynomial M; //the bound itself
        Polynomial X_prime;
@@ -66,9 +66,9 @@ int main(int argc, char *argv[])
        archive.open("./ms.txt");
 	    while(gens >> A)
        {
-		if(A[0] <= Xsize) //could really use a better upper bound here: for example, we use 252 (over 10000) for diam = 10.  this is much, much larger than the real upper bound, which i do not actually know.
+		if(A[0] <= Xsize) //could really use a better upper bound here, as in the kfive case. Also, should add a similar check for k3, four
 		{
-		  QTable.makeMCoTable(diam, A[0], A[1], A[2], A[3]);
+		  QTable.makeMCoTable(diam, A[0], A[1], A[2], A[3], A[4]);
           mcoeffs.open("./permutationtables/MTable.txt");
           if(mcoeffs){
           while(mcoeffs >> Q)
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
 
            cover.clear();
            cover.resize(diam*diam*diam*diam);
-             if((M.value() > mbest.value()) && M.wellFormed() && M.value() <= Xsize) //ignore M that are too big / small. like the above limit on the generatros, there is room for improvement here
+             if((M.value() > mbest.value()) && M.wellFormed() && M.value() <= Xsize) //ignore M that are too big / small. like the above limit on the generators, there is room for improvement here
              {
                 xcoeffs.open("./permutationtables/XTable.txt");
                 if(xcoeffs){

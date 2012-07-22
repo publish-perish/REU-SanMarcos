@@ -11,14 +11,14 @@
 using namespace std;
 
 
-typedef Tuple<int, 5> T5;
+typedef Tuple<int, 6> T6;
 
 
 class MCoTable{
    
    public:
 
-      void makeMCoTable(const int, int, int, int, int);
+      void makeMCoTable(const int, int, int, int, int, int);
       //int getMtsize();
 
       //Vec MCoeffs;

@@ -20,7 +20,7 @@
 //typedef boost::tuples::tuple<int, int, int, int, int> TP;
 
 
-typedef std::vector<T5> Vec;
+typedef std::vector<T6> Vec;
 
 
 
@@ -34,12 +34,12 @@ class Polynomial{
 
       //Polynomial(T &a, T &y);
       //Polynomial(T a, int, int, int);
-      Polynomial(T5 a, T5 y);
-      Polynomial(T5 a, int, int, int, int, int);
+      Polynomial(T6 a, T6 y);
+      Polynomial(T6 a, int, int, int, int, int);
       Polynomial(const Polynomial&);
 
-      T5 A;
-      T5 Y;
+      T6 A;
+      T6 Y;
       Subtractions s;
 
 
