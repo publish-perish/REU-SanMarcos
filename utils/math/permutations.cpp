@@ -10,17 +10,15 @@ for(int i=2; i < (diam*diam*diam*diam*diam/120); i++)
 	for(int j=2; j < (diam*diam*diam*diam*diam/(i*120)); j++)
 	{
       for(int k=2; k < (diam*diam*diam*diam*diam/(i*j*120)); k++)
-      {
-		for(int l=2; l < (diam*diam*diam*diam*diam/(k*i*j*120)); l++)
        {
-	   T5 A(l*i*j*k,i*j*k, j*k, j, 1);
-		if(myfile.is_open() && i*j*k*l < (diam*diam*diam*diam*diam/120) ) 
-       {
-
-     	myfile  << A;
-     	size++;
-       }
-		}
+			for(int l=2; l < (diam*diam*diam*diam*diam/(k*i*j*120)); l++)
+        	{  	
+				if(myfile.is_open() && i*j*k*l < (diam*diam*diam*diam*diam/120) ) 
+       			{
+     			myfile  << T5(l*i*j*k,i*j*k, j*k, j, 1);
+     			size++;
+       			}
+			}
        }
 	}
 }
@@ -45,13 +43,11 @@ void XCoTable::makeXCoTable(int diam)
          {
          	for(int l=0; l <= diam - (5 +i +j +k); ++l)
       		{
-			for(int m=0; m <= diam - (5 +i +j +k +l); ++m)
-      		{
-
-                 out << T5(m, l, k, j, i);
-                 ++size;
-
-            }
+				for(int m=0; m <= diam - (5 +i +j +k +l); ++m)
+      			{
+                	 out << T5(m, l, k, j, i);
+                 	++size;
+           		}
          	}			
          }	
       }
@@ -76,10 +72,10 @@ void MCoTable::makeMCoTable(const int diam, int e, int d, int c, int b)
          	{	
 				for(int m=1; m < b; ++m)
          		{
-         		T5 Q(i, j, k, l, m);
-            	out << Q;
+            	out << T5(i, j, k, l, m);
             	++size;
 				}
+
             }
          }
       }

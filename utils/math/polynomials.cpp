@@ -2,19 +2,15 @@
 
 Polynomial::Polynomial()
 {
-    A = T5(0, 0, 0, 0, 0);
-    Y = T5(0, 0, 0, 0 ,0);
-    s = 0;
-}
-/*
-Polynomial::Polynomial(T5 a, T5 y)
-{   
+
    A = T5(0, 0, 0, 0, 0);
    Y = T5(0, 0, 0, 0, 0);
    s = 0;
 }
-*/
+
+
 Polynomial::Polynomial(T5 a, T5 y)
+
 {
    A = a;
    Y = y;
@@ -36,12 +32,12 @@ int Polynomial::value()const
 int Polynomial::sum()const
 {
    return((A[0]*Y[0]) + (A[1]*Y[1]) +(A[2]*Y[2]) + (A[3]*Y[3]) +(A[4]*Y[4]));
-   
 }
 
 bool Polynomial::wellFormed()const
 {
-   return ((Y[4] < A[3]) && ( Y[3] < (float)( A[2] / A[3]) ) && ( Y[2] < (float)( A[1] / A[2]) ) && ( Y[1] < (float)( A[0] / A[1]) ) );
+return ((Y[4] < A[3]) && ( Y[3] < (float)( A[2] / A[3]) ) && ( Y[2] < (float)( A[1] / A[2]) ) && ( Y[1] < (float)( A[0] / A[1]) ) );
+
 }
 
 bool Polynomial::operator==(const Polynomial &p)
@@ -83,9 +79,12 @@ Polynomial Polynomial::operator=(const Polynomial &p)
 
 Polynomial Polynomial::operator-(Polynomial m) 
 {
+	//cout << "trying to compare" << endl;
     loop:
     while( Y > m.Y )
     {
+    	//cout << "Y " << Y << endl;
+    	//cout << "m.Y " << m.Y << endl;
         ++this->s.m_subtracted;
         //std::cout<<"m subtracted: "<<this->s.m_subtracted<<std::endl;;
         // subtract m from x
@@ -97,7 +96,7 @@ Polynomial Polynomial::operator-(Polynomial m)
 	 while( Y[4] < 0 ) // borrow b
     {
           ++this->s.b_borrowed;
-          this->Y = T5(Y[0], Y[1], Y[2], Y[3], Y[4]+A[1]);  
+          this->Y = T5(Y[0], Y[1], Y[2], Y[3], Y[4]+A[3]);  
     }
 	while( Y[3] < 0 ) //borrow c
     {
@@ -109,31 +108,35 @@ Polynomial Polynomial::operator-(Polynomial m)
     while( Y[2] < 0 ) //borrow d
     {
           ++this->s.d_borrowed;
-		  this->Y = T5(Y[0], Y[1], Y[2]+A[3], Y[3], Y[4]);
+		  this->Y = T5(Y[0], Y[1], Y[2]+A[1], Y[3], Y[4]);
 
     }
     while( Y[1] < 0 ) //borrow e
     {
           ++this->s.e_borrowed;
-          this->Y = T5(Y[0], Y[1]+A[4], Y[2], Y[3], Y[4]);
+          this->Y = T5(Y[0], Y[1]+A[0], Y[2], Y[3], Y[4]);
 
     }
 
     if( Y > m.Y ){ goto loop; } 
 
 
+	//cout << "calling the return" << endl;
     return *this;
 }
 
 std::ostream& operator<<(std::ostream& ostr, const Polynomial &p)
 {
+
 ostr << p.Y[0] << "e + " << p.Y[1] << "d + " << p.Y[2] <<"c + " << p.Y[3] << "b + " << p.Y[4] <<"a \n";
-  
+
 }
 
 std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
 {
+
 ofstr << p.Y[0] << "e + " << p.Y[1] << "d + " << p.Y[2] <<"c + " << p.Y[3] << "b + " << p.Y[4] <<"a \n";
+
 }
 
 
