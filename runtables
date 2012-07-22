@@ -1,0 +1,18 @@
+<<<<<<< HEAD
+#!/bin/bash
+
+EXPECTED_ARGS=2
+E_BADARGS=65
+
+if [ $# -ne $EXPECTED_ARGS ]
+    then
+      echo "Usage: runtables diam numprocs"
+        exit $E_BADARGS
+        fi
+
+make tables
+./executables/tables $1 $2
+=======
+make tables
+./executables/tables 5
+>>>>>>> bc5063bd66096d6b57593c0fd596907451efdbb2

@@ -1,3 +1,4 @@
+#include "../utils/basic/tuple.h"
 #include "../utils/basic/permutations.h"
 #include "../utils/basic/polynomials.h"
 #include "../utils/basic/subtraction.h"
@@ -12,18 +13,17 @@ typedef std::vector<Polynomial> PolyVec;
 using namespace std;
 
 
-
 int makeTables(int diam, XCoTable *X, GenTable *A)
-{cout<<"making tables "<<endl;
+{
     clock_t start, end;
     start = clock();
     X->makeXCoTable(diam);
-    cout <<"\nSize of X-Coefficient Table = " << X->size << endl << endl;
+    cout <<"\nSize of X-Coefficient Table = " << X->size;
     A->makeGenTable(diam);
-    cout <<"\nSize of Generator Table = " << A->size << endl;
+    cout <<"\nSize of Generator Table = " << A->size;
     end = clock();
-    cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
-    return 0;
+    cout<<"\nTables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
+    return X->size;
 }
 
 
@@ -38,115 +38,101 @@ int main(int argc, char *argv[])
        MCoTable QTable;
        GenTable ATable;
        const int diam = atoi(argv[1]);
-       //const int d_cubed = diam*diam*diam; 
-       //const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
-       PolyVec best(diam*diam*diam*diam); //holds the xcos table's size many polynomial: gives the history
-       PolyVec temp(diam*diam*diam*diam);
-       vector<bool> cover; 
-       bool covered =false;
-       int counter = 0; //index 
-       ifstream gens; // d, c, b, a
-       ifstream mcos; // gamma, beta, alpha
-       ifstream xcos; // x3, x2, x1
-       ofstream out; //output
-       ofstream archive;
-       T4 A; //generators
-       T4 Q; //m coefs
-       T4 x; //x coefs
+	   int Xsize;
+       const int d_cubed = diam*diam*diam; 
+       const double lowerbound = (argv[2]) ? atoi(argv[2]) : (1); // should change!
+       PolyVec best(diam*diam*diam*diam*diam); //holds the xcos table's size many polynomial: gives the history
+       PolyVec temp(diam*diam*diam*diam*diam);
+       vector<bool> cover;
+       int counter = 0; //index for the bit array
+       ifstream gens, xcoeffs, mcoeffs;
+       ofstream out, archive;
+       T5 A; //generators
+       T5 Q; //m coefs
+       T5 x; //x coefs
        Polynomial X;
        Polynomial M; //the bound itself
-       Polynomial X_Prime;
-       Polynomial mbest; //holds the highest valid m
-       clock_t start, end;
+       Polynomial X_prime;
+       Polynomial null;
 
-    makeTables(diam, &XTable, &ATable);
-    start = clock();
-    gens.open("./permutationtables/gentable.txt");
-    archive.open("./ms.txt");
-    if(gens)
-    {
+       Polynomial mbest; //holds the highest valid m
+       bool covered;
+       clock_t start, end;
+  
+       start = clock();
+       Xsize = makeTables(diam, &XTable, &ATable);
+       gens.open("./permutationtables/GenTable.txt");
+       if(gens){
+       archive.open("./ms.txt");
 	    while(gens >> A)
        {
-          	//cout<< "A "<<A << endl;
-		    QTable.makeMCoTable(diam, A[0], A[1], A[2]);
-		    mcos.open("./permutationtables/MTable.txt");
-		    if(mcos)
-		    {
-			    while(mcos >>  Q)
-             {
-             		//cout << "Trying to make an M .. ";
-				    M = Polynomial(A, Q);
-				    //cout << "M Made" << endl;
-				    //cout <<"M "<< M <<endl;
-               		cover.clear();
-               		cover.resize(diam*diam*diam*diam);
-				    if( (M.value() > mbest.value())) /*&& M.wellFormed()) //*&& (M.sum() < d_cubed)*/ //ignore M that are too small, or badly formed (M.value() > lowerbound)
-				    {
-					    xcos.open("./permutationtables/XTable.txt");
-					    if(xcos)
-					    {
-							while(xcos >> x)
-                        	{
-                        	//cout << "Trying to make an X ... ";
-							X = Polynomial(A, x);
-							//cout << "X made" << endl;
-							//cout << "Trying to Subtract" << endl;
-							//cout << "X " << X  << "X.A " << X.A << endl;
-							//cout << "M " << M  << "M.A " << M.A << endl;
-                           	X_Prime = X-M;  	
-                           	//cout << "Subtraction successful" << endl;
-                          	if(X_Prime.wellFormed())
-                          	{
-                          	//cout << "wait, what?" << endl;
-                          	temp.at(X_Prime.sum()) = X_Prime;
-                          	cover[X_Prime.sum()] = true;	
-                          	}
-                          	//cout << "past the if" << endl;
-							}
-
-						}// end xcos loop
-						    xcos.close();
-						    covered = true;
-						    for(int i=0; i < M.sum(); ++i) //only check the first m of them
-						    {
-							    if(cover[i]==false) //we are not covered
-							    {					
-								    covered = false;
-								    break;
-							    }
-						    }
-						    if(covered)
-						    {
-                       		 mbest=M;
-							    for(int j =0; j < mbest.sum(); ++j)
-								    {
-									    best[j] = temp[j];
-								    }
-								archive << mbest << mbest.A << endl;
-						    }
-				
-					}// done with xcos
-		    }  }mcos.close();// done with mcos
-    }  }
-    gens.close();
-    end = clock();
-    cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
-//need to write out mbest and best to a file.	
-out.open("./results.txt");
-if(out)
-	{
-		out << "d: " << argv[1] << endl;
-		out << "modulus: " << mbest << endl;
-		out << "generators: " << best[0].A << endl;
-		for(int i=0; i < mbest.sum(); ++i)
+		if(A[0] <= Xsize) //could really use a better upper bound here: for example, we use 252 (over 10000) for diam = 10.  this is much, much larger than the real upper bound, which i do not actually know.
 		{
-			out << best[i];
+		  QTable.makeMCoTable(diam, A[0], A[1], A[2], A[3]);
+          mcoeffs.open("./permutationtables/MTable.txt");
+          if(mcoeffs){
+          while(mcoeffs >> Q)
+          {
+
+             M = Polynomial(A, Q);
+
+           cover.clear();
+           cover.resize(diam*diam*diam*diam);
+             if((M.value() > mbest.value()) && M.wellFormed() && M.value() <= Xsize) //ignore M that are too big / small. like the above limit on the generatros, there is room for improvement here
+             {
+                xcoeffs.open("./permutationtables/XTable.txt");
+                if(xcoeffs){
+                while(xcoeffs >> x)
+                {
+                   X = Polynomial(A, x);
+                   X_prime = X-M;
+                   if(X_prime.wellFormed())
+					{ 
+                   temp.at(X_prime.sum()) = X_prime;
+                   cover[X_prime.sum()] = 1;
+					}	
+                }xcoeffs.close();
+                // check covering
+                covered = true;
+                for(int i=0; i < M.sum(); ++i) //only check the first m of them
+                {
+                   if(cover[i]==0) //we are not covered
+                   {
+                     covered = false;
+                     break;
+                   }
+                }
+                if(covered)
+                {
+                   mbest=M;
+                   for(int j =0; j < mbest.sum(); ++j)
+                      {
+                         best[j] = temp[j];
+                      }
+                   archive << mbest << mbest.A << endl;
+                }
+            }}
+          }}mcoeffs.close();
+       }}}gens.close();
+   end = clock();
+//need to write out mbest and best to a file.	
+   out.open("./results.txt");
+   if(out)
+      {
+         out << "d: " << diam << endl;
+         out << "modulus: " << mbest << endl;
+         out << "generators: " << best[0].A << endl;
+         for(int i=0; i < mbest.sum(); ++i)
+         {
+            out << best[i];
             out << best[i].s;
-		}
-	   out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n";
-   }
-out.close();
-archive.close();
-return 0;
+         }
+         out<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n \n";
+      }
+   out.close();
+   archive.close();
+   cout<< "Program ran for "<< (double)(end - start)/(double)CLOCKS_PER_SEC <<" seconds. \n \n";
+ 
+   return 0;
 
 }

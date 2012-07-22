@@ -1,12 +1,12 @@
 #ifndef POLYNOMIAL_H
 #define POLYNOMIAL_H
 
+#include "tuple.h"
 #include <vector>
 #include <map>
 #include <fstream>
 #include <iostream>
-#include "../basic/subtraction.h"
-#include "../basic/tuple.h"
+#include "subtraction.h"
 
 
 
@@ -14,7 +14,13 @@
 
 
 
-typedef std::vector<T4> Vec;
+
+
+
+//typedef boost::tuples::tuple<int, int, int, int, int> TP;
+
+
+typedef std::vector<T5> Vec;
 
 
 
@@ -25,12 +31,15 @@ class Polynomial{
    public:
 
       Polynomial();
-      Polynomial(T4 a, T4 y);
-      Polynomial(T4 a, int, int, int, int);
+
+      //Polynomial(T &a, T &y);
+      //Polynomial(T a, int, int, int);
+      Polynomial(T5 a, T5 y);
+      Polynomial(T5 a, int, int, int, int, int);
       Polynomial(const Polynomial&);
 
-      T4 A;
-      T4 Y;
+      T5 A;
+      T5 Y;
       Subtractions s;
 
 
@@ -40,6 +49,8 @@ class Polynomial{
 
       bool operator==(const Polynomial&);
       bool operator>=(const Polynomial&);
+      bool operator!=(const Polynomial&);
+      bool operator!=(int);
       Polynomial operator=(const Polynomial&);
 
       Polynomial operator-(Polynomial);

@@ -1,0 +1,20 @@
+<<<<<<< HEAD
+#!/bin/bash
+
+EXPECTED_ARGS=2
+E_BADARGS=65
+
+if [ $# -ne $EXPECTED_ARGS ]
+    then
+      echo "Usage: runtest diam numprocs"
+        exit $E_BADARGS
+        fi
+
+
+#mpirun -np 8 --hostfile ./test/hostfile ./executables/test 5 8 3 2 
+make parallel
+mpirun -np $2 --hostfile ./test/hostfile ./executables/parallel $1
+=======
+make test
+./executables/test
+>>>>>>> bc5063bd66096d6b57593c0fd596907451efdbb2

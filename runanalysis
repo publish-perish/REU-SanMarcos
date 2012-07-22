@@ -1,0 +1,6 @@
+make analysis
+<<<<<<< HEAD
+./executables/analysis 8 9 3 1 3 1 1 
+=======
+./executables/analysis 5 4 2 1 1 1 1
+>>>>>>> bc5063bd66096d6b57593c0fd596907451efdbb2
