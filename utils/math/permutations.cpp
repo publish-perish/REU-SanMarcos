@@ -11,11 +11,10 @@ for(int i=2; i < (diam*diam*diam*diam/24); i++)
 	{
       for(int k=2; k < (diam*diam*diam*diam/(i*j*24)); k++)
       {
-	   TP A(i*j*k, j*k, j, 1);
 		if(myfile.is_open() && i*j*k < (diam*diam*diam*diam/24) ) 
       {
      	//std::cout << A;
-     	myfile << boost::tuples::set_delimiter(',') << A << " ";
+     	myfile << T4(i*j*k, j*k, j, 1);
      	size++;
       }
       }
@@ -43,10 +42,8 @@ void XCoTable::makeXCoTable(int diam)
          	for(int l=0; l <= diam - (4 +i +j +k); ++l)
       		{
 
-                 out << boost::tuples::set_delimiter(',') << TP(l, k, j, i) <<" ";
-                 ++size;
-
-            
+                 out << T4(l, k, j, i);
+                 ++size;      
          	}			
          }	
       }
@@ -69,8 +66,8 @@ void MCoTable::makeMCoTable(const int diam, int d, int c, int b)
          {
          	for(int l=1; l < b; ++l)
          	{	
-         	TP Q(i, j, k, l);
-            out << boost::tuples::set_delimiter(',') << Q <<" ";
+
+            out << T4(i, j, k, l);
             ++size;
             }
          }

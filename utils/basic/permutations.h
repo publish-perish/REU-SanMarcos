@@ -5,14 +5,8 @@
 #include <iostream>
 #include <fstream>
 #include <iterator>
-#include "boost/tuple/tuple.hpp"
-#include "boost/tuple/tuple_io.hpp"
-#include "boost/tuple/tuple_comparison.hpp"
-
+#include "./tuple.h"
 using namespace std;
-
-
-typedef boost::tuples::tuple<int, int, int, int> TP;
 
 
 

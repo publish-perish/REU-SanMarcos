@@ -2,7 +2,7 @@
 #ifndef SUBTRACTION_H
 #define SUBTRACTION_H
 
-#include "boost/tuple/tuple.hpp"
+
 
 
 //#include "polynomials.h"
@@ -12,7 +12,6 @@
 #include <iostream>
 #include <fstream>
 
-using namespace boost::tuples;
 
 //typedef boost::tuples::tuple<int, int, int> T;
 
