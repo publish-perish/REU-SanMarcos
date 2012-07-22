@@ -6,9 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <iterator>
-#include "string.h"
-#include <sstream>
-#include "./tuple.h"
+
 
 using namespace std;
 

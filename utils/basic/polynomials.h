@@ -10,7 +10,9 @@
 
 
 
-#include "../basic/subtraction.h"
+
+
+
 
 
 
@@ -20,7 +22,7 @@
 
 typedef std::vector<T5> Vec;
 
-//using namespace boost::tuples;
+
 
 class Subtractions;
 
@@ -29,6 +31,7 @@ class Polynomial{
    public:
 
       Polynomial();
+
       //Polynomial(T &a, T &y);
       //Polynomial(T a, int, int, int);
       Polynomial(T5 a, T5 y);
