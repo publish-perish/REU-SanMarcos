@@ -8,7 +8,21 @@
 #include <iostream>
 #include "subtraction.h"
 
-typedef std::vector<T> Vec;
+
+
+
+
+
+
+
+
+
+//typedef boost::tuples::tuple<int, int, int, int, int> TP;
+
+
+typedef std::vector<T6> Vec;
+
+
 
 class Subtractions;
 
@@ -16,14 +30,18 @@ class Polynomial{
 
    public:
 
-
       Polynomial();
-      Polynomial(T &a, T &y);
-      Polynomial(T a, int, int, int);
+
+      //Polynomial(T &a, T &y);
+      //Polynomial(T a, int, int, int);
+      Polynomial(T6 a, T6 y);
+      Polynomial(T6 a, int, int, int, int, int);
       Polynomial(const Polynomial&);
 
-      T A, Y;
+      T6 A;
+      T6 Y;
       Subtractions s;
+
 
       int value()const;
       int sum()const;

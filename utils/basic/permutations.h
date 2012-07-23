@@ -6,20 +6,22 @@
 #include <iostream>
 #include <fstream>
 #include <iterator>
-#include "string.h"
-#include <sstream>
+
 
 using namespace std;
 
-typedef std::vector<T> Vec;
+
+typedef Tuple<int, 6> T6;
+
 
 class MCoTable{
    
    public:
 
-      bool makeMCoTable(const int, int, double, int);
+      void makeMCoTable(const int, int, int, int, int, int);
+      //int getMtsize();
 
-      Vec MCoeffs;
+      //Vec MCoeffs;
       int size;
 };
 
@@ -27,20 +29,21 @@ class XCoTable{
 
    public:
 
-      void makeXCoTable(int, int);
-
-      Vec XCoeffs;
-      set<T> holdingTank;
+      void makeXCoTable(int);
+      //int getXsize();
       int size;
 };
+
+
 
 class GenTable{
 
    public:
 
       void makeGenTable(int);
+      //int getGsize();
 
-      Vec Generators;
+     // Vec Generators;
       int size;
 };
 #endif
