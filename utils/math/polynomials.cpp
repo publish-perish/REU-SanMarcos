@@ -31,7 +31,7 @@ int Polynomial::value()const
 
 int Polynomial::sum()const
 {
-   return((A[0]*Y[0]) + (A[1]*Y[1]) +(A[2]*Y[2]) + (A[3]*Y[3]) +(A[4]*Y[4]));
+   return((A[0]*Y[0]) + (A[1]*Y[1]) +(A[2]*Y[2]) + (A[3]*Y[3]) + (A[4]*Y[4]));
 }
 
 bool Polynomial::wellFormed()const
