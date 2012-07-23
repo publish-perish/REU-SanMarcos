@@ -12,7 +12,7 @@ The algorithm producing generators and coefficients with which the lower bound i
 The permutations tested may be stored as data structures or file tables.
 
 \noindent
-Given $d$ define \emph{\bf{$d_{1}$ fixed}} to be $\frac{d}{\lambda}$. This will be the $d$ reffered to in the algorithm.\n
+Given $d$ define \emph{\bf{$d_{1}$ fixed}} to be $\frac{d}{\lambda}$. This will be the $d$ referred to in the algorithm.\n
 
 The purpose of the following data structures is to provide containers for the following:\n
 Define $\mathcal{A}$ to be a \emph{set of generators}, $\mathcal{A} = \{ (a_{i}) \vert a_{i+1} = \alpha_{i}a_{i},  \forall i \in [0, k-1] \} $, with $a_i$ a sequence of nonnegative coefficients, and $\vert \mathcal{A} \vert = k$.\n
@@ -49,9 +49,7 @@ for(x1 = d; x1 >= 0; --x1)
   {
      for(x3 = d - x1 - x2; x3 >= 0; --x3) 
      {
-    
         ...
-            
             for(xk = d - x1 - x2 - x3 - .. - xk; xk >= 0; --xk)
             {
                  if(x1 + x2 + x3 + .. +xk <= d - k)
@@ -60,7 +58,6 @@ for(x1 = d; x1 >= 0; --x1)
                       ++size;
                  }
             }
-
         ...
      }	
   }
@@ -73,16 +70,13 @@ for(int c1 = 1; c1 < (d^k / (k! * a1 * a2 * .. * ak-1)); ++c1)
   {
      for(int c3 = 1; c3 < a2; ++c3)
      {
-
          ...
-
              for(ck = 1; ck < ak-1; ++ck)
              {
 
                  out << T(ck, ck-1, .. , c1);
                  ++size;
              }
-
          ...
      }
   }
@@ -94,7 +88,6 @@ for(a1 = 2; a1 < (d^k / k!); a1++) // We are using the trivial lower bound to co
   for(a2 = 2; a2 < (d^k / k!); a2++)
   {
         ...
-
              if(a1 * a2 * .. * ak-1 < d^k / k!)
              {
                  out<< T(a1 * a2 *.. * ak-1, a2 * a3 * .. ak-1, ... , ak-1, 1);
@@ -134,8 +127,8 @@ class Polynomial{
 
 \end{lstlisting}
 
-In the case where Polynomial P.Y is a container for the M-Coefficients, the class instance is a representation of the polynomial $x$. In the case where P.Y is a container for the X-Coefficients, the class instance is a representation of $X'$.
-P.Y[0] will refer to the largest polynomial coefficient. P.A[0] will refer to the largest corresponding generator.
+In the case where Polynomial \lstinline{P.Y} is a container for the M-Coefficients, the class instance is a representation of the polynomial $x$. In the case where \lstinline{P.Y} is a container for the X-Coefficients, the class instance is a representation of $X'$.
+\lstinline{P.Y[0]} will refer to the largest polynomial coefficient. \lstinline{P.A[0]} will refer to the largest corresponding generator.
 
 \subsubsection{Constructing a Representative Class of Polynomials}
 
@@ -183,9 +176,7 @@ Polynomial Polynomial::operator-(Polynomial m)
           Y = T(Y[0], Y[1], Y[2], Y[3] + (A[2] / A[3]), ... , Y[k]);
     }
 
-
     ...
-
 
     while( Y[k] < 0 )
     {
@@ -193,7 +184,6 @@ Polynomial Polynomial::operator-(Polynomial m)
 
     }
     if( Y > rhs.Y ){ goto loop; } 
-
 
     return *this;
 }
@@ -219,7 +209,7 @@ TP Polynomial::value()
 \\ Define a class function to check that x' is well-formed
 bool Polynomial::wellFormed()const
 {
-       return ((Y[2] < A[2]) && ( Y[1] <= ( A[0] / A[2]) ) );
+       return (Y[1] < ( A[0] / A[1]) && Y[2] < (A[1] / A[2]) && .. && Y[k] < (A[k-1] / A[k]));
 }
 
 \end{lstlisting}
@@ -229,7 +219,7 @@ $\forall n \in \Z_m$, where n is the residue class of $\Z_m$, if $\exists  x$ su
 \end{proposition}
 
 \noindent
-We will use a boolean array in order to check the congruence of the representative set with $\Z_m$.
+We will use a boolean array in order to check the congruence of the representative set with $\Z_m$. Note that in order for the tuple comparison to function properly, the comparisons should be done in lexigraphical order.
 
 \begin{lstlisting}
 
@@ -243,11 +233,11 @@ T x; // Container for a set of X-Coefficients.
 
 for(i = 0; i < sizeof(generators) // Number of generating sets. ; ++i)
 {
-    T A(a1, a2, .., ak);
+    T A(ak, ak-1, .., a1);
 
     for(j = 0; j < sizeof(mcoeffs) // Number of m-coefficients. ; ++j)
     {
-         T Q(c1, c2, .., ck); 
+         T Q(ck, ck-1, .., c1); 
  
          Polynomial M(A, Q); // Create initial polynomial representation of the lower bound.
    
@@ -256,7 +246,7 @@ for(i = 0; i < sizeof(generators) // Number of generating sets. ; ++i)
          {
             for(k = 0; k < sizeof(xcoeffs) // Number of x-coefficients. ; ++k)
             {
-                T x(x1, x2, .., xk);
+                T x(xk, xk-1, .., x1);
 
                 Polynomial X(A, x); // Create our initial representative.
                 Polynomial X_prime(X-M); // Enforce regularity.
@@ -267,7 +257,7 @@ for(i = 0; i < sizeof(generators) // Number of generating sets. ; ++i)
             }
             if(accumulate(cover.begin(),cover.end(),0) == M.value())
             {
-                mbest = M;
+                mbest = M; // Store improved lower bound.
             }
          }
     }

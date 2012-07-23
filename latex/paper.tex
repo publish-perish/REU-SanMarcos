@@ -23,7 +23,7 @@
 \usepackage{changepage}
 \usepackage{color}
 \usepackage{listings}
-
+\usepackage{fancyvrb}
 
 \lstset{ %
 language=C++,                % choose the language of the code
@@ -79,7 +79,7 @@ escapeinside={\%*}          % if you want to add a comment within your code
 \def\cent{\textcent}
 \def\n{\\ \vspace{1.7mm}}
 \def\diam{\operatorname{diam}}
- 
+
 \renewcommand{\emptyset}{\O}
  
  
@@ -337,11 +337,11 @@ The focus of this paper is the finite group $\Z_m$; we will denote the Cayley gr
 Cayley digraphs are vertex-symmetric. This property allows us to relate our extremal function $m(d, k)$ on Cay($m,\mathcal{A}$) to the diameter of the graph. Given a generating set $\mathcal{A}$ of size $k$, we constrict our value $m(d, k)$ so that the diameter of the generated graph is less than our given $d$.
 For any positive integer $d$ we define
 \[
-m(d,\mathcal{A}) =\ max\{m | \diam(Cay(m,\mathcal{A})) \leq d\},
+m(d,\mathcal{A}) =\ max\{m \vert \diam(Cay(m,\mathcal{A})) \leq d\},
 \]
 the largest positive integer $m$ such that the diameter, $d(m,A)$, of the Cayley digraph Cay(m,A) is less than or equal to $d$. For positive integers $d$ and $k$,
 \[
-m(d,k) = \max\{m(d,\mathcal{A}) | \text{ there exists a set A with } \vert \mathcal{A} \vert = k \},
+m(d,k) = \max\{m(d,\mathcal{A}) \vert \text{ there exists a set A with } \vert \mathcal{A} \vert = k \},
 \]
 the maximum modulus m such that there exists a generating set with cardinality equal to k and the diameter of the Cayley digraph is less than or equal to d. 
 $\\$
