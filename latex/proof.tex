@@ -132,13 +132,13 @@ m(2,k) &\geq 37k_1^2\\
 \vspace{2 mm}
 
 \begin{theorem}
-$\displaystyle m(d,4) \geq \frac{1}{125}d^4 + O(d^3)$  as $ d \to \infty$.
+$\displaystyle m(d,4) \geq \frac{2}{243}d^4 + O(d^3)$  as $ d \to \infty$.
 \end{theorem}
 
 \begin{proof}
+We now consider the following cases:
 
-We now consider the following cases:\\
-\noindent Case 1. $0 \leq x_3 < \lambda$. The following subcases need to be considered:\\
+Case 1. $0 \leq x_3 < \lambda$. The following subcases need to be considered:\\
 Subcase 1.a. If $2 \lambda \leq x_1 < 3 \lambda$ then $0 \leq x_0 < 2\lambda$. \\
 If $0 \leq x_1 < 2 \lambda$, we have 
 \[ x_0 + x_1 + x_2 + x_3 \leq 3\lambda + 2\lambda + 3\lambda + \lambda = 9\lambda \leq d, \]
@@ -152,13 +152,105 @@ We have
 \begin{align*}
 n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
 &=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
-&=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
+&=  x_0 -  2\lambda + (x_1 - 2 \lambda + 1) \alpha + (x_2 + \lambda + 1) \beta + (x_3 + 2 \lambda)
+ \gamma.\\ 
 \end{align*}
+Noting that
+\[  x_0 -  2\lambda \geq 0, x_1 - 2 \lambda + 1 \geq 0, x_2 + \lambda + 1 \geq 0, \text{ and } x_3 + 2 \lambda \geq 0, \]
+we see that 
+\begin{align*}
+x_0 -  2\lambda + x_1 - 2 \lambda + 1 + x_2 + \lambda + 1 + x_3 + 2 \lambda &= x_0  + x_1 +  x_2 + x_3 -  \lambda + 2 \\
+&\leq 3 \lambda + 3 \lambda + 3 \lambda + \lambda - \lambda + 2\\
+&= 9 \lambda + 2 \leq d,
+\end{align*}
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
 
-\begin{proposition}
-blah blah 
-\end{proposition}
+Case 2. $\lambda \leq x_3 < 2\lambda$. The following subcases need to be considered:\\
+Subcase 2.a. $0 \leq x_2 < 2 \lambda.$ If $2 \lambda \leq x_1 < 3 \lambda$ then $0 \leq x_0 < 2\lambda$. \\
+If $0 \leq x_1 < 2 \lambda$, we have 
+\[ x_0 + x_1 + x_2 + x_3 \leq 2\lambda + 2\lambda + 2\lambda + 3\lambda = 9\lambda \leq d, \]
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
+If $2 \lambda \leq x_1 < 3 \lambda$ and  $0 \leq x_0 < 2\lambda$, we have 
+\[ x_0 + x_1 + x_2 + x_3 \leq 2\lambda + 2\lambda + 3\lambda + 2 \lambda = 9\lambda \leq d, \]
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
 
+Subcase 2.b. $\lambda \leq x_2 < 2 \lambda$, $2 \lambda \leq x_1 < 3\lambda$,  $2\lambda \leq x_0 < 3\lambda$. \\
+We have
+\begin{align*}
+n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
+&=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
+&=  x_0 -  2\lambda + (x_1 - 2 \lambda + 1) \alpha + (x_2 + \lambda + 1) \beta + (x_3 + 2 \lambda)
+ \gamma.\\ 
+\end{align*}
+Noting that
+\[  x_0 -  2\lambda \geq 0, \  x_1 - 2 \lambda + 1 \geq 0,  \ x_2 + \lambda + 1 \geq 0, \text{ and } x_3 + 2 \lambda \geq 0, \]
+we see that 
+\begin{align*}
+x_0 -  2\lambda + x_1 - 2 \lambda + 1 + x_2 + \lambda + 1 + x_3 + 2 \lambda &= x_0  + x_1 +  x_2 + x_3 -  \lambda + 2 \\
+&\leq 3 \lambda + 3 \lambda + 2 \lambda + 2\lambda - \lambda + 2\\
+&= 9 \lambda + 2 \leq d,
+\end{align*}
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
+
+Subcase 2.c. $2 \lambda \leq x_2 < 3 \lambda.$ If $ \lambda \leq x_1 < 2 \lambda$ then $0 \leq x_0 < 2\lambda$. \\
+If $0 \leq x_1 < \lambda$, we have 
+\[ x_0 + x_1 + x_2 + x_3 \leq 3\lambda + \lambda + 3 \lambda + 2\lambda = 9\lambda \leq d, \]
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
+If $ \lambda \leq x_1 < 2 \lambda$ and  $0 \leq x_0 < 2\lambda$, we have 
+\[ x_0 + x_1 + x_2 + x_3 \leq 2\lambda + 2\lambda + 3\lambda + 2 \lambda = 9\lambda \leq d, \]
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in d3A$. 
+
+Subcase 2.d. $2\lambda \leq x_2 < 3 \lambda$, $ \lambda \leq x_1 < 2\lambda$,  $2\lambda \leq x_0 < 3\lambda$. \\
+We have
+\begin{align*}
+n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
+&=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
+&=  x_0 -  2\lambda + (x_1 + \lambda + 1) \alpha + (x_2 - 2 \lambda) \beta + (x_3 + 2 \lambda + 1)
+ \gamma.\\ 
+\end{align*}
+Noting that
+\[  x_0 -  2\lambda \geq 0,  \ x_1 + \lambda + 1 \geq 0, \  x_2 - 2 \lambda \geq 0, \text{ and } x_3 + 2 \lambda + 1 \geq 0, \]
+we see that 
+\begin{align*}
+x_0 -  2\lambda + x_1 + \lambda + 1 + x_2  - 2 \lambda + x_3 + 2 \lambda + 1 &= x_0  + x_1 +  x_2 + x_3 -  \lambda + 2 \\
+&\leq 3 \lambda + 2 \lambda + 3 \lambda + 2\lambda - \lambda + 2\\
+&= 9 \lambda + 2 \leq d,
+\end{align*}
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
+
+Subcase 2.e. $2\lambda \leq x_2 < 3 \lambda$, $ 2\lambda \leq x_1 < 3\lambda$,  $0 \leq x_0 < 2\lambda$. \\
+We have
+\begin{align*}
+n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
+&=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
+&=  x_0 +  \lambda + (x_1 - 2 \lambda) \alpha + (x_2 - 2 \lambda + 1) \beta + (x_3 + 2 \lambda + 1)\gamma.\\ 
+\end{align*}
+Noting that
+\[  x_0 +  \lambda \geq 0,  \ x_1 - 2 \lambda \geq 0, \  x_2 - 2 \lambda \geq 0 + 1, \text{ and } x_3 + 2 \lambda + 1 \geq 0, \]
+we see that 
+\begin{align*}
+x_0 + \lambda + x_1 - 2 \lambda + x_2  - 2 \lambda + 1 + x_3 + 2 \lambda + 1 &= x_0  + x_1 +  x_2 + x_3 -  \lambda + 2 \\
+&\leq 2 \lambda + 3 \lambda + 3 \lambda + 2\lambda -  \lambda + 2\\
+&= 9 \lambda + 2 \leq d,
+\end{align*}
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
+
+Subcase 2.f. $2\lambda \leq x_2 < 3 \lambda$, $ 2\lambda \leq x_1 < 3\lambda$,  $2\lambda \leq x_0 < 3\lambda$. \\
+We have
+\begin{align*}
+n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
+&=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
+&=  x_0 -  2\lambda + (x_1 - 2 \lambda + 1) \alpha + (x_2 - 2 \lambda + 1) \beta + (x_3 + 2 \lambda + 1)\gamma.\\ 
+\end{align*}
+Noting that
+\[  x_0 -  2\lambda \geq 0,  \ x_1 - 2 \lambda + 1 \geq 0, \  x_2 - 2 \lambda \geq 0 + 1, \text{ and } x_3 + 2 \lambda + 1 \geq 0, \]
+we see that 
+\begin{align*}
+x_0 -  2\lambda + x_1 - 2 \lambda + 1 + x_2  - 2 \lambda + 1 + x_3 + 2 \lambda + 1 &= x_0  + x_1 +  x_2 + x_3 -  4 \lambda + 3 \\
+&\leq 3 \lambda + 3 \lambda + 3 \lambda + 2\lambda - 4 \lambda + 3\\
+&= 7 \lambda + 2 \leq d,
+\end{align*}
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
 
 
 
