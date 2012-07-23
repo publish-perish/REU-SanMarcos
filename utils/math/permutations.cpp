@@ -5,17 +5,17 @@ void GenTable::makeGenTable(int diam)  //order: e, d, c, b, 1
 {
 size =0;
 std::ofstream myfile ("./permutationtables/GenTable.txt");
-for(int i=2; i < (diam*diam*diam*diam*diam/120); i++)
+for(int i=2; i < (diam*diam*diam*diam*diam/120) && i < diam; i++)
 {
-	for(int j=2; j < (diam*diam*diam*diam*diam/(i*120)); j++)
+	for(int j=2; j < (diam*diam*diam*diam*diam/(i*120)) && j < diam; j++)
 	{
-      for(int k=2; k < (diam*diam*diam*diam*diam/(i*j*120)); k++)
+      for(int k=2; k < (diam*diam*diam*diam*diam/(i*j*120)) && k < diam; k++)
        {
-			for(int l=2; l < (diam*diam*diam*diam*diam/(k*i*j*120)); l++)
+			for(int l=2; l < (diam*diam*diam*diam*diam/(k*i*j*120)) && l < diam; l++)
         	{  	
 				if(myfile.is_open() && i*j*k*l < (diam*diam*diam*diam*diam/120) ) 
        			{
-     			myfile  << T5(l*i*j*k,i*j*k, j*k, j, 1);
+     			myfile  << T5(i*j*k*l, j*k*l, k*l, l, 1);
      			size++;
        			}
 			}
@@ -62,7 +62,7 @@ void MCoTable::makeMCoTable(const int diam, int e, int d, int c, int b)
    out.open("./permutationtables/MTable.txt");
    size = 0;
    if(out.is_open()){
-   for(int i=1; i < (float)(diam*diam*diam*diam*diam / (120*e)); ++i)
+   for(int i=1; i < (float)(diam*diam*diam*diam*diam / (120*e)) && i < diam; ++i)
    {
       for(int j=1; j < (float)(e / d); ++j)
       {

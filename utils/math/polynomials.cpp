@@ -101,20 +101,20 @@ Polynomial Polynomial::operator-(Polynomial m)
 	while( Y[3] < 0 ) //borrow c
     {
           ++this->s.c_borrowed;
-          this->Y = T5(Y[0], Y[1], Y[2], Y[3]+A[2], Y[4]); 
+          this->Y = T5(Y[0], Y[1], Y[2], Y[3]+(A[2]/A[3]), Y[4]); 
 
     }
     
     while( Y[2] < 0 ) //borrow d
     {
           ++this->s.d_borrowed;
-		  this->Y = T5(Y[0], Y[1], Y[2]+A[1], Y[3], Y[4]);
+		  this->Y = T5(Y[0], Y[1], Y[2]+(A[1]/A[2]), Y[3], Y[4]);
 
     }
     while( Y[1] < 0 ) //borrow e
     {
           ++this->s.e_borrowed;
-          this->Y = T5(Y[0], Y[1]+A[0], Y[2], Y[3], Y[4]);
+          this->Y = T5(Y[0], Y[1]+(A[0] / A[1]), Y[2], Y[3], Y[4]);
 
     }
 
