@@ -13,7 +13,7 @@ for(int i=2; i < (diam*diam*diam*diam*diam*diam/720); i++)
        {
 			for(int l=2; l < (diam*diam*diam*diam*diam*diam/(k*i*j*720)); l++)
         	{  	
-        	for(int m=2; m < (diam*diam*diam*diam*diam*diam/(l*k*i*j*720)); m++)
+        	for(int m=42; m < (diam*diam*diam*diam*diam*diam/(l*k*i*j*720)); m++)
         	{ 
 				if(myfile.is_open() && i*j*k*l*m < (diam*diam*diam*diam*diam*diam/720) ) 
        			{
