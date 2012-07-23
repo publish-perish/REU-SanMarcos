@@ -13,7 +13,7 @@ for(int i=2; i < (diam*diam*diam*diam*diam*diam/720); i++)
        {
 			for(int l=2; l < (diam*diam*diam*diam*diam*diam/(k*i*j*720)); l++)
         	{  	
-        	for(int m=42; m < (diam*diam*diam*diam*diam*diam/(l*k*i*j*720)); m++)
+        	for(int m=2; m < (diam*diam*diam*diam*diam*diam/(l*k*i*j*720)); m++)
         	{ 
 				if(myfile.is_open() && i*j*k*l*m < (diam*diam*diam*diam*diam*diam/720) ) 
        			{
@@ -68,7 +68,7 @@ void MCoTable::makeMCoTable(const int diam, int f, int e, int d, int c, int b)
    out.open("./permutationtables/MTable.txt");
    size = 0;
    if(out.is_open()){
-   for(int i=1; i < (float)(diam*diam*diam*diam*diam / (720*f)); ++i)
+   for(int i=1; i < (float)(diam*diam*diam*diam*diam*diam / (720*f)); ++i)
    {
       for(int j=1; j < (float)(f / e); ++j)
       {
@@ -89,7 +89,7 @@ void MCoTable::makeMCoTable(const int diam, int f, int e, int d, int c, int b)
          }
       }
    }out << endl; out.close();}
-//cout << size << endl;
+cout << size << endl;
    return;
 }
 
