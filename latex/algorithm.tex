@@ -43,11 +43,25 @@ We begin with 3 generators
 \textbf{end}
 
 \vspace{3mm}
-\textbf{Define} tuples
+\textbf{Define} Constant 
 
-\hspace{5mm}$A$ // generators\\
-\hspace{5mm}$Q$  // m coefficients\\
-\hspace{5mm}$x$  // x coefficients\\
+\hspace{5mm}Integer $d_{cubed}$ = $diameter * diameter * diameter$
+\vspace{5mm}
+
+\vspace{3mm}
+\textbf{Define} Tuples
+
+\hspace{5mm}Tuple $A$ // generators\\
+\hspace{5mm}Tuple $Q$  // m coefficients\\
+\hspace{5mm}Tuple $x$  // x coefficients\\
+\vspace{5mm}
+
+
+\textbf{Define} Polynomials
+
+\hspace{5mm}Polynomial $X$ // \\
+\hspace{5mm}Polynomial $M$  // The bound itself\\
+\hspace{5mm}Polynomial $X_{prime}$  // \\
 \vspace{5mm}
 
 \textbf{Define} $M$ a polynomial of $A$ and $Q$
@@ -56,22 +70,30 @@ We begin with 3 generators
 \textbf{Loop} through every choice of $m$ coeffiecient
 \vspace{2mm}
 
-\hspace{5mm}\textbf{Define} $X$ a polynomial of $A$ and $x$
+\hspace{5mm}\textbf{If} $M$ meets criteria // M well formed, less than $d_{cubed}$
+
+\hspace{38mm}// and greater than current best  value
 \vspace{2mm}
 
-\hspace{5mm}\textbf{If} $X$ is well formed
+\hspace{10mm}\textbf{Define} $X$ a polynomial of $A$ and $x$
+\vspace{2mm}
+
+\hspace{10mm}\textbf{Set} Polynomial $X_{prime}$ = $X-M$
+\vspace{2mm}
+
+\hspace{10mm}\textbf{If} $X$ is well formed
 \vspace{1mm}
 
-\hspace{10mm}\textbf{Define} polynomial
+\hspace{15mm}check covering
 
-\hspace{15mm}$Adj = X - M$ // mod our X polynomial
-
-\hspace{10mm}\textbf{end}
 \vspace{1mm}
 
-\hspace{10mm}\textbf{If} covering is $true$
+\hspace{15mm}\textbf{If} covering is $true$
 
-\hspace{15mm}save the polynomial $M$ 
+\hspace{20mm}save the polynomial $M$ 
+
+\hspace{15mm}\textbf{end}
+\vspace{2mm}
 
 \hspace{10mm}\textbf{end}
 \vspace{2mm}
