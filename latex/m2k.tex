@@ -1,368 +1,133 @@
-\documentclass[11pt]{article}
- 
-\usepackage[text={6in,8.1in},centering]{geometry}
- 
-\usepackage{enumerate}
-\usepackage{amsmath,amsthm,amssymb}
- 
-\usepackage{pstricks}
-\usepackage{pst-solides3d}
-\usepackage{pstricks-add}
-\usepackage{graphicx}
-\usepackage{pst-tree}
-\usepackage{pst-poly}
-\usepackage{calc,ifthen}
-\usepackage{float}\usepackage{multicol}
-\usepackage{multirow}
-\usepackage{array}
-\usepackage{longtable}
-\usepackage{tikz}
-\usepackage{tkz-berge}
-\usepackage{fancyhdr}
-\usepackage{algorithmicx,algpseudocode}
-\usepackage{changepage}
-\usepackage{color}
-\usepackage{listings}
-\usepackage{fancyvrb}
+\section{ New Lower Bound of $m(2, k)$.}
 
-\lstset{ %
-language=C++,                % choose the language of the code
-basicstyle=\footnotesize,       % the size of the fonts that are used for the code
-numbers=none,                   % where to put the line-numbers
-numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
-stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
-numbersep=5pt,                  % how far the line-numbers are from the code
-backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
-showspaces=false,               % show spaces adding particular underscores
-showstringspaces=false,         % underline spaces within strings
-showtabs=false,                 % show tabs within strings adding particular underscores
-frame=none,           % adds a frame around the code
-tabsize=2,          % sets default tabsize to 2 spaces
-captionpos=b,           % sets the caption-position to bottom
-breaklines=true,        % sets automatic line breaking
-breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
-escapeinside={\%*}          % if you want to add a comment within your code
-}
-
-\newenvironment{block}{\begin{adjustwidth}{1.5cm}{1.5cm}\noindent}{\end{adjustwidth}}
-
-\newtheorem{proposition}{Proposition}[section]
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}{Lemma}[section]
-\newtheorem{corollary}{Corollary}[section]
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
- 
-\title{Cayley Digraphs of Finite Cyclic Groups with Minimal Diameter\footnote{Supported in part by National Science Foundation (NSF).}}
-\author{Jordan Blocher\thanks{Department of Mathematics, University of Nevada-Reno, Reno, NV, USA}\and Samantha Hampton\thanks{Department of Mathematics, University of Arkansas, Fayetteville, AR, USA}\and Christopher Linden\thanks{University of California Los Angeles, Los Angeles, CA,USA } }
-\date{\today}
- 
- 
-\def\R{\mbox{$\mathbb R$}}
-\def\Q{\mbox{$\mathbb Q$}}
-\def\Z{\mbox{$\mathbb Z$}}
-\def\N{\mbox{$\mathbb N$}}
-\def\C{\mbox{$\mathbb C$}}
-\def\Sym{\operatorname{Sym}}
-\def\lcm{\operatorname{lcm}}
-\def\adj{\operatorname{adj}}
-\def\inc{\operatorname{inc}}
-\def\Cay{\operatorname{Cay}}
-\def\Geom{\operatorname{\cal G}}
-\def\ker{\operatorname{ker}}
-\def\kernel{\operatorname{ker}}
-\def\automorphism{\operatorname{Aut}}
-\def\endomorphism{\operatorname{End}}
-\def\inner{\operatorname{Inn}}
-\def\outer{\operatorname{Out}}
-\def\crossing{\operatorname{cr}}
-\def\cent{\textcent}
-\def\n{\\ \vspace{1.7mm}}
-\def\diam{\operatorname{diam}}
-
-\renewcommand{\emptyset}{\O}
- 
- 
-\newcounter{ZZZ}
-\newcounter{XXX}
-\newcounter{XX}
- 
-\headsep25pt\headheight20pt
- 
- 
-\pagestyle{fancyplain}
-\lhead{\fancyplain{}{\small\bfseries Blocher, Hampton, Linden,\ \ Cayley Digraphs of Finite Cyclic Groups}}
-\rhead{\fancyplain{}{\small\bfseries\thepage}}
-\cfoot{\ \hfill\tiny\sl Draft printed on \today}
- 
- 
-\setlength{\extrarowheight}{2.5pt} % defines the extra space in tables
- 
- 
- 
-\begin{document}
- 
-\baselineskip6mm\parskip4mm
-
-\maketitle
-\begin{center}
-\begin{tikzpicture}
-
-
-\GraphInit[vstyle=Simple]
-\tikzset{VertexStyle/.append style = {minimum size = 5pt, inner sep = 0pt}}
-
-\Vertex[x=187.5pt,y=337.5pt]{0};
-\Vertex[x=224.80348307472823pt,y=332.7874741692947pt]{1};
-\Vertex[x=259.7630511152573pt,y=318.94600200657953pt]{2};
-\Vertex[x=290.1820658893033pt,y=296.8452941132117pt]{3};
-\Vertex[x=314.14918882530225pt,y=267.87401924684946pt]{4};
-\Vertex[x=330.15847744427305pt,y=233.85254915624213pt]{5};
-\Vertex[x=337.2040092642407pt,y=196.91857792939703pt]{6};
-\Vertex[x=334.8430876093033pt,y=159.3928028121413pt]{7};
-\Vertex[x=323.22405786990294pt,y=123.63310626523908pt]{8};
-\Vertex[x=303.0769864163684pt,y=91.88640153769651pt]{9};
-\Vertex[x=275.667787843871pt,y=66.14745084375791pt]{10};
-\Vertex[x=242.71868290270174pt,y=48.0335271167623pt]{11};
-\Vertex[x=206.2999850346457pt,y=38.682794802828326pt]{12};
-\Vertex[x=168.70001496535434pt,y=38.682794802828326pt]{13};
-\Vertex[x=132.2813170972983pt,y=48.03352711676226pt]{14};
-\Vertex[x=99.3322121561291pt,y=66.14745084375782pt]{15};
-\Vertex[x=71.92301358363159pt,y=91.88640153769656pt]{16};
-\Vertex[x=51.77594213009703pt,y=123.63310626523916pt]{17};
-\Vertex[x=40.1569123906967pt,y=159.3928028121413pt]{18};
-\Vertex[x=37.795990735759275pt,y=196.91857792939695pt]{19};
-\Vertex[x=44.841522555726954pt,y=233.8525491562421pt]{20};
-\Vertex[x=60.85081117469775pt,y=267.8740192468495pt]{21};
-\Vertex[x=84.81793411069665pt,y=296.8452941132117pt]{22};
-\Vertex[x=115.23694888474257pt,y=318.9460020065795pt]{23};
-\Vertex[x=150.1965169252717pt,y=332.7874741692946pt]{24};
-
-\SetUpEdge[lw         = .5pt,
-            color      = black,
-            labelcolor = black]
-
-\Edge(24)(0)
-\Edge(0)(1)
-\Edge(1)(2)
-\Edge(2)(3)
-\Edge(3)(4)
-\Edge(4)(5)
-\Edge(5)(6)
-\Edge(6)(7)
-\Edge(7)(8)
-\Edge(8)(9)
-\Edge(9)(10)
-\Edge(10)(11)
-\Edge(11)(12)
-\Edge(12)(13)
-\Edge(13)(14)
-\Edge(14)(15)
-\Edge(15)(16)
-\Edge(16)(17)
-\Edge(17)(18)
-\Edge(18)(19)
-\Edge(19)(20)
-\Edge(20)(21)
-\Edge(21)(22)
-\Edge(22)(23)
-\Edge(23)(24)
-
-\SetUpEdge[lw         = .5pt,
-            color      = blue,
-            labelcolor = black]
-
-\Edge(0)(8)
-\Edge(2)(10)
-\Edge(4)(12)
-\Edge(6)(14)
-\Edge(8)(16)
-\Edge(10)(18)
-\Edge(12)(20)
-\Edge(14)(22)
-\Edge(16)(24)
-\Edge(18)(1)
-\Edge(20)(3)
-\Edge(22)(5)
-\Edge(24)(7)
-\Edge(1)(9)
-\Edge(3)(11)
-\Edge(5)(13)
-\Edge(7)(15)
-\Edge(9)(17)
-\Edge(11)(19)
-\Edge(13)(21)
-\Edge(15)(23)
-\Edge(17)(0)
-\Edge(19)(2)
-\Edge(21)(4)
-\Edge(23)(6)
-
-\SetUpEdge[lw         = .5pt,
-            color      = green,
-            labelcolor = black]
-
-\Edge(0)(6)
-\Edge(6)(12)
-\Edge(12)(18)
-\Edge(18)(24)
-\Edge(24)(5)
-\Edge(5)(11)
-\Edge(11)(17)
-\Edge(17)(23)
-\Edge(23)(4)
-\Edge(4)(10)
-\Edge(10)(16)
-\Edge(16)(22)
-\Edge(22)(3)
-\Edge(3)(9)
-\Edge(9)(15)
-\Edge(15)(21)
-\Edge(21)(2)
-\Edge(2)(8)
-\Edge(8)(14)
-\Edge(14)(20)
-\Edge(20)(1)
-\Edge(1)(7)
-\Edge(7)(13)
-\Edge(13)(19)
-\Edge(19)(0)
-
-\SetUpEdge[lw         = .5pt,
-            color      = red,
-            labelcolor = black]
-
-\Edge(0)(4)
-\Edge(4)(8)
-\Edge(8)(12)
-\Edge(12)(16)
-\Edge(16)(20)
-\Edge(20)(24)
-\Edge(24)(3)
-\Edge(3)(7)
-\Edge(7)(11)
-\Edge(11)(15)
-\Edge(15)(19)
-\Edge(19)(23)
-\Edge(23)(2)
-\Edge(2)(6)
-\Edge(6)(10)
-\Edge(10)(14)
-\Edge(14)(18)
-\Edge(18)(22)
-\Edge(22)(1)
-\Edge(1)(5)
-\Edge(5)(9)
-\Edge(9)(13)
-\Edge(13)(17)
-\Edge(17)(21)
-\Edge(21)(0)
-\Edge(0)(9)
-\Edge(9)(18)
-\Edge(18)(2)
-\Edge(2)(11)
-\Edge(11)(20)
-\Edge(20)(4)
-\Edge(4)(13)
-\Edge(13)(22)
-\Edge(22)(6)
-\Edge(6)(15)
-\Edge(15)(24)
-\Edge(24)(8)
-\Edge(8)(17)
-\Edge(17)(1)
-\Edge(1)(10)
-\Edge(10)(19)
-\Edge(19)(3)
-\Edge(3)(12)
-\Edge(12)(21)
-\Edge(21)(5)
-\Edge(5)(14)
-\Edge(14)(23)
-\Edge(23)(7)
-\Edge(7)(16)
-\Edge(16)(0)
-
-\end{tikzpicture}
-\end{center}
- 
-$\\$
-$\\$
-$\\$
-
-\begin{abstract}
-For positive integers $d$ and $k$ let $m(d,k)$ be defined to be the maximum modulus m such that the \emph{Cayley digraph} Cay($\Z_{m}, \mathcal{A}$) generated by the set of positive integers $\mathcal{A}$ of cardinality $k$ is such that the diameter of Cay($\Z_{m}, \mathcal{A}$) is less than or equal to a given diameter $d$. 
-In this paper we prove new bounds for generating sets of cardinality less than 6. We present new algorithms that lead to the computation of these bounds; in particular, the bound for $k = 6$ has never been found via combinatorial algorithm. These algorithms are detailed as a complement to the actual proof. 
-\end{abstract}
- 
-\section{Introduction}
- 
-Let $\Gamma$ be a finite group with a subset A. The \emph{Cayley digraph}, denoted Cay($\Gamma, \mathcal{A}$), is a digraph with vertex set $\Gamma$, such that ($x, y$) is a directed edge if and only if $yx^{-1}$ $\in$ A.
-The focus of this paper is the finite group $\Z_m$; we will denote the Cayley graph Cay($\Z_m, \mathcal{A}$) as Cay($m, \mathcal{A}$).
- 
-
- \begin{figure}[h]
-\begin{center}
-
-\begin{tikzpicture}
-
-
-\Vertex[x=170.0508492385226pt,y=257.44793707070056pt]{0};
-\Vertex[x=229.43059777036808pt,y=248.64351388167475pt]{1};
-\Vertex[x=256.19943380501326pt,y=195.0860839875888pt]{2};
-\Vertex[x=234.95343715746685pt,y=139.06822600729095pt]{3};
-\Vertex[x=176.6059109911555pt,y=124.48269654626677pt]{4};
-\Vertex[x=127.63862734371301pt,y=158.71121570275264pt]{5};
-\Vertex[x=124.5266485799639pt,y=218.79228696858095pt]{6};
-\tikzset{EdgeStyle/.style={->}}
-\Edge(1)(2)
-\Edge(0)(1)
-\Edge(6)(0)
-\Edge(5)(6)
-\Edge(4)(5)
-\Edge(3)(4)
-\Edge(2)(3)
-\Edge(0)(2)
-\Edge(2)(4)
-\Edge(4)(6)
-\Edge(6)(1)
-\Edge(1)(3)
-\Edge(3)(5)
-\Edge(0)(5)
-\end{tikzpicture}
-\end{center}
-\caption{ Cay($\mathbb{Z}_7$, \{1,2\}).}
-\end{figure}
- 
-Cayley digraphs are vertex-symmetric. This property allows us to relate our extremal function $m(d, k)$ on Cay($m,\mathcal{A}$) to the diameter of the graph. Given a generating set $\mathcal{A}$ of size $k$, we constrict our value $m(d, k)$ so that the diameter of the generated graph is less than our given $d$.
-For any positive integer $d$ we define
+Let $d$ be a positive integer. We define $n(d, k)$ to be the largest positive integer $m$ such that there exists a subset $A$ of positive integers with the property that every integer in the interval $[1, m]$ is the sum of at most $d$ not necessarily distinct elements of $A$. Comparing $m(d, k)$, we may say that $n(d, k)$ is the interval version of $m(d, k)$. In other words, 
 \[
-m(d,\mathcal{A}) =\ max\{m \vert \diam(Cay(m,\mathcal{A})) \leq d\},
+n(d, k) = \max_{A\subseteq\Z^{+}\atop\scriptstyle |A|=k}\{m\  |\ d\cdot A\supseteq[1, m]\}.
 \]
-the largest positive integer $m$ such that the diameter, $d(m,A)$, of the Cayley digraph Cay(m,A) is less than or equal to $d$. For positive integers $d$ and $k$,
-\[
-m(d,k) = \max\{m(d,\mathcal{A}) \vert \text{ there exists a set A with } \vert \mathcal{A} \vert = k \},
-\]
-the maximum modulus m such that there exists a generating set with cardinality equal to k and the diameter of the Cayley digraph is less than or equal to d. 
-$\\$
+It is clear that for all $d \geq 1$ and $k \geq 1$ $m(d, k) \geq n(d, k)$. The computation of  $n(d, k)$ is often referred as the \emph{the postage stamp problem}. \emph{The postage stamp problem} is an old problem in number theory and has been studied extensively. See  for more information. 
 
-Current known bounds include
+The following theorem was proved by Mrose in 1979, and gives the current bound for $n(2, k)$.
+\[
+n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\  \text{as} \  k \to \infty.
+\]
+
+ 
+In this paper we prove the following lower bound for $m(d, k)$.
+\begin{theorem}
+$\displaystyle m(2,k) \geq \frac{37}{121}k^2 + O(k)$  as $ k \to \infty$.
+\end{theorem}
+
+\begin{proof}
+Let $k \geq$ 14 be an integer. Let $k_1 = \left \lfloor \frac{k - 9}{11} \right \rfloor$. Let $m = 37k_1^2$.  Define 
 \begin{align*}
-m(1,k)& = k+1,\\
-m(d,1) &= d+1\text{, and}\\
-m(d,2) &=\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1 \text{ for all } d\geq2.
+I_\mu &= [\mu k_1^2, \mu k_1^2 + k_1], \qquad
+\mu = 0, 4, 15, 26; \\
+S_\nu &= \{\nu k_1^2 + ik_1 \ |\  i = 0 , 1, ... , k_1 - 1\},\qquad
+\nu = 0, 1, 2, 3;\\
+T_{\eta} &= \{\eta k_1^2+ i(k_1 + 1) \ |\   i = 0 , 1, ... , k_1 -1\},\qquad
+\eta = 10, 20, 30.
 \end{align*}
- 
-We will begin by examine the case when k = 3. The current bounds for this case, as $d\to\infty$, are
+ Let $S= S_{0} \cup S_{1} \cup S_{2} \cup S_{3}$, and
+define
 \[
-\frac{176}{2197}d^3 + O(d^2) \leq m(d,3) \leq \frac{1}{14-3\sqrt{3}}(d+3)^3 .
+A=I_0\cup I_4\cup I_{15}\cup I_{26}\cup S\cup T_{10}\cup T_{20}\cup T_{30}.
 \]
- 
+Noting  that $I_0\cap S_0=\{0,k_1\}$, and 
+\[
+|I_\mu| = k_1 + 1,\quad 
+|S_\nu| = k_1,\quad\text{and}\quad
+|T_\eta| = k_1,
+\]
+we see that 
+\[
+|A| \leq 11k_1 + 2 \leq k.
+\]  
+We now prove that $A+A=\Z_m$.
 
-\input{algorithm}
+We begin by claiming $T_a + I_b\supseteq[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$. Let $n \in[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$.
+Then we can write $n$ as 
+\[
+n = (a + b) k_1^2 + ck_1 + d
+\]
+where $0 \leq c < k_1$ and $0 \leq d < k_1$.
 
-\pagebreak
-\input{proof}
+If $d \geq c$, then
+\[
+n = ak_1^2 + c(k_1- 1) + bk_1^2 +  d - c,
+\]
+where $ak_1^2 +c(k_1- 1) \in T_a$, and $bk_1^2 + (d - c) \in I_b$, so $n \in T_a + I_b$. 
+
+If $d < c$, then we must have $c \geq 1$. Hence
+\[
+n = ak_1^2 + (c - 1)(k_1 + 1) + bk_1^2 + k_1 + d - c + 1, 
+\]
+where $ak_1^2 + (c - 1)(k_1 - 1) \in T_a$, and $bk_1^2 + k_1 + d - c + 1 \in I_b$, so $n \in T_a + I_b$. 
+
+Next we claim that  $S_a + I_b\supseteq[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$. Let $n \in[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$.
+Then we can write $n$ as 
+\[
+n = (a + b) k_1^2 + ck_1 + d = ak_1^2 + ck_1 + bk_1^2 + d
+\]
+where  $0 \leq c < k_1$ and $0 \leq d < k_1$, such that $ak_1^2 + ck_1 \in S_a$ and $bk_1^2 + d \in I_b$, so $n \in S_a + I_b$. 
+
+Our final claim is $T_a + S \supseteq[(a +1)k_1^2 ,  (a + 4)k_1^2)$.  Let $n \in[(a +1)k_1^2 ,  (a + 4)k_1^2)$.
+Then we can write $n$ as 
+\[
+n = (a + b) k_1^2 + ck_1 + d, 
+\]
+where $1 \leq b \leq 3$, $0 \leq c < k_1$, and $0 \leq d < k_1$. 
+
+If $c \geq d$, then
+\[
+n = ak_1^2 + d(k_1 + 1) + bk_1^2 + (c - d) k_1, 
+\]
+where $ak_1^2 + d(k_1 + 1) \in T_a$ and $bk_1^2 + (c - d)k_1 \in S_b$, so $n \in T_a + S_b$. 
+
+If $d > c$, then
+\[
+n = ak_1^2 + d(k_1 + 1) + (b - 1)k_1^2 + (k_1 + c - d) k_1, 
+\]
+where $ak_1^2 + d(k_1 + 1) \in T_a$ and $(b - 1)k_1^2 + (k_1 + c - d)k_1 \in S_{b - 1}$, so $n \in T_a + S_{b-1}$. 
 
 
-\end {document}
+
+Given the properties of the modulus, we cover the following intervals by interval equivalence modulus 37$k_1^2$:  $[8k_1^2, 9k_1^2]$ , $[9k_1^2, 10k_1^2]$, and $[19k_1^2, 20k_1^2]$. 
+
+The interval $[1, m]$ is covered as follows: 
+\begin{align*}
+I_0 + S &\supseteq [0, 4k_1^2),\\
+I_4 + S &\supseteq [4k_1^2, 8k_1^2),\\
+I_{15} + T_{30}  &\supseteq [8k_1^2, 9k_1^2),\\
+I_{26} + T_{20}  &\supseteq [9k_1^2, 10k_1^2),\\
+T_{10} + I_{0}  &\supseteq [10k_1^2, 11k_1^2),\\
+T_{10} + S  &\supseteq [11k_1^2, 14k_1^2),\\
+I_{4} + T_{10}  &\supseteq [14k_1^2, 15k_1^2),\\
+I_{15} + S  &\supseteq [15k_1^2, 19k_1^2),\\
+I_{26} + T_{30}  &\supseteq [19k_1^2, 20k_1^2),\\
+I_{0} + T_{20}  &\supseteq [20k_1^2, 21k_1^2),\\
+S + T_{20}  &\supseteq [21k_1^2, 24k_1^2),\\
+I_{4} + T_{20}  &\supseteq [24k_1^2, 25k_1^2),\\
+I_{15} + T_{10}  &\supseteq [25k_1^2, 26k_1^2),\\
+I_{26} + S  &\supseteq [26k_1^2, 30k_1^2),\\
+I_{0} + T_{30}  &\supseteq [30k_1^2, 31k_1^2),\\
+S + T_{30}  &\supseteq [31k_1^2, 34k_1^2),\\
+I_{4} + T_{30}  &\supseteq [34k_1^2, 35k_1^2),\\
+I_{15} + T_{20}  &\supseteq [35k_1^2, 36k_1^2), \\
+I_{26} + T_{10}  &\supseteq [36k_1^2, 37k_1^2).
+\end{align*}
+
+It now follows that 
+\[
+A + A \supseteq [0, 37k_1^2).
+\]
+Hence
+\begin{align*}
+m(2,k) &\geq 37k_1^2\\
+&= 37 * \left \lfloor \frac{k - 2}{11}\right \rfloor^2\\
+&> 37 \left(\frac{k - 2}{11} -1\right) ^2\\
+&= \frac{37}{121}k^2-\frac{962}{121}k+\frac{6253}{121}\\
+&= \frac{37}{121}k^2 + O(k)\qquad \text{ as }\quad k \to \infty. \qedhere
+\end{align*}
+\end{proof}
+
+
