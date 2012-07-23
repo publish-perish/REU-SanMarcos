@@ -1,89 +1,97 @@
 #include "../basic/permutations.h"
 
-void XCoTable::makeXCoTable(int diam, int numprocs)
+
+void GenTable::makeGenTable(int diam)  //order: e, d, c, b, 1
+{
+size =0;
+std::ofstream myfile ("./permutationtables/GenTable.txt");
+for(int i=2; i < (diam*diam*diam*diam*diam*diam/720); i++)
+{
+	for(int j=2; j < (diam*diam*diam*diam*diam*diam/(i*720)); j++)
+	{
+      for(int k=2; k < (diam*diam*diam*diam*diam*diam/(i*j*720)); k++)
+       {
+			for(int l=2; l < (diam*diam*diam*diam*diam*diam/(k*i*j*720)); l++)
+        	{  	
+        	for(int m=2; m < (diam*diam*diam*diam*diam*diam/(l*k*i*j*720)); m++)
+        	{ 
+				if(myfile.is_open() && i*j*k*l*m < (diam*diam*diam*diam*diam*diam/720) ) 
+       			{
+     			myfile  << T6(i*j*k*l*m, i*j*k*l, i*j*k, j*k, j, 1);
+     			size++;
+       			}
+       		}
+			}
+       }
+	}
+}
+//genCount=0;
+myfile << endl;
+myfile.close();
+return;
+}
+
+
+void XCoTable::makeXCoTable(int diam)
 {
    ofstream out;
-   for(int rank=1; rank <= numprocs; rank++)
+   out.open("./permutationtables/XTable.txt");
+   size = 0;
+   if(out.is_open()){
+   for(int i=0; i <= diam-6; i++)
    {
-       stringstream s;
-       string fname = "./permutationtables/XTable.txt";
-       s << rank;
-       out.open((fname.insert(fname.length()-4, s.str())).c_str());
-       size = 0;
-       if(out.is_open()){
-       for(int i=diam; i >= 0; --i)
-       {
-          for(int j=diam-i; j >= 0; --j)
-          {
-             for(int k=diam-i-j;k >= 0; --k) //filter them in holding tank, then add to file
-             {
-             if(i+j+k <= diam - 3)
-             {
-                holdingTank.clear();
-                holdingTank.insert(T(i, j, k));
-                holdingTank.insert(T(i, k, j));
-                holdingTank.insert(T(j, i, k));
-                holdingTank.insert(T(j, k, i));
-                holdingTank.insert(T(k, i, j));
-                holdingTank.insert(T(k, j, i));
-                std::set<T>::iterator itr = holdingTank.begin();
-                while(itr != holdingTank.end())
-                {
-                     out << *itr;
-                     ++size;
-                     itr++;     
-                }	
-                holdingTank.clear();
-             }			
-             }	
-          }
-       }out << endl; out.close();}
-   }
+      for(int j=0; j <= diam - (6+i); ++j)
+      {
+         for(int k=0;k <= diam - (6+i+j); ++k)
+         {
+         	for(int l=0; l <= diam - (6 +i +j +k); ++l)
+      		{
+				for(int m=0; m <= diam - (6 +i +j +k +l); ++m)
+      			{
+      				for(int n=0; n <= diam - (6 +i +j +k +l+ m); ++n)
+      				{
+                	 out << T6(n, m, l, k, j, i);
+                 	++size;
+                 	}
+           		}
+         	}			
+         }	
+      }
+   }out << endl; out.close();}
    return;
 }
 
 
-bool MCoTable::makeMCoTable(const int diam, int b, double c1, int rank)
+void MCoTable::makeMCoTable(const int diam, int f, int e, int d, int c, int b)
 {
    ofstream out;
-   stringstream s;
-   string fname = "./permutationtables/MTable.txt";
-   s << rank;
-   out.open((fname.insert(fname.length()-4, s.str())).c_str());
+   out.open("./permutationtables/MTable.txt");
    size = 0;
    if(out.is_open()){
-   for(int i=1; i < (diam*diam*diam / (b*c1)); ++i)
+   for(int i=1; i < (float)(diam*diam*diam*diam*diam*diam / (720*f)); ++i)
    {
-      for(int j=1; j < (c1); ++j)
+      for(int j=1; j < (float)(f / e); ++j)
       {
-         for(int k=1; k < (b); ++k) //filter them in holding tank, then add to file
+         for(int k=1; k < (float)(e / d); ++k)
          {
-            out << T(i, j, k) ;
-            ++size;
+         	for(int l=1; l < (float)(d / c); ++l)
+         	{	
+				for(int m=1; m < (float)(c / b); ++m)
+         		{
+         			for(int n=1; n < b; ++n)
+         			{
+            		out << T6(i, j, k, l, m, n);
+            		++size;
+            		}
+				}
+
+            }
          }
       }
    }out << endl; out.close();}
-   return true;
-}
-
-
-void GenTable::makeGenTable(int diam)  //order: c, b, 1
-{
-   ofstream out;
-   out.open("./permutationtables/GenTable.txt");
-   size = 0;
-   if(out.is_open()){
-   for(int i=2; i < (diam*diam*diam/6); i++)
-   {
-      for(int j=2; j < (diam*diam*diam/6); j++)
-      {
-         if(i*j < diam*diam*diam/6)
-         {
-            out<< T(i*j,j,1) ;
-            ++size;
-         }
-      }
-   } out<< endl; out.close();}
+cout << size << endl;
    return;
 }
+
+
 

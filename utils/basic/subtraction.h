@@ -1,11 +1,20 @@
 #ifndef SUBTRACTION_H
 #define SUBTRACTION_H
 
-#include "tuple.h"
+
+
+
+
+//#include "polynomials.h"
+
+
+
 #include <vector>
 #include <iostream>
 #include <fstream>
 
+
+//typedef boost::tuples::tuple<int, int, int> T;
 
 class Subtractions{
 
@@ -13,11 +22,14 @@ class Subtractions{
 
     Subtractions();
     Subtractions(int);
-    Subtractions(int, int, int);
+    Subtractions(int, int, int, int, int, int);
     Subtractions(const Subtractions&);
 
     void clear();
    
+   	int f_borrowed;
+	int e_borrowed;
+    int d_borrowed;
     int c_borrowed;
     int b_borrowed;
     int m_subtracted;
@@ -34,6 +46,5 @@ class Subtractions{
 
 
 #endif
-
 
 
