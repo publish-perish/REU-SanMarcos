@@ -4,7 +4,7 @@
 void GenTable::makeGenTable(int diam)  //order: c, b, 1
 {
 size =0;
-std::ofstream myfile ("./permutationtables/gentable.txt");
+std::ofstream myfile ("./permutationtables/GenTable.txt");
 for(int i=2; i < (diam*diam*diam*diam/24); i++)
 {
 	for(int j=2; j < (diam*diam*diam*diam/(i*24)); j++)

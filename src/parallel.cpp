@@ -69,7 +69,7 @@ int main (int argc, char *argv[]) {
 
   construct_MPI_DataTypes();
   
-printf("I am process %d in main\n", rank);
+//printf("I am process %d in main\n", rank);
     if(rank == 0)
     {
        master(diam, numprocs, mbest);
@@ -82,7 +82,7 @@ printf("I am process %d in main\n", rank);
     
     MPI_Barrier(MPI_COMM_WORLD);
 
-printf("I am process %d leaving main \n",rank);
+//printf("I am process %d leaving main \n",rank);
  
     // Free memory
     MPI_Type_free(&MPI_Tuple);
@@ -227,7 +227,7 @@ void slave(int diam, int numprocs)
     Polynomial mbest;
     check_cover(A, rank, diam, mbest);
    
-    sendbuf[rank-1].Y.x = mbest.Y[3];
+    sendbuf[rank-1].Y.w = mbest.Y[3];
     sendbuf[rank-1].Y.x = mbest.Y[2];
     sendbuf[rank-1].Y.y = mbest.Y[1];
     sendbuf[rank-1].Y.z = mbest.Y[0];
