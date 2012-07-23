@@ -15,7 +15,7 @@ for(int i=2; i < (diam*diam*diam*diam*diam/120); i++)
         	{  	
 				if(myfile.is_open() && i*j*k*l < (diam*diam*diam*diam*diam/120) ) 
        			{
-     			myfile  << T5(l*i*j*k,i*j*k, j*k, j, 1);
+     			myfile  << T5(i*j*k*l, j*k*l, k*l, l, 1);
      			size++;
        			}
 			}
