@@ -136,31 +136,30 @@ $\displaystyle m(d,4) \geq \frac{1}{125}d^4 + O(d^3)$  as $ d \to \infty$.
 \end{theorem}
 
 \begin{proof}
-Let $d \geq 12$ and let $\lambda = \left \lfloor \frac{d - 2}{9} \right \rfloor$. Define
-\[
-m = 2\lambda \gamma + \lambda \beta + \lambda \alpha + \lambda.
-\]
-Let $A = \{1, \alpha, \beta, \gamma\}$. Since
-\begin{align*}
-m &= 2\lambda \gamma + \lambda \beta + \lambda \alpha + \lambda\\
- &= 54 \lambda^4 + 9 \lambda^3 + 3 \lambda^2 + \lambda\\
- &= \frac{1}{125} d^4 + O(d^3),
-\end{align*}
-we only need to show that the Cayley digraph Cay$(m, a)$ has diameter $d(m, A) \leq d$. Let $dA$ denote the set of all sums of at most $d$ not necessarily distinct elements of $A$. If $A$ is regarded as a subset of $\Z_m$, then we only need to show that $dA = \Z_m$. 
 
-It is easy to see that every integer $n$ : $0 \leq n < m$ can be expressed as follows:
-\[
-n =  w + x\alpha + y\beta + z\gamma
-\]
-where 
-\begin{center}
-$0 \leq w < \lambda$, \ $0 \leq x < \lambda$, \ $0 \leq y < \lambda$, \ $0 \leq z < 2\lambda$.
-\end{center}
-Therefore, we only need to show that, for every $n$ : $0 \leq n < m$, there exists nonnegative integers $\mu_1$, $\mu_2$, $\mu_3$ and $\mu_4$ such that 
-\[
-n \equiv \mu_1 + \mu_2 \alpha + \mu_3 \beta  + \mu_4 \gamma \mod m ), \ \ \text{and }\ \ \   \mu_1 + \mu_2 + \mu_3 + \mu_4 \leq d.
-\]
 We now consider the following cases:\\
+\noindent Case 1. $0 \leq x_3 < \lambda$. The following subcases need to be considered:\\
+Subcase 1.a. If $2 \lambda \leq x_1 < 3 \lambda$ then $0 \leq x_0 < 2\lambda$. \\
+If $0 \leq x_1 < 2 \lambda$, we have 
+\[ x_0 + x_1 + x_2 + x_3 \leq 3\lambda + 2\lambda + 3\lambda + \lambda = 9\lambda \leq d, \]
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
+If $2 \lambda \leq x_1 < 3 \lambda$ and  $0 \leq x_0 < 2\lambda$, we have 
+\[ x_0 + x_1 + x_2 + x_3 \leq 2\lambda + 3\lambda + 3\lambda + \lambda = 9\lambda \leq d, \]
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
+
+Subcase 1.b. $2 \lambda \leq x_2 < 3 \lambda$, $2 \lambda \leq x_1 < 3\lambda$, $2 \lambda \leq x_0 < 3\lambda$. \\
+We have
+\begin{align*}
+n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
+&=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
+&=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
+\end{align*}
+
+\begin{proposition}
+blah blah 
+\end{proposition}
+
+
 
 
 
