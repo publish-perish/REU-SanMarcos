@@ -73,7 +73,7 @@ int main (int argc, char *argv[]) {
 
   construct_MPI_DataTypes();
   
-printf("I am process %d in main\n", rank);
+//printf("I am process %d in main\n", rank);
     if(rank == 0)
     {
        master(diam, numprocs, mbest);
@@ -86,7 +86,7 @@ printf("I am process %d in main\n", rank);
     
     MPI_Barrier(MPI_COMM_WORLD);
 
-printf("I am process %d leaving main \n",rank);
+//printf("I am process %d leaving main \n",rank);
  
     // Free memory
     MPI_Type_free(&MPI_Tuple);
@@ -111,14 +111,18 @@ void master(int diam, int numprocs, Polynomial &mbest)
    MPI_Request request;
    MPI_Status status;
 
-   int i, err=0, I=2, J=2, K=2, L=2;
+   int i, err=0, I=2, J=2, K=2, L=2, numgens=0;
    ifstream gens;
    bool has_room = true;
+   clock_t start, end;
+
+   start = clock();
 
 // Assign generators to each process.
    for(i=0; i<numprocs-1; ++i)
    {
       T5 A_init(I*J*K*L, J*K*L, K*L, L, 1);
+      ++numgens;
       sendbuf[i].A.z = A_init[0];
       sendbuf[i].A.y = A_init[1];
       sendbuf[i].A.x = A_init[2];
@@ -130,7 +134,7 @@ void master(int diam, int numprocs, Polynomial &mbest)
       else if(I < diam*diam*diam*diam*diam/120){ ++I; J=2;}
       else break;
  
-printf("Master Sending (%d %d %d %d %d) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, sendbuf[i].A.w, sendbuf[i].A.v, i+1);
+//printf("Master Sending (%d %d %d %d %d) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, sendbuf[i].A.w, sendbuf[i].A.v, i+1);
       err = MPI_Send(&sendbuf[i],1, MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD);
       if(err){
         fprintf(stderr,"Failed to send.\n");
@@ -141,7 +145,7 @@ printf("Master Sending (%d %d %d %d %d) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y
    // As processes finish, assign them new generators.
       for(i=0; i<numprocs-1; ++i)
       { 
-printf("Waiting for return from slave %d \n", i+1);
+//printf("Waiting for return from slave %d \n", i+1);
           err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status);
           if(err){
             fprintf(stderr,"Failed to recieve.\n");
@@ -152,16 +156,20 @@ printf("Waiting for return from slave %d \n", i+1);
           T5 a(recvbuf[i].A.z,recvbuf[i].A.y,recvbuf[i].A.x,recvbuf[i].A.w,recvbuf[i].A.v);
           T5 y(recvbuf[i].Y.z,recvbuf[i].Y.y,recvbuf[i].Y.x,recvbuf[i].Y.w,recvbuf[i].Y.v);
           Polynomial M(a,y);
-printf("Process %d in slave returned (%d %d %d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v);
-printf("and (%d %d %d %d %d) as M-coeffs \n", recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x, recvbuf[i].Y.w, recvbuf[i].Y.v);
+//printf("Process %d in slave returned (%d %d %d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v);
+//printf("and (%d %d %d %d %d) as M-coeffs \n", recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x, recvbuf[i].Y.w, recvbuf[i].Y.v);
           if(M.value() > mbest.value())
           {
               mbest.A = M.A; mbest.Y = M.Y;
+printf("New M found by slave %d : Generators : (%d %d %d %d %d), Coeffs : (%d %d %d %d %d)", status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x, recvbuf[i].Y.w, recvbuf[i].Y.v);
+              end = clock();
+ printf("\nProgram has checked %d generators in %f seconds \n\n", numgens, (double)(end - start)/(double)CLOCKS_PER_SEC);
           }
           //results.push_back(M);
           //cout<<"Testing "<<M.A <<" generators, returned location "<<M.Y;
 
           T5 A(I*J*K*L, J*K*L, K*L, L, 1);
+          ++numgens;
           sendbuf[i].A.z = A[0];
           sendbuf[i].A.y = A[1];
           sendbuf[i].A.x = A[2];
@@ -183,13 +191,13 @@ printf("and (%d %d %d %d %d) as M-coeffs \n", recvbuf[i].Y.z, recvbuf[i].Y.y, re
    // No more generators, wait for processes to finish.
    for(i=0; i<numprocs-1; ++i)
    { 
-printf("Waiting in master for return from %d \n", i+1);
+//printf("Waiting in master for return from %d \n", i+1);
       err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status);
       if(err){
          fprintf(stderr,"Failed to recieve.\n");
          MPI_Abort(MPI_COMM_WORLD,1);
       }
-printf("GOTIT! Process %d returned (%d %d %d %d %d) to master \n",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v);
+//printf("GOTIT! Process %d returned (%d %d %d %d %d) to master \n",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v);
   }
 
    // Exit all slaves.
@@ -220,7 +228,7 @@ void slave(int diam, int numprocs)
    
    while(1)
    {
-printf("I am slave %d in slave\n",rank);
+//printf("I am slave %d in slave\n",rank);
 
     err = MPI_Recv(&recvbuf[rank-1],1,MPI_Polynomial,0,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
     if(err){
@@ -228,16 +236,14 @@ printf("I am slave %d in slave\n",rank);
        MPI_Abort(MPI_COMM_WORLD,1);
     }
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    if(status.MPI_TAG == DIETAG){printf("Slave %d leaving\n", rank);return;}
+    if(status.MPI_TAG == DIETAG){return;}
 
-printf("Process %d in slave recieved (%d %d %d %d %d) \n",rank, recvbuf[rank-1].A.z, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x, recvbuf[rank-1].A.w, recvbuf[rank-1].A.v);
+//printf("Process %d in slave recieved (%d %d %d %d %d) \n",rank, recvbuf[rank-1].A.z, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x, recvbuf[rank-1].A.w, recvbuf[rank-1].A.v);
     
     // Check cover
     T5 A(recvbuf[rank-1].A.z, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x, recvbuf[rank-1].A.w, recvbuf[rank-1].A.v);  
     Polynomial mbest;
-    cout<<"mbest before cover check "<<mbest;
     check_cover(A, rank, diam, mbest);
-    cout<<"mbest after cover check "<<mbest;
    
     sendbuf[rank-1].Y.v = mbest.Y[4];
     sendbuf[rank-1].Y.w = mbest.Y[3];
@@ -250,8 +256,8 @@ printf("Process %d in slave recieved (%d %d %d %d %d) \n",rank, recvbuf[rank-1].
     sendbuf[rank-1].A.y = mbest.A[1];
     sendbuf[rank-1].A.z = mbest.A[0];
 
-printf("Process %d returning (%d %d %d %d %d) generators ",rank, sendbuf[rank-1].A.z, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x, sendbuf[rank-1].A.w, sendbuf[rank-1].A.v);
- printf("and (%d %d %d %d %d) coeffs from slave \n", sendbuf[rank-1].Y.z, sendbuf[rank-1].Y.y, sendbuf[rank-1].Y.x, sendbuf[rank-1].Y.w, sendbuf[rank-1].Y.v);
+//printf("Process %d returning (%d %d %d %d %d) generators ",rank, sendbuf[rank-1].A.z, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x, sendbuf[rank-1].A.w, sendbuf[rank-1].A.v);
+//printf("and (%d %d %d %d %d) coeffs from slave \n", sendbuf[rank-1].Y.z, sendbuf[rank-1].Y.y, sendbuf[rank-1].Y.x, sendbuf[rank-1].Y.w, sendbuf[rank-1].Y.v);
     
     err = MPI_Send(&sendbuf[rank-1],1,MPI_Polynomial,0,WORKTAG,MPI_COMM_WORLD);
     if(err){
@@ -272,6 +278,10 @@ void check_cover(T5 A, int rank, int diam, Polynomial &mbest)
    MCoTable QTable;
    stringstream s;
    string fxcoeffs = "./permutationtables/XTable.txt";
+
+   clock_t start, end;
+
+   start = clock();
 
    // Loop over m and xcoeffs
    for(int i=1; i < (float)(diam*diam*diam*diam*diam / (120*A[0])); ++i)
@@ -294,43 +304,55 @@ void check_cover(T5 A, int rank, int diam, Polynomial &mbest)
                //  print_cover(cover, diam);
                  if((M.value() > mbest.value()) && M.wellFormed()) //ignore M that are too small, or badly formed
                  {
-                   xcoeffs.open(fxcoeffs.c_str());if(xcoeffs){
-                    while(xcoeffs >> x)
-                    {
-                     //cout << "x "<<x<<endl;
-                     Polynomial X(A, x);
-                     //cout<<"X "<<X;
-                     Polynomial X_prime(X-M);
-                     //cout<<"X_prime "<<X_prime;
-                     if(X_prime.wellFormed())
-                     { 
-                        //cover.push_back(1);
-                        cover[X_prime.sum()] = 1;
-                     }}//print_cover(cover, diam);
-                     // check covering
-                     covered = true;
-                     for(int i=0; i < M.sum(); ++i) //only check the first m of them
-                     {
-                        if(cover[i]==0) //we are not covered
-                        {
-                          covered = false;
-                          break;
-                        }
-                     }
-                     if(covered)//(accumulate(cover.begin(),cover.end(),0) == M.sum())
-                     {
-                        mbest.A = M.A; mbest.Y = M.Y;
-                     }
-                     xcoeffs.close();}else{
-                        fprintf(stderr,"Could not read XCoeffs \n");
-                        MPI_Abort(MPI_COMM_WORLD,2);
-                     }
-                  }
+                   for(int i=0; i <= diam-5; i++)
+                   {
+                      for(int j=0; j <= diam - (5+i); ++j)
+                      {
+                         for(int k=0;k <= diam - (5+i+j); ++k)
+                         {
+                            for(int l=0; l <= diam - (5 +i +j +k); ++l)
+                            {
+                                for(int m=0; m <= diam - (5 +i +j +k +l); ++m)
+                                {
+                                     T5 x(m, l, k, j, i);
+                                     //cout << "x "<<x<<endl;
+                                     Polynomial X(A, x);
+                                     //cout<<"X "<<X;
+                                     Polynomial X_prime(X-M);
+                                     //cout<<"X_prime "<<X_prime;
+                                     if(X_prime.wellFormed())
+                                     { 
+                                        //cover.push_back(1);
+                                        cover[X_prime.sum()] = 1;
+                                     }//print_cover(cover, diam);
+                                }
+                            }
+                         }
+                      }
+                   }
+                                     // check covering
+                                     covered = true;
+                                     for(int i=0; i < M.sum(); ++i) //only check the first m of them
+                                     {
+                                        if(cover[i]==0) //we are not covered
+                                        {
+                                          covered = false;
+                                          break;
+                                        }
+                                     }
+                                     if(covered)//(accumulate(cover.begin(),cover.end(),0) == M.sum())
+                                     {
+                                        mbest.A = M.A; mbest.Y = M.Y;
+                                     }
+                 }
                }
             }
          }
       }
    }
+   
+   end = clock();
+
   return;
 
 }
