@@ -37,7 +37,7 @@ struct Poly{
 MPI_Datatype MPI_Tuple;
 MPI_Datatype MPI_Polynomial;
 
-void master(int, int, Polynomial&);
+void master(int, int, Polynomial&, int&);
 void slave(int, int);
 void construct_MPI_DataTypes();
 void check_cover(T5, int, int, Polynomial&);
@@ -53,7 +53,7 @@ int main (int argc, char *argv[]) {
      return 0;
   }
 
-  int rank, numprocs, i, err=0;
+  int rank, numprocs, i, err=0, numgens=0;
   const int diam = atoi(argv[1]);
   const int d_cubed = diam*diam*diam; 
   const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
@@ -76,7 +76,7 @@ int main (int argc, char *argv[]) {
 //printf("I am process %d in main\n", rank);
     if(rank == 0)
     {
-       master(diam, numprocs, mbest);
+       master(diam, numprocs, mbest, numgens);
     }
    // MPI_Barrier(MPI_COMM_WORLD);
     if(rank != 0){ 
@@ -95,7 +95,8 @@ int main (int argc, char *argv[]) {
     MPI_Finalize();
    
     end = clock();
-    if(mbest != 0){
+    if (rank == 0) {printf("%d generators checked.\n", numgens);}
+    if(rank == 0 && mbest.A[0] != 0){
         printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d, %d), Location: (%d, %d, %d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.A[4], mbest.Y[0], mbest.Y[1], mbest.Y[2], mbest.Y[3], mbest.A[4]); 
     }else if(rank == 0){printf("\nProcesses did not find a cover \n");
         printf("\nProgram ran for %f seconds \n\n",(double)(end - start)/(double)CLOCKS_PER_SEC);}
@@ -104,14 +105,14 @@ int main (int argc, char *argv[]) {
 }
 
 
-void master(int diam, int numprocs, Polynomial &mbest)
+void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
 {
    // Buffers
    Poly sendbuf[numprocs], recvbuf[numprocs];
    MPI_Request request;
    MPI_Status status;
 
-   int i, err=0, I=2, J=2, K=2, L=2, numgens=0;
+   int i, err=0, I=2, J=2, K=2, L=2;
    ifstream gens;
    bool has_room = true;
    clock_t start, end;
