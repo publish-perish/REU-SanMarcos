@@ -128,14 +128,15 @@ Polynomial Polynomial::operator-(Polynomial m)
 std::ostream& operator<<(std::ostream& ostr, const Polynomial &p)
 {
 
-ostr << p.Y[0] << "e + " << p.Y[1] << "d + " << p.Y[2] <<"c + " << p.Y[3] << "b + " << p.Y[4] <<"a \n";
+ostr << "Coefficients : ("<<p.Y[0] << " " << p.Y[1] << " " << p.Y[2] <<" " << p.Y[3] << " " << p.Y[4] <<"), and Generators : (" << p.A[0] << " " << p.A[1] << " " << p.A[2] <<" " << p.A[3] << " " << p.A[4] <<") \n";
+
 
 }
 
 std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
 {
 
-ofstr << p.Y[0] << "e + " << p.Y[1] << "d + " << p.Y[2] <<"c + " << p.Y[3] << "b + " << p.Y[4] <<"a \n";
+ofstr << "Coefficients : ("<<p.Y[0] << " " << p.Y[1] << " " << p.Y[2] <<" " << p.Y[3] << " " << p.Y[4] <<"), and Generators : (" << p.A[0] << " " << p.A[1] << " " << p.A[2] <<" " << p.A[3] << " " << p.A[4] <<") \n";
 
 }
 
