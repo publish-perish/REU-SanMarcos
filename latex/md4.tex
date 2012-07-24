@@ -1,12 +1,34 @@
 \section{ New Lower Bound of $m(d, 4)$.}
-\begin{theorem}
-$\displaystyle m(d,4) \geq \frac{2}{243}d^4 + O(d^3)$  as $ d \to \infty$.
+
+Jia proved that 
+\[ 
+m(d, 4) \geq2.048 \left(\frac{d}{4}\right)^4  +O(d^3)\qquad\text{as}\quad d\to\infty.
+\]
+
+\begin{theorem} As $d\to\infty$, 
+\[
+m(d,4) \geq \frac{512}{243}\left(\frac d4\right)^4 + O(d^3)\approx 2.106996 \left(\frac d4\right)^4 + O(d^3).
+\]
 \end{theorem}
 
 \begin{proof}
+Let $\lambda = \left \lfloor \frac{d - 2}{9} \right \rfloor$. Define
+\begin{align*}
+\alpha &= 3 \lambda,\\
+\beta &=3 \lambda \alpha,\\
+\gamma &= 3 \lambda \beta,\\
+m &= 2 \lambda \gamma + \lambda \beta + \lambda \alpha + \lambda.
+\end{align*}
+Let $A = \{1, \alpha, \beta, \gamma\}$. Then
+\begin{align*}
+m &= 2 \lambda d + \lambda c + \lambda b + \lambda \\
+&= 54\lambda^4 + 9\lambda^3 + 3\lambda^2 + \lambda\\
+&= \frac{512}{243}\left(\frac d4\right)^4 + O(d^3).
+\end{align*}
+
 We now consider the following cases:
 
-Case 1. $0 \leq x_3 < \lambda$. The following subcases need to be considered:\\
+Case 1.  $0 \leq x_3 < \lambda$. The following subcases need to be considered:\\
 Subcase 1.a. If $2 \lambda \leq x_1 < 3 \lambda$ then $0 \leq x_0 < 2\lambda$. \\
 If $0 \leq x_1 < 2 \lambda$, we have 
 \[ x_0 + x_1 + x_2 + x_3 \leq 3\lambda + 2\lambda + 3\lambda + \lambda = 9\lambda \leq d, \]
@@ -152,5 +174,9 @@ If $0 \leq x_1 < \lambda$, we have
 which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
 If $ \lambda \leq x_1 < 2 \lambda$ and  $0 \leq x_0 < \lambda$, we have 
 \[ x_0 + x_1 + x_2 + x_3 \leq \lambda + 2\lambda + 2 \lambda + 3 \lambda = 8\lambda \leq d, \]
-which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
+Hence,
+\[
+m(d,4) \geq \frac{2}{243}d^4 + O(d^3)  \text{ as } d \to \infty. \qedhere
+\]
 \end{proof}
