@@ -36,7 +36,7 @@ struct Poly{
 MPI_Datatype MPI_Tuple;
 MPI_Datatype MPI_Polynomial;
 
-void master(int, int, Polynomial&);
+void master(int, int, Polynomial&, &int);
 void slave(int, int);
 void construct_MPI_DataTypes();
 void check_cover(T4, int, int, Polynomial&);
@@ -49,7 +49,7 @@ int main (int argc, char *argv[]) {
      return 0;
   }
 
-  int rank, numprocs, i, err=0;
+  int rank, numprocs, i, err=0, numgens=0;
   const int diam = atoi(argv[1]);
   const int d_4 = diam*diam*diam*diam; 
   const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_4/16.0);
@@ -69,10 +69,10 @@ int main (int argc, char *argv[]) {
 
   construct_MPI_DataTypes();
   
-printf("I am process %d in main\n", rank);
+//printf("I am process %d in main\n", rank);
     if(rank == 0)
     {
-       master(diam, numprocs, mbest);
+       master(diam, numprocs, mbest, numgens);
     }
    // MPI_Barrier(MPI_COMM_WORLD);
     if(rank != 0){ 
@@ -82,7 +82,7 @@ printf("I am process %d in main\n", rank);
     
     MPI_Barrier(MPI_COMM_WORLD);
 
-printf("I am process %d leaving main \n",rank);
+//printf("I am process %d leaving main \n",rank);
  
     // Free memory
     MPI_Type_free(&MPI_Tuple);
@@ -91,6 +91,7 @@ printf("I am process %d leaving main \n",rank);
     MPI_Finalize();
    
     end = clock();
+    printf("%d Generators checked. \n", numgens);
     if(mbest.A[0] != 0){
         printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.Y[0], mbest.Y[1], mbest.Y[2]); 
     }else if(rank == 0){printf("\nProcesses did not find a cover \n");
@@ -100,7 +101,7 @@ printf("I am process %d leaving main \n",rank);
 }
 
 
-void master(int diam, int numprocs, Polynomial &mbest)
+void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
 {
    // Buffers
    Poly sendbuf[numprocs], recvbuf[numprocs];
@@ -109,7 +110,6 @@ void master(int diam, int numprocs, Polynomial &mbest)
 
    T4 A;
    int i, err=0;
-   double c1;
    ifstream gens;
    
    gens.open("./permutationtables/GenTable.txt");if(gens){
@@ -133,7 +133,7 @@ printf("Master Sending (%d %d %d %d) to %d \n",sendbuf[i].A.z1, sendbuf[i].A.z2,
    {
       for(i=0; i<numprocs-1; ++i)
       { 
-printf("Waiting for return from slave %d \n", i+1);
+//printf("Waiting for return from slave %d \n", i+1);
           err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status);
           if(err){
             fprintf(stderr,"Failed to recieve.\n");
