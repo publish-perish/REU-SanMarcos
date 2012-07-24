@@ -1,31 +1,35 @@
-\section{ New Lower Bound of $m(2, k)$.}
+\section{New Lower Bound of $m(2, k)$.}
 
 Let $d$ be a positive integer. We define $n(d, k)$ to be the largest positive integer $m$ such that there exists a subset $A$ of positive integers with the property that every integer in the interval $[1, m]$ is the sum of at most $d$ not necessarily distinct elements of $A$. Comparing $m(d, k)$, we may say that $n(d, k)$ is the interval version of $m(d, k)$. In other words, 
 \[
-n(d, k) = \max_{A\subseteq\Z^{+}\atop\scriptstyle |A|=k}\{m\  |\ d\cdot A\supseteq[1, m]\}.
+n(d, k) = \max_{\scriptstyle A\subseteq\mathbb Z^{+}\atop\scriptstyle |A|=k}\{m\  |\ d\cdot A\supseteq[1, m]\}.
 \]
 It is clear that for all $d \geq 1$ and $k \geq 1$ $m(d, k) \geq n(d, k)$. The computation of  $n(d, k)$ is often referred as the \emph{the postage stamp problem}. \emph{The postage stamp problem} is an old problem in number theory and has been studied extensively. See  for more information. 
 
-The following theorem was proved by Mrose in 1979, and gives the current bound for $n(2, k)$.
+The  best known lower bound for $n(2,k)$ was proved by Mrose in 1979:
 \[
-n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\  \text{as} \  k \to \infty.
+n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\qquad  \text{as}\quad  k \to \infty.
 \]
-
+It is clear that $m(d,k)\ge n(d,k)$ for all $d$ and $k$. Furthermore, $m(d,k)$ should be {\em much\/} larger than $n(d,k)$ as at least one of $d$ and $k$ is getting large.  But the only known lower bound for $m(2,k)$ is
+\[
+m(2,k)\ge \frac27k^{2}+O(k),
+\]
+which is obtained by using the obvious inequality $m(d,k)\ge n(d,k)$.  In this paper, we improve the lower bound for $m(2,k)$ in the following theorem.
  
-In this paper we prove the following lower bound for $m(d, k)$.
+ 
 \begin{theorem}
 $\displaystyle m(2,k) \geq \frac{37}{121}k^2 + O(k)$  as $ k \to \infty$.
 \end{theorem}
 
 \begin{proof}
-Let $k \geq$ 14 be an integer. Let $k_1 = \left \lfloor \frac{k - 9}{11} \right \rfloor$. Let $m = 37k_1^2$.  Define 
+Let $k \geq$ 14 be an integer. Let $\displaystyle k_1 = \left \lfloor \frac{k - 9}{11} \right \rfloor$. Let $m = 37k_1^2$.  Define 
 \begin{align*}
-I_\mu &= [\mu k_1^2, \mu k_1^2 + k_1], \qquad
-\mu = 0, 4, 15, 26; \\
-S_\nu &= \{\nu k_1^2 + ik_1 \ |\  i = 0 , 1, ... , k_1 - 1\},\qquad
-\nu = 0, 1, 2, 3;\\
-T_{\eta} &= \{\eta k_1^2+ i(k_1 + 1) \ |\   i = 0 , 1, ... , k_1 -1\},\qquad
-\eta = 10, 20, 30.
+I_\mu &= [\mu k_1^2, \mu k_1^2 + k_1],
+&&\mu = 0, 4, 15, 26; \\
+S_\nu &= \{\nu k_1^2 + ik_1 \ |\  i = 0 , 1, ... , k_1 - 1\},
+&&\nu = 0, 1, 2, 3;\\
+T_{\eta} &= \{\eta k_1^2+ i(k_1 + 1) \ |\   i = 0 , 1, ... , k_1 -1\},
+&&\eta = 10, 20, 30.
 \end{align*}
  Let $S= S_{0} \cup S_{1} \cup S_{2} \cup S_{3}$, and
 define
@@ -44,78 +48,98 @@ we see that
 \]  
 We now prove that $A+A=\Z_m$.
 
-We begin by claiming $T_a + I_b\supseteq[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$. Let $n \in[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$.
+We begin by claiming $I_{\mu}+T_{\eta}\supseteq[(\mu + \eta )k_1^2 ,  (\mu + \eta  + 1)k_1^2)$. Let $n \in[(\mu + \eta )k_1^2 ,  (\mu + \eta  + 1)k_1^2)$.
 Then we can write $n$ as 
 \[
-n = (a + b) k_1^2 + ck_1 + d
+n = (\mu + \eta ) k_1^2 + qk_1 + r,
 \]
-where $0 \leq c < k_1$ and $0 \leq d < k_1$.
+where $0 \leq q < k_1$ and $0 \leq r < k_1$.
 
-If $d \geq c$, then
+If $r \geq q$, then $0\le r-q<k_{1}$ and
 \[
-n = ak_1^2 + c(k_1- 1) + bk_1^2 +  d - c,
+n = \mu k_1^2 +  (r - q)+ \eta k_1^2 + q(k_1+1).
 \]
-where $ak_1^2 +c(k_1- 1) \in T_a$, and $bk_1^2 + (d - c) \in I_b$, so $n \in T_a + I_b$. 
+ Since 
+ \[
+ \mu k_1^2 + (r - q) \in I_\mu\qquad\text{and}\qquad \eta k_1^2 +q(k_1+1) \in T_\eta,
+ \]
+we see that $n \in I_{\mu}+T_{\eta}$. 
 
-If $d < c$, then we must have $c \geq 1$. Hence
+If $r < q$, then we must have $q \geq 1$ and $0\le k_{1}+r-q+1\le k_{1}$. Then
 \[
-n = ak_1^2 + (c - 1)(k_1 + 1) + bk_1^2 + k_1 + d - c + 1, 
+\mu k_1^2 + (k_1 + r - q + 1) \in I_\mu \qquad \text{and}\qquad
+\eta k_1^2 + (q - 1)(k_1 + 1) \in T_\eta.
 \]
-where $ak_1^2 + (c - 1)(k_1 - 1) \in T_a$, and $bk_1^2 + k_1 + d - c + 1 \in I_b$, so $n \in T_a + I_b$. 
+ Hence
+\[
+n = \mu k_1^2 + (k_1 + r - q + 1)+\eta k_1^2 + (q - 1)(k_1 + 1) \in I_{\mu}+T_{\eta}.
+\]
+ 
 
-Next we claim that  $S_a + I_b\supseteq[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$. Let $n \in[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$.
+Next we claim that  $I_{\mu}+S_{\nu}\supseteq[(\mu + \nu )k_1^2 ,  (\mu + \nu  + 1)k_1^2)$. Let $n \in[(\mu + \nu )k_1^2 ,  (\mu + \nu  + 1)k_1^2)$.
 Then we can write $n$ as 
 \[
-n = (a + b) k_1^2 + ck_1 + d = ak_1^2 + ck_1 + bk_1^2 + d
+n = (\mu + \nu ) k_1^2 + qk_1 + r = \mu k_1^2 + r+\nu k_1^2 + qk_1,
 \]
-where  $0 \leq c < k_1$ and $0 \leq d < k_1$, such that $ak_1^2 + ck_1 \in S_a$ and $bk_1^2 + d \in I_b$, so $n \in S_a + I_b$. 
+where  $0 \leq q < k_1$ and $0 \leq r < k_1$, such that 
+\[
+\mu k_1^2 + r \in I_\mu \qquad\text{and}\qquad\nu k_1^2 + qk_1 \in S_\nu,
+\]
+ so $n \in I_{\mu}+S_{\nu}$. 
 
-Our final claim is $T_a + S \supseteq[(a +1)k_1^2 ,  (a + 4)k_1^2)$.  Let $n \in[(a +1)k_1^2 ,  (a + 4)k_1^2)$.
+Our final claim is $S+T_\eta \supseteq[(\eta  +1)k_1^2 ,  (\eta  + 4)k_1^2)$.  Let $n \in[(\eta  +1)k_1^2 ,  (\eta  + 4)k_1^2)$.
 Then we can write $n$ as 
 \[
-n = (a + b) k_1^2 + ck_1 + d, 
+n = (\eta  + \nu ) k_1^2 + qk_1 + r, 
 \]
-where $1 \leq b \leq 3$, $0 \leq c < k_1$, and $0 \leq d < k_1$. 
+where $1 \leq \nu  \leq 3$, $0 \leq q < k_1$, and $0 \leq r < k_1$. 
 
-If $c \geq d$, then
+If $q \geq r$, then
 \[
-n = ak_1^2 + d(k_1 + 1) + bk_1^2 + (c - d) k_1, 
+n = \nu k_1^2 + (q - r) k_1+\eta k_1^2 + r(k_1 + 1), 
 \]
-where $ak_1^2 + d(k_1 + 1) \in T_a$ and $bk_1^2 + (c - d)k_1 \in S_b$, so $n \in T_a + S_b$. 
+where $\nu k_1^2 + (q - r)k_1 \in S_\nu$ and $\eta k_1^2 + d(k_1 + 1) \in T_\eta$, so $n \in S_\nu +T_\eta$. 
 
-If $d > c$, then
+If $q <r$, then
 \[
-n = ak_1^2 + d(k_1 + 1) + (b - 1)k_1^2 + (k_1 + c - d) k_1, 
+n = (\nu  - 1)k_1^2 + (k_1 + q - r) k_1+\eta k_1^2 + r(k_1 + 1), 
 \]
-where $ak_1^2 + d(k_1 + 1) \in T_a$ and $(b - 1)k_1^2 + (k_1 + c - d)k_1 \in S_{b - 1}$, so $n \in T_a + S_{b-1}$. 
+where 
+\[
+(\nu  - 1)k_1^2 + (k_1 + q - r)k_1 \in S_{\nu  - 1}\qquad\text{and}\qquad
+\eta k_1^2 + r(k_1 + 1) \in T_\eta.
+\]
+Hence $n \in S_{\nu-1}+T_\eta\subseteq S+T_{\eta}$. 
 
 
-
-Given the properties of the modulus, we cover the following intervals by interval equivalence modulus 37$k_1^2$:  $[8k_1^2, 9k_1^2]$ , $[9k_1^2, 10k_1^2]$, and $[19k_1^2, 20k_1^2]$. 
-
-The interval $[1, m]$ is covered as follows: 
+It is clear that, in $\Z_{37k_{1}^{2}}$,
 \begin{align*}
-I_0 + S &\supseteq [0, 4k_1^2),\\
+[45k_{1}^{2},46k_{1}^{2})&=[8k_1^2, 9k_1^2),&
+[46k_{1}^{2},47k_{1}^{2})&=[9k_1^2, 10k_1^2),\\
+[56k_{1}^{2},57k_{1}^{2})&=[19k_1^2, 20k_1^2).
+\end{align*}
+Therefore, we have proved that the entire interval $[0, m)=\Z_{m}$ can be  {\em covered\/} as follows: 
+\begin{align*}
+I_0 + S &\supseteq [0, 4k_1^2),&
 I_4 + S &\supseteq [4k_1^2, 8k_1^2),\\
-I_{15} + T_{30}  &\supseteq [8k_1^2, 9k_1^2),\\
-I_{26} + T_{20}  &\supseteq [9k_1^2, 10k_1^2),\\
-T_{10} + I_{0}  &\supseteq [10k_1^2, 11k_1^2),\\
-T_{10} + S  &\supseteq [11k_1^2, 14k_1^2),\\
-I_{4} + T_{10}  &\supseteq [14k_1^2, 15k_1^2),\\
+I_{15} + T_{30}  &\supseteq[45k_{1}^{2},46k_{1}^{2})= [8k_1^2, 9k_1^2),&
+I_{26} + T_{20}  &\supseteq[46k_{1}^{2},47k_{1}^{2})= [9k_1^2, 10k_1^2),\\
+I_{0}+T_{10}  &\supseteq [10k_1^2, 11k_1^2),&
+S+T_{10}  &\supseteq [11k_1^2, 14k_1^2),\\
+I_{4} + T_{10}  &\supseteq [14k_1^2, 15k_1^2),&
 I_{15} + S  &\supseteq [15k_1^2, 19k_1^2),\\
-I_{26} + T_{30}  &\supseteq [19k_1^2, 20k_1^2),\\
+I_{26} + T_{30}  &\supseteq[56k_{1}^{2},57k_{1}^{2})= [19k_1^2, 20k_1^2),&
 I_{0} + T_{20}  &\supseteq [20k_1^2, 21k_1^2),\\
-S + T_{20}  &\supseteq [21k_1^2, 24k_1^2),\\
+S + T_{20}  &\supseteq [21k_1^2, 24k_1^2),&
 I_{4} + T_{20}  &\supseteq [24k_1^2, 25k_1^2),\\
-I_{15} + T_{10}  &\supseteq [25k_1^2, 26k_1^2),\\
+I_{15} + T_{10}  &\supseteq [25k_1^2, 26k_1^2),&
 I_{26} + S  &\supseteq [26k_1^2, 30k_1^2),\\
-I_{0} + T_{30}  &\supseteq [30k_1^2, 31k_1^2),\\
+I_{0} + T_{30}  &\supseteq [30k_1^2, 31k_1^2),&
 S + T_{30}  &\supseteq [31k_1^2, 34k_1^2),\\
-I_{4} + T_{30}  &\supseteq [34k_1^2, 35k_1^2),\\
+I_{4} + T_{30}  &\supseteq [34k_1^2, 35k_1^2),&
 I_{15} + T_{20}  &\supseteq [35k_1^2, 36k_1^2), \\
 I_{26} + T_{10}  &\supseteq [36k_1^2, 37k_1^2).
 \end{align*}
-
 It now follows that 
 \[
 A + A \supseteq [0, 37k_1^2).
@@ -123,11 +147,10 @@ A + A \supseteq [0, 37k_1^2).
 Hence
 \begin{align*}
 m(2,k) &\geq 37k_1^2\\
-&= 37 * \left \lfloor \frac{k - 2}{11}\right \rfloor^2\\
+&= 37 \cdot \left \lfloor \frac{k - 2}{11}\right \rfloor^2\\
 &> 37 \left(\frac{k - 2}{11} -1\right) ^2\\
 &= \frac{37}{121}k^2-\frac{962}{121}k+\frac{6253}{121}\\
 &= \frac{37}{121}k^2 + O(k)\qquad \text{ as }\quad k \to \infty. \qedhere
 \end{align*}
 \end{proof}
-
 
