@@ -366,7 +366,7 @@ void check_cover(T5 A, int rank, int diam, Polynomial &mbest)
    }
    
    end = clock();
-//printf("\nGenerator (%d %d %d %d %d) checked in %f seconds \n\n",A[0], A[1], A[2], A[3], A[4], (double)(end - start)/(double)CLOCKS_PER_SEC);
+printf("\nGenerator (%d %d %d %d %d) checked in %f seconds \n\n",A[0], A[1], A[2], A[3], A[4], (double)(end - start)/(double)CLOCKS_PER_SEC);
     
 
   return;
@@ -389,31 +389,12 @@ void construct_MPI_DataTypes()
 
   // Construct MPI tuple
   struct tuple atuple;
-  MPI_Type_contiguous(3, MPI_INT, &MPI_Tuple);
+  MPI_Type_contiguous(5, MPI_INT, &MPI_Tuple);
   MPI_Type_commit(&MPI_Tuple);
 
   // Construct MPI Polynomial
   struct Poly aPoly;
-  MPI_Datatype ptype[3] = {MPI_Tuple, MPI_Tuple, MPI_INT};
-  MPI_Aint pdisp[3];
-  int pbase;
-  int pblocklen[3] = {12, 12, 4};
-
-  // MPI description of tuple
-  err = MPI_Get_address(&aPoly.Y, pdisp); 
-  err = MPI_Get_address(&aPoly.A, pdisp+1);
-  err = MPI_Get_address(&aPoly.s, pdisp+2);
-  if(err){
-      fprintf(stderr,"Bad addressing.\n");
-      MPI_Abort(MPI_COMM_WORLD,1);
-  }
-  pbase = pdisp[0]; 
-  for (i=0; i <3; i++) pdisp[i] -= pbase; 
-  err = MPI_Type_create_struct(3, pblocklen, pdisp, ptype, &MPI_Polynomial);
-  if(err){
-      fprintf(stderr,"Can't create struct.\n");
-      MPI_Abort(MPI_COMM_WORLD,1);
-   }
+  MPI_Type_contiguous(2, MPI_Tuple, &MPI_Polynomial);
   MPI_Type_commit(&MPI_Polynomial);
 
   return;
