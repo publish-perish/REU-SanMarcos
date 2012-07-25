@@ -8,7 +8,5 @@ if [ $# -ne $EXPECTED_ARGS ]
       echo "Usage: runparallel diam numprocs hostfile"
         exit $E_BADARGS
         fi
-make tables
-./executables/tables $1 $2
-make parallel
-mpirun --mca mpi_show_handle_leaks 1 -np $2 --hostfile ./test/hostfile ./executables/parallel $1
+make k3c1c2
+mpirun -np $2 --hostfile ./test/hostfile ./executables/k3c1c2 $1
