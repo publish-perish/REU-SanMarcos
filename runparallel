@@ -8,5 +8,5 @@ if [ $# -ne $EXPECTED_ARGS ]
       echo "Usage: runparallel diam numprocs hostfile"
         exit $E_BADARGS
         fi
-make parallel
-mpirun -np $2 --hostfile ./test/hostfile ./executables/parallel $1
+make k5
+mpirun -np $2 --hostfile ./test/hostfile ./executables/k5 $1
