@@ -1,10 +1,13 @@
 \section{ New Lower Bound of $m(d, 4)$.}
-
+Wong and Coppersmith proved that
+\[m(d, k) \geq \left (\frac{d}{k} + 1\right)^k.\]
 Jia proved that 
 \[ 
 m(d, 4) \geq2.048 \left(\frac{d}{4}\right)^4  +O(d^3)\qquad\text{as}\quad d\to\infty.
 \]
+This is currently the best known lower bound for $m(d, 4)$. 
 
+In this paper we will show that \[m(d,4) \geq \frac{512}{243}\left(\frac d4\right)^4 + O(d^3)\approx 2.106996 \left(\frac d4\right)^4 + O(d^3)\].
 \begin{theorem} As $d\to\infty$, 
 \[
 m(d,4) \geq \frac{512}{243}\left(\frac d4\right)^4 + O(d^3)\approx 2.106996 \left(\frac d4\right)^4 + O(d^3).
@@ -26,7 +29,7 @@ m &= 2 \lambda d + \lambda c + \lambda b + \lambda \\
 &= \frac{512}{243}\left(\frac d4\right)^4 + O(d^3).
 \end{align*}
 
-Let $dA$ denote the sum of at most d not necessarily distinct elements of a generating set $A$ of $\Z_m$. Then for this proof we need to show that $dA = \Z_m$ such that the Cayley digraph Cay$(m, A)$ has diameter $d(m, A) \leq d$. 
+Let $dA$ denote the set of all sums of at most d not necessarily distinct elements of a generating set $A$ of $\Z_m$. Then for this proof we need to show that $dA = \Z_m$ such that the Cayley digraph Cay$(m, A)$ has diameter $d(m, A) \leq d$. 
 
 Every integer $n$ such that $0 \leq n < m$ can be expressed in the following way:
 \[ n = w + x\alpha + y\beta + z\gamma\]
