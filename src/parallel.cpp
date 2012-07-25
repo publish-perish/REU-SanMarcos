@@ -123,6 +123,7 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
    for(i=0; i<numprocs-1; ++i)
    {
       T5 A_init(I*J*K*L, J*K*L, K*L, L, 1);
+      cout<<"A_init "<<A_init<<endl;
       ++numgens;
       sendbuf[i].A.z = A_init[0];
       sendbuf[i].A.y = A_init[1];
@@ -130,11 +131,15 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
       sendbuf[i].A.w = A_init[3];
       sendbuf[i].A.v = A_init[4];
       if(L + 1 < diam*diam*diam*diam*diam/(120*I*J*K)){ ++L;}
-      else if(K + 1 < diam*diam*diam*diam*diam/(120*I*J)){ ++K; L=2;}
-      else if(J + 1 < diam*diam*diam*diam*diam/(120*I)){ ++J; K=2;}
-      else if(I < diam*diam*diam*diam*diam/120){ ++I; J=2;}
-      else break;
- 
+      else{ L=2;
+      if(K + 1 < diam*diam*diam*diam*diam/(120*I*J*L)){ ++K;} 
+      else{ K=2; 
+      if(J + 1 < diam*diam*diam*diam*diam/(120*I*L*K)){ ++J;}
+      else{ J=2; 
+      if(I + 1 < diam*diam*diam*diam*diam/(120*L*J*K)){ ++I;}
+      else break;}}}
+      
+
 //printf("Master Sending (%d %d %d %d %d) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, sendbuf[i].A.w, sendbuf[i].A.v, i+1);
       err = MPI_Send(&sendbuf[i],1, MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD);
       if(err){
@@ -142,11 +147,13 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
         MPI_Abort(MPI_COMM_WORLD,1);
       }  
    }
-   
+
+    while(I < diam*diam*diam*diam*diam/(120*2*2*2)){
    // As processes finish, assign them new generators.
       for(i=0; i<numprocs-1; ++i)
       { 
 //printf("Waiting for return from slave %d \n", i+1);
+          
           err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status);
           if(err){
             fprintf(stderr,"Failed to recieve.\n");
@@ -157,12 +164,16 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
           T5 a(recvbuf[i].A.z,recvbuf[i].A.y,recvbuf[i].A.x,recvbuf[i].A.w,recvbuf[i].A.v);
           T5 y(recvbuf[i].Y.z,recvbuf[i].Y.y,recvbuf[i].Y.x,recvbuf[i].Y.w,recvbuf[i].Y.v);
           Polynomial M(a,y);
+
 //printf("Process %d in slave returned (%d %d %d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v);
 //printf("and (%d %d %d %d %d) as M-coeffs \n", recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x, recvbuf[i].Y.w, recvbuf[i].Y.v);
+
           if(M.value() > mbest.value())
           {
               mbest.A = M.A; mbest.Y = M.Y;
+
 printf("New M found by slave %d : Generators : (%d %d %d %d %d), Coeffs : (%d %d %d %d %d)", status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x, recvbuf[i].Y.w, recvbuf[i].Y.v);
+
               end = clock();
  printf("\nProgram has checked %d generators in %f seconds \n\n", numgens, (double)(end - start)/(double)CLOCKS_PER_SEC);
           }
@@ -176,18 +187,21 @@ printf("New M found by slave %d : Generators : (%d %d %d %d %d), Coeffs : (%d %d
           sendbuf[i].A.x = A[2];
           sendbuf[i].A.w = A[3];
           sendbuf[i].A.v = A[4];
-          if(L + 1 < diam*diam*diam*diam*diam/(120*I*J*K)){ ++L;} 
-          else if(K + 1 < diam*diam*diam*diam*diam/(120*I*J)){ ++K; L=2;}
-          else if(J + 1 < diam*diam*diam*diam*diam/(120*I)){ ++J; K=2;}
-          else if(I + 1 < diam*diam*diam*diam*diam/120){ ++I; J=2;}
-          else break;
+          if(L + 1 < diam*diam*diam*diam*diam/(120*I*J*K)){ ++L;}
+          else{ L=2;
+          if(K + 1 < diam*diam*diam*diam*diam/(120*I*J*L)){ ++K;} 
+          else{ L=2; 
+          if(J + 1 < diam*diam*diam*diam*diam/(120*I*L*K)){ ++J;}
+          else{ K=2; 
+          if(I + 1 < diam*diam*diam*diam*diam/(120*L*J*K)){ ++I;}
+          else break;}}}
 
          err = MPI_Send(&sendbuf[i],1,MPI_Polynomial,status.MPI_SOURCE,WORKTAG,MPI_COMM_WORLD);
          if(err){
             fprintf(stderr,"Failed to send.\n");
             MPI_Abort(MPI_COMM_WORLD,1);
          }
-      }
+      }}
 
    // No more generators, wait for processes to finish.
    for(i=0; i<numprocs-1; ++i)
@@ -257,8 +271,8 @@ void slave(int diam, int numprocs)
     sendbuf[rank-1].A.y = mbest.A[1];
     sendbuf[rank-1].A.z = mbest.A[0];
 
-//printf("Process %d returning (%d %d %d %d %d) generators ",rank, sendbuf[rank-1].A.z, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x, sendbuf[rank-1].A.w, sendbuf[rank-1].A.v);
-//printf("and (%d %d %d %d %d) coeffs from slave \n", sendbuf[rank-1].Y.z, sendbuf[rank-1].Y.y, sendbuf[rank-1].Y.x, sendbuf[rank-1].Y.w, sendbuf[rank-1].Y.v);
+printf("Process %d returning (%d %d %d %d %d) generators ",rank, sendbuf[rank-1].A.z, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x, sendbuf[rank-1].A.w, sendbuf[rank-1].A.v);
+printf("and (%d %d %d %d %d) coeffs from slave \n", sendbuf[rank-1].Y.z, sendbuf[rank-1].Y.y, sendbuf[rank-1].Y.x, sendbuf[rank-1].Y.w, sendbuf[rank-1].Y.v);
     
     err = MPI_Send(&sendbuf[rank-1],1,MPI_Polynomial,0,WORKTAG,MPI_COMM_WORLD);
     if(err){
