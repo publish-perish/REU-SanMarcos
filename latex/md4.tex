@@ -12,7 +12,7 @@ m(d,4) \geq \frac{512}{243}\left(\frac d4\right)^4 + O(d^3)\approx 2.106996 \lef
 \end{theorem}
 
 \begin{proof}
-Let $\lambda = \left \lfloor \frac{d - 2}{9} \right \rfloor$. Define
+Let $d \geq 11$ be an integer and let $\lambda = \left \lfloor \frac{d - 2}{9} \right \rfloor$. Define
 \begin{align*}
 \alpha &= 3 \lambda,\\
 \beta &=3 \lambda \alpha,\\
@@ -25,6 +25,17 @@ m &= 2 \lambda d + \lambda c + \lambda b + \lambda \\
 &= 54\lambda^4 + 9\lambda^3 + 3\lambda^2 + \lambda\\
 &= \frac{512}{243}\left(\frac d4\right)^4 + O(d^3).
 \end{align*}
+
+Let $dA$ denote the sum of at most d not necessarily distinct elements of a generating set $A$ of $\Z_m$. Then for this proof we need to show that $dA = \Z_m$ such that the Cayley digraph Cay$(m, A)$ has diameter $d(m, A) \leq d$. 
+
+Every integer $n$ such that $0 \leq n < m$ can be expressed in the following way:
+\[ n = w + x\alpha + y\beta + z\gamma\]
+where 
+\[ 0 \leq w \leq 3\lambda, \quad 0 \leq x \leq 3\lambda,\quad 0 \leq y \leq 3\lambda,\quad 0 \leq z \leq 2\lambda.\]
+Thus we only need to show, for every $0 \leq n < m$, there exists nonnegative integers $\delta_1$, $\delta_2$, $\delta_3$, and $\delta_4$ such that we can write $n$ as
+\[ n \equiv \delta_1 + \delta_2 \alpha + \delta_3 \beta + \delta_4 \gamma\]
+where 
+\[ \delta_1 + \delta_2 + \delta_3 + \delta_4 \leq d.\]
 
 We now consider the following cases:
 
@@ -88,7 +99,7 @@ If $0 \leq x_1 < \lambda$, we have
 which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
 If $ \lambda \leq x_1 < 2 \lambda$ and  $0 \leq x_0 < 2\lambda$, we have 
 \[ x_0 + x_1 + x_2 + x_3 \leq 2\lambda + 2\lambda + 3\lambda + 2 \lambda = 9\lambda \leq d, \]
-which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in d3A$. 
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
 
 Subcase 2.d. $2\lambda \leq x_2 < 3 \lambda$, $ \lambda \leq x_1 < 2\lambda$,  $2\lambda \leq x_0 < 3\lambda$. \\
 We have
@@ -174,9 +185,11 @@ If $0 \leq x_1 < \lambda$, we have
 which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
 If $ \lambda \leq x_1 < 2 \lambda$ and  $0 \leq x_0 < \lambda$, we have 
 \[ x_0 + x_1 + x_2 + x_3 \leq \lambda + 2\lambda + 2 \lambda + 3 \lambda = 8\lambda \leq d, \]
-which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$.
+
+Thus we have shown that every element $0 \leq n < m$ is contained in $dA$, which implies the diameter of the Cayley digraph Cay$(\Z_m, A)$ is less than or equal to $d$. 
 Hence,
 \[
-m(d,4) \geq \frac{2}{243}d^4 + O(d^3)  \text{ as } d \to \infty. \qedhere
+m(d, 4) \geq2.048 \left(\frac{d}{4}\right)^4  +O(d^3)\qquad\text{as}\quad d\to\infty. \qedhere
 \]
 \end{proof}
