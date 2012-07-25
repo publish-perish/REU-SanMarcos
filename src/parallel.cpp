@@ -29,14 +29,13 @@ struct tuple{
 struct Poly{
     tuple A;
     tuple Y;
-    int s;
 };
 
 //MPI Datatypes
 MPI_Datatype MPI_Tuple;
 MPI_Datatype MPI_Polynomial;
 
-void master(int, int, Polynomial&, &int);
+void master(int, int, Polynomial&, int&);
 void slave(int, int);
 void construct_MPI_DataTypes();
 void check_cover(T4, int, int, Polynomial&);
@@ -91,8 +90,9 @@ int main (int argc, char *argv[]) {
     MPI_Finalize();
    
     end = clock();
-    printf("%d Generators checked. \n", numgens);
-    if(mbest.A[0] != 0){
+    if(rank == 0){
+        printf("%d Generators checked. \n", numgens);}
+    if(mbest.A[0] != 0 && rank == 0){
         printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.Y[0], mbest.Y[1], mbest.Y[2]); 
     }else if(rank == 0){printf("\nProcesses did not find a cover \n");
         printf("\nProgram ran for %f seconds \n\n",(double)(end - start)/(double)CLOCKS_PER_SEC);}
@@ -116,6 +116,7 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
    // Assign generators to each process.
    for(i=0; i<numprocs-1; ++i)
    {
+      ++numgens;
       gens >> A;
       sendbuf[i].A.z1 = A[0];
       sendbuf[i].A.z2 = A[1];
@@ -154,7 +155,7 @@ printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z1, recvb
           //cout<<"Testing "<<M.A <<" generators, returned location "<<M.Y;
 
           gens >> A;
-                
+          ++numgens;
           sendbuf[i].A.x = A[3];
           sendbuf[i].A.y = A[2];
           sendbuf[i].A.z2 = A[1];
