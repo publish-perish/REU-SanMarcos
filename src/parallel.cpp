@@ -123,7 +123,6 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
    for(i=0; i<numprocs-1; ++i)
    {
       T5 A_init(I*J*K*L, J*K*L, K*L, L, 1);
-      cout<<"A_init "<<A_init<<endl;
       ++numgens;
       sendbuf[i].A.z = A_init[0];
       sendbuf[i].A.y = A_init[1];
@@ -148,7 +147,7 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
       }  
    }
 
-    while(I < diam*diam*diam*diam*diam/(120*2*2*2)){
+    while(I+1 < diam*diam*diam*diam*diam/(120*2*2*2)){
    // As processes finish, assign them new generators.
       for(i=0; i<numprocs-1; ++i)
       { 
@@ -271,8 +270,8 @@ void slave(int diam, int numprocs)
     sendbuf[rank-1].A.y = mbest.A[1];
     sendbuf[rank-1].A.z = mbest.A[0];
 
-printf("Process %d returning (%d %d %d %d %d) generators ",rank, sendbuf[rank-1].A.z, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x, sendbuf[rank-1].A.w, sendbuf[rank-1].A.v);
-printf("and (%d %d %d %d %d) coeffs from slave \n", sendbuf[rank-1].Y.z, sendbuf[rank-1].Y.y, sendbuf[rank-1].Y.x, sendbuf[rank-1].Y.w, sendbuf[rank-1].Y.v);
+//printf("Process %d returning (%d %d %d %d %d) generators ",rank, sendbuf[rank-1].A.z, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x, sendbuf[rank-1].A.w, sendbuf[rank-1].A.v);
+//printf("and (%d %d %d %d %d) coeffs from slave \n", sendbuf[rank-1].Y.z, sendbuf[rank-1].Y.y, sendbuf[rank-1].Y.x, sendbuf[rank-1].Y.w, sendbuf[rank-1].Y.v);
     
     err = MPI_Send(&sendbuf[rank-1],1,MPI_Polynomial,0,WORKTAG,MPI_COMM_WORLD);
     if(err){
@@ -367,6 +366,8 @@ void check_cover(T5 A, int rank, int diam, Polynomial &mbest)
    }
    
    end = clock();
+//printf("\nGenerator (%d %d %d %d %d) checked in %f seconds \n\n",A[0], A[1], A[2], A[3], A[4], (double)(end - start)/(double)CLOCKS_PER_SEC);
+    
 
   return;
 
