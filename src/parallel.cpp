@@ -31,14 +31,13 @@ struct tuple{
 struct Poly{
     tuple A;
     tuple Y;
-    int s;
 };
 
 //MPI Datatypes
 MPI_Datatype MPI_Tuple;
 MPI_Datatype MPI_Polynomial;
 
-void master(int, int, Polynomial&);
+void master(int, int, Polynomial&, int&);
 void slave(int, int);
 void construct_MPI_DataTypes();
 void check_cover(T6, int, int, Polynomial&);
@@ -52,7 +51,7 @@ int main (int argc, char *argv[]) {
      return 0;
   }
 
-  int rank, numprocs, i, err=0;
+  int rank, numprocs, i, err=0, numgens=0;
   const int diam = atoi(argv[1]);
   const int d_cubed = diam*diam*diam; 
   const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_cubed/16.0);
@@ -75,7 +74,7 @@ int main (int argc, char *argv[]) {
 printf("I am process %d in main\n", rank);
     if(rank == 0)
     {
-       master(diam, numprocs, mbest);
+       master(diam, numprocs, mbest, numgens);
     }
    // MPI_Barrier(MPI_COMM_WORLD);
     if(rank != 0){ 
@@ -103,7 +102,7 @@ printf("I am process %d leaving main \n",rank);
 }
 
 
-void master(int diam, int numprocs, Polynomial &mbest)
+void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
 {
    // Buffers
    Poly sendbuf[numprocs], recvbuf[numprocs];
@@ -111,30 +110,40 @@ void master(int diam, int numprocs, Polynomial &mbest)
    MPI_Status status;
 
    T6 A;
-   int i, j, err=0;
-   ifstream gens;
+   int i, j, err=0, I=2, J=2, K=2, L=2, N=2;
    
-   gens.open("./permutationtables/GenTable.txt");if(gens){
    // Assign generators to each process.
    for(i=0; i<numprocs-1; ++i)
    {
-      gens >> A;
-      
-      sendbuf[i].A.z = A[0];
-      sendbuf[i].A.y = A[1];
-      sendbuf[i].A.x = A[2];
-      sendbuf[i].A.w = A[3];
-      sendbuf[i].A.v = A[4];
-      sendbuf[i].A.u = A[5];
-printf("Master Sending ( %d %d %d %d %d %d) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, sendbuf[i].A.w, sendbuf[i].A.v, sendbuf[i].A.u, i+1);
+      T6 A_init(I*J*K*L*N, I*J*K*L, J*K*L, K*L, L, 1);
+      ++numgens;
+      sendbuf[i].A.z = A_init[0];
+      sendbuf[i].A.y = A_init[1];
+      sendbuf[i].A.x = A_init[2];
+      sendbuf[i].A.w = A_init[3];
+      sendbuf[i].A.v = A_init[4];
+      sendbuf[i].A.u = A_init[5];
+      if(N + 1 < diam*diam*diam*diam*diam*diam/(720*L*I*J*K)){ ++N;}
+      else{ N=2;
+      if(L + 1 < diam*diam*diam*diam*diam*diam/(120*I*J*K*N)){ ++L;}
+      else{ L=2;
+      if(K + 1 < diam*diam*diam*diam*diam*diam/(120*I*J*L*N)){ ++K;} 
+      else{ K=2; 
+      if(J + 1 < diam*diam*diam*diam*diam*diam/(120*I*L*K*N)){ ++J;}
+      else{ J=2; 
+      if(I + 1 < diam*diam*diam*diam*diam*diam/(120*L*J*K*N)){ ++I;}
+      else break;}}}}
+
+printf("Master Sending (%d %d %d %d %d %d) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, sendbuf[i].A.w, sendbuf[i].A.v, sendbuf[i].A.u, i+1);
       err = MPI_Send(&sendbuf[i],1, MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD);
       if(err){
         fprintf(stderr,"Failed to send.\n");
         MPI_Abort(MPI_COMM_WORLD,1);
-  }}
+      }
+  }
    
    // As processes finish, assign them new generators.
-   while(!gens.eof())
+   while(I < diam*diam*diam*diam*diam*diam/(720*2*2*2*2))
    {
       for(i=0; i<numprocs-1; ++i)
       { 
@@ -150,30 +159,41 @@ printf("Waiting for return from slave %d \n", i+1);
           T6 y(recvbuf[i].Y.z,recvbuf[i].Y.y,recvbuf[i].Y.x,recvbuf[i].Y.w,recvbuf[i].Y.v, recvbuf[i].Y.u);
           Polynomial M(a,y);
 printf("Process %d in slave returned (%d %d %d %d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v, recvbuf[i].A.u);
-printf("and (%d %d %d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x, recvbuf[i].Y.w, recvbuf[i].Y.v);
+printf("and (%d %d %d %d %d) as M-coeffs \n", recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x, recvbuf[i].Y.w, recvbuf[i].Y.v);
           if(M.value() > mbest.value())
           {
               mbest.A = M.A; mbest.Y = M.Y;
           }
           //results.push_back(M);
           //cout<<"Testing "<<M.A <<" generators, returned location "<<M.Y;
-
-          gens >> A;
-
-          sendbuf[i].A.u = A[5];
-          sendbuf[i].A.v = A[4];
-          sendbuf[i].A.w = A[3];      
-          sendbuf[i].A.x = A[2];
-          sendbuf[i].A.y = A[1];
+          
+          T6 A(I*J*K*L*N, I*J*K*L, J*K*L, K*L, L, 1);
+          ++numgens;
           sendbuf[i].A.z = A[0];
-         
+          sendbuf[i].A.y = A[1];
+          sendbuf[i].A.x = A[2];
+          sendbuf[i].A.w = A[3];
+          sendbuf[i].A.v = A[4];
+          sendbuf[i].A.u = A[5];
+          if(N + 1 < diam*diam*diam*diam*diam*diam/(720*L*I*J*K)){ ++N;}
+          else{ N=2;
+          if(L + 1 < diam*diam*diam*diam*diam*diam/(120*I*J*K*N)){ ++L;}
+          else{ L=2;
+          if(K + 1 < diam*diam*diam*diam*diam*diam/(120*I*J*L*N)){ ++K;} 
+          else{ K=2; 
+          if(J + 1 < diam*diam*diam*diam*diam*diam/(120*I*L*K*N)){ ++J;}
+          else{ J=2; 
+          if(I + 1 < diam*diam*diam*diam*diam*diam/(120*L*J*K*N)){ ++I;}
+          else break;}}}}
+
+printf("Master Sending (%d %d %d %d %d %d) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, sendbuf[i].A.w, sendbuf[i].A.v, sendbuf[i].A.u, status.MPI_SOURCE); 
          err = MPI_Send(&sendbuf[i],1,MPI_Polynomial,status.MPI_SOURCE,WORKTAG,MPI_COMM_WORLD);
          if(err){
             fprintf(stderr,"Failed to send.\n");
             MPI_Abort(MPI_COMM_WORLD,1);
          }
       }
-   }gens.close();
+   }
 
    // No more generators, wait for processes to finish.
    for(i=0; i<numprocs-1; ++i)
@@ -185,7 +205,7 @@ printf("Waiting in master for return from %d \n", i+1);
          MPI_Abort(MPI_COMM_WORLD,1);
       }
 printf("GOTIT! Process %d returned (%d %d %d %d %d %d) to master \n",status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v, recvbuf[i].A.u);
-  }
+   }
 
    // Exit all slaves.
    for(i=0; i<numprocs-1; ++i)
@@ -196,12 +216,7 @@ printf("GOTIT! Process %d returned (%d %d %d %d %d %d) to master \n",status.MPI_
         MPI_Abort(MPI_COMM_WORLD,1);
       }
    }
-   }else{
-      fprintf(stderr,"Could not read GenTable \n");
-      MPI_Abort(MPI_COMM_WORLD,2);
-   }
   
-
     return;
 }
 
@@ -292,19 +307,35 @@ void check_cover(T6 A, int rank, int diam, Polynomial &mbest)
                    //  print_cover(cover, diam);
                      if((M.value() > mbest.value()) && M.wellFormed()) //ignore M that are too small, or badly formed
                      {
-                       xcoeffs.open(fxcoeffs.c_str());if(xcoeffs){
-                        while(xcoeffs >> x)
-                        {
-                         //cout << "x "<<x<<endl;
-                         Polynomial X(A, x);
-                         //cout<<"X "<<X;
-                         Polynomial X_prime(X-M);
-                         //cout<<"X_prime "<<X_prime;
-                         if(X_prime.wellFormed())
-                         { 
-                            //cover.push_back(1);
-                            cover[X_prime.sum()] = 1;
-                         }}//print_cover(cover, diam);
+                     for(int i=0; i <= diam-6; i++)
+                     {
+                      for(int j=0; j <= diam - (6+i); ++j)
+                      {
+                         for(int k=0;k <= diam - (6+i+j); ++k)
+                         {
+                            for(int l=0; l <= diam - (6 +i +j +k); ++l)
+                            {
+                                for(int m=0; m <= diam - (6 +i +j +k +l); ++m)
+                                {
+                                    for(int n=0; n <= diam - (6 +i +j +k +l+ m); ++n)
+                                    {
+                                         T6 x(n, m, l, k, j, i);
+                                         //cout << "x "<<x<<endl;
+                                         Polynomial X(A, x);
+                                         //cout<<"X "<<X;
+                                         Polynomial X_prime(X-M);
+                                         //cout<<"X_prime "<<X_prime;
+                                         if(X_prime.wellFormed())
+                                         { 
+                                            //cover.push_back(1);
+                                            cover[X_prime.sum()] = 1;
+                                         }//print_cover(cover, diam);
+                                    }
+                                }
+                            }
+                         }
+                      }
+                     }
                          // check covering
                          covered = true;
                          for(int i=0; i < M.sum(); ++i) //only check the first m of them
@@ -318,10 +349,6 @@ void check_cover(T6 A, int rank, int diam, Polynomial &mbest)
                          if(covered)//(accumulate(cover.begin(),cover.end(),0) == M.sum())
                          {
                             mbest.A = M.A; mbest.Y = M.Y;
-                         }
-                         xcoeffs.close();}else{
-                            fprintf(stderr,"Could not read XCoeffs \n");
-                            MPI_Abort(MPI_COMM_WORLD,2);
                          }
                       }
                    }
@@ -358,31 +385,12 @@ void construct_MPI_DataTypes()
 
   // Construct MPI tuple
   struct tuple atuple;
-  MPI_Type_contiguous(3, MPI_INT, &MPI_Tuple);
+  MPI_Type_contiguous(6, MPI_INT, &MPI_Tuple);
   MPI_Type_commit(&MPI_Tuple);
 
   // Construct MPI Polynomial
   struct Poly aPoly;
-  MPI_Datatype ptype[3] = {MPI_Tuple, MPI_Tuple, MPI_INT};
-  MPI_Aint pdisp[3];
-  int pbase;
-  int pblocklen[3] = {12, 12, 4};
-
-  // MPI description of tuple
-  err = MPI_Get_address(&aPoly.Y, pdisp); 
-  err = MPI_Get_address(&aPoly.A, pdisp+1);
-  err = MPI_Get_address(&aPoly.s, pdisp+2);
-  if(err){
-      fprintf(stderr,"Bad addressing.\n");
-      MPI_Abort(MPI_COMM_WORLD,1);
-  }
-  pbase = pdisp[0]; 
-  for (i=0; i <3; i++) pdisp[i] -= pbase; 
-  err = MPI_Type_create_struct(3, pblocklen, pdisp, ptype, &MPI_Polynomial);
-  if(err){
-      fprintf(stderr,"Can't create struct.\n");
-      MPI_Abort(MPI_COMM_WORLD,1);
-   }
+  MPI_Type_contiguous(2, MPI_Tuple, &MPI_Polynomial);
   MPI_Type_commit(&MPI_Polynomial);
 
   return;

@@ -1,0 +1,18 @@
+#############beginning of script################
+#!/bin/bash
+#
+#BSUB -cwd .
+#BSUB -J k5
+#BSUB -L /bin/bash
+#BSUB -u j_b278@txstate.edu
+#BSUB -n 48, 240
+#BSUB -o k5.out
+#BSUB -e k5.err
+#BSUB -a openmpi
+#BSUB -q "hpc-linux"
+
+. /etc/profile.d/modules.sh
+module load mpi/openmpi-mellanox-interconnects-gcc
+
+mpirun.lsf ./executables/k5 30
+###################end of script##################
