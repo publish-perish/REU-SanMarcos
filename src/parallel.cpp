@@ -93,7 +93,7 @@ int main (int argc, char *argv[]) {
     if(rank == 0){
         printf("%d Generators checked. \n", numgens);}
     if(mbest.A[0] != 0 && rank == 0){
-        printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.Y[0], mbest.Y[2], mbest.Y[3]); 
+        printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.Y[0], mbest.Y[1], mbest.Y[2]); 
     }else if(rank == 0){printf("\nProcesses did not find a cover \n");
         printf("\nProgram ran for %f seconds \n\n",(double)(end - start)/(double)CLOCKS_PER_SEC);}
     
@@ -121,14 +121,14 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
       sendbuf[i].A.y = A_init[2];
       sendbuf[i].A.x = A_init[3];
 
+      if((K < J) && (K < I)){ ++K;}
+      else{ K=0;
       if(J + 1 < diam*diam*diam/(6*I)){ ++J;}
       else{ J=2;
-      if(K < J){ ++K;}
-      else{ K=0;
-      if(I + 1 < diam*diam*diam/(6*J)){ ++I;}
+      if(I < diam*diam*diam/(6*J)){ ++I;}
       else break; }}
 
-printf("Master Sending (%d %d %d %d) to %d \n",sendbuf[i].A.z1, sendbuf[i].A.z2, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
+//printf("Master Sending (%d %d %d %d) to %d \n",sendbuf[i].A.z1, sendbuf[i].A.z2, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
       err = MPI_Send(&sendbuf[i],1, MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD);
       if(err){
         fprintf(stderr,"Failed to send.\n");
@@ -137,9 +137,10 @@ printf("Master Sending (%d %d %d %d) to %d \n",sendbuf[i].A.z1, sendbuf[i].A.z2,
    }
    
    // As processes finish, assign them new generators.
+      while(I < diam*diam*diam/(J*6)){cout<<"Stuck in while loop\n";
       for(i=0; i<numprocs-1; ++i)
       { 
-printf("Waiting for return from slave %d \n", i+1);
+//printf("Waiting for return from slave %d \n", i+1);
           err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status);
           if(err){
             fprintf(stderr,"Failed to recieve.\n");
@@ -150,11 +151,16 @@ printf("Waiting for return from slave %d \n", i+1);
           T4 a(recvbuf[i].A.z1,recvbuf[i].A.z2,recvbuf[i].A.y,recvbuf[i].A.x);
           T y(recvbuf[i].Y.z1,recvbuf[i].Y.y,recvbuf[i].Y.x);
           Polynomial M(a,y);
-printf("Process %d in slave returned (%d %d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z1, recvbuf[i].A.z2, recvbuf[i].A.y, recvbuf[i].A.x);
-printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z1, recvbuf[i].Y.y, recvbuf[i].Y.x);
+//printf("Process %d in slave returned (%d %d %d %d) as generators ",status.MPI_SOURCE, recvbuf[i].A.z1, recvbuf[i].A.z2, recvbuf[i].A.y, recvbuf[i].A.x);
+//printf("and (%d %d %d) as M-coeffs \n", recvbuf[i].Y.z1, recvbuf[i].Y.y, recvbuf[i].Y.x);
           if(M.value() > mbest.value())
           {
               mbest.A = M.A; mbest.Y = M.Y;
+              printf("New M found by slave %d : Generators : (%d %d %d %d %d), Coeffs : (%d %d %d %d %d)", status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x, recvbuf[i].Y.w, recvbuf[i].Y.v);
+
+              end = clock();
+              printf("\nProgram has checked %d generators in %f seconds \n\n", numgens, (double)(end - start)/(double)CLOCKS_PER_SEC);
+          
           }
           //results.push_back(M);
           //cout<<"Testing "<<M.A <<" generators, returned location "<<M.Y;
@@ -165,31 +171,32 @@ printf("and (%d %d %d) as M-coeffs \n",status.MPI_SOURCE, recvbuf[i].Y.z1, recvb
           sendbuf[i].A.y = A[2];
           sendbuf[i].A.z2 = A[1];
           sendbuf[i].A.z1 = A[0];
-          if(J + 1 < diam*diam*diam/(6*I)){ ++J;}
-          else{ J=2;
-          if(K < J){ ++K;}
+          if((K < J) && (K < I)){ ++K;cout<<"K "<<K<<endl;}
           else{ K=0;
-          if(I + 1 < diam*diam*diam/(6*J)){ ++I;}
+          if(J + 1 < diam*diam*diam/(6*I)){ ++J;cout<<"J "<<J<<endl;}
+          else{ J=2;
+          if(I < diam*diam*diam/(6*J)){ ++I;cout<<"I "<<I<<endl<<endl;}
           else break; }}
 
 
+//printf("Master Sending (%d %d %d %d) to %d \n",sendbuf[i].A.z1, sendbuf[i].A.z2, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
          err = MPI_Send(&sendbuf[i],1,MPI_Polynomial,status.MPI_SOURCE,WORKTAG,MPI_COMM_WORLD);
          if(err){
             fprintf(stderr,"Failed to send.\n");
             MPI_Abort(MPI_COMM_WORLD,1);
          }
-      }
+      }}
 
    // No more generators, wait for processes to finish.
    for(i=0; i<numprocs-1; ++i)
    { 
-printf("Waiting in master for return from %d \n", i+1);
+//printf("Waiting in master for return from %d \n", i+1);
       err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,MPI_ANY_SOURCE,WORKTAG,MPI_COMM_WORLD,&status);
       if(err){
          fprintf(stderr,"Failed to recieve.\n");
          MPI_Abort(MPI_COMM_WORLD,1);
       }
-printf("GOTIT! Process %d returned (%d %d %d) to master \n",status.MPI_SOURCE, recvbuf[i].A.z1, recvbuf[i].A.y, recvbuf[i].A.x);
+//printf("GOTIT! Process %d returned (%d %d %d) to master \n",status.MPI_SOURCE, recvbuf[i].A.z1, recvbuf[i].A.y, recvbuf[i].A.x);
   }
 
    // Exit all slaves.
@@ -220,15 +227,15 @@ void slave(int diam, int numprocs)
    
    while(1)
    {
-printf("I am slave %d in slave\n",rank);
+//printf("I am slave %d in slave\n",rank);
     err = MPI_Recv(&recvbuf[rank-1],1,MPI_Polynomial,0,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
     if(err){
        fprintf(stderr,"Failed to receive.\n");
        MPI_Abort(MPI_COMM_WORLD,1);
     }
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    if(status.MPI_TAG == DIETAG){printf("Slave %d leaving\n", rank);return;}
-printf("Process %d in slave recieved (%d %d %d %d) \n",rank, recvbuf[rank-1].A.z1, recvbuf[rank-1].A.z2, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);
+    if(status.MPI_TAG == DIETAG){return;}
+//printf("Process %d in slave recieved (%d %d %d %d) \n",rank, recvbuf[rank-1].A.z1, recvbuf[rank-1].A.z2, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);
     
     // Check cover
     T4 A(recvbuf[rank-1].A.z1, recvbuf[rank-1].A.z2, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);  
@@ -243,8 +250,8 @@ printf("Process %d in slave recieved (%d %d %d %d) \n",rank, recvbuf[rank-1].A.z
     sendbuf[rank-1].A.y = mbest.A[2];
     sendbuf[rank-1].A.z2 = mbest.A[1];
     sendbuf[rank-1].A.z1 = mbest.A[0];
-printf("Process %d returning X = (%d %d %d) from slave \n",rank, sendbuf[rank-1].Y.z1, sendbuf[rank-1].Y.y, sendbuf[rank-1].Y.x);
-printf("Process %d returning A = (%d %d %d %d) from slave \n",rank, sendbuf[rank-1].A.z1, sendbuf[rank-1].A.z2, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x);
+//printf("Process %d returning X = (%d %d %d) from slave",rank, sendbuf[rank-1].Y.z1, sendbuf[rank-1].Y.y, sendbuf[rank-1].Y.x);
+//printf(" and A = (%d %d %d %d) from slave \n", sendbuf[rank-1].A.z1, sendbuf[rank-1].A.z2, sendbuf[rank-1].A.y, sendbuf[rank-1].A.x);
     
     err = MPI_Send(&sendbuf[rank-1],1,MPI_Polynomial,0,WORKTAG,MPI_COMM_WORLD);
     if(err){
