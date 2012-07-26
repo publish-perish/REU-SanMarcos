@@ -93,7 +93,7 @@ int main (int argc, char *argv[]) {
     if(rank == 0){
         printf("%d Generators checked. \n", numgens);}
     if(mbest.A[0] != 0 && rank == 0){
-        printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.Y[0], mbest.Y[1], mbest.Y[2]); 
+        printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.Y[0], mbest.Y[2], mbest.Y[3]); 
     }else if(rank == 0){printf("\nProcesses did not find a cover \n");
         printf("\nProgram ran for %f seconds \n\n",(double)(end - start)/(double)CLOCKS_PER_SEC);}
     
