@@ -206,7 +206,7 @@ printf("New M found by slave %d : Generators : (%d %d %d %d %d), Coeffs : (%d %d
    for(i=0; i<numprocs-1; ++i)
    { 
 //printf("Waiting in master for return from %d \n", i+1);
-      err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status);
+      err = MPI_Irecv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&request);
       if(err){
          fprintf(stderr,"Failed to recieve.\n");
          MPI_Abort(MPI_COMM_WORLD,1);
