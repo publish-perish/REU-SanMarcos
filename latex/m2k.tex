@@ -1,0 +1,156 @@
+\section{New Lower Bound of $m(2, k)$.}
+
+Let $d$ be a positive integer. We define $n(d, k)$ to be the largest positive integer $m$ such that there exists a subset $A$ of positive integers with the property that every integer in the interval $[1, m]$ is the sum of at most $d$ not necessarily distinct elements of $A$. Comparing $m(d, k)$, we may say that $n(d, k)$ is the interval version of $m(d, k)$. In other words, 
+\[
+n(d, k) = \max_{\scriptstyle A\subseteq\mathbb Z^{+}\atop\scriptstyle |A|=k}\{m\  |\ d\cdot A\supseteq[1, m]\}.
+\]
+It is clear that for all $d \geq 1$ and $k \geq 1$ $m(d, k) \geq n(d, k)$. The computation of  $n(d, k)$ is often referred as the \emph{the postage stamp problem}. \emph{The postage stamp problem} is an old problem in number theory and has been studied extensively. See  for more information. 
+
+The  best known lower bound for $n(2,k)$ was proved by Mrose in 1979:
+\[
+n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\qquad  \text{as}\quad  k \to \infty.
+\]
+It is clear that $m(d,k)\ge n(d,k)$ for all $d$ and $k$. Furthermore, $m(d,k)$ should be {\em much\/} larger than $n(d,k)$ as at least one of $d$ and $k$ is getting large.  But the only known lower bound for $m(2,k)$ is
+\[
+m(2,k)\ge \frac27k^{2}+O(k),
+\]
+which is obtained by using the obvious inequality $m(d,k)\ge n(d,k)$.  In this paper, we improve the lower bound for $m(2,k)$ in the following theorem.
+ 
+ 
+\begin{theorem}
+$\displaystyle m(2,k) \geq \frac{37}{121}k^2 + O(k)$  as $ k \to \infty$.
+\end{theorem}
+
+\begin{proof}
+Let $k \geq$ 14 be an integer. Let $\displaystyle k_1 = \left \lfloor \frac{k - 9}{11} \right \rfloor$. Let $m = 37k_1^2$.  Define 
+\begin{align*}
+I_\mu &= [\mu k_1^2, \mu k_1^2 + k_1],
+&&\mu = 0, 4, 15, 26; \\
+S_\nu &= \{\nu k_1^2 + ik_1 \ |\  i = 0 , 1, ... , k_1 - 1\},
+&&\nu = 0, 1, 2, 3;\\
+T_{\eta} &= \{\eta k_1^2+ i(k_1 + 1) \ |\   i = 0 , 1, ... , k_1 -1\},
+&&\eta = 10, 20, 30.
+\end{align*}
+ Let $S= S_{0} \cup S_{1} \cup S_{2} \cup S_{3}$, and
+define
+\[
+A=I_0\cup I_4\cup I_{15}\cup I_{26}\cup S\cup T_{10}\cup T_{20}\cup T_{30}.
+\]
+Noting  that $I_0\cap S_0=\{0,k_1\}$, and 
+\[
+|I_\mu| = k_1 + 1,\quad 
+|S_\nu| = k_1,\quad\text{and}\quad
+|T_\eta| = k_1,
+\]
+we see that 
+\[
+|A| \leq 11k_1 + 2 \leq k.
+\]  
+We now prove that $A+A=\Z_m$.
+
+We begin by claiming $I_{\mu}+T_{\eta}\supseteq[(\mu + \eta )k_1^2 ,  (\mu + \eta  + 1)k_1^2)$. Let $n \in[(\mu + \eta )k_1^2 ,  (\mu + \eta  + 1)k_1^2)$.
+Then we can write $n$ as 
+\[
+n = (\mu + \eta ) k_1^2 + qk_1 + r,
+\]
+where $0 \leq q < k_1$ and $0 \leq r < k_1$.
+
+If $r \geq q$, then $0\le r-q<k_{1}$ and
+\[
+n = \mu k_1^2 +  (r - q)+ \eta k_1^2 + q(k_1+1).
+\]
+ Since 
+ \[
+ \mu k_1^2 + (r - q) \in I_\mu\qquad\text{and}\qquad \eta k_1^2 +q(k_1+1) \in T_\eta,
+ \]
+we see that $n \in I_{\mu}+T_{\eta}$. 
+
+If $r < q$, then we must have $q \geq 1$ and $0\le k_{1}+r-q+1\le k_{1}$. Then
+\[
+\mu k_1^2 + (k_1 + r - q + 1) \in I_\mu \qquad \text{and}\qquad
+\eta k_1^2 + (q - 1)(k_1 + 1) \in T_\eta.
+\]
+ Hence
+\[
+n = \mu k_1^2 + (k_1 + r - q + 1)+\eta k_1^2 + (q - 1)(k_1 + 1) \in I_{\mu}+T_{\eta}.
+\]
+ 
+
+Next we claim that  $I_{\mu}+S_{\nu}\supseteq[(\mu + \nu )k_1^2 ,  (\mu + \nu  + 1)k_1^2)$. Let $n \in[(\mu + \nu )k_1^2 ,  (\mu + \nu  + 1)k_1^2)$.
+Then we can write $n$ as 
+\[
+n = (\mu + \nu ) k_1^2 + qk_1 + r = \mu k_1^2 + r+\nu k_1^2 + qk_1,
+\]
+where  $0 \leq q < k_1$ and $0 \leq r < k_1$, such that 
+\[
+\mu k_1^2 + r \in I_\mu \qquad\text{and}\qquad\nu k_1^2 + qk_1 \in S_\nu,
+\]
+ so $n \in I_{\mu}+S_{\nu}$. 
+
+Our final claim is $S+T_\eta \supseteq[(\eta  +1)k_1^2 ,  (\eta  + 4)k_1^2)$.  Let $n \in[(\eta  +1)k_1^2 ,  (\eta  + 4)k_1^2)$.
+Then we can write $n$ as 
+\[
+n = (\eta  + \nu ) k_1^2 + qk_1 + r, 
+\]
+where $1 \leq \nu  \leq 3$, $0 \leq q < k_1$, and $0 \leq r < k_1$. 
+
+If $q \geq r$, then
+\[
+n = \nu k_1^2 + (q - r) k_1+\eta k_1^2 + r(k_1 + 1), 
+\]
+where $\nu k_1^2 + (q - r)k_1 \in S_\nu$ and $\eta k_1^2 + d(k_1 + 1) \in T_\eta$, so $n \in S_\nu +T_\eta$. 
+
+If $q <r$, then
+\[
+n = (\nu  - 1)k_1^2 + (k_1 + q - r) k_1+\eta k_1^2 + r(k_1 + 1), 
+\]
+where 
+\[
+(\nu  - 1)k_1^2 + (k_1 + q - r)k_1 \in S_{\nu  - 1}\qquad\text{and}\qquad
+\eta k_1^2 + r(k_1 + 1) \in T_\eta.
+\]
+Hence $n \in S_{\nu-1}+T_\eta\subseteq S+T_{\eta}$. 
+
+
+It is clear that, in $\Z_{37k_{1}^{2}}$,
+\begin{align*}
+[45k_{1}^{2},46k_{1}^{2})&=[8k_1^2, 9k_1^2),&
+[46k_{1}^{2},47k_{1}^{2})&=[9k_1^2, 10k_1^2),\\
+[56k_{1}^{2},57k_{1}^{2})&=[19k_1^2, 20k_1^2).
+\end{align*}
+Therefore, we have proved that the entire interval $[0, m)=\Z_{m}$ can be  {\em covered\/} as follows: 
+\begin{align*}
+I_0 + S &\supseteq [0, 4k_1^2),&
+I_4 + S &\supseteq [4k_1^2, 8k_1^2),\\
+I_{15} + T_{30}  &\supseteq[45k_{1}^{2},46k_{1}^{2})= [8k_1^2, 9k_1^2),&
+I_{26} + T_{20}  &\supseteq[46k_{1}^{2},47k_{1}^{2})= [9k_1^2, 10k_1^2),\\
+I_{0}+T_{10}  &\supseteq [10k_1^2, 11k_1^2),&
+S+T_{10}  &\supseteq [11k_1^2, 14k_1^2),\\
+I_{4} + T_{10}  &\supseteq [14k_1^2, 15k_1^2),&
+I_{15} + S  &\supseteq [15k_1^2, 19k_1^2),\\
+I_{26} + T_{30}  &\supseteq[56k_{1}^{2},57k_{1}^{2})= [19k_1^2, 20k_1^2),&
+I_{0} + T_{20}  &\supseteq [20k_1^2, 21k_1^2),\\
+S + T_{20}  &\supseteq [21k_1^2, 24k_1^2),&
+I_{4} + T_{20}  &\supseteq [24k_1^2, 25k_1^2),\\
+I_{15} + T_{10}  &\supseteq [25k_1^2, 26k_1^2),&
+I_{26} + S  &\supseteq [26k_1^2, 30k_1^2),\\
+I_{0} + T_{30}  &\supseteq [30k_1^2, 31k_1^2),&
+S + T_{30}  &\supseteq [31k_1^2, 34k_1^2),\\
+I_{4} + T_{30}  &\supseteq [34k_1^2, 35k_1^2),&
+I_{15} + T_{20}  &\supseteq [35k_1^2, 36k_1^2), \\
+I_{26} + T_{10}  &\supseteq [36k_1^2, 37k_1^2).
+\end{align*}
+It now follows that 
+\[
+A + A \supseteq [0, 37k_1^2).
+\]
+Hence
+\begin{align*}
+m(2,k) &\geq 37k_1^2\\
+&= 37 \cdot \left \lfloor \frac{k - 2}{11}\right \rfloor^2\\
+&> 37 \left(\frac{k - 2}{11} -1\right) ^2\\
+&= \frac{37}{121}k^2-\frac{962}{121}k+\frac{6253}{121}\\
+&= \frac{37}{121}k^2 + O(k)\qquad \text{ as }\quad k \to \infty. \qedhere
+\end{align*}
+\end{proof}
+

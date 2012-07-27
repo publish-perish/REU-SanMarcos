@@ -1,19 +1,14 @@
 #ifndef POLYNOMIAL_H
 #define POLYNOMIAL_H
 
+#include "tuple.h"
 #include <vector>
 #include <map>
 #include <fstream>
 #include <iostream>
-#include "../basic/subtraction.h"
-#include "boost/tuple/tuple.hpp"
+#include "subtraction.h"
 
-
-typedef boost::tuples::tuple<int, int, int> T;
 typedef std::vector<T> Vec;
-
-
-using namespace boost::tuples;
 
 class Subtractions;
 
@@ -23,7 +18,7 @@ class Polynomial{
 
 
       Polynomial();
-      Polynomial(T a, T y);
+      Polynomial(T &a, T &y);
       Polynomial(T a, int, int, int);
       Polynomial(const Polynomial&);
 
@@ -36,6 +31,8 @@ class Polynomial{
 
       bool operator==(const Polynomial&);
       bool operator>=(const Polynomial&);
+      bool operator!=(const Polynomial&);
+      bool operator!=(int);
       Polynomial operator=(const Polynomial&);
 
       Polynomial operator-(Polynomial);

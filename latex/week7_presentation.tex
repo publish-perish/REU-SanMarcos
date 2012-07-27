@@ -1,0 +1,262 @@
+\def\sphinxdocclass{report}
+\documentclass[a4paper,10pt,english]{sphinxhowto}
+\usepackage{babel}
+\usepackage{times}
+\usepackage[Bjarne]{fncychap}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00A0}{\nobreakspace}
+\usepackage{sphinx}
+\usepackage{dsfont}
+\usepackage{braket}
+\usepackage{slashed}
+\usepackage{fancyvrb}
+\usepackage{color}
+\usepackage{float}
+\usepackage{bm}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{bibentry}
+
+\let\origfigure=\figure
+\renewenvironment{figure}[6]{
+\origfigure[H]}
+{\endlist}
+\def\degrees{^\circ}
+\def\d{{\rm d}}
+
+\def\A{{\mathcal A}}
+\def\h{{\mathcal h}}
+\def\m{{\mathcal m}}
+\def\Z{{\mathbb Z }}
+\def\fslash#1{#1 \!\!\!/}
+\def\F{{\bf F}}
+\def\R{{\bf R}}
+\def\J{{\bf J}}
+\def\x{{\bf x}}
+\def\y{{\bf y}}
+\def\h{{\rm h}}
+\def\ai{{a_{i}}}
+\def\xi{{x_{i}}}
+\newcommand{\bfx}{\mbox{\boldmath $x$}}
+\newcommand{\bfy}{\mbox{\boldmath $y$}}
+\newcommand{\bfz}{\mbox{\boldmath $z$}}
+\newcommand{\bfv}{\mbox{\boldmath $v$}}
+\newcommand{\bfu}{\mbox{\boldmath $u$}}
+\newcommand{\bfF}{\mbox{\boldmath $F$}}
+\newcommand{\bfJ}{\mbox{\boldmath $J$}}
+\newcommand{\bfU}{\mbox{\boldmath $U$}}
+\newcommand{\bfY}{\mbox{\boldmath $Y$}}
+\newcommand{\bfR}{\mbox{\boldmath $R$}}
+\newcommand{\bfg}{\mbox{\boldmath $g$}}
+\newcommand{\bfc}{\mbox{\boldmath $c$}}
+\newcommand{\bfxi}{\mbox{\boldmath $\xi$}}
+\newcommand{\bfw}{\mbox{\boldmath $w$}}
+\newcommand{\bfE}{\mbox{\boldmath $E$}}
+\newcommand{\bfS}{\mbox{\boldmath $S$}}
+\newcommand{\bfb}{\mbox{\boldmath $b$}}
+\newcommand{\bfH}{\mbox{\boldmath $H$}}
+\def\Hcurl{{\bfH({\rm curl})}}
+\def\Hdiv{{\bfH({\rm div})}}
+
+\newcommand{\dd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\dx}{\;\mbox{d}\bfx}
+
+\def\diag{\hbox{diag}}
+
+\font\dsrom=dsrom10
+\def\one{\hbox{\dsrom 1}}
+
+\def\res{\mathop{\mathrm{Res}}}
+
+\def\mathnot#1{\text{"$#1$"}}
+
+
+
+%See Character Table for cmmib10:
+%http://www.math.union.edu/~dpvc/jsmath/download/extra-fonts/cmmib10/cmmib10.html
+\font\mib=cmmib10
+\def\balpha{\hbox{\mib\char"0B}}
+\def\bbeta{\hbox{\mib\char"0C}}
+\def\bgamma{\hbox{\mib\char"0D}}
+\def\bdelta{\hbox{\mib\char"0E}}
+\def\bepsilon{\hbox{\mib\char"0F}}
+\def\bzeta{\hbox{\mib\char"10}}
+\def\boldeta{\hbox{\mib\char"11}}
+\def\btheta{\hbox{\mib\char"12}}
+\def\biota{\hbox{\mib\char"13}}
+\def\bkappa{\hbox{\mib\char"14}}
+\def\blambda{\hbox{\mib\char"15}}
+\def\bmu{\hbox{\mib\char"16}}
+\def\bnu{\hbox{\mib\char"17}}
+\def\bxi{\hbox{\mib\char"18}}
+\def\bpi{\hbox{\mib\char"19}}
+\def\brho{\hbox{\mib\char"1A}}
+\def\bsigma{\hbox{\mib\char"1B}}
+\def\btau{\hbox{\mib\char"1C}}
+\def\bupsilon{\hbox{\mib\char"1D}}
+\def\bphi{\hbox{\mib\char"1E}}
+\def\bchi{\hbox{\mib\char"1F}}
+\def\bpsi{\hbox{\mib\char"20}}
+\def\bomega{\hbox{\mib\char"21}}
+
+\def\bvarepsilon{\hbox{\mib\char"22}}
+\def\bvartheta{\hbox{\mib\char"23}}
+\def\bvarpi{\hbox{\mib\char"24}}
+\def\bvarrho{\hbox{\mib\char"25}}
+\def\bvarphi{\hbox{\mib\char"27}}
+
+%how to use:
+%$$\alpha\balpha$$
+%$$\beta\bbeta$$
+%$$\gamma\bgamma$$
+%$$\delta\bdelta$$
+%$$\epsilon\bepsilon$$
+%$$\zeta\bzeta$$
+%$$\eta\boldeta$$
+%$$\theta\btheta$$
+%$$\iota\biota$$
+%$$\kappa\bkappa$$
+%$$\lambda\blambda$$
+%$$\mu\bmu$$
+%$$\nu\bnu$$
+%$$\xi\bxi$$
+%$$\pi\bpi$$
+%$$\rho\brho$$
+%$$\sigma\bsigma$$
+%$$\tau\btau$$
+%$$\upsilon\bupsilon$$
+%$$\phi\bphi$$
+%$$\chi\bchi$$
+%$$\psi\bpsi$$
+%$$\omega\bomega$$
+%
+%$$\varepsilon\bvarepsilon$$
+%$$\vartheta\bvartheta$$
+%$$\varpi\bvarpi$$
+%$$\varrho\bvarrho$$
+%$$\varphi\bvarphi$$
+
+%small font
+\font\mibsmall=cmmib7
+\def\bsigmasmall{\hbox{\mibsmall\char"1B}}
+
+\def\Tr{\hbox{Tr}\,}
+\def\Arg{\hbox{Arg}}
+\def\atan{\hbox{atan}}
+
+\title{Extreme Orders of Additive Bases} 
+\author{Jia and Friends}
+\newcommand{\sphinxlogo}{}
+\date{July 20, 2012}
+\nobibliography*
+
+\begin{document}
+
+\maketitle
+
+
+
+
+\section*{EXACT ORDER OF ASYMPTOTIC BASES}
+\label{index:asymptotic-bases}
+
+\textbf{Asymptotic Basis}\\
+A set $\A$ such that $\ai \geq 0$ is an \emph{asymptotic basis} of order $h$ if $ \forall n (large) \in \mathbb{Z}, n = \sum_{i=1}^h$.
+
+\textbf{\emph{Exact} Asymptotic Basis}\\
+The smallest such $h$ such that the above is true.
+
+\textbf{eg.} Let $\A = {2k + 1, k \in \mathbb{Z} }. \A $ cannot be an exact asymptotic basis of any order, as the sum of $h$ odd integers has the same parity as $h$.
+
+\textbf{Why?}\\
+Tough problem + analysis of complexity = instant gratification that is is solvable or immense sadness that it is not.
+
+\emph{General Examples of the Results of Asymptotic Analysis}
+\begin{itemize}
+\item Stirling's Formula.
+\item LaPlacian Methods.
+\item All approximation methods ever.
+\end{itemize}
+
+\subsection*{Postage Stamp Problem}
+Suppose there is only room on a letter for $n$ stamps. We have sufficient number of stamps of various denominations. What is the smallest postage that we cannot make with any n-combination of stamps?
+
+\textbf{Analogous:} Suppose a computer cluster has enough processing power for only up to $h$ processes, each node in the cluster has processing power that can be measured as a certain number of flops. There is a queue of programs of varied complexity waiting to be run.
+What is the minimum complexity that a program can take so that it is not computable on our system?
+\\
+We try to find the minimum set of size k such that the set of all linear combinations will not be a h-basis.
+$n(h, k)$, where $ \vert \A \vert = k$, such that $\forall n \in [0, m-1], n = \sum_{i=1}^k \xi \ai$ where $\xi > 0$ and $\sum_{i=1}^k \xi \leq h$.
+
+\newpage
+
+\section*{EXTREMAL BASES FOR FINITE CYCLIC GROUPS}
+\label{index:cyclic-groups}
+
+\textbf{$h$-Basis}\\
+$\A$ is an $h$-basis is the same is an asymptotic basis for cyclic groups.
+i.e. For $a, a' \in \A, gcd(a - a') = 1$.
+
+Similarly to the Postage Stamp Problem, we define $m(h, k)$ as our lower bound for cyclic groups.
+
+\textbf{Why?}\\
+Consider a programmable logic network (at NASA) that connects 521 memory modules to 512 processors. Note that $gcd(521, 512) = 1$.
+
+Now consider a Cayley Graph, $\operatorname{Cay}(\mathbb{Z}_{m}, k)$ with edges from $p$ to $n$, where $k^{n} \cong p$ (mod $m$), where $k$ is a generator, $n$ is the index of $p$ relative to $k$, and $p$ is an element of $\mathbb{Z}_{m}$.
+
+Several methods have been considered for storing arrays in a parallel memory system so that various useful partitions of an array can be fetched from the memory with a single access.
+
+The class of \emph{p-ordered vectors} is such that adjacent elements in an unscrambled vector are p elements apart in the p-ordered vector.
+
+Why is the logic network built by NASA so good at manipulating multi-dimensional data?
+
+\textbf{Hint:} Each operation is equivalent to a transpose.
+
+What are other uses for combinatorial networks?
+
+\newpage
+\section*{COMMUNICATION NETWORKS}
+
+\textbf{Loop Network}
+A network whose connectivity includes at least one Hamiltonian Cycle $\therefore$ loop networks can be described by Cayley Graphs.
+
+\textbf{Case}
+Giving finite power to each capacitor in a network, minimize the average transmission delay (minimum average distance between nodes) for a max number of nodes.
+
+\textbf{Ad-Hoc Network}
+A set of networks where all devices have equal status (on the network) and are free to link to any other device within range on the network.
+
+\textbf{Case}
+Minimize the send-recieve time of a message passed along a network with a number of recievers (nodes) and of channels (arcs) per reciever.
+
+
+\newpage
+\section*{SPECIAL CASES OF CAYLEY GRAPHS}
+
+\textbf{Transposition Graphs}
+
+$\operatorname{Cay}(\mathcal{G}, \mathcal{S})$ where $s=s^{-1}$ for any $s \in S$, i.e. $S$ is a set of transpositions. Transposition graphs $\operatorname{T}(S)$ are isomorphic if and only if their corresponding Cayley graphs are isomorphic.
+
+If $\operatorname{T}(S)$ is edge-transitive, then $\operatorname{Cay}(\mathcal{G}, \mathcal{S})$ is arc-transitive.
+
+\textbf{Rotational Automorphisms}
+
+For Cayley graphs, any permutation of the generators defines a rotation scheme on any vertex.
+
+A rotational mapping is a complete rotation, $\omega$, if and only if it is a group automorphism.
+
+$\operatorname{Cay}(n, k)$ is a \emph{star-graph} if k and n-k are relatively prime.
+
+$\operatorname{Cay}(\mathbb{Z}_{m}, \mathbb{Z}_{m}\setminus 0)$ has a complete rotation if and only if m is prime.
+
+\newpage
+\section*{THANKS TO:}
+\label{index:thanks}
+
+\begin{itemize}
+\item \bibentry{Jia}Xingde Jia
+\item \bibentry{Ray}Raymond S. Lim
+\end{itemize}
+
+\renewcommand{\indexname}{Index}
+\printindex
+\end{document}
