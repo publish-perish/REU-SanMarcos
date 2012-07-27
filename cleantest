@@ -1,0 +1,2 @@
+make test
+mpirun --pernode --hostfile ./test/hostfile orte-clean
