@@ -1,144 +1,50 @@
-\section{ New Lower Bound of $m(2, k)$.}
-
-Let $d$ be a positive integer. We define $n(d, k)$ to be the largest positive integer $m$ such that there exists a subset $A$ of positive integers with the property that every integer in the interval $[1, m]$ is the sum of at most $d$ not necessarily distinct elements of $A$. Comparing $m(d, k)$, we may say that $n(d, k)$ is the interval version of $m(d, k)$. In other words, 
-\[
-n(d, k) = \max_{A\subseteq\Z^{+}\atop\scriptstyle |A|=k}\{m\  |\ d\cdot A\supseteq[1, m]\}.
+\section{ New Lower Bound of $m(d, 4)$.}
+In 1974, Wong and Coppersmith proved that
+\[m(d, k) \geq \left (\frac{d}{k} + 1\right)^k.\]
+In the case when $k = 4$, this gives the lower bound to be
+\[m(d, k) \geq \left (\frac{d}{4}\right )^4 + O(d^3).\]
+Jia later improved this lower bound, and proved that 
+\[ 
+m(d, 4) \geq2.048 \left(\frac{d}{4}\right)^4  +O(d^3)\qquad\text{as}\quad d\to\infty.
 \]
-It is clear that for all $d \geq 1$ and $k \geq 1$ $m(d, k) \geq n(d, k)$. The computation of  $n(d, k)$ is often referred as the \emph{the postage stamp problem}. \emph{The postage stamp problem} is an old problem in number theory and has been studied extensively. See  for more information. 
+This is currently the best known lower bound for $m(d, 4)$. 
 
-The following theorem was proved by Mrose in 1979, and gives the current bound for $n(2, k)$.
+In this paper we will show that \[m(d,4) \geq \frac{512}{243}\left(\frac d4\right)^4 + O(d^3)\approx 2.106996 \left(\frac d4\right)^4 + O(d^3)\].
+\begin{theorem} As $d\to\infty$, 
 \[
-n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\  \text{as} \  k \to \infty.
+m(d,4) \geq \frac{512}{243}\left(\frac d4\right)^4 + O(d^3)\approx 2.106996 \left(\frac d4\right)^4 + O(d^3).
 \]
-
- 
-In this paper we prove the following lower bound for $m(d, k)$.
-\begin{theorem}
-$\displaystyle m(2,k) \geq \frac{37}{121}k^2 + O(k)$  as $ k \to \infty$.
 \end{theorem}
 
 \begin{proof}
-Let $k \geq$ 14 be an integer. Let $k_1 = \left \lfloor \frac{k - 9}{11} \right \rfloor$. Let $m = 37k_1^2$.  Define 
+Let $d \geq 11$ be an integer and let $\lambda = \left \lfloor \frac{d - 2}{9} \right \rfloor$. Define
 \begin{align*}
-I_\mu &= [\mu k_1^2, \mu k_1^2 + k_1], \qquad
-\mu = 0, 4, 15, 26; \\
-S_\nu &= \{\nu k_1^2 + ik_1 \ |\  i = 0 , 1, ... , k_1 - 1\},\qquad
-\nu = 0, 1, 2, 3;\\
-T_{\eta} &= \{\eta k_1^2+ i(k_1 + 1) \ |\   i = 0 , 1, ... , k_1 -1\},\qquad
-\eta = 10, 20, 30.
+\alpha &= 3 \lambda,\\
+\beta &=3 \lambda \alpha,\\
+\gamma &= 3 \lambda \beta,\\
+m &= 2 \lambda \gamma + \lambda \beta + \lambda \alpha + \lambda.
 \end{align*}
- Let $S= S_{0} \cup S_{1} \cup S_{2} \cup S_{3}$, and
-define
-\[
-A=I_0\cup I_4\cup I_{15}\cup I_{26}\cup S\cup T_{10}\cup T_{20}\cup T_{30}.
-\]
-Noting  that $I_0\cap S_0=\{0,k_1\}$, and 
-\[
-|I_\mu| = k_1 + 1,\quad 
-|S_\nu| = k_1,\quad\text{and}\quad
-|T_\eta| = k_1,
-\]
-we see that 
-\[
-|A| \leq 11k_1 + 2 \leq k.
-\]  
-We now prove that $A+A=\Z_m$.
-
-We begin by claiming $T_a + I_b\supseteq[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$. Let $n \in[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$.
-Then we can write $n$ as 
-\[
-n = (a + b) k_1^2 + ck_1 + d
-\]
-where $0 \leq c < k_1$ and $0 \leq d < k_1$.
-
-If $d \geq c$, then
-\[
-n = ak_1^2 + c(k_1- 1) + bk_1^2 +  d - c,
-\]
-where $ak_1^2 +c(k_1- 1) \in T_a$, and $bk_1^2 + (d - c) \in I_b$, so $n \in T_a + I_b$. 
-
-If $d < c$, then we must have $c \geq 1$. Hence
-\[
-n = ak_1^2 + (c - 1)(k_1 + 1) + bk_1^2 + k_1 + d - c + 1, 
-\]
-where $ak_1^2 + (c - 1)(k_1 - 1) \in T_a$, and $bk_1^2 + k_1 + d - c + 1 \in I_b$, so $n \in T_a + I_b$. 
-
-Next we claim that  $S_a + I_b\supseteq[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$. Let $n \in[(a + b)k_1^2 ,  (a + b + 1)k_1^2)$.
-Then we can write $n$ as 
-\[
-n = (a + b) k_1^2 + ck_1 + d = ak_1^2 + ck_1 + bk_1^2 + d
-\]
-where  $0 \leq c < k_1$ and $0 \leq d < k_1$, such that $ak_1^2 + ck_1 \in S_a$ and $bk_1^2 + d \in I_b$, so $n \in S_a + I_b$. 
-
-Our final claim is $T_a + S \supseteq[(a +1)k_1^2 ,  (a + 4)k_1^2)$.  Let $n \in[(a +1)k_1^2 ,  (a + 4)k_1^2)$.
-Then we can write $n$ as 
-\[
-n = (a + b) k_1^2 + ck_1 + d, 
-\]
-where $1 \leq b \leq 3$, $0 \leq c < k_1$, and $0 \leq d < k_1$. 
-
-If $c \geq d$, then
-\[
-n = ak_1^2 + d(k_1 + 1) + bk_1^2 + (c - d) k_1, 
-\]
-where $ak_1^2 + d(k_1 + 1) \in T_a$ and $bk_1^2 + (c - d)k_1 \in S_b$, so $n \in T_a + S_b$. 
-
-If $d > c$, then
-\[
-n = ak_1^2 + d(k_1 + 1) + (b - 1)k_1^2 + (k_1 + c - d) k_1, 
-\]
-where $ak_1^2 + d(k_1 + 1) \in T_a$ and $(b - 1)k_1^2 + (k_1 + c - d)k_1 \in S_{b - 1}$, so $n \in T_a + S_{b-1}$. 
-
-
-
-Given the properties of the modulus, we cover the following intervals by interval equivalence modulus 37$k_1^2$:  $[8k_1^2, 9k_1^2]$ , $[9k_1^2, 10k_1^2]$, and $[19k_1^2, 20k_1^2]$. 
-
-The interval $[1, m]$ is covered as follows: 
+Let $A = \{1, \alpha, \beta, \gamma\}$. Then
 \begin{align*}
-I_0 + S &\supseteq [0, 4k_1^2),\\
-I_4 + S &\supseteq [4k_1^2, 8k_1^2),\\
-I_{15} + T_{30}  &\supseteq [8k_1^2, 9k_1^2),\\
-I_{26} + T_{20}  &\supseteq [9k_1^2, 10k_1^2),\\
-T_{10} + I_{0}  &\supseteq [10k_1^2, 11k_1^2),\\
-T_{10} + S  &\supseteq [11k_1^2, 14k_1^2),\\
-I_{4} + T_{10}  &\supseteq [14k_1^2, 15k_1^2),\\
-I_{15} + S  &\supseteq [15k_1^2, 19k_1^2),\\
-I_{26} + T_{30}  &\supseteq [19k_1^2, 20k_1^2),\\
-I_{0} + T_{20}  &\supseteq [20k_1^2, 21k_1^2),\\
-S + T_{20}  &\supseteq [21k_1^2, 24k_1^2),\\
-I_{4} + T_{20}  &\supseteq [24k_1^2, 25k_1^2),\\
-I_{15} + T_{10}  &\supseteq [25k_1^2, 26k_1^2),\\
-I_{26} + S  &\supseteq [26k_1^2, 30k_1^2),\\
-I_{0} + T_{30}  &\supseteq [30k_1^2, 31k_1^2),\\
-S + T_{30}  &\supseteq [31k_1^2, 34k_1^2),\\
-I_{4} + T_{30}  &\supseteq [34k_1^2, 35k_1^2),\\
-I_{15} + T_{20}  &\supseteq [35k_1^2, 36k_1^2), \\
-I_{26} + T_{10}  &\supseteq [36k_1^2, 37k_1^2).
+m &= 2 \lambda d + \lambda c + \lambda b + \lambda \\
+&= 54\lambda^4 + 9\lambda^3 + 3\lambda^2 + \lambda\\
+&= \frac{512}{243}\left(\frac d4\right)^4 + O(d^3).
 \end{align*}
 
-It now follows that 
-\[
-A + A \supseteq [0, 37k_1^2).
-\]
-Hence
-\begin{align*}
-m(2,k) &\geq 37k_1^2\\
-&= 37 * \left \lfloor \frac{k - 2}{11}\right \rfloor^2\\
-&> 37 \left(\frac{k - 2}{11} -1\right) ^2\\
-&= \frac{37}{121}k^2-\frac{962}{121}k+\frac{6253}{121}\\
-&= \frac{37}{121}k^2 + O(k)\qquad \text{ as }\quad k \to \infty. \qedhere
-\end{align*}
-\end{proof}
-\vspace{2 mm}
+Let $dA$ denote the set of all sums of at most d not necessarily distinct elements of a generating set $A$ of $\Z_m$. Then for this proof we need to show that $dA = \Z_m$ such that the Cayley digraph Cay$(m, A)$ has diameter $d(m, A) \leq d$. 
 
-\begin{theorem}
-$\displaystyle m(d,4) \geq \frac{2}{243}d^4 + O(d^3)$  as $ d \to \infty$.
-\end{theorem}
+Every integer $n$ such that $0 \leq n < m$ can be expressed in the following way:
+\[ n = w + x\alpha + y\beta + z\gamma\]
+where 
+\[ 0 \leq w \leq 3\lambda, \quad 0 \leq x \leq 3\lambda,\quad 0 \leq y \leq 3\lambda,\quad 0 \leq z \leq 2\lambda.\]
+Thus we only need to show, for every $0 \leq n < m$, there exists nonnegative integers $\delta_1$, $\delta_2$, $\delta_3$, and $\delta_4$ such that we can write $n$ as
+\[ n \equiv \delta_1 + \delta_2 \alpha + \delta_3 \beta + \delta_4 \gamma\]
+where 
+\[ \delta_1 + \delta_2 + \delta_3 + \delta_4 \leq d.\]
 
-\begin{proof}
 We now consider the following cases:
 
-Case 1. $0 \leq x_3 < \lambda$. The following subcases need to be considered:\\
+Case 1.  $0 \leq x_3 < \lambda$. The following subcases need to be considered:\\
 Subcase 1.a. If $2 \lambda \leq x_1 < 3 \lambda$ then $0 \leq x_0 < 2\lambda$. \\
 If $0 \leq x_1 < 2 \lambda$, we have 
 \[ x_0 + x_1 + x_2 + x_3 \leq 3\lambda + 2\lambda + 3\lambda + \lambda = 9\lambda \leq d, \]
@@ -180,7 +86,7 @@ We have
 n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
 &=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
 &=  x_0 -  2\lambda + (x_1 - 2 \lambda + 1) \alpha + (x_2 + \lambda + 1) \beta + (x_3 + 2 \lambda)
- \gamma.\\ 
+ \gamma.
 \end{align*}
 Noting that
 \[  x_0 -  2\lambda \geq 0, \  x_1 - 2 \lambda + 1 \geq 0,  \ x_2 + \lambda + 1 \geq 0, \text{ and } x_3 + 2 \lambda \geq 0, \]
@@ -198,15 +104,15 @@ If $0 \leq x_1 < \lambda$, we have
 which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
 If $ \lambda \leq x_1 < 2 \lambda$ and  $0 \leq x_0 < 2\lambda$, we have 
 \[ x_0 + x_1 + x_2 + x_3 \leq 2\lambda + 2\lambda + 3\lambda + 2 \lambda = 9\lambda \leq d, \]
-which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in d3A$. 
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
 
 Subcase 2.d. $2\lambda \leq x_2 < 3 \lambda$, $ \lambda \leq x_1 < 2\lambda$,  $2\lambda \leq x_0 < 3\lambda$. \\
 We have
 \begin{align*}
-n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
+n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x2_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
 &=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
 &=  x_0 -  2\lambda + (x_1 + \lambda + 1) \alpha + (x_2 - 2 \lambda) \beta + (x_3 + 2 \lambda + 1)
- \gamma.\\ 
+ \gamma.
 \end{align*}
 Noting that
 \[  x_0 -  2\lambda \geq 0,  \ x_1 + \lambda + 1 \geq 0, \  x_2 - 2 \lambda \geq 0, \text{ and } x_3 + 2 \lambda + 1 \geq 0, \]
@@ -223,10 +129,10 @@ We have
 \begin{align*}
 n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
 &=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
-&=  x_0 +  \lambda + (x_1 - 2 \lambda) \alpha + (x_2 - 2 \lambda + 1) \beta + (x_3 + 2 \lambda + 1)\gamma.\\ 
+&=  x_0 +  \lambda + (x_1 - 2 \lambda) \alpha + (x_2 - 2 \lambda + 1) \beta + (x_3 + 2 \lambda + 1)\gamma.
 \end{align*}
 Noting that
-\[  x_0 +  \lambda \geq 0,  \ x_1 - 2 \lambda \geq 0, \  x_2 - 2 \lambda \geq 0 + 1, \text{ and } x_3 + 2 \lambda + 1 \geq 0, \]
+\[  x_0 +  \lambda \geq 0,  \ x_1 - 2 \lambda \geq 0, \  x_2 - 2 \lambda + 1 \geq 0, \text{ and } x_3 + 2 \lambda + 1 \geq 0, \]
 we see that 
 \begin{align*}
 x_0 + \lambda + x_1 - 2 \lambda + x_2  - 2 \lambda + 1 + x_3 + 2 \lambda + 1 &= x_0  + x_1 +  x_2 + x_3 -  \lambda + 2 \\
@@ -240,10 +146,10 @@ We have
 \begin{align*}
 n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
 &=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
-&=  x_0 -  2\lambda + (x_1 - 2 \lambda + 1) \alpha + (x_2 - 2 \lambda + 1) \beta + (x_3 + 2 \lambda + 1)\gamma.\\ 
+&=  x_0 -  2\lambda + (x_1 - 2 \lambda + 1) \alpha + (x_2 - 2 \lambda + 1) \beta + (x_3 + 2 \lambda + 1)\gamma.
 \end{align*}
 Noting that
-\[  x_0 -  2\lambda \geq 0,  \ x_1 - 2 \lambda + 1 \geq 0, \  x_2 - 2 \lambda \geq 0 + 1, \text{ and } x_3 + 2 \lambda + 1 \geq 0, \]
+\[  x_0 -  2\lambda \geq 0,  \ x_1 - 2 \lambda + 1 \geq 0, \  x_2 - 2 \lambda + 1 \geq 0, \text{ and } x_3 + 2 \lambda + 1 \geq 0, \]
 we see that 
 \begin{align*}
 x_0 -  2\lambda + x_1 - 2 \lambda + 1 + x_2  - 2 \lambda + 1 + x_3 + 2 \lambda + 1 &= x_0  + x_1 +  x_2 + x_3 -  4 \lambda + 3 \\
@@ -252,7 +158,43 @@ x_0 -  2\lambda + x_1 - 2 \lambda + 1 + x_2  - 2 \lambda + 1 + x_3 + 2 \lambda +
 \end{align*}
 which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
 
+Case 3. $2 \lambda \leq x_3 < 3 \lambda$. The following subcases need to be considered:\\
+Subcase 3.a. $0 \leq x_2 <  \lambda.$ If $2 \lambda \leq x_1 < 3 \lambda$ then $0 \leq x_0 < 2\lambda$. \\
+If $0 \leq x_1 < 2\lambda$, we have 
+\[ x_0 + x_1 + x_2 + x_3 \leq 3 \lambda + 2 \lambda + \lambda + 3\lambda = 9\lambda \leq d, \]
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
+If $2 \lambda \leq x_1 < 3 \lambda$ and  $0 \leq x_0 < 2\lambda$, we have 
+\[ x_0 + x_1 + x_2 + x_3 \leq 2\lambda + 3\lambda + \lambda + 3 \lambda = 9\lambda \leq d, \]
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. 
 
+Subcase 3.b. $0 \leq x_2 <  \lambda$, $ 2\lambda \leq x_1 < 3\lambda$,  $2 \lambda \leq x_0 < 3\lambda$. \\
+We have
+\begin{align*}
+n \equiv n + m &= x_0 + x_1\alpha + x_2\beta + x_3\gamma + \lambda + \lambda \alpha + \lambda \beta + 2 \lambda \gamma\\
+&=  x_0 + \lambda + (x_1 + \lambda) \alpha + (x_2 + \lambda) \beta + (x_3 + 2 \lambda) \gamma\\ 
+&=  x_0 -  2\lambda + (x_1 - 2 \lambda + 1) \alpha + (x_2 + \lambda + 1) \beta + (x_3 + 2 \lambda )\gamma.
+\end{align*}
+Noting that
+\[  x_0 -  2\lambda \geq 0,  \ x_1 - 2 \lambda + 1 \geq 0, \  x_2 + \lambda + 1 \geq 0, \text{ and } x_3 + 2 \lambda \geq 0, \]
+we see that 
+\begin{align*}
+x_0 -  2\lambda + x_1 - 2 \lambda + 1 + x_2  + \lambda + 1 + x_3 + 2 \lambda &= x_0  + x_1 +  x_2 + x_3 -  \lambda + 2 \\
+&\leq 3 \lambda + 3 \lambda + \lambda + 3\lambda - \lambda + 2\\
+&= 9 \lambda + 2 \leq d,
+\end{align*}
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$.
 
+Subcase 3.c. $\lambda \leq x_2 < 2 \lambda$ and $0 \leq x_1 < 2\lambda$.  If $\lambda \leq x_1 < 2 \lambda$ then $0 \leq x_0 < \lambda$. \\
+If $0 \leq x_1 < \lambda$, we have 
+\[ x_0 + x_1 + x_2 + x_3 \leq 3\lambda + \lambda + 2\lambda + 3\lambda = 9\lambda \leq d, \]
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$. \\
+If $ \lambda \leq x_1 < 2 \lambda$ and  $0 \leq x_0 < \lambda$, we have 
+\[ x_0 + x_1 + x_2 + x_3 \leq \lambda + 2\lambda + 2 \lambda + 3 \lambda = 8\lambda \leq d, \]
+which implies that $n = x_0 + x_1\alpha + x_2\beta + x_3\gamma \in dA$.
 
+Thus we have shown that every element $0 \leq n < m$ is contained in $dA$, which implies the diameter of the Cayley digraph Cay$(\Z_m, A)$ is less than or equal to $d$. 
+Hence,
+\[
+m(d, 4) \geq2.048 \left(\frac{d}{4}\right)^4  +O(d^3)\qquad\text{as}\quad d\to\infty. \qedhere
+\]
 \end{proof}
