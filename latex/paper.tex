@@ -301,7 +301,7 @@ Let $\Gamma$ be a finite group with a subset A. The \emph{Cayley digraph}, denot
 The focus of this paper is the finite group $\Z_m$; we will denote the Cayley graph Cay($\Z_m, \mathcal{A}$) as Cay($m, \mathcal{A}$).
  
 
- \begin{figure}[h]
+\begin{figure}[h]
 \begin{center}
 
 \begin{tikzpicture}
@@ -334,19 +334,19 @@ The focus of this paper is the finite group $\Z_m$; we will denote the Cayley gr
 \caption{ Cay($\mathbb{Z}_7$, \{1,2\}).}
 \end{figure}
  
-Cayley digraphs are vertex-symmetric. This property allows us to relate our extremal function $m(d, k)$ on Cay($m,\mathcal{A}$) to the diameter of the graph. Given a generating set $\mathcal{A}$ of size $k$, we constrict our value $m(d, k)$ so that the diameter of the generated graph is less than our given $d$.
 For any positive integer $d$ we define
 \[
-m(d,\mathcal{A}) =\ max\{m \vert \diam(Cay(m,\mathcal{A})) \leq d\},
+m(d,\mathcal{A}) =\max\{m \vert \diam(Cay(m,\mathcal{A})) \leq d\},
 \]
 the largest positive integer $m$ such that the diameter, $d(m,A)$, of the Cayley digraph Cay(m,A) is less than or equal to $d$. For positive integers $d$ and $k$,
 \[
-m(d,k) = \max\{m(d,\mathcal{A}) \vert \text{ there exists a set A with } \vert \mathcal{A} \vert = k \},
+m(d,k) = \max\{m(d,\mathcal{A}) \vert \vert \mathcal{A} \vert = k \},
 \]
 the maximum modulus m such that there exists a generating set with cardinality equal to k and the diameter of the Cayley digraph is less than or equal to d. 
 $\\$
+Cayley digraphs are vertex-symmetric. This property allows us to relate our extremal function $m(d, k)$ on Cay($m,\mathcal{A}$) to the diameter of the graph. Given a generating set $\mathcal{A}$ of size $k$, we constrict our value $m(d, k)$ so that the diameter of the generated graph is less than our given $d$.
 
-Current known bounds include
+Current known values include
 \begin{align*}
 m(1,k)& = k+1,\\
 m(d,1) &= d+1\text{, and}\\

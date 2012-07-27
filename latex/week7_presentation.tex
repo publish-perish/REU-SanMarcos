@@ -179,10 +179,13 @@ Tough problem + analysis of complexity = instant gratification that is is solvab
 \end{itemize}
 
 \subsection*{Postage Stamp Problem}
-Suppose a computer cluster has enough processing power for only up to $h$ processes, each node in the cluster has processing power that can be measured as a certain number of flops. There is a queue of programs of varied complexity waiting to be run. The flops are distributed among the programs in a stupid way, rendering time analysis an exercize in uselessness.
+Suppose there is only room on a letter for $n$ stamps. We have sufficient number of stamps of various denominations. What is the smallest postage that we cannot make with any n-combination of stamps?
+
+\textbf{Analogous:} Suppose a computer cluster has enough processing power for only up to $h$ processes, each node in the cluster has processing power that can be measured as a certain number of flops. There is a queue of programs of varied complexity waiting to be run.
 What is the minimum complexity that a program can take so that it is not computable on our system?
 \\
-$n(h, k)$, where $ \vert \A \vert = k$, such that $\forall n \in \mathbb{Z}, n = \sum_{i=1}^k \xi \ai$ where $\xi > 0$ and $\sum_{i=1}^k \xi \leq h$.
+We try to find the minimum set of size k such that the set of all linear combinations will not be a h-basis.
+$n(h, k)$, where $ \vert \A \vert = k$, such that $\forall n \in [0, m-1], n = \sum_{i=1}^k \xi \ai$ where $\xi > 0$ and $\sum_{i=1}^k \xi \leq h$.
 
 \newpage
 
@@ -209,6 +212,41 @@ Why is the logic network built by NASA so good at manipulating multi-dimensional
 \textbf{Hint:} Each operation is equivalent to a transpose.
 
 What are other uses for combinatorial networks?
+
+\newpage
+\section*{COMMUNICATION NETWORKS}
+
+\textbf{Loop Network}
+A network whose connectivity includes at least one Hamiltonian Cycle $\therefore$ loop networks can be described by Cayley Graphs.
+
+\textbf{Case}
+Giving finite power to each capacitor in a network, minimize the average transmission delay (minimum average distance between nodes) for a max number of nodes.
+
+\textbf{Ad-Hoc Network}
+A set of networks where all devices have equal status (on the network) and are free to link to any other device within range on the network.
+
+\textbf{Case}
+Minimize the send-recieve time of a message passed along a network with a number of recievers (nodes) and of channels (arcs) per reciever.
+
+
+\newpage
+\section*{SPECIAL CASES OF CAYLEY GRAPHS}
+
+\textbf{Transposition Graphs}
+
+$\operatorname{Cay}(\mathcal{G}, \mathcal{S})$ where $s=s^{-1}$ for any $s \in S$, i.e. $S$ is a set of transpositions. Transposition graphs $\operatorname{T}(S)$ are isomorphic if and only if their corresponding Cayley graphs are isomorphic.
+
+If $\operatorname{T}(S)$ is edge-transitive, then $\operatorname{Cay}(\mathcal{G}, \mathcal{S})$ is arc-transitive.
+
+\textbf{Rotational Automorphisms}
+
+For Cayley graphs, any permutation of the generators defines a rotation scheme on any vertex.
+
+A rotational mapping is a complete rotation, $\omega$, if and only if it is a group automorphism.
+
+$\operatorname{Cay}(n, k)$ is a \emph{star-graph} if k and n-k are relatively prime.
+
+$\operatorname{Cay}(\mathbb{Z}_{m}, \mathbb{Z}_{m}\setminus 0)$ has a complete rotation if and only if m is prime.
 
 \newpage
 \section*{THANKS TO:}
