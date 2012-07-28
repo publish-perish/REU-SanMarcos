@@ -1,0 +1,12 @@
+#!/bin/bash
+
+EXPECTED_ARGS=2
+E_BADARGS=65
+
+if [ $# -ne $EXPECTED_ARGS ]
+    then
+      echo "Usage: runparallel diam numprocs hostfile"
+        exit $E_BADARGS
+        fi
+make k3c1c2
+mpirun -np $2 --hostfile ./test/hostfile ./executables/k3c1c2 $1

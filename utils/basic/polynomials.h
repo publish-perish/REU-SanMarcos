@@ -1,12 +1,13 @@
 #ifndef POLYNOMIAL_H
 #define POLYNOMIAL_H
 
-#include "tuple.h"
 #include <vector>
 #include <map>
 #include <fstream>
 #include <iostream>
-#include "subtraction.h"
+#include "../basic/subtraction.h"
+#include "../basic/tuple.h"
+
 
 typedef std::vector<T> Vec;
 
@@ -15,15 +16,15 @@ class Subtractions;
 class Polynomial{
 
    public:
-
-
       Polynomial();
-      Polynomial(T &a, T &y);
-      Polynomial(T a, int, int, int);
+      Polynomial(T4 a, T y);
+      Polynomial(T4 a, int, int, int, int);
       Polynomial(const Polynomial&);
 
-      T A, Y;
+      T4 A;
+      T Y;
       Subtractions s;
+
 
       int value()const;
       int sum()const;
@@ -31,8 +32,6 @@ class Polynomial{
 
       bool operator==(const Polynomial&);
       bool operator>=(const Polynomial&);
-      bool operator!=(const Polynomial&);
-      bool operator!=(int);
       Polynomial operator=(const Polynomial&);
 
       Polynomial operator-(Polynomial);
@@ -42,6 +41,5 @@ class Polynomial{
       friend std::ostream& operator<<(std::ostream&, const Polynomial&);
       friend std::ofstream& operator<<(std::ofstream&, const Polynomial&);
 };
-
 
 #endif

@@ -1,11 +1,10 @@
 #ifndef SUBTRACTION_H
 #define SUBTRACTION_H
 
-#include "tuple.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
-
+#include "tuple.h"
 
 class Subtractions{
 
