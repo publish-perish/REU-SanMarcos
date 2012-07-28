@@ -175,15 +175,15 @@ printf("and (%d %d %d %d %d) as M-coeffs \n", recvbuf[i].Y.z, recvbuf[i].Y.y, re
           sendbuf[i].A.w = A[3];
           sendbuf[i].A.v = A[4];
           sendbuf[i].A.u = A[5];
-          if(N + 1 < diam*diam*diam*diam*diam*diam/(720*L*I*J*K)){ ++N;}
+          if(N < diam*diam*diam*diam*diam*diam/(720*L*I*J*K)){ ++N; cout<<" N "<<N<<endl;}
           else{ N=2;
-          if(L + 1 < diam*diam*diam*diam*diam*diam/(120*I*J*K*N)){ ++L;}
+          if(L < diam*diam*diam*diam*diam*diam/(120*I*J*K*N)){ ++L; cout<< " L "<<L<<endl;}
           else{ L=2;
-          if(K + 1 < diam*diam*diam*diam*diam*diam/(120*I*J*L*N)){ ++K;} 
+          if(K < diam*diam*diam*diam*diam*diam/(120*I*J*L*N)){ ++K; cout<< " K "<<K<<endl;} 
           else{ K=2; 
-          if(J + 1 < diam*diam*diam*diam*diam*diam/(120*I*L*K*N)){ ++J;}
+          if(J < diam*diam*diam*diam*diam*diam/(120*I*L*K*N)){ ++J; cout<< "J "<<J<<endl;}
           else{ J=2; 
-          if(I + 1 < diam*diam*diam*diam*diam*diam/(120*L*J*K*N)){ ++I;}
+          if(I < diam*diam*diam*diam*diam*diam/(120*L*J*K*N)){ ++I; cout<<" I "<<I<<endl;}
           else break;}}}}
 
 printf("Master Sending (%d %d %d %d %d %d) to %d \n",sendbuf[i].A.z, sendbuf[i].A.y, sendbuf[i].A.x, sendbuf[i].A.w, sendbuf[i].A.v, sendbuf[i].A.u, status.MPI_SOURCE); 
