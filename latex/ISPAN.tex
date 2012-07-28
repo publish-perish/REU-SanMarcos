@@ -149,7 +149,7 @@ The focus of this paper is the finite group $\Z_m$; we will denote the Cayley gr
 \Edge(0)(5)
 \end{tikzpicture}
 \end{center}
-\caption{ Cay($\mathbb{Z}_7$, \{1,2\}).}
+\caption{ Cay($\Z_7$, \{1,2\}).}
 \end{figure}
  
 Cayley digraphs are vertex-symmetric. This property allows us to relate our extremal function $m(d, k)$ on Cay($m,\mathcal{A}$) to the diameter of the graph. Given a generating set $\mathcal{A}$ of size $k$, we constrict our value $m(d, k)$ so that the diameter of the generated graph is less than our given $d$.
@@ -159,7 +159,7 @@ m(d,\mathcal{A}) =\ max\{m \vert \diam(Cay(m,\mathcal{A})) \leq d\},
 \]
 the largest positive integer $m$ such that the diameter, $d(m,\mathcal{A})$, of the Cayley digraph $Cay(m,\mathcal{A})$ is less than or equal to $d$. For positive integers $d$ and $k$,
 \[
-m(d,k) = \max\{m(d,\mathcal{A}) \vert \text{ there exists a set $\mathcal{A}$ with } \vert \mathcal{A} \vert = k \},
+m(d, k) = \max_{\scriptstyle \mathcal{A}\subseteq\mathbb Z^{+}\atop\scriptstyle |\mathcal{A}|=k}\{m\  |\  \diam(Cay(m,\mathcal{A})) \leq d\}
 \]
 the maximum modulus $m$ such that there exists a generating set with cardinality equal to $k$ and the diameter of the Cayley digraph is less than or equal to $d$. 
 $\\$
@@ -184,7 +184,7 @@ n(d, k) = \max_{\scriptstyle \mathcal{A}\subseteq\mathbb Z^{+}\atop\scriptstyle 
 \]
 It is clear that for all $d \geq 1$ and $k \geq 1$, $m(d, k) \geq n(d, k)$. The computation of  $n(d, k)$ is often referred as the \emph{the postage stamp problem}. \emph{The postage stamp problem} is an old problem in number theory and has been studied extensively. See  for more information. 
 
-The  best known lower bound for $n(2,k)$ was proved by Mrose in 1979:
+The  best known lower bound for $n(2,k)$ was proved by Mrose \cite{Mrose1979}
 \[
 n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\qquad  \text{as}\quad  k \to \infty.
 \]
@@ -332,7 +332,8 @@ m(2,k) &\geq 37k_1^2\\
 \end{align*}
 \end{proof}
 
-
-
+\newpage
+\bibliographystyle{plain}	
+\bibliography{myrefs}		
 
 \end {document}
