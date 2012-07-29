@@ -302,7 +302,7 @@ void check_cover(T6 A, int rank, int diam, Polynomial &mbest)
                        Polynomial M(A, Q);
                      //cout<<"M "<<M;
                        cover.clear();
-                       cover.resize(diam*diam*diam);
+                       cover.resize(diam*diam*diam*diam*diam*diam);
                        //clear_cover(cover);
                    //  print_cover(cover, diam);
                      if((M.value() > mbest.value()) && M.wellFormed()) //ignore M that are too small, or badly formed

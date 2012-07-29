@@ -9,20 +9,7 @@
 #include "subtraction.h"
 
 
-
-
-
-
-
-
-
-
-//typedef boost::tuples::tuple<int, int, int, int, int> TP;
-
-
 typedef std::vector<T6> Vec;
-
-
 
 class Subtractions;
 
@@ -54,8 +41,6 @@ class Polynomial{
       Polynomial operator=(const Polynomial&);
 
       Polynomial operator-(Polynomial);
-      Polynomial borrowB(Polynomial);
-      Polynomial borrowC(Polynomial);
 
       friend std::ostream& operator<<(std::ostream&, const Polynomial&);
       friend std::ofstream& operator<<(std::ofstream&, const Polynomial&);

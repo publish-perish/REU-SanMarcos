@@ -84,14 +84,10 @@ Polynomial Polynomial::operator-(Polynomial m)
     loop:
     while( Y > m.Y )
     {
-
         ++this->s.m_subtracted;
-
         this->Y = T6(Y[0] - m.Y[0], Y[1] - m.Y[1], Y[2] - m.Y[2], Y[3] - m.Y[3], Y[4] - m.Y[4], Y[5] - m.Y[5] );
-
-
     }
-	 while( Y[5] < 0 ) // borrow b
+	while( Y[5] < 0 ) // borrow b
     {
           ++this->s.b_borrowed;
           this->Y = T6(Y[0], Y[1], Y[2], Y[3], Y[4], Y[5] + A[4]);  
@@ -100,14 +96,11 @@ Polynomial Polynomial::operator-(Polynomial m)
     {
           ++this->s.c_borrowed;
           this->Y = T6(Y[0], Y[1], Y[2], Y[3], Y[4] + A[3], Y[5]); 
-
     }
-    
     while( Y[3] < 0 ) //borrow d
     {
           ++this->s.d_borrowed;
 		  this->Y = T6(Y[0], Y[1], Y[2], Y[3] +A[2], Y[4], Y[5]);
-
     }
     while( Y[2] < 0 ) //borrow e
     {
@@ -119,9 +112,8 @@ Polynomial Polynomial::operator-(Polynomial m)
     {
           ++this->s.f_borrowed;
           this->Y = T6(Y[0], Y[1]+A[0], Y[2], Y[3], Y[4], Y[5]);
-
     }
-
+    
     if( Y > m.Y ){ goto loop; } 
 
 

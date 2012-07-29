@@ -133,6 +133,7 @@ class Tuple {
 
 //typedef Tuple<int, 3> T;
 typedef Tuple<int, 6> T6;
+typedef Tuple<int, 15> T;
 
 template<typename TP, int N>
 Tuple<TP, N> operator-(const Tuple<TP, N> &lhs, const Tuple<TP, N> &rhs)
