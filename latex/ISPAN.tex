@@ -123,14 +123,13 @@ The focus of this paper is the finite group $\Z_m$; we will denote the Cayley di
 
 \begin{tikzpicture}
 
-
-\Vertex[x=170.0508492385226pt,y=257.44793707070056pt]{0};
-\Vertex[x=229.43059777036808pt,y=248.64351388167475pt]{1};
-\Vertex[x=256.19943380501326pt,y=195.0860839875888pt]{2};
-\Vertex[x=234.95343715746685pt,y=139.06822600729095pt]{3};
-\Vertex[x=176.6059109911555pt,y=124.48269654626677pt]{4};
-\Vertex[x=127.63862734371301pt,y=158.71121570275264pt]{5};
-\Vertex[x=124.5266485799639pt,y=218.79228696858095pt]{6};
+\Vertex[x=187.5pt,y=255.44534805153816pt]{0};
+\Vertex[x=242.42118923300023pt,y=231.541497539934pt]{1};
+\Vertex[x=254.03680848710601pt,y=172.5735690432419pt]{2};
+\Vertex[x=217.58400229878092pt,y=125.26840951092518pt]{3};
+\Vertex[x=157.4159977012192pt,y=125.26840951092518pt]{4};
+\Vertex[x=120.96319151289404pt,y=172.57356904324183pt]{5};
+\Vertex[x=132.57881076699977pt,y=231.541497539934pt]{6};
 \tikzset{EdgeStyle/.style={->}}
 \Edge(1)(2)
 \Edge(0)(1)
@@ -166,7 +165,7 @@ Current known values include
 \begin{align*}
 m(1,k)& = k+1,\\
 m(d,1) &= d+1\text{, and}\\
-m(d,2) &=\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1 \text{ for all } d\geq2.
+m(d,2) &=\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1 \text{ for all } d\geq2. \cite{JiaHsu}
 \end{align*}
 
 \subsection{The Postage Stamp Problem}
@@ -181,9 +180,11 @@ The  best known lower bound for $n(2,k)$ was proved by Mrose \cite{Mrose1979}
 n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\qquad  \text{as}\quad  k \to \infty.
 \]
 Together with the inequality $m(d, k) \geq n(d, k)$, this lower bound gives a trivial lower bound on $m(2, k)$ which was the best known. We prove a non-trivial lower bound for $m(2,k)$ in the following theorem.
+
  
 \section{New Lower Bound of $m(2, k)$.}
  
+
  
 \begin{theorem}
 $\displaystyle m(2,k) \geq \frac{37}{121}k^2 + O(k)$  as $ k \to \infty$.
@@ -322,6 +323,7 @@ m(2,k) &\geq 37k_1^2\\
 \end{align*}
 \end{proof}
 \section{Open Problems and Remarks}
+
 There are many results for $n(d,k)$ for which analogous results about $m(d,k)$ have not been proved.
 For $n(d,k)$ it is known that for every positive integer $k$ the limit 
 \[
