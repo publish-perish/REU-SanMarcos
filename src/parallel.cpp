@@ -103,13 +103,14 @@ int main (int argc, char *argv[]) {
 
 void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
 {
+
    // Buffers
    Poly sendbuf[numprocs], recvbuf[numprocs];
    MPI_Request request;
    MPI_Status status;
 
    int i, err=0, I=2, J=2, K=0;
-   
+   clock_t start, end;
    // Assign generators to each process.
    for(i=0; i<numprocs-1; ++i)
    {
@@ -121,11 +122,11 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
       sendbuf[i].A.y = A_init[2];
       sendbuf[i].A.x = A_init[3];
 
-      if((K < J) && (K < I)){ ++K;}
+      if((K + 1 < J && K + 1 < I )){ ++K;}
       else{ K=0;
-      if(J + 1 < diam*diam*diam/(6*I)){ ++J;}
+      if(J + 1 < diam*diam*diam/(6*I) && J < diam){ ++J;}
       else{ J=2;
-      if(I < diam*diam*diam/(6*J)){ ++I;}
+      if(I < diam*diam*diam/(6*J)&& I < diam){ ++I;}
       else break; }}
 
 //printf("Master Sending (%d %d %d %d) to %d \n",sendbuf[i].A.z1, sendbuf[i].A.z2, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
@@ -137,7 +138,7 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
    }
    
    // As processes finish, assign them new generators.
-      while(I < diam*diam*diam/(J*6)){cout<<"Stuck in while loop\n";
+      while(I < diam*diam*diam/(2*6) && I < diam){//cout<<"Stuck in while loop\n";
       for(i=0; i<numprocs-1; ++i)
       {
 //printf("Waiting for return from slave %d \n", i+1);
@@ -156,7 +157,7 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
           if(M.value() > mbest.value())
           {
               mbest.A = M.A; mbest.Y = M.Y;
-              printf("New M found by slave %d : Generators : (%d %d %d %d %d), Coeffs : (%d %d %d %d %d)", status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x, recvbuf[i].Y.w, recvbuf[i].Y.v);
+              printf("New M found by slave %d : Generators : (%d %d %d %d), Coeffs : (%d %d %d %d)", status.MPI_SOURCE, recvbuf[i].A.z1, recvbuf[i].A.z2, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].Y.z1, recvbuf[i].Y.z2, recvbuf[i].Y.y, recvbuf[i].Y.x);
 
               end = clock();
               printf("\nProgram has checked %d generators in %f seconds \n\n", numgens, (double)(end - start)/(double)CLOCKS_PER_SEC);
@@ -171,11 +172,11 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
           sendbuf[i].A.y = A[2];
           sendbuf[i].A.z2 = A[1];
           sendbuf[i].A.z1 = A[0];
-          if((K < J) && (K < I)){ ++K;cout<<"K "<<K<<endl;}
+          if((K + 1 < J && K + 1 < I ) ){ ++K;}
           else{ K=0;
-          if(J + 1 < diam*diam*diam/(6*I)){ ++J;cout<<"J "<<J<<endl;}
+          if(J + 1 < diam*diam*diam/(6*I) && J < diam){ ++J;}
           else{ J=2;
-          if(I < diam*diam*diam/(6*J)){ ++I;cout<<"I "<<I<<endl<<endl;}
+          if(I < diam*diam*diam/(6*J) && I < diam){ ++I;}
           else break; }}
 
 
@@ -278,11 +279,11 @@ void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
    mbest.A = A;
 
    // Loop over m and xcoeffs
-   for(i=1; i < (diam*diam*diam / (A[2]*c1)); ++i)
+   for(i=1; i < (float)(diam*diam*diam / (A[0] * 6)) && i < diam; ++i)
    {
-    for(j=1; j < A[2]; ++j)
+    for(j=1; j <= c1 && j < diam; ++j)
     {
-     for(k=1; k < c1; ++k) //filter them in holding tank, then add to file
+     for(k=1; k < A[2] && k < diam; ++k) 
      {
          T Q(i, j, k);
          //cout<<"Q "<<Q;
@@ -291,7 +292,7 @@ void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
            cover.clear();
            cover.resize(diam*diam*diam*diam);
          //print_cover(cover, diam);
-         if((M.value() > mbest.value()) && M.wellFormed()) //ignore M that are too small, or badly formed
+         if(M.value() > mbest.value()) //&& M.wellFormed()) //ignore M that are too small, or badly formed
          {
             for(int i=diam; i >= 0; --i)
             {
@@ -307,7 +308,7 @@ if(i+j+k <= diam - 3)
                          //cout<<"X "<<X;
                          Polynomial X_prime(X-M);
                          //cout<<"X_prime "<<X_prime;
-                         if(X_prime.wellFormed())
+                         if(true)   //X_prime.wellFormed())
                          {
                             //cover.push_back(1);
                             cover[X_prime.sum()] = 1;
