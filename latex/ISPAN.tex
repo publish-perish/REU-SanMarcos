@@ -220,7 +220,7 @@ we see that $d(0, x) \leq d$. Hence, $\diam(Cay(\Z_{t^k}, \mathcal{A}) \leq d$. 
 
 \end{proof}
 
-$m(d,2) =\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1 \text{ for all } d\geq2$. \cite{JiaHsu}
+Hsu and Jia proved $m(d,2) =\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1 \text{ for all } d\geq2$. \cite{JiaHsu}
 
 
 We prove a non-trivial lower bound for $m(2,k)$ in the following theorem.
@@ -396,6 +396,10 @@ m(d,k) &= m(2q+1, du +v)\\
 &= \frac{148}{121}^{ \frac{d-1}{2}} u ^{d}+ O(u^{d-1})\\
 &= \left(\frac{148}{121}\right)^{ \frac{d-1}{2}}\left(\frac{k}{d}\right)^d + O(k^{d-1})
 \end{align*}
+Hence 
+\[
+m(d,k) \geq \left(\frac{148}{121}\right)^{\lfloor \frac{d}{2}\rfloor}\left(\frac{k}{d}\right)^d + O(k^{d-1}).
+\]
 \end{proof}
 
 
