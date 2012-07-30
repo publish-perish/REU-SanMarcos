@@ -47,7 +47,7 @@ escapeinside={\%*}          % if you want to add a comment within your code
 \newenvironment{block}{\begin{adjustwidth}{1.5cm}{1.5cm}\noindent}{\end{adjustwidth}}
 
 \newtheorem{proposition}{Proposition}[section]
-\newtheorem{theorem}{Theorem}[section]
+\newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{corollary}{Corollary}[section]
 \theoremstyle{definition}
@@ -114,41 +114,74 @@ In this paper we establish a new lower bound for $m(2, k)$, and then use this to
 \pagebreak
 
 \section{Introduction}
-\subsection{Cayley Digraphs and Extremal Bases} 
 Let $\Gamma$ be a finite group with a subset $\mathcal{A}$. The \emph{Cayley digraph}, denoted Cay($\Gamma, \mathcal{A}$), is a digraph with vertex set $\Gamma$, such that ($x, y$) is a directed edge if and only if $yx^{-1}$ $\in$ $\mathcal{A}$.
 The focus of this paper is the finite group $\Z_m$; we will denote the Cayley digraph Cay($\Z_m, \mathcal{A}$) as Cay($m, \mathcal{A}$).
 
+
  \begin{figure}[h]
 \begin{center}
+\begin{tikzpicture}[scale=0.70]
 
-\begin{tikzpicture}
+\Vertex[x=187.5pt,y=337.5pt]{0};
+\Vertex[x=262.5pt,y=317.4038105676658pt]{1};
+\Vertex[x=317.4038105676658pt,y=262.5pt]{2};
+\Vertex[x=337.5pt,y=187.5pt]{3};
+\Vertex[x=317.4038105676658pt,y=112.50000000000004pt]{4};
+\Vertex[x=262.5pt,y=57.596189432334185pt]{5};
+\Vertex[x=187.50000000000003pt,y=37.5pt]{6};
+\Vertex[x=112.50000000000004pt,y=57.596189432334185pt]{7};
+\Vertex[x=57.59618943233425pt,y=112.49999999999991pt]{8};
+\Vertex[x=37.5pt,y=187.49999999999997pt]{9};
+\Vertex[x=57.59618943233421pt,y=262.5pt]{10};
+\Vertex[x=112.49999999999994pt,y=317.4038105676658pt]{11};
 
-\Vertex[x=187.5pt,y=255.44534805153816pt]{0};
-\Vertex[x=242.42118923300023pt,y=231.541497539934pt]{1};
-\Vertex[x=254.03680848710601pt,y=172.5735690432419pt]{2};
-\Vertex[x=217.58400229878092pt,y=125.26840951092518pt]{3};
-\Vertex[x=157.4159977012192pt,y=125.26840951092518pt]{4};
-\Vertex[x=120.96319151289404pt,y=172.57356904324183pt]{5};
-\Vertex[x=132.57881076699977pt,y=231.541497539934pt]{6};
 \tikzset{EdgeStyle/.style={->}}
-\Edge(1)(2)
+
 \Edge(0)(1)
-\Edge(6)(0)
-\Edge(5)(6)
-\Edge(4)(5)
-\Edge(3)(4)
+\Edge(1)(2)
 \Edge(2)(3)
-\Edge(0)(2)
-\Edge(2)(4)
-\Edge(4)(6)
-\Edge(6)(1)
-\Edge(1)(3)
-\Edge(3)(5)
-\Edge(0)(5)
+\Edge(3)(4)
+\Edge(4)(5)
+\Edge(5)(6)
+\Edge(6)(7)
+\Edge(7)(8)
+\Edge(8)(9)
+\Edge(9)(10)
+\Edge(10)(11)
+
+\Edge(0)(11)
+\Edge(1)(0)
+\Edge(2)(1)
+\Edge(3)(2)
+\Edge(4)(3)
+\Edge(5)(4)
+\Edge(6)(5)
+\Edge(7)(6)
+\Edge(8)(7)
+\Edge(9)(8)
+\Edge(10)(9)
+\Edge(11)(10)
+
+\Edge(0)(6)
+\Edge(1)(7)
+\Edge(2)(8)
+\Edge(3)(9)
+\Edge(4)(10)
+\Edge(5)(11)
+\Edge(6)(0)
+\Edge(7)(1)
+\Edge(8)(2)
+\Edge(9)(3)
+\Edge(10)(4)
+\Edge(11)(5)
+
 \end{tikzpicture}
+\caption{ Cay($\Z_{12}$, \{1, 6, 11\}).}
 \end{center}
-\caption{ Cay($\Z_7$, \{1,2\}).}
 \end{figure}
+
+The \emph{Cayley digraph} Cay$(\Z_2^n, \{e_1, e_2, ... , e_n\})$, commonly known as the $n-$cube
+
 The Cayley digraph of a finite cylic group is called a circulant graph. Cayley digraphs, and circulant graphs in particular are often used as models for interconnection networks. As such, it is natural to want to maximize the number of vertices which can be connected with constraints on diamter and degree.
 For any positive integer $d$ we define
 \[
@@ -161,47 +194,39 @@ m(d, k) = \max_{\scriptstyle \mathcal{A}\subseteq\mathbb Z^{+}\atop\scriptstyle 
 the maximum modulus $m$ such that there exists a generating set with cardinality equal to $k$ and the diameter of the Cayley digraph is less than or equal to $d$. 
 $\\$
 
-Current known values include
-\begin{align*}
-m(1,k)& = k+1,\\
-m(d,1) &= d+1\text{, and}\\
-m(d,2) &=\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1 \text{ for all } d\geq2. \cite{JiaHsu}
-\end{align*}
-
-\subsection{The Postage Stamp Problem}
- Let $d$ be a positive integer. We define $n(d, k)$ to be the largest positive integer $n$ such that there exists a subset $\mathcal{A}$ of positive integers with the property that every integer in the interval $[1, n]$ is the sum of at most $d$ not necessarily distinct elements of $\mathcal{A}$. In other words, 
+We can clearly see that $m(1,k) = k+1$ and $m(d,1) = d+1$.\\
+For positive integers $d$ and $k$, we have
 \[
-n(d, k) = \max_{\scriptstyle \mathcal{A}\subseteq\mathbb Z^{+}\atop\scriptstyle |\mathcal{A}|=k}\{n\  |\ d\cdot \mathcal{A}\supseteq[1, n]\}.
+\left \lfloor \frac dk + 1 \right \rfloor^k \leq m(d, k) \leq  \binom{k + d}k .
 \]
-The computation of  $n(d, k)$ is often referred as the \emph{postage stamp problem}. The postage stamp problem is an old problem in number theory that has been studied extensively. See \cite{Hsu-Jia:CombinatorialNetworks,Selmer:1986a,Selmer:1986b} for more information. Any basis $\mathcal{A}$ for $[1, n]$ is also a basis for $\Z_n$, so for all positive $d$ and $k$ we have $m(d, k) \geq n(d, k)$.
 
 
-A simple construction shows that 
-\[
-n(2,k)\ge \frac14k^{2}+O(k).
-\]
- Rohrbach \cite{Rohrbach:1937a} conjectured in 1937 that
-\begin{equation}\label{eqn:Rohrbach's.conjecture.on.n_{alpha}(2,k)}
-n(2,k)\sim\frac14{k^2},
-\end{equation}
-H\"ammerer and Hofmeister \cite{Hammerer-Hofmeister:1976} proved in
-1976 by an explicit construction
-of a $2$-basis that
-\[
-n(2,k)\ge \frac {5}{18}{k^2}+O(k),
-\]
-which disproves the conjecture of Rohrbach
-(\ref{eqn:Rohrbach's.conjecture.on.n_{alpha}(2,k)}).
-The  best known lower bound for $n(2,k)$ was proved by Mrose \cite{Mrose1979}
-\[
-n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\qquad  \text{as}\quad  k \to \infty.
-\]
- Together with the inequality $m(d, k) \geq n(d, k)$, this lower bound gives a trivial lower bound on $m(2, k)$ which was the best known. We prove a non-trivial lower bound for $m(2,k)$ in the following theorem.
+\begin{proof}
+We begin with the proof of the upper bound. Let $|\mathcal{A}| = k$ such that $\diam(Cay(\Z_m, \mathcal{A})) \leq d$. Noting that every element in $\Z_m$ is the sum of at most $d$ not necessarily distinct elements of $\mathcal{A}$, and the commutativity of integers,  we see that
+\[m \leq \binom{k + 1 + d - 1}k = \binom{k + d}k,
+\] thus proving the upper bound.
+Now we show the lower bound. Let
+\[t = \left \lfloor \frac{d}{k} \right \rfloor + 1\]
+and 
+\[A = \{1, t, t^2, ... , t^{k-1}\}.\]
+For any $x \in [0, t^k -1]$ we have
+\[x = \sum_{i=1}^{k - 1}c_it^i.\]
+Since 
+\[\sum c_i \leq k(t - 1) = k \left \lfloor \frac dk \right \rfloor  \leq d,\]
+we see that $d(0, x) \leq d$. Hence, $\diam(Cay(\Z_{t^k}, \mathcal{A}) \leq d$. Thus we see
+\[m(d, k) \geq t^k  = \left \lfloor \frac dk + 1 \right \rfloor^k. \qedhere\]
+
+
+
+\end{proof}
+
+$m(d,2) =\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1 \text{ for all } d\geq2$. \cite{JiaHsu}
+
+
+We prove a non-trivial lower bound for $m(2,k)$ in the following theorem.
 
  
-\section{New Lower Bound of $m(2, k)$.}
-\subsection{Main Result}
-
+\section{Theorem 1}
  
 \begin{theorem}
 $\displaystyle m(2,k) \geq \frac{37}{121}k^2 + O(k)$  as $ k \to \infty$.
@@ -337,10 +362,7 @@ m(2,k) &\geq 37k_1^2\\
 \end{align*}
 \end{proof}
 
-
-
-
-\subsection{General Case}
+\section{Theorem 2}
 As a corollary, we use the inequality (see \cite{Hsu-Jia:CombinatorialNetworks} for proof)
 \[
 m(d_1+d_2,k_1+k_2) \geq m(d_1,k_1)m(d_2,k_2) 
@@ -382,6 +404,35 @@ m(d,k) &= m(2q+1, du +v)\\
 
 We used a computer program to test candidates for the values that appeared in the proof as the subscripts $\mu,\ \nu$ and $\eta$.  It is likely that our result could be improved upon by a more complicated construction using a larger number of the same types of subsets.  However, testing larger constructions becomes computationally difficult, and there is a theoretical limit of $1/3$ on the leading coefficient of such a construction.
 
+ Let $d$ be a positive integer. We define $n(d, k)$ to be the largest positive integer $n$ such that there exists a subset $\mathcal{A}$ of positive integers with the property that every integer in the interval $[1, n]$ is the sum of at most $d$ not necessarily distinct elements of $\mathcal{A}$. In other words, 
+\[
+n(d, k) = \max_{\scriptstyle \mathcal{A}\subseteq\mathbb Z^{+}\atop\scriptstyle |\mathcal{A}|=k}\{n\  |\ d\cdot \mathcal{A}\supseteq[1, n]\}.
+\]
+The computation of  $n(d, k)$ is often referred as the \emph{postage stamp problem}. The postage stamp problem is an old problem in number theory that has been studied extensively. See \cite{Hsu-Jia:CombinatorialNetworks,Selmer:1986a,Selmer:1986b} for more information. Any basis $\mathcal{A}$ for $[1, n]$ is also a basis for $\Z_n$, so for all positive $d$ and $k$ we have $m(d, k) \geq n(d, k)$.
+
+
+A simple construction shows that 
+\[
+n(2,k)\ge \frac14k^{2}+O(k).
+\]
+ Rohrbach \cite{Rohrbach:1937a} conjectured in 1937 that
+\begin{equation}\label{eqn:Rohrbach's.conjecture.on.n_{alpha}(2,k)}
+n(2,k)\sim\frac14{k^2},
+\end{equation}
+H\"ammerer and Hofmeister \cite{Hammerer-Hofmeister:1976} proved in
+1976 by an explicit construction
+of a $2$-basis that
+\[
+n(2,k)\ge \frac {5}{18}{k^2}+O(k),
+\]
+which disproves the conjecture of Rohrbach
+(\ref{eqn:Rohrbach's.conjecture.on.n_{alpha}(2,k)}).
+The  best known lower bound for $n(2,k)$ was proved by Mrose \cite{Mrose1979}
+\[
+n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\qquad  \text{as}\quad  k \to \infty.
+\]
+ Together with the inequality $m(d, k) \geq n(d, k)$, this lower bound gives a trivial lower bound on $m(2, k)$ which was the best known. 
+
 There are many results for $n(d,k)$ for which analogous results about $m(d,k)$ have not been proved.
 For $n(d,k)$ it is known that for every positive integer $k$ the limit 
 \[
@@ -393,7 +444,6 @@ exists, and the value is known for $k = 1,$ $2$ and $3$.  It is not known whethe
 \]
 exists for every k, and the value is only known for $k = 1$ and $2$. The case where $k$ is variable and $d$ is fixed is relatively unstudied.
 
-\newpage
 \bibliographystyle{plain}	
 \bibliography{myrefs}		
 
