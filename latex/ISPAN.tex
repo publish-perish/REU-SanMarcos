@@ -152,11 +152,7 @@ The focus of this paper is the finite group $\Z_m$; we will denote the Cayley di
 The Cayley digraph of a finite cylic group is called a circulant graph. Cayley digraphs, and circulant graphs in particular are often used as models for interconnection networks. As such, it is natural to want to maximize the number of vertices which can be connected with constraints on diamter and degree.
 For any positive integer $d$ we define
 \[
-<<<<<<< HEAD
-m(d,\mathcal{A}) =\ \max\{m\  \vert\  \diam(Cay(m,\mathcal{A})) \leq d\},
-=======
 m(d,\mathcal{A}) =\ \max\{m \  \vert \  \diam(Cay(m,\mathcal{A})) \leq d\},
->>>>>>> 54555f020961e42000d039012a1ecde11c3a3b9a
 \]
 the largest positive integer $m$ such that the diameter, $d(m,\mathcal{A})$, of the Cayley digraph $Cay(m,\mathcal{A})$ is less than or equal to $d$. For positive integers $d$ and $k$,
 \[
@@ -177,13 +173,30 @@ m(d,2) &=\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1 \text{ for all } d\geq2.
 \[
 n(d, k) = \max_{\scriptstyle \mathcal{A}\subseteq\mathbb Z^{+}\atop\scriptstyle |\mathcal{A}|=k}\{n\  |\ d\cdot \mathcal{A}\supseteq[1, n]\}.
 \]
-The computation of  $n(d, k)$ is often referred as the \emph{postage stamp problem}. The postage stamp problem is an old problem in number theory that has been studied extensively. See  for more information. Any basis $\mathcal{A}$ for $[1, n]$ is also a basis for $\Z_n$, so for all positive $d$ and $k$ we have $m(d, k) \geq n(d, k)$.
+The computation of  $n(d, k)$ is often referred as the \emph{postage stamp problem}. The postage stamp problem is an old problem in number theory that has been studied extensively. See \cite{Hsu-Jia:CombinatorialNetworks,Selmer:1986a,Selmer:1986b} for more information. Any basis $\mathcal{A}$ for $[1, n]$ is also a basis for $\Z_n$, so for all positive $d$ and $k$ we have $m(d, k) \geq n(d, k)$.
 
+
+A simple construction shows that 
+\[
+n(2,k)\ge \frac14k^{2}+O(k).
+\]
+ Rohrbach \cite{Rohrbach:1937a} conjectured in 1937 that
+\begin{equation}\label{eqn:Rohrbach's.conjecture.on.n_{alpha}(2,k)}
+n(2,k)\sim\frac14{k^2},
+\end{equation}
+H\"ammerer and Hofmeister \cite{Hammerer-Hofmeister:1976} proved in
+1976 by an explicit construction
+of a $2$-basis that
+\[
+n(2,k)\ge \frac {5}{18}{k^2}+O(k),
+\]
+which disproves the conjecture of Rohrbach
+(\ref{eqn:Rohrbach's.conjecture.on.n_{alpha}(2,k)}).
 The  best known lower bound for $n(2,k)$ was proved by Mrose \cite{Mrose1979}
 \[
 n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\qquad  \text{as}\quad  k \to \infty.
 \]
-Together with the inequality $m(d, k) \geq n(d, k)$, this lower bound gives a trivial lower bound on $m(2, k)$ which was the best known. We prove a non-trivial lower bound for $m(2,k)$ in the following theorem.
+ Together with the inequality $m(d, k) \geq n(d, k)$, this lower bound gives a trivial lower bound on $m(2, k)$ which was the best known. We prove a non-trivial lower bound for $m(2,k)$ in the following theorem.
 
  
 \section{New Lower Bound of $m(2, k)$.}
@@ -323,10 +336,14 @@ m(2,k) &\geq 37k_1^2\\
 &= \frac{37}{121}k^2 + O(k)\qquad \text{ as }\quad k \to \infty. \qedhere
 \end{align*}
 \end{proof}
+
+
+
+
 \subsection{General Case}
-As a corollary, we use the inequality 
+As a corollary, we use the inequality (see \cite{Hsu-Jia:CombinatorialNetworks} for proof)
 \[
-m(d_1+d_2,k_1+k_2) \geq m(d_1,k_1)m(d_2,k_2)
+m(d_1+d_2,k_1+k_2) \geq m(d_1,k_1)m(d_2,k_2) 
 \]
 for $d_1, d_2 \geq 1$ and $k_1, k_2 \geq 2$ to establish a lower bound for $m(d,k)$ for fixed $d$ as $k \to \infty$.
 \begin{theorem}
@@ -336,7 +353,7 @@ m(d,k) \geq \left(\frac{148}{121}\right)^{\lfloor \frac{d}{2}\rfloor}\left(\frac
 \]
 \end{theorem}
 \begin{proof}
-Let $d = 2q +r$ where $q = \lfloor \frac{d}{2}\rfloor$ and $k = du +v$ where $u = \lfloor \frac{k}{d}\rfloor$.
+Let $d = 2q +r$ where $q =\displaystyle\left \lfloor \frac{d}{2}\right\rfloor$ and $k = du +v$ where $u =\displaystyle \left \lfloor \frac{k}{d}\right\rfloor$.
 
 Then 
 \begin{align*}
@@ -348,6 +365,9 @@ m(d,k) &= m(2q+r, du +v)\\
 &= \left(\frac{148}{121}\right)^{\lfloor \frac{d}{2}\rfloor}\left(\frac{k}{d}\right)^d + O(k^{d-1})
 \end{align*}
 \end{proof}
+
+
+
 \section{Remarks and Open Problems}
 
 We used a computer program to test candidates for the values that appeared in the proof as the subscripts $\mu,\ \nu$ and $\eta$.  It is likely that our result could be improved upon by a more complicated construction using a larger number of the same types of subsets.  However, testing larger constructions becomes computationally difficult, and there is a theoretical limit of $1/3$ on the leading coefficient of such a construction.
