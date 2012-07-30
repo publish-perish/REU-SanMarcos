@@ -115,7 +115,7 @@ In this paper we establish a new lower bound for $m(2, k)$, and then use this to
 
 \section{Introduction}
 Let $\Gamma$ be a finite group with a subset $\mathcal{A}$. The \emph{Cayley digraph}, denoted Cay($\Gamma, \mathcal{A}$), is a digraph with vertex set $\Gamma$, such that ($x, y$) is a directed edge if and only if $yx^{-1}$ $\in$ $\mathcal{A}$.
-The focus of this paper is the finite group $\Z_m$; we will denote the Cayley digraph Cay($\Z_m, \mathcal{A}$) as Cay($m, \mathcal{A}$).
+The focus of this paper is the finite group $\Z_m$; we will denote the Cayley digraph Cay($\Z_m, \mathcal{A}$) as Cay($m, \mathcal{A}$). The Cayley digraph of a finite cylic group is called a circulant graph.
 
 
  \begin{figure}[h]
@@ -180,9 +180,9 @@ The focus of this paper is the finite group $\Z_m$; we will denote the Cayley di
 \end{center}
 \end{figure}
 
-The \emph{Cayley digraph} Cay$(\Z_2^n, \{e_1, e_2, ... , e_n\})$, commonly known as the $n-$cube
+The Cayley digraph Cay$(\Z_2^n, \{e_1, e_2, ... , e_n\})$, commonly known as the $n-$cube  is a well-studied example of a Cayley digraph, and has been used as a model for interconnection networks.  However, $n-$cubes may not be as efficient as circulant graphs of equal degree and diameter.  For example, the above Cay($\Z_{12}$, \{1, 6, 11\}) has the same vertex degree and diameter as the $3-$cube, but more vertices.
 
-The Cayley digraph of a finite cylic group is called a circulant graph. Cayley digraphs, and circulant graphs in particular are often used as models for interconnection networks. As such, it is natural to want to maximize the number of vertices which can be connected with constraints on diamter and degree.
+ Cayley digraphs, and circulant graphs in particular are often used as models for interconnection networks. As such, it is natural to want to maximize the number of vertices which can be connected with constraints on diameter and degree.
 For any positive integer $d$ we define
 \[
 m(d,\mathcal{A}) =\ \max\{m \  \vert \  \diam(Cay(m,\mathcal{A})) \leq d\},
@@ -192,12 +192,11 @@ the largest positive integer $m$ such that the diameter, $d(m,\mathcal{A})$, of 
 m(d, k) = \max_{\scriptstyle \mathcal{A}\subseteq\mathbb Z^{+}\atop\scriptstyle |\mathcal{A}|=k}\{m\  |\  \diam(Cay(m,\mathcal{A})) \leq d\}
 \]
 the maximum modulus $m$ such that there exists a generating set with cardinality equal to $k$ and the diameter of the Cayley digraph is less than or equal to $d$. 
-$\\$
 
-We can clearly see that $m(1,k) = k+1$ and $m(d,1) = d+1$.\\
-For positive integers $d$ and $k$, we have
+It is clear that $m(1,k) = k+1$ and $m(d,1) = d+1$.\\
+In 1974 Wong and Coppersmith proved that, for positive integers $d$ and $k$, we have
 \[
-\left \lfloor \frac dk + 1 \right \rfloor^k \leq m(d, k) \leq  \binom{k + d}k .
+\left \lfloor \frac dk + 1 \right \rfloor^k \leq m(d, k) \leq  \binom{k + d}k . \emph{needs citation}
 \]
 
 
