@@ -353,16 +353,26 @@ m(d,k) \geq \left(\frac{148}{121}\right)^{\lfloor \frac{d}{2}\rfloor}\left(\frac
 \]
 \end{theorem}
 \begin{proof}
-Let $d = 2q +r$ where $q =\displaystyle\left \lfloor \frac{d}{2}\right\rfloor$ and $k = du +v$ where $u =\displaystyle \left \lfloor \frac{k}{d}\right\rfloor$.
-
-Then 
+Let $d = 2q +r$ where $q =\displaystyle\left \lfloor \frac{d}{2}\right\rfloor$ and $k = du +v$ where $u =\displaystyle \left \lfloor \frac{k}{d}\right\rfloor$. \\
+Case 1: $r = 0$:
 \begin{align*}
-m(d,k) &= m(2q+r, du +v)\\
-&= m(2q+r, (2q+r)u +v)\\
+m(d,k) &= m(2q, du +v)\\
+&= m(2q, (2q)u +v)\\
 &\geq m(2q, 2qu) \geq m(2, 2u)^q\\
-&\geq \left(\frac{37}{121}(2u)^2+ O(2u)\right)^q \\
-&= \left(\frac{148}{121} \left(\frac{k-v}{d}\right) ^2+ O(2u)\right)^{\lfloor \frac{d}{2}\rfloor}\\
-&= \left(\frac{148}{121}\right)^{\lfloor \frac{d}{2}\rfloor}\left(\frac{k}{d}\right)^d + O(k^{d-1})
+&\geq \left(\frac{37}{121}(2u)^2+ O(u)\right)^q \\
+&= \left(\frac{148}{121} \left(\frac{k-v}{d}\right) ^2+ O(u)\right)^{ \frac{d}{2}}\\
+&= \left(\frac{148}{121}\right)^{ \frac{d}{2}}\left(\frac{k}{d}\right)^d + O(k^{d-1})
+\end{align*}
+Case 2: $r = 1$:
+\begin{align*}
+m(d,k) &= m(2q+1, du +v)\\
+&= m(2q+1, (2q+1)u +v)\\
+&\geq m(2q+1, 2qu + u) \geq m(2, 2u)^q \cdot m(1,u)\\
+&\geq \left(\frac{37}{121}(2u)^2+ O(u)\right)^q \cdot (u+1) \\
+&= \left(\frac{148}{121} u^2 + O(u)\right)^{ \frac{d-1}{2}} \cdot (u+1)\\
+&= \left(\frac{148}{121}^{ \frac{d-1}{2}} u ^{d-1}+ O(u^{d-2})\right) \cdot (u+1)\\
+&= \frac{148}{121}^{ \frac{d-1}{2}} u ^{d}+ O(u^{d-1})\\
+&= \left(\frac{148}{121}\right)^{ \frac{d-1}{2}}\left(\frac{k}{d}\right)^d + O(k^{d-1})
 \end{align*}
 \end{proof}
 
