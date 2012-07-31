@@ -1,0 +1,270 @@
+\section{Algorithm to Construct a Lower Bound $m(d, k)$}
+
+We now provide an algorithm that takes as an input a set of generators as well as two other permutation sets. These inputs are used to test the ability of a generated lower bound to provide a set covering for our Cayley Graph. The algorithm iterates through permutations of the generating set and possible coverings, giving as an output the maximal generating set as well as the optimal polynomial bound. \n
+The algorithm takes advantage of the fact that there exists a one-to-one correspondance between representations of the residual classes of $\Z_m$ and the set of integers $[0, m-1]$.\n
+
+\subsection{Polynomial Construction}
+\noindent
+Let $d$ be the diameter for $\Cay(m, \mathcal{A})$.\n 
+
+\subsubsection{Permutations of Generators and Coefficients}
+The algorithm producing generators and coefficients with which the lower bound is constructed is the heart of functionality for the algorithm. \n
+The permutations tested may be stored as data structures or file tables.
+
+\noindent
+Given $d$ define \emph{\bf{$d_{1}$ fixed}} to be $\frac{d}{\lambda}$. This will be the $d$ referred to in the algorithm.\n
+
+The purpose of the following data structures is to provide containers for the following:\n
+Define $\mathcal{A}$ to be a \emph{set of generators}, $\mathcal{A} = \{ (a_{i}) \vert a_{i+1} = \alpha_{i}a_{i},  \forall i \in [0, k-1] \} $, with $a_i$ a sequence of nonnegative coefficients, and $\vert \mathcal{A} \vert = k$.\n
+Define a \emph{set of non-negative coefficients} $c_1, c_2, .. , c_k$ such that $a_{i+1} = \alpha_{i}a_{i} \lambda$, where ($\alpha_{i}$) is any sequence of coefficients.\n
+Lastly, define a \emph{second set of non-negative coefficients} $x_1, x_2, .., x_{k}$ such that $x_{i+1} < d - \sum_{0}^{i}x_i$.
+\noindent
+Assume that the set of generator combinations is defined as an unordered list of tuples, the sequences of coefficients are defined as ordered lists of tuples.
+
+\subsubsection*{Tuple Data Structure}
+
+\begin{lstlisting}
+
+template<TP, N>
+class Tuple{
+
+    vector<TP> data; // class contains an N-vector of type TP
+
+    ...
+};
+
+\end{lstlisting}
+
+\subsubsection*{Construction of the Permutations}
+
+\begin{lstlisting}
+
+typedef Tuple<int, k> T;
+
+
+// Construction of X-Coefficients
+for(x1 = d; x1 >= 0; --x1)
+{
+  for(x2 = d - x1; x2 >= 0; --x2)
+  {
+     for(x3 = d - x1 - x2; x3 >= 0; --x3) 
+     {
+        ...
+            for(xk = d - x1 - x2 - x3 - .. - xk; xk >= 0; --xk)
+            {
+                 if(x1 + x2 + x3 + .. +xk <= d - k)
+                 {
+                      out << T(xk, xk-1, .. , x1); // In this case we are storing in a data file.
+                      ++size;
+                 }
+            }
+        ...
+     }	
+  }
+}
+
+// Construction of M-Coefficients
+for(int c1 = 1; c1 < (d^k / (k! * a1 * a2 * .. * ak-1)); ++c1)
+{
+  for(int c2 = 1; c2 < a1; ++c2)
+  {
+     for(int c3 = 1; c3 < a2; ++c3)
+     {
+         ...
+             for(ck = 1; ck < ak-1; ++ck)
+             {
+
+                 out << T(ck, ck-1, .. , c1);
+                 ++size;
+             }
+         ...
+     }
+  }
+}
+
+// Construction of Generators
+for(a1 = 2; a1 < (d^k / k!); a1++) // We are using the trivial lower bound to constrain the size of the generators.
+{
+  for(a2 = 2; a2 < (d^k / k!); a2++)
+  {
+        ...
+             if(a1 * a2 * .. * ak-1 < d^k / k!)
+             {
+                 out<< T(a1 * a2 *.. * ak-1, a2 * a3 * .. ak-1, ... , ak-1, 1);
+                 ++size;
+             }
+        ...
+  }
+}
+
+
+\end{lstlisting}
+
+\subsubsection{Polynomial Construction}
+
+Our lower bound on $m(d, k)$ will be defined as $m(d, k) = a_{i}c_{i} \lambda$. To determine the validity of the lower bound, we compute every point in $d \mathcal{A}$ as a polynomial in terms of $\lambda$.\n
+
+\begin{lstlisting}
+
+Polynomial P(Tuple A, Tuple Y);
+
+\end{lstlisting}
+
+\noindent
+($\lambda$ is a large number determined by $d$. The parameter $\lambda$ will not appear in the code, but it enables us to compute a lower bound as a function of $d$.)\n
+
+\subsection*{Polynomial Data Structure} The basic polynomial data structure may be defined as follows:
+
+\begin{lstlisting}
+
+class Polynomial{
+
+    Tuple A;  // container for Generators
+    Tuple Y;  // container for M-Coefficients or X-Coefficients
+
+    ...
+};
+
+\end{lstlisting}
+
+In the case where Polynomial \lstinline{P.Y} is a container for the M-Coefficients, the class instance is a representation of the polynomial $x$. In the case where \lstinline{P.Y} is a container for the X-Coefficients, the class instance is a representation of $X'$.
+\lstinline{P.Y[0]} will refer to the largest polynomial coefficient. \lstinline{P.A[0]} will refer to the largest corresponding generator.
+
+\subsubsection{Constructing a Representative Class of Polynomials}
+
+For all constructed polynomials $x = x_1a_{1} + x_2a_{2} + .. + x_{k}a_{k}$, we define a representative $x' \in [1, m-1]$ to which we will map all congruent polynomials, forming our residue class $\bar{x}$ of regular polynomials.\n
+
+\begin{proposition} 
+$ \{ (x_1, x_2, ... , x_k) \vert x_{1} \leq c_1, x_{2} \leq c_2, .. , x_{k} \leq c_k$, and $\sum_{i} x_i \leq d_{1} \}$ define polynomials $x$ that are considered to be \textbf{minimal}.\n
+\end{proposition}
+\begin{proposition}
+The constructed polynomial $x$ is defined to be \textbf{regular} if $x \in [0, m-1]$.
+\end{proposition}
+We will use regular polynomials to determine whether or not $d \mathcal{A} = \Z_m$ by only considering a single covering of $\Z_m$.\n
+\noindent
+Note that a regular polynomial need not be minimal.\n
+\noindent
+We check for regularity by comparing the coefficients $(x_1, x_2, .. , x_{k})$ and $(c_1, c_2, .. , c_k)$ from their respective polynomials.\n
+
+\begin{proposition}
+$\forall x \in d \mathcal{A}$ if $x \notin [0, m-1]$, we can identify $x$ with point $x' = (x'_1, x'_2, .. , x'_k) \in [0, m-1]$ congruent to $x$ $(mod$ $m)$.  Then if every point $n \in \Z_m$ is either equal to some $x$ or $x'$, then $d \mathcal{A} \cong \Z_m$.\n
+\end{proposition}
+
+\noindent
+Consider the case, $x > m(d, k)$, where $x$ is not regular. We perform a recursive polynomial subtraction of the coefficients where $c_1, c_2, c_3$ is subtracted term-by-term from $x_1, x_2, x_3, ... , x_k$. The resulting low-order coefficients are then forced to be positive by adding the generator associated with the next higher-order term.\n
+
+\begin{lstlisting}
+
+// Overloaded polynomial subtraction operator.
+Polynomial Polynomial::operator-(Polynomial m)
+{
+    loop:
+    while( Y > rhs.Y )
+    {
+          Y = T(Y[0] - rhs.Y[0], Y[1] - rhs.Y[1], Y[2] - rhs.Y[2], ... , Y[k] - rhs.Y[k]);
+    }
+    while( Y[1] < 0 )
+    {
+          Y = T(Y[0], Y[1] + (A[0] / A[1]), Y[2], ... , Y[k]);
+    }
+    while( Y[2] < 0 )
+    {
+          Y = T(Y[0], Y[1], Y[2] + (A[1] / A[2]), ... , Y[k]);
+    }
+    while( Y[3] < 0 )
+    {
+          Y = T(Y[0], Y[1], Y[2], Y[3] + (A[2] / A[3]), ... , Y[k]);
+    }
+
+    ...
+
+    while( Y[k] < 0 )
+    {
+         Y = T(Y[0], Y[1], Y[2], Y[3] + (A[2] / A[3]), ... , Y[k] + (A[k-1] / A[k]));
+
+    }
+    if( Y > rhs.Y ){ goto loop; } 
+
+    return *this;
+}
+\end{lstlisting}
+
+\subsubsection{Construction of the Polynomial Bound}
+
+To construct a lower bound, we systematically check combinations of generators $\mathcal{A}$ and coefficients, and record the largest $m$ (and corresponding generators) such that a covering by $d \mathcal{A}$ is achieved.\n
+We will require that our polynomial representatives be well-formed.
+
+\begin{proposition}
+Define $x'$ to be \textbf{well-formed} if $\forall x_i, x_i <= c_{i+1}$.  
+\end{proposition}
+
+\begin{lstlisting}
+
+\\ Define a class function to return m, the summation of our polynomial bound.
+TP Polynomial::value()
+{
+    return (a1*y1 + a2*y2 +   + ak*yk);
+}
+
+\\ Define a class function to check that x' is well-formed
+bool Polynomial::wellFormed()const
+{
+       return (Y[1] < ( A[0] / A[1]) && Y[2] < (A[1] / A[2]) && .. && Y[k] < (A[k-1] / A[k]));
+}
+
+\end{lstlisting}
+
+\begin{proposition}
+$\forall n \in \Z_m$, where n is the residue class of $\Z_m$, if $\exists  x$ such that $\bar{x} = \bar{x'}= n$, then $d \mathcal{A} = \Z_m$.\n
+\end{proposition}
+
+\noindent
+We will use a boolean array in order to check the congruence of the representative set with $\Z_m$. Note that in order for the tuple comparison to function properly, the comparisons should be done in lexigraphical order.
+
+\begin{lstlisting}
+
+Polynomial mbest; // Container for our best lower bound m.
+
+vector<bool> cover;
+T A; // Container for a generating set.
+T Q; // Container for a set of M-Coefficients
+T x; // Container for a set of X-Coefficients.
+// NOTE: The A, Q, and X tuples are retrieved from a file or data structure.
+
+for(i = 0; i < sizeof(generators) // Number of generating sets. ; ++i)
+{
+    T A(ak, ak-1, .., a1);
+
+    for(j = 0; j < sizeof(mcoeffs) // Number of m-coefficients. ; ++j)
+    {
+         T Q(ck, ck-1, .., c1); 
+ 
+         Polynomial M(A, Q); // Create initial polynomial representation of the lower bound.
+   
+         cover.clear(); 
+         if((M.value() > mbest.value())) // Ignore M that are too small.
+         {
+            for(k = 0; k < sizeof(xcoeffs) // Number of x-coefficients. ; ++k)
+            {
+                T x(xk, xk-1, .., x1);
+
+                Polynomial X(A, x); // Create our initial representative.
+                Polynomial X_prime(X-M); // Enforce regularity.
+                if(X_prime.wellFormed())
+                { 
+                    cover.push_back(1);
+                }
+            }
+            if(accumulate(cover.begin(),cover.end(),0) == M.value())
+            {
+                mbest = M; // Store improved lower bound.
+            }
+         }
+    }
+}
+
+\end{lstlisting}
+
+\subsubsection*{Parallelization}
+
+The looping nature of the program makes it a natural candidate for optimization using parallel processing techniques. In this case, we have used a cluster (INSERT CLUSTER INFO HERE). The largest dataset that is iterated over is the M-Coefficients, and can be a "bottleneck" in the program. Parallelization solves this problem by allowing a number of nodes that compute extremely large datasets to compute without completion. The effect of the multiple processes is that we are able to check a larger set of generators, in fact checking up to the current trivial lower bound of $frac{d^k}{k!}i$. (ADD MORE ANALYSIS OF THE CLUSTER HERE).
