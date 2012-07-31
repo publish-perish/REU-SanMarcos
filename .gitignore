@@ -2,6 +2,7 @@
 *.sty
 *.toc
 *.log
+*.cls
 *.out
 *.nav
 *.snm
