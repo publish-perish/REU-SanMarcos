@@ -1,2 +1,12 @@
+#!/bin/bash
+
+EXPECTED_ARGS=1
+E_BADARGS=65
+
+if [ $# -ne $EXPECTED_ARGS ]
+    then
+      echo "Usage: run diam"
+        exit $E_BADARGS
+        fi
 make
-./executables/average_case 12
+./executables/average_case $1 

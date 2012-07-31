@@ -2,14 +2,15 @@
 
 Polynomial::Polynomial()
 {
-
-   A = T6(0, 0, 0, 0, 0, 0);
-   Y = T6(0, 0, 0, 0, 0, 0);
+   vector<int> list;
+   list.resize(A.size());
+   A = T(list);
+   Y = T(list);
    s = 0;
 }
 
 
-Polynomial::Polynomial(T6 a, T6 y)
+Polynomial::Polynomial(T a, T y)
 
 {
    A = a;
@@ -31,40 +32,55 @@ int Polynomial::value()const
 
 int Polynomial::sum()const
 {
-   return((A[0]*Y[0]) + (A[1]*Y[1]) +(A[2]*Y[2]) + (A[3]*Y[3]) +(A[4]*Y[4]) +(A[5]*Y[5]));
+   int sum=0, i;
+   for(i=0; i<Y.size(); ++i)
+   {
+       sum += A[i]*Y[i];
+   }
+   return sum;
 }
 
 bool Polynomial::wellFormed()const
 {
-return ( ( Y[5] < A[4] ) && (Y[4] < (A[3]/ A[4])) && ( Y[3] < (float)( A[2] / A[3]) ) && ( Y[2] < (float)( A[1] / A[2]) ) && ( Y[1] < (float)( A[0] / A[1]) ) );
-
+   if(Y[5] < (float)(A[0]/A[5])) return false;
+   else if(Y[9] < (float)(A[5]/A[9])) return false;
+   else if(Y[12] < (float)(A[9]/A[12])) return false;
+   else if(Y[14] < (float)(A[12]/A[14])) return false;
+   return true;
 }
 
 bool Polynomial::operator==(const Polynomial &p)
 {
-   return((p.Y[0]==Y[0]) && (p.Y[1]==Y[1]) && (p.Y[2]==Y[2]) && (p.Y[3]==Y[3]) && (p.Y[4]==Y[4]) && (p.Y[5]==Y[5]) );
+    int i;
+    for(i=0; i<Y.size(); ++i)
+    {
+        if(Y[i] != p.Y[i]) return false;
+    }
+    return true;
 }
 
 bool Polynomial::operator>=(const Polynomial &p)
 {
-return(
-(p.Y[0]>=Y[0]) || 
-((p.Y[0]==Y[0]) && (p.Y[1]>=Y[1])) ||
-((p.Y[0]==Y[0]) && (p.Y[1]==Y[1]) &&(p.Y[2]>=Y[2])) ||
-((p.Y[0]==Y[0]) && (p.Y[1]==Y[1]) &&(p.Y[2]==Y[2]) && (p.Y[3]>=Y[3])) ||
-((p.Y[0]==Y[0]) && (p.Y[1]==Y[1]) &&(p.Y[2]==Y[2]) && (p.Y[3]==Y[3]) && (p.Y[4]>=Y[4]) ) ||
-((p.Y[0]==Y[0]) && (p.Y[1]==Y[1]) &&(p.Y[2]==Y[2]) && (p.Y[3]==Y[3]) && (p.Y[4]==Y[4]) && (p.Y[5]>=Y[5]) )
-);
 }
 
 bool Polynomial::operator!=(const Polynomial &p)
 {
-   return((p.Y[0]!=Y[0]) || (p.Y[1]!=Y[1]) || (p.Y[2]!=Y[2]) || (p.Y[3]!=Y[3]) || (p.Y[4]!=Y[4]) || (p.Y[5]!=Y[5]));
+    int i;
+    for(i=0; i<Y.size(); ++i)
+    {
+        if(Y[i] == p.Y[i]) return false;
+    }
+    return true;
 }
 
 bool Polynomial::operator!=(int num) 
 {
-   return((Y[0]!=num) || (Y[1]!=num) || (Y[2]!=num) || (Y[3]!=num) || (Y[4]!=num) || (Y[5]!=num));
+    int i;
+    for(i=0; i<Y.size(); ++i)
+    {
+        if(Y[i] == num) return false;
+    }
+    return true;
 }
 
 Polynomial Polynomial::operator=(const Polynomial &p)
@@ -80,40 +96,102 @@ Polynomial Polynomial::operator=(const Polynomial &p)
 
 Polynomial Polynomial::operator-(Polynomial m) 
 {
-
+    int i, j, offset[4] = {5, 9, 12, 14};
     loop:
     while( Y > m.Y )
     {
-        ++this->s.m_subtracted;
-        this->Y = T6(Y[0] - m.Y[0], Y[1] - m.Y[1], Y[2] - m.Y[2], Y[3] - m.Y[3], Y[4] - m.Y[4], Y[5] - m.Y[5] );
+    cout<<"Subtracting m : "<<*this<<" minus "<< m<< " with generators "<<A;
+        ++s.m;
+        for(i=0; i<Y.size(); ++i)
+        {
+            Y[i] -= m.Y[i];
+        }
     }
-	while( Y[5] < 0 ) // borrow b
+    cout<<"Subtracted "<<s.m<<" M to get "<<*this;
+    for(i=1; i<5; ++i) // carry from first term
     {
-          ++this->s.b_borrowed;
-          this->Y = T6(Y[0], Y[1], Y[2], Y[3], Y[4], Y[5] + A[4]);  
-    }
-	while( Y[4] < 0 ) //borrow c
+        while(Y[i] >= A[offset[i-1]])
+        {
+            cout<<"Carrying b"<<i<<" by subtracting A"<<j<<"= "<<A[j]<<" from Y"<<j<<"= "<<Y[j]<<endl;
+            for(j=i; j<(offset[i]-offset[i-1]); ++j)
+            {cout<<"A"<<j<<"="<<A[j]<<" Y"<<j<<"="<<Y[j]<<"\n";
+                Y[j] -= A[j];
+                --s.b[j];
+            }
+        }
+    }cout<<"M : "<<*this;
+	while( Y[5] < 0 ) // borrow from first term
     {
-          ++this->s.c_borrowed;
-          this->Y = T6(Y[0], Y[1], Y[2], Y[3], Y[4] + A[3], Y[5]); 
-    }
-    while( Y[3] < 0 ) //borrow d
+          cout<<"Borrowing b\n";
+          for(i=5; i<17; ++i)
+          {
+              Y[i] += A[i-1];
+              ++s.b[i];
+          }
+    }cout<<"M : "<<*this;
+    for(i=6; i<9; ++i) // carry from second term
     {
-          ++this->s.d_borrowed;
-		  this->Y = T6(Y[0], Y[1], Y[2], Y[3] +A[2], Y[4], Y[5]);
+        while(Y[i] >= A[offset[i-6]])
+        {
+            cout<<"Carrying c"<<i<<"\n";
+            for(j=i; j<(offset[i]-offset[i-6]); ++j)
+            {
+                Y[j] -=A[j];
+                --s.c[i];
+            }
+        }
     }
-    while( Y[2] < 0 ) //borrow e
+	while( Y[9] < 0 ) // borrow from second term
     {
-          ++this->s.e_borrowed;
-          this->Y = T6(Y[0], Y[1], Y[2] + A[1], Y[3], Y[4], Y[5]);
-
+          cout<<"Borrowing c\n";
+          for(i=9; i<17; ++i)
+          {
+              Y[i] += A[i-1];
+              ++s.c[i];
+          }
     }
-    while( Y[1] < 0 ) //borrow f
+    for(i=10; i<12; ++i) // carry from third term
     {
-          ++this->s.f_borrowed;
-          this->Y = T6(Y[0], Y[1]+A[0], Y[2], Y[3], Y[4], Y[5]);
+        while(Y[i] >= A[offset[i-10]])
+        {
+            cout<<"Carrying d\n";
+            for(j=i; j<(offset[i]-offset[i-10]); ++j)
+            {
+                Y[j] -= A[j];
+                --s.d[j];
+            }
+        }
     }
-    
+    while( Y[13] < 0 ) //borrow from third term
+    {
+          cout<<"Borrowing d\n";
+          for(i=13; i<17; ++i)
+          {
+              Y[i] += A[i-1];
+              ++s.d[i];
+          }
+    }
+    for(i=13; i<15; ++i) // carry from first term
+    {
+        while(Y[i] >= A[offset[i-13]])
+        {
+            cout<<"Carrying e"<<i<<"\n";
+            for(j=i; j<(offset[i]-offset[i-13]); ++j)
+            {
+                Y[j] -= A[j];
+                --s.d[j];
+            }
+        }
+    }
+    while( Y[15] < 0 ) //borrow from fourth term
+    {
+          cout<<"Borrowing e\n";
+          for(i=15; i<17; ++i)
+          {
+              ++s.e[i];
+              Y[i] += A[i-1];
+          }
+    }
     if( Y > m.Y ){ goto loop; } 
 
 
@@ -123,14 +201,24 @@ Polynomial Polynomial::operator-(Polynomial m)
 std::ostream& operator<<(std::ostream& ostr, const Polynomial &p)
 {
 
-ostr << p.Y[0] << "f + " << p.Y[1] << "e + " << p.Y[2] <<"d + " << p.Y[3] << "c + " << p.Y[4] <<"b + " << p.Y[5] << "a \n";
+ostr <<"A : ("<< p.Y[0] <<" " << p.Y[1] << " " << p.Y[2] <<" " << p.Y[3] << " " << p.Y[4] <<")\n";
+ostr <<"B : ("<< p.Y[5] << " "<< p.Y[6]<< " "<< p.Y[7] <<" "<< p.Y[8] <<")\n";
+ostr <<"C : ("<< p.Y[9] <<" "<<p.Y[10] <<" " <<p.Y[11] <<")\n";
+ostr <<"D : ("<< p.Y[12] <<" "<<p.Y[13]<<")\n";
+ostr <<"E : "<<p.Y[14]<<"\n";
+ostr <<"F : "<< p.Y[15] <<"\n";
 
 }
 
 std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
 {
 
-ofstr << p.Y[0] << "f + " << p.Y[1] << "e + " << p.Y[2] <<"d + " << p.Y[3] << "c + " << p.Y[4] <<"b + " << p.Y[5] << "a \n";
+ofstr <<"A : ("<< p.Y[0] <<" " << p.Y[1] << " " << p.Y[2] <<" " << p.Y[3] << " " << p.Y[4] <<")\n";
+ofstr <<"B : ("<< p.Y[5] << " "<< p.Y[6]<< " "<< p.Y[7]<< " "<< p.Y[8] <<")\n";
+ofstr <<"C : ("<< p.Y[9] <<" "<<p.Y[10] <<" " <<p.Y[11] <<")\n";
+ofstr <<"D : ("<< p.Y[12] <<" "<<p.Y[13]<<")\n";
+ofstr <<"E : "<<p.Y[14]<<"\n";
+ofstr <<"F : "<< p.Y[15] <<"\n";
 
 }
 

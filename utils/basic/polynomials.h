@@ -21,12 +21,12 @@ class Polynomial{
 
       //Polynomial(T &a, T &y);
       //Polynomial(T a, int, int, int);
-      Polynomial(T6 a, T6 y);
-      Polynomial(T6 a, int, int, int, int, int);
+      Polynomial(T a, T y);
+      Polynomial(T a, int, int, int, int, int);
       Polynomial(const Polynomial&);
 
-      T6 A;
-      T6 Y;
+      T A;
+      T Y;
       Subtractions s;
 
 
