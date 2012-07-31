@@ -1,9 +1,11 @@
 *.aux
+*.sty
 *.toc
 *.log
 *.out
 *.nav
 *.snm
+*.gz
 *.pdf
 *.*~
 *.swp
