@@ -15,17 +15,17 @@ void XCoTable::makeXCoTable(int diam, int numprocs)
     if(out.is_open()){
         for(int i=diam; i >= 0; --i)
         {
-	    for(int j=diam-i; j >= 0; --j)
-	    {
-		    for(int k=diam-j-i;k >= 0; --k) //filter them in holding tank, then add to file
-		    {
-		    if(i+j+k <= diam - 3)
-		    {
-          		   	out << T(i,j,k);
-          		   	++size;
-		    }			
-		    }	
-	    }
+for(int j=diam-i; j >= 0; --j)
+{
+for(int k=diam-j-i;k >= 0; --k) //filter them in holding tank, then add to file
+{
+if(i+j+k <= diam - 3)
+{
+           out << T(i,j,k);
+           ++size;
+}	
+}	
+}
         }}
 
     out << endl;
@@ -46,14 +46,14 @@ void MCoTable::makeMCoTable(int diam, int b, int c1, int rank)
    if(out.is_open()){
     for(int i=1; i < (diam*diam*diam / (b*c1)); ++i)
     {
-	    for(int j=1; j < (b); ++j)
-	    {
-		    for(int k=1; k < (c1); ++k) //filter them in holding tank, then add to file
-		    {
-      		   	out << T(i, j, k);
-      		   	++size;
-		    }
-	    }
+for(int j=1; j < (b); ++j)
+{
+for(int k=1; k < (c1); ++k) //filter them in holding tank, then add to file
+{
+       out << T(i, j, k);
+       ++size;
+}
+}
     }}
     out << endl;
     out.close();
@@ -61,22 +61,22 @@ void MCoTable::makeMCoTable(int diam, int b, int c1, int rank)
 }
 
 
-void GenTable::makeGenTable(int diam)  //order: c, b, 1
+void GenTable::makeGenTable(int diam) //order: c, b, 1
 {
     size =0;
     std::ofstream out("./permutationtables/GenTable.txt");
     if(out.is_open()){
     for(int i=2; i < (diam*diam*diam/6); i++)
     {
-	    for(int j=2; j < (diam*diam*diam/6); j++)
-	    {
+for(int j=2; j < (diam*diam*diam/6); j++)
+{
           for(int k=0; k < j && k < i; k++)
           {
-	       T4 A(i*j, k, j, 1);
-		    if(i*j < (diam*diam*diam/6) ) 
+T4 A(i*j, k, j, 1);
+if(i*j < (diam*diam*diam/6) )
             {
-         	    out << A;
-         	    size++;
+          out << A;
+          size++;
             }
          }
         }

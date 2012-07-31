@@ -5,11 +5,11 @@
 
 int main()
 {
-   T v = T(1, 0, 1);  
-//   T a = T(3, 3, 1);
+   T v = T(1, 0, 1);
+// T a = T(3, 3, 1);
    T q = T(1, 0, 0);
    std::cout<<v;
-//   std::cout<<a;
+// std::cout<<a;
    std::cout<<q;
    //Polynomial m(a, q);
    //std::cout<<"m "<< m;

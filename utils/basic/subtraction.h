@@ -1,4 +1,3 @@
-
 #ifndef SUBTRACTION_H
 #define SUBTRACTION_H
 
@@ -34,5 +33,6 @@ class Subtractions{
 
 
 #endif
+
 
 

@@ -73,7 +73,7 @@ cout<< "x "<<x<<endl<<endl;
                 covered = false;cout<< "not covering "<<i<<endl;
                 break;
              }
-             cout<<"i "<<i<<endl;
+             //cout<<"i "<<i<<endl;
           }
           if(covered)
           {cout<<"covering "<<endl;

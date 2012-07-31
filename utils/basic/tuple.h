@@ -244,31 +244,31 @@ bool eq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
 template<typename TP, int N>
 bool neq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
  if (lhs.data.size() == 1){ return lhs[0] != rhs[0]; }
- else return lhs[0] != rhs[0]  || neq(lhs.get_tail(), rhs.get_tail());
+ else return lhs[0] != rhs[0] || neq(lhs.get_tail(), rhs.get_tail());
 }
 
 template<typename TP, int N>
 bool lt(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
     if (lhs.data.size() == 1){ return lhs[0] < rhs[0]; }
-    else return lhs[0] < rhs[0]  || ( !(rhs[0] < lhs[0]) && lt(lhs.get_tail(), rhs.get_tail()));
+    else return lhs[0] < rhs[0] || ( !(rhs[0] < lhs[0]) && lt(lhs.get_tail(), rhs.get_tail()));
 }
 
 template<typename TP, int N>
 bool gt(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
     if (lhs.data.size() == 1){ return lhs[0] > rhs[0]; }
-    else return lhs[0] > rhs[0]  || ( !(rhs[0] > lhs[0]) && gt(lhs.get_tail(), rhs.get_tail()));
+    else return lhs[0] > rhs[0] || ( !(rhs[0] > lhs[0]) && gt(lhs.get_tail(), rhs.get_tail()));
 }
 
 template<typename TP, int N>
 bool lteq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
   if (lhs.data.size() == 1){ return lhs[0] <= rhs[0]; }
-  else return lhs[0] <= rhs[0]  && ( !(rhs[0] <= lhs[0]) || lteq(lhs.get_tail(), rhs.get_tail()));
+  else return lhs[0] <= rhs[0] && ( !(rhs[0] <= lhs[0]) || lteq(lhs.get_tail(), rhs.get_tail()));
 }
 
 template<typename TP, int N>
 bool gteq(const Tuple<TP, N>& lhs, const Tuple<TP, N>& rhs) {
   if (lhs.data.size() == 1){ return lhs[0] >= rhs[0]; }
-  else return lhs[0] >= rhs[0]  && ( !(rhs[0] >= lhs[0]) || gteq(lhs.get_tail(), rhs.get_tail()));
+  else return lhs[0] >= rhs[0] && ( !(rhs[0] >= lhs[0]) || gteq(lhs.get_tail(), rhs.get_tail()));
 }
 
 

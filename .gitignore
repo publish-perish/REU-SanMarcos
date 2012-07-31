@@ -1,6 +1,13 @@
 *.aux
+*.sty
 *.toc
 *.log
+*.cls
+*.out
+*.nav
+*.snm
+*.gz
+*.pdf
 *.*~
 *.swp
 executables/*

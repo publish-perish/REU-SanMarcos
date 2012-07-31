@@ -28,9 +28,9 @@ int Polynomial::value()const
    return (A[0]*Y[0]);
 }
 
-int Polynomial::sum()const
+int Polynomial::sum()const //?
 {
-   return(((A[0]+A[1])*Y[0]) + (A[2]*Y[1]) +(A[3]*Y[2]));
+   return(  (A[0]*Y[0]) + (A[1]*Y[0]) + (A[2]*Y[1]) +(A[3]*Y[2]) ) ;
 }
 
 bool Polynomial::wellFormed()const
@@ -68,7 +68,7 @@ Polynomial Polynomial::operator-(Polynomial m)
         //std::cout<<"result from m subtraction # "<<n<<": "<<*this;++n;
         //*this = temp - m; // recursive call
     }
-    while( Y[1] < 0 )
+    while( Y[1] < 0 ) // borrow c
     {
           ++this->s.c_borrowed;
           //std::cout<<"c borrowed: "<<this->s.c_borrowed<<std::endl;
@@ -76,11 +76,27 @@ Polynomial Polynomial::operator-(Polynomial m)
           //std::cout<<"result from C borrow # "<<n<<": "<<*this;++n;
           //*this = temp - m;
     }
-    while( Y[2] < 0 )
+    while( Y[1] > (A[0] / A[2]) ) // carry c
+    {
+          --this->s.c_borrowed;
+          //std::cout<<"b borrowed: "<<this->s.b_borrowed<<std::endl;;
+          this->Y = T(Y[0], (Y[1] - (A[0] / A[2]) ), (Y[2]- A[1]));
+          //std::cout<<"result from B borrow # "<<n<<": "<<*this;++n;
+          //*this = temp - m;
+    }
+    while( Y[2] < 0 ) // borrow b
     {
           ++this->s.b_borrowed;
           //std::cout<<"b borrowed: "<<this->s.b_borrowed<<std::endl;;
           this->Y = T(Y[0], Y[1], (Y[2]+A[2]));
+          //std::cout<<"result from B borrow # "<<n<<": "<<*this;++n;
+          //*this = temp - m;
+    }
+    while( Y[2] >= A[2] ) // carry b
+    {
+          --this->s.b_borrowed;
+          //std::cout<<"b borrowed: "<<this->s.b_borrowed<<std::endl;;
+          this->Y = T(Y[0], Y[1], (Y[2]-A[2]));
           //std::cout<<"result from B borrow # "<<n<<": "<<*this;++n;
           //*this = temp - m;
     }
