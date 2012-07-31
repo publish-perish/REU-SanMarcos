@@ -30,4 +30,3 @@ tuple.o: ./utils/math/tuple.cpp
 	mpic++ $(INC) $(CFLAGS) -c -o executables/tuple.o ./utils/math/tuple.cpp
 clean:
 	rm executables/* permutationtables/*
-

@@ -50,17 +50,17 @@ int main (int argc, char *argv[]) {
 
   int rank, numprocs, i, err=0, numgens=0;
   const int diam = atoi(argv[1]);
-  const int d_4 = diam*diam*diam*diam; 
+  const int d_4 = diam*diam*diam*diam;
   const double lowerbound = (argv[2]) ? atoi(argv[2]) : (d_4/16.0);
   clock_t start, end;
   Polynomial mbest;
 
   start = clock();
 
-  // Init MPI & get numprocs and rank 
+  // Init MPI & get numprocs and rank
   MPI_Init(&argc,&argv);
   err = MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  err = MPI_Comm_size(MPI_COMM_WORLD, &numprocs); 
+  err = MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
   if(err){
       fprintf(stderr,"Catastrophic MPI problem.\n");
       MPI_Abort(MPI_COMM_WORLD,1);
@@ -74,7 +74,7 @@ int main (int argc, char *argv[]) {
        master(diam, numprocs, mbest, numgens);
     }
    // MPI_Barrier(MPI_COMM_WORLD);
-    if(rank != 0){ 
+    if(rank != 0){
         slave(diam, numprocs);
     }
 
@@ -93,7 +93,7 @@ int main (int argc, char *argv[]) {
     if(rank == 0){
         printf("%d Generators checked. \n", numgens);}
     if(mbest.A[0] != 0 && rank == 0){
-        printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.Y[0], mbest.Y[1], mbest.Y[2]); 
+        printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d), Location: (%d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.Y[0], mbest.Y[1], mbest.Y[2]);
     }else if(rank == 0){printf("\nProcesses did not find a cover \n");
         printf("\nProgram ran for %f seconds \n\n",(double)(end - start)/(double)CLOCKS_PER_SEC);}
     
@@ -103,13 +103,14 @@ int main (int argc, char *argv[]) {
 
 void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
 {
+
    // Buffers
    Poly sendbuf[numprocs], recvbuf[numprocs];
    MPI_Request request;
    MPI_Status status;
 
    int i, err=0, I=2, J=2, K=0;
-   
+   clock_t start, end;
    // Assign generators to each process.
    for(i=0; i<numprocs-1; ++i)
    {
@@ -121,11 +122,11 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
       sendbuf[i].A.y = A_init[2];
       sendbuf[i].A.x = A_init[3];
 
-      if((K < J) && (K < I)){ ++K;}
+      if((K + 1 < J && K + 1 < I )){ ++K;}
       else{ K=0;
-      if(J + 1 < diam*diam*diam/(6*I)){ ++J;}
+      if(J + 1 < diam*diam*diam/(6*I) && J < diam){ ++J;}
       else{ J=2;
-      if(I < diam*diam*diam/(6*J)){ ++I;}
+      if(I < diam*diam*diam/(6*J)&& I < diam){ ++I;}
       else break; }}
 
 //printf("Master Sending (%d %d %d %d) to %d \n",sendbuf[i].A.z1, sendbuf[i].A.z2, sendbuf[i].A.y, sendbuf[i].A.x, i+1);
@@ -133,13 +134,13 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
       if(err){
         fprintf(stderr,"Failed to send.\n");
         MPI_Abort(MPI_COMM_WORLD,1);
-      }   
+      }
    }
    
    // As processes finish, assign them new generators.
-      while(I < diam*diam*diam/(J*6)){cout<<"Stuck in while loop\n";
+      while(I < diam*diam*diam/(2*6) && I < diam){//cout<<"Stuck in while loop\n";
       for(i=0; i<numprocs-1; ++i)
-      { 
+      {
 //printf("Waiting for return from slave %d \n", i+1);
           err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,i+1,WORKTAG,MPI_COMM_WORLD,&status);
           if(err){
@@ -156,7 +157,7 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
           if(M.value() > mbest.value())
           {
               mbest.A = M.A; mbest.Y = M.Y;
-              printf("New M found by slave %d : Generators : (%d %d %d %d %d), Coeffs : (%d %d %d %d %d)", status.MPI_SOURCE, recvbuf[i].A.z, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].A.w, recvbuf[i].A.v, recvbuf[i].Y.z, recvbuf[i].Y.y, recvbuf[i].Y.x, recvbuf[i].Y.w, recvbuf[i].Y.v);
+              printf("New M found by slave %d : Generators : (%d %d %d %d), Coeffs : (%d %d %d %d)", status.MPI_SOURCE, recvbuf[i].A.z1, recvbuf[i].A.z2, recvbuf[i].A.y, recvbuf[i].A.x, recvbuf[i].Y.z1, recvbuf[i].Y.z2, recvbuf[i].Y.y, recvbuf[i].Y.x);
 
               end = clock();
               printf("\nProgram has checked %d generators in %f seconds \n\n", numgens, (double)(end - start)/(double)CLOCKS_PER_SEC);
@@ -171,11 +172,11 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
           sendbuf[i].A.y = A[2];
           sendbuf[i].A.z2 = A[1];
           sendbuf[i].A.z1 = A[0];
-          if((K < J) && (K < I)){ ++K;cout<<"K "<<K<<endl;}
+          if((K + 1 < J && K + 1 < I ) ){ ++K;}
           else{ K=0;
-          if(J + 1 < diam*diam*diam/(6*I)){ ++J;cout<<"J "<<J<<endl;}
+          if(J + 1 < diam*diam*diam/(6*I) && J < diam){ ++J;}
           else{ J=2;
-          if(I < diam*diam*diam/(6*J)){ ++I;cout<<"I "<<I<<endl<<endl;}
+          if(I < diam*diam*diam/(6*J) && I < diam){ ++I;}
           else break; }}
 
 
@@ -189,7 +190,7 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
 
    // No more generators, wait for processes to finish.
    for(i=0; i<numprocs-1; ++i)
-   { 
+   {
 //printf("Waiting in master for return from %d \n", i+1);
       err = MPI_Recv(&recvbuf[i],1,MPI_Polynomial,MPI_ANY_SOURCE,WORKTAG,MPI_COMM_WORLD,&status);
       if(err){
@@ -201,7 +202,7 @@ void master(int diam, int numprocs, Polynomial &mbest, int &numgens)
 
    // Exit all slaves.
    for(i=0; i<numprocs-1; ++i)
-   {    
+   {
       err = MPI_Send(0,0,MPI_INT,i+1,DIETAG,MPI_COMM_WORLD);
       if(err){
         fprintf(stderr,"Catastrophic MPI problem.\n");
@@ -238,7 +239,7 @@ void slave(int diam, int numprocs)
 //printf("Process %d in slave recieved (%d %d %d %d) \n",rank, recvbuf[rank-1].A.z1, recvbuf[rank-1].A.z2, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);
     
     // Check cover
-    T4 A(recvbuf[rank-1].A.z1, recvbuf[rank-1].A.z2, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);  
+    T4 A(recvbuf[rank-1].A.z1, recvbuf[rank-1].A.z2, recvbuf[rank-1].A.y, recvbuf[rank-1].A.x);
     Polynomial mbest;
     check_cover(A, rank, diam, mbest);
    
@@ -262,7 +263,7 @@ void slave(int diam, int numprocs)
 }
 
 void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
-{   
+{
    int i,j,k;
    T x;
    ifstream xcoeffs;
@@ -278,11 +279,11 @@ void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
    mbest.A = A;
 
    // Loop over m and xcoeffs
-   for(i=1; i < (diam*diam*diam / (A[2]*c1)); ++i)
+   for(i=1; i < (float)(diam*diam*diam / (A[0] * 6)) && i < diam; ++i)
    {
-    for(j=1; j < A[2]; ++j)
+    for(j=1; j <= c1 && j < diam; ++j)
     {
-     for(k=1; k < c1; ++k) //filter them in holding tank, then add to file
+     for(k=1; k < A[2] && k < diam; ++k) 
      {
          T Q(i, j, k);
          //cout<<"Q "<<Q;
@@ -291,24 +292,24 @@ void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
            cover.clear();
            cover.resize(diam*diam*diam*diam);
          //print_cover(cover, diam);
-         if((M.value() > mbest.value()) && M.wellFormed()) //ignore M that are too small, or badly formed
+         if(M.value() > mbest.value()) //&& M.wellFormed()) //ignore M that are too small, or badly formed
          {
             for(int i=diam; i >= 0; --i)
             {
-	            for(int j=diam-i; j >= 0; --j)
-	            {
-		            for(int k=diam-j-i;k >= 0; --k) //filter them in holding tank, then add to file
-		            {
-		                if(i+j+k <= diam - 3)
-		                {
-          	        	 T x(i,j,k);
+for(int j=diam-i; j >= 0; --j)
+{
+for(int k=diam-j-i;k >= 0; --k) //filter them in holding tank, then add to file
+{
+if(i+j+k <= diam - 3)
+{
+           T x(i,j,k);
                          //cout << "x "<<x<<endl;
                          Polynomial X(A, x);
                          //cout<<"X "<<X;
                          Polynomial X_prime(X-M);
                          //cout<<"X_prime "<<X_prime;
-                         if(X_prime.wellFormed())
-                         { 
+                         if(true)   //X_prime.wellFormed())
+                         {
                             //cover.push_back(1);
                             cover[X_prime.sum()] = 1;
                          }}//print_cover(cover, diam);
@@ -338,7 +339,7 @@ void check_cover(T4 A, int rank, int diam, Polynomial &mbest)
 }
 
 void print_cover(vector<bool> cover, int diam)
-{    
+{
     for(int i=0; i<diam*diam*diam; ++i)
     {
         cout<<cover[i];
@@ -362,5 +363,3 @@ void construct_MPI_DataTypes()
 
   return;
 }
-
-
