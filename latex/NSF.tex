@@ -1,11 +1,11 @@
 \documentclass[11pt]{article}
  
 \usepackage[text={6in,8.1in},centering]{geometry}
- 
+
 \usepackage{enumerate}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathrsfs} % to use mathscr fonts
- 
+
 \usepackage{pstricks}
 \usepackage{pst-solides3d}
 \usepackage{pstricks-add}
@@ -48,12 +48,12 @@ escapeinside={\%*}          % if you want to add a comment within your code
 \newenvironment{block}{\begin{adjustwidth}{1.5cm}{1.5cm}\noindent}{\end{adjustwidth}}
 
 \newtheorem{proposition}{Proposition}[section]
-\newtheorem{theorem}{Theorem}
+\newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}{Lemma}[section]
 \newtheorem{corollary}{Corollary}[section]
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
- 
+
 \title{Extremal Functions on Cayley Digraphs of\\ Finite Cyclic Groups\footnote{Supported in part by National Science Foundation (NSF).}}
 \author{{\sc Jordan Blocher}\\ 
 Department of Mathematics\\ 
@@ -72,7 +72,7 @@ Department of Mathematics\\
 University of California  at Los Angeles\\
 Los Angeles, California, USA\\
 {\tt lindenechris@gmail.com} }
-\date{July 30, 2012}
+\date{\today}
  
  
 \def\R{\mbox{$\mathbb R$}}
@@ -110,7 +110,7 @@ Los Angeles, California, USA\\
 \pagestyle{fancyplain}
 \lhead{\fancyplain{}{\small\bfseries Blocher, Hampton, Linden,\ \ Cayley Digraphs of Finite Cyclic Groups}}
 \rhead{\fancyplain{}{\small\bfseries\thepage}}
-%\cfoot{\ \hfill\tiny\sl Draft printed on \today}
+\cfoot{\ \hfill\tiny\sl Draft printed on \today}
  
  
 \setlength{\extrarowheight}{2.5pt} % defines the extra space in tables
@@ -122,10 +122,193 @@ Los Angeles, California, USA\\
 \baselineskip6mm\parskip4mm
 
 \maketitle
+\begin{center}
+\begin{tikzpicture}
+
+
+\GraphInit[vstyle=Simple]
+\tikzset{VertexStyle/.append style = {minimum size = 5pt, inner sep = 0pt}}
+
+\Vertex[x=187.5pt,y=337.5pt]{0};
+\Vertex[x=224.80348307472823pt,y=332.7874741692947pt]{1};
+\Vertex[x=259.7630511152573pt,y=318.94600200657953pt]{2};
+\Vertex[x=290.1820658893033pt,y=296.8452941132117pt]{3};
+\Vertex[x=314.14918882530225pt,y=267.87401924684946pt]{4};
+\Vertex[x=330.15847744427305pt,y=233.85254915624213pt]{5};
+\Vertex[x=337.2040092642407pt,y=196.91857792939703pt]{6};
+\Vertex[x=334.8430876093033pt,y=159.3928028121413pt]{7};
+\Vertex[x=323.22405786990294pt,y=123.63310626523908pt]{8};
+\Vertex[x=303.0769864163684pt,y=91.88640153769651pt]{9};
+\Vertex[x=275.667787843871pt,y=66.14745084375791pt]{10};
+\Vertex[x=242.71868290270174pt,y=48.0335271167623pt]{11};
+\Vertex[x=206.2999850346457pt,y=38.682794802828326pt]{12};
+\Vertex[x=168.70001496535434pt,y=38.682794802828326pt]{13};
+\Vertex[x=132.2813170972983pt,y=48.03352711676226pt]{14};
+\Vertex[x=99.3322121561291pt,y=66.14745084375782pt]{15};
+\Vertex[x=71.92301358363159pt,y=91.88640153769656pt]{16};
+\Vertex[x=51.77594213009703pt,y=123.63310626523916pt]{17};
+\Vertex[x=40.1569123906967pt,y=159.3928028121413pt]{18};
+\Vertex[x=37.795990735759275pt,y=196.91857792939695pt]{19};
+\Vertex[x=44.841522555726954pt,y=233.8525491562421pt]{20};
+\Vertex[x=60.85081117469775pt,y=267.8740192468495pt]{21};
+\Vertex[x=84.81793411069665pt,y=296.8452941132117pt]{22};
+\Vertex[x=115.23694888474257pt,y=318.9460020065795pt]{23};
+\Vertex[x=150.1965169252717pt,y=332.7874741692946pt]{24};
+
+\SetUpEdge[lw         = .5pt,
+            color      = black,
+            labelcolor = black]
+
+\Edge(24)(0)
+\Edge(0)(1)
+\Edge(1)(2)
+\Edge(2)(3)
+\Edge(3)(4)
+\Edge(4)(5)
+\Edge(5)(6)
+\Edge(6)(7)
+\Edge(7)(8)
+\Edge(8)(9)
+\Edge(9)(10)
+\Edge(10)(11)
+\Edge(11)(12)
+\Edge(12)(13)
+\Edge(13)(14)
+\Edge(14)(15)
+\Edge(15)(16)
+\Edge(16)(17)
+\Edge(17)(18)
+\Edge(18)(19)
+\Edge(19)(20)
+\Edge(20)(21)
+\Edge(21)(22)
+\Edge(22)(23)
+\Edge(23)(24)
+
+\SetUpEdge[lw         = .5pt,
+            color      = blue,
+            labelcolor = black]
+
+\Edge(0)(8)
+\Edge(2)(10)
+\Edge(4)(12)
+\Edge(6)(14)
+\Edge(8)(16)
+\Edge(10)(18)
+\Edge(12)(20)
+\Edge(14)(22)
+\Edge(16)(24)
+\Edge(18)(1)
+\Edge(20)(3)
+\Edge(22)(5)
+\Edge(24)(7)
+\Edge(1)(9)
+\Edge(3)(11)
+\Edge(5)(13)
+\Edge(7)(15)
+\Edge(9)(17)
+\Edge(11)(19)
+\Edge(13)(21)
+\Edge(15)(23)
+\Edge(17)(0)
+\Edge(19)(2)
+\Edge(21)(4)
+\Edge(23)(6)
+
+\SetUpEdge[lw         = .5pt,
+            color      = green,
+            labelcolor = black]
+
+\Edge(0)(6)
+\Edge(6)(12)
+\Edge(12)(18)
+\Edge(18)(24)
+\Edge(24)(5)
+\Edge(5)(11)
+\Edge(11)(17)
+\Edge(17)(23)
+\Edge(23)(4)
+\Edge(4)(10)
+\Edge(10)(16)
+\Edge(16)(22)
+\Edge(22)(3)
+\Edge(3)(9)
+\Edge(9)(15)
+\Edge(15)(21)
+\Edge(21)(2)
+\Edge(2)(8)
+\Edge(8)(14)
+\Edge(14)(20)
+\Edge(20)(1)
+\Edge(1)(7)
+\Edge(7)(13)
+\Edge(13)(19)
+\Edge(19)(0)
+
+\SetUpEdge[lw         = .5pt,
+            color      = red,
+            labelcolor = black]
+
+\Edge(0)(4)
+\Edge(4)(8)
+\Edge(8)(12)
+\Edge(12)(16)
+\Edge(16)(20)
+\Edge(20)(24)
+\Edge(24)(3)
+\Edge(3)(7)
+\Edge(7)(11)
+\Edge(11)(15)
+\Edge(15)(19)
+\Edge(19)(23)
+\Edge(23)(2)
+\Edge(2)(6)
+\Edge(6)(10)
+\Edge(10)(14)
+\Edge(14)(18)
+\Edge(18)(22)
+\Edge(22)(1)
+\Edge(1)(5)
+\Edge(5)(9)
+\Edge(9)(13)
+\Edge(13)(17)
+\Edge(17)(21)
+\Edge(21)(0)
+\Edge(0)(9)
+\Edge(9)(18)
+\Edge(18)(2)
+\Edge(2)(11)
+\Edge(11)(20)
+\Edge(20)(4)
+\Edge(4)(13)
+\Edge(13)(22)
+\Edge(22)(6)
+\Edge(6)(15)
+\Edge(15)(24)
+\Edge(24)(8)
+\Edge(8)(17)
+\Edge(17)(1)
+\Edge(1)(10)
+\Edge(10)(19)
+\Edge(19)(3)
+\Edge(3)(12)
+\Edge(12)(21)
+\Edge(21)(5)
+\Edge(5)(14)
+\Edge(14)(23)
+\Edge(23)(7)
+\Edge(7)(16)
+\Edge(16)(0)
+
+\end{tikzpicture}
+\end{center}
+ 
+$\\$
+
 
 \begin{abstract}
-For positive integers $d$ and $k$ we define $m(d,k)$ to be the maximum positive integer $m$ such that the \emph{Cayley digraph} $\Cay(\Z_{m}, \mathscr{A})$ of $\Z_{m}$ generated by a set $\mathscr{A}$ of $k$ positive integers has diameter less than or equal to $d$, where $\Z_{m}$ is the finite cyclic group of residue classes modulo $m$.
-In this paper we establish a new lower bound for $m(2, k)$, namely
+For positive integers $d$ and $k$ we define $m(d,k)$ to be the maximum positive integer $m$ such that the \emph{Cayley digraph} $\Cay(\Z_{m}, \mathscr{A})$ of $\Z_{m}$ generated by a set $\mathscr{A}$ of $k$ positive integers has diameter less than or equal to $d$, where $\Z_{m}$ is the finite cyclic group of residue classes modulo $m$. 
+In this paper we present new algorithms that lead to the computation of lower bounds for $m(d,k)$ with $k$ small and fixed. These algorithms are detailed as a complement to the actual proof.  We also consider $m(2,k)$ and establish a new lower bound, namely
 \[
  m(2,k) \geq \frac{37}{121}k^2 + O(k)\qquad\text{as}\quad k\to\infty.
 \]
@@ -135,15 +318,11 @@ m(d,k) \geq \left(\frac{148}{121}\right)^{\lfloor \frac{d}{2}\rfloor}\left(\frac
 \]
 \end{abstract}
  
-{\small\sc Keywords:} {\small Cayley Digraphs, Extremal Problems, Networks, Postage Stamp Problem}
- 
-
 \section{Introduction}
-Let $\Gamma$ be a finite group with a subset $\mathscr{A}$. The \emph{Cayley digraph}, denoted Cay($\Gamma, \mathscr{A}$), is a digraph with vertex set $\Gamma$, such that ($x, y$) is a directed edge if and only if $yx^{-1}$ $\in$ $\mathscr{A}$.  If $\mathscr A$ is {\em symmetric}, i.e.\,, $a\in \mathscr A$ implies $a^{-1}\in \mathscr A$, then $\Cay(\Gamma,\mathscr A)$ can be considered as an undirected graph.  Let $\Z_{m}$ denote the finite cyclic group of residue classes modulo $m$.  For instance, the $n$-cube can be considered as the Cayley (undirected) graph of $\Z_{2}^{n}$ generated by 
-\[
-\mathscr {A}=\{\mathbf e_{1},\mathbf e_{2},\ldots,\mathbf e_{n}\}
-\]
-where $\mathbf e_{i}$ is the $i$th identity element of $\Z_{2}^{n}$. $n$-cubes have been  well-studied and they have often  used as a model for interconnection networks. The following Figure shows the Cayley graph of $\Z_{12}$ generated by $\mathscr A=\{1,6,11\}$.
+ 
+Let $\Gamma$ be a finite group with a subset $\mathscr{A}$. The \emph{Cayley digraph}, denoted Cay($\Gamma, \mathscr{A}$), is a digraph with vertex set $\Gamma$, such that ($x, y$) is a directed edge if and only if $yx^{-1}$ $\in$ $\mathscr{A}$.
+The focus of this paper is the finite group $\Z_m$; we will denote the Cayley graph Cay($\Z_m, \mathscr{A}$) as Cay($m, \mathscr{A}$).
+ 
 
 \begin{figure}[h]
 \begin{center}\scriptsize
@@ -206,22 +385,17 @@ where $\mathbf e_{i}$ is the $i$th identity element of $\Z_{2}^{n}$. $n$-cubes h
 \caption{ $\Cay(\Z_{12}, \{1, 6, 11\})$.}
 \end{center}
 \end{figure}
-
-Note that $\Cay(\Z_{12}, \{1, 6, 11\})$ has the same diameter and degree as the $3$-cube, but this graph contains $12$ vertices.  It is natural to ask for the maximum number of vertices a Cayley digraph could possibly have with given diameter and maximum degree.  We focus on this question in this paper.
-
-Cayley digraphs $\Cay(\Z_{m},\mathscr A)$ of $\Z_{m}$ are called $\emph{circulant}$ (di)graphs.  In this paper, we focus on circulant graphs.  However, $n$-cubes may not be as efficient as circulant graphs of equal degree and diameter.  
-
- Cayley digraphs, and circulant graphs in particular are often used as models for interconnection networks. As such, it is naturally desirable to maximize the number of vertices which can be connected with constraints on diameter and degree.
-
+Note that $\Cay(\Z_{12}, \{1, 6, 11\})$ has the same diameter and degree as the $3$-cube, but this graph contains $12$ vertices.  It is natural to ask for the maximum number of vertices a Cayley digraph could possibly have with given diameter and maximum degree.  Cayley digraphs $\Cay(\Z_{m},\mathscr A)$ of $\Z_{m}$ are called $\emph{circulant}$ (di)graphs.  In this paper, we focus on circulant graphs.  However, $n$-cubes may not be as efficient as circulant graphs of equal degree and diameter.  Cayley digraphs, and circulant graphs in particular are often used as models for interconnection networks. As such, it is naturally desirable to maximize the number of vertices which can be connected with constraints on diameter and degree.
 For any positive integer $d$ we define
 \[
-m(d,\mathscr{A}) =\ \max\{m \  \vert \  \diam(Cay(m,\mathscr{A})) \leq d\},
+m(d,\mathscr{A}) =\max\{m \vert \diam(Cay(m,\mathscr{A})) \leq d\},
 \]
-the largest positive integer $m$ such that the diameter, $d(m,\mathscr{A})$, of the Cayley digraph $Cay(m,\mathscr{A})$ is less than or equal to $d$. For positive integers $d$ and $k$,
+the largest positive integer $m$ such that the diameter, $d(m,\mathscr{A})$, of the Cayley digraph $\Cay(m,\mathscr{A})$ is less than or equal to $d$. For positive integers $d$ and $k$,
 \[
-m(d, k) = \max_{\scriptstyle \mathscr{A}\subseteq\mathbb Z^{+}\atop\scriptstyle |\mathscr{A}|=k}\{m\  |\  \diam(Cay(m,\mathscr{A})) \leq d\}
+m(d,k) = \max\{m(d,\mathscr{A}) \vert \vert \mathscr{A} \vert = k \},
 \]
-the maximum modulus $m$ such that there exists a generating set with cardinality equal to $k$ and the diameter of the Cayley digraph is less than or equal to $d$. 
+the maximum modulus m such that there exists a generating set with cardinality equal to $k$ and the diameter of the Cayley digraph is less than or equal to $d$. 
+$\\$
 
 It is clear that $m(1,k) = k+1$ and $m(d,1) = d+1$.
 In 1974 Wong and Coppersmith \cite{Wong-Coppersmith:1974} proved that, for positive integers $d$ and $k$,
@@ -251,32 +425,56 @@ Hsu and Jia \cite{JiaHsu} proved that
 \begin{equation}\label{eqn:m(d,2)>27}
 m(d,2) =\left \lfloor \frac{d(d+4)}{3}\right \rfloor+1
 \end{equation}
-for all $d\geq2$. 
-
-It is easy to show that $m(2,k)\ge \frac14k^{2}+O(k)$ as $k\to\infty$.  The current best known lower bound for $m(2,k)$ is
+for all $d\geq2$.
+ 
+We will begin by examining the case when k = 3. The current bounds for this case, as $d\to\infty$, are
 \[
-m(2,k)\ge\frac27k^{2}+O(k)\qquad\text{as}\quad k\to\infty.
+\frac{176}{2197}d^3 + O(d^2) \leq m(d,3) \leq \frac{1}{14-3\sqrt{3}}(d+3)^3 .
 \]
-See last section for more information on this lower bound.
-In this paper, we prove a non-trivial lower bound for $m(2,k)$ in the following theorem.
+ 
 
+
+\input{algorithm}
+\pagebreak
+
+
+
+\section{A New Lower Bound for $m(2,k)$}
+Let $d$ and $k$ be  positive integers. Let $n(d, k)$ denote the largest positive integer $n$ such that there exists a subset $\mathscr{A}$ of $k$ positive integers with the property that every integer in the interval $[0, n]$ is the sum of at most $d$ not necessarily distinct elements of $\mathscr{A}$. In other words, 
+\[
+n(d, k) = \max_{\scriptstyle \mathscr{A}\subseteq\mathbb Z^{+}\atop\scriptstyle |\mathscr{A}|=k}\{n\  |\ d \mathscr{A}\supseteq[0, n]\}.
+\]
+Recall that $d\mathscr A$ denotes the set of all sums of at most $d$ not necessarily distinct elements of $\mathscr A$. The computation of  $n(d, k)$ is often referred as the \emph{postage stamp problem}. The postage stamp problem is an old problem in number theory that has been studied extensively. See \cite{Hsu-Jia:CombinatorialNetworks,Selmer:1986a,Selmer:1986b} for more information. 
+A simple construction shows that 
+\[
+n(2,k)\ge \frac14k^{2}+O(k).
+\]
+ Rohrbach \cite{Rohrbach:1937a} conjectured in 1937 that
+\begin{equation}\label{eqn:Rohrbach's.conjecture.on.n_{alpha}(2,k)}
+n(2,k)\sim\frac14{k^2},
+\end{equation}
+H\"ammerer and Hofmeister \cite{Hammerer-Hofmeister:1976} proved in
+1976 by an explicit construction
+of a $2$-basis that
+\[
+n(2,k)\ge \frac {5}{18}{k^2}+O(k),
+\]
+which disproves the conjecture of Rohrbach
+(\ref{eqn:Rohrbach's.conjecture.on.n_{alpha}(2,k)}).
+The  best known lower bound for $n(2,k)$ was proved by Mrose \cite{Mrose1979}
+\begin{equation}\label{eqn:n(2k)}
+n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\qquad  \text{as}\quad  k \to \infty.
+\end{equation}
+If  $d\mathscr{A}\supseteq[0, n]$ then  $d\mathscr{A}=\Z_{n+1}$. Therefore, for all positive integers $d$ and $k$ we have 
+\[
+m(d, k) \geq n(d, k)+1.
+\]
+This implies the best known lower bound for $m(2,k)$ in (\ref{eqn:m(d,2)>27}) before our result in this paper.
+ Our proof uses a similar construction to one used by Torleiv Klove and Mossige used to prove the above lower bound on $n(2,k)$ in (\ref{eqn:n(2k)}).  We used a computer program to test candidates for the values that appeared in the proof as the subscripts $\mu,\ \nu$ and $\eta$.  It is likely that our result could be improved upon by a more complicated construction using a larger number of the same types of subsets.  However, testing larger constructions becomes computationally difficult, and there is a theoretical limit of $1/3$ on the leading coefficient of such a construction.  Any lower bound better than $\displaystyle\frac13k^2 + O(k)$ would be of interest.
 \begin{theorem}\label{thm:m(2k)}
 $\displaystyle m(2,k) \geq \frac{37}{121}k^2 + O(k)$  as $ k \to \infty$.
 \end{theorem}
-
-\begin{theorem}\label{thm:m(dk)}
-For any integer $d \geq 2$, as $k \to \infty$, we have 
-\[
-m(d,k) \geq \left(\frac{148}{121}\right)^{\lfloor \frac{d}{2}\rfloor}\left(\frac{k}{d}\right)^d + O(k^{d-1}).
-\]
-\end{theorem}
- 
- 
- 
-\section{Proof of Theorem~\ref{thm:m(2k)}}
- 
-
-Let $k \geq$ 14 be an integer. Let $\displaystyle k_1 = \left \lfloor \frac{k - 3}{11} \right \rfloor$. Let $m = 37k_1^2$.  Define 
+et $k \geq$ 14 be an integer. Let $\displaystyle k_1 = \left \lfloor \frac{k - 3}{11} \right \rfloor$. Let $m = 37k_1^2$.  Define 
 \begin{align*}
 I_\mu &= [\mu k_1^2, \mu k_1^2 + k_1],
 &&\mu = 0, 4, 15, 26; \\
@@ -407,21 +605,23 @@ m(2,k) &\geq 37k_1^2\\
 \end{align*}
 Theorem~\ref{thm:m(2k)} is proved.
 
-
-
-
-\section{Proof of Theorem~\ref{thm:m(dk)}}
-
-Before we start the proof of Theorem~\ref{thm:m(dk)}, we state the following addition lemma for $m(d,k)$. Reader can find a proof of this lemma in \cite{Hsu-Jia:CombinatorialNetworks}.
-
+\section{Extension to the General Case}
+\begin{theorem}\label{thm:m(dk)}
+For any integer $d \geq 2$, as $k \to \infty$, we have 
+\[
+m(d,k) \geq \left(\frac{148}{121}\right)^{\lfloor \frac{d}{2}\rfloor}\left(\frac{k}{d}\right)^d + O(k^{d-1}).
+\]
+\end{theorem}
+Before we start the proof of Theorem~\ref{thm:m(dk)}, we state and prove the following addition lemma for $m(d,k)$. 
 \begin{lemma}\label{lemma:addition}
-Given positive integers $d_{1}$, $d_{2}$, $k_{1}\ge2$ and $k_{2}\ge 2$, we have
+Given positive integers $k_{1}$, $k_{2}$, $d_{1}\ge2$ and $d_{2}\ge 2$, we have
 \[
 m(d_1+d_2,k_1+k_2) \geq m(d_1,k_1)m(d_2,k_2) 
 \]
 \end{lemma}
-
-
+\begin{proof}[Proof of Lemma~\ref{lem:addition}]
+Let $\mathscr{A}_1$ and $\mathscr{A}_2$ be sets of positive integers such that $m(d_1,\mathscr{A}_1) = m(d_1,k_1)$ and $m(d_2,\mathscr{A}_2) = m(d_2,k_2)$.  Since $d_1, d_2 \geq 2$ we have that $m(d_1,k_1)$ is greater than every element in $\mathscr{A}_1$, and similarly for $m(d_2,k_2)$ and $\mathscr{A}_2$.  So let $\mathscr{A} = \mathscr{A}_1 \cup \{m(d_1,k_1)\cdot x \quad \vert \quad x \in \mathscr{A}_2\}$.  Then it suffices to show that $\mathscr{A}$ is a $(d_1+d_2)$-basis for $\mathbb{Z}_{m(d_1,k_1)m(d_2,k_2)}$.  We do this by writing $n \in \mathbb{Z}_{m(d_1,k_1)m(d_2,k_2)}$ as $xm(d_1,k_1) + r$ where $x \in \mathbb{Z}_{m(d_2,k_2)}$ and $r \in \mathbb{Z}_{m(d_1,k_1)}$.  Then $xm(d_1,k_1) \in d_1\mathscr{A}_1\{m(d_1,k_1)\cdot x \quad \vert \quad x \in \mathscr{A}_2\}$ and $r \in d_2\mathscr{A}_1$, so $n \in (d_1+d_2)\mathscr{A}$.
+\end{proof}
 \begin{proof}[Proof of Theorem~\ref{thm:m(dk)}]
 Let $d = 2q +r$ where $q =\displaystyle\left \lfloor \frac{d}{2}\right\rfloor$ and $k = du +v$ where $u =\displaystyle \left \lfloor \frac{k}{d}\right\rfloor$. We separate the calculation into two cases.
 Case 1: If $r = 0$, then
@@ -453,42 +653,9 @@ The proof of Theorem~\ref{thm:m(dk)} is complete.
 \end{proof}
 
 
+\input{md4}
 
-\section{Remarks and Open Problems}
-
- Let $d$ and $k$ be  positive integers. Let $n(d, k)$ denote the largest positive integer $n$ such that there exists a subset $\mathscr{A}$ of $k$ positive integers with the property that every integer in the interval $[0, n]$ is the sum of at most $d$ not necessarily distinct elements of $\mathscr{A}$. In other words, 
-\[
-n(d, k) = \max_{\scriptstyle \mathscr{A}\subseteq\mathbb Z^{+}\atop\scriptstyle |\mathscr{A}|=k}\{n\  |\ d \mathscr{A}\supseteq[0, n]\}.
-\]
-Recall that $d\mathscr A$ denotes the set of all sums of at most $d$ not necessarily distinct elements of $\mathscr A$. The computation of  $n(d, k)$ is often referred as the \emph{postage stamp problem}. The postage stamp problem is an old problem in number theory that has been studied extensively. See \cite{Hsu-Jia:CombinatorialNetworks,Selmer:1986a,Selmer:1986b} for more information. 
-A simple construction shows that 
-\[
-n(2,k)\ge \frac14k^{2}+O(k).
-\]
- Rohrbach \cite{Rohrbach:1937a} conjectured in 1937 that
-\begin{equation}\label{eqn:Rohrbach's.conjecture.on.n_{alpha}(2,k)}
-n(2,k)\sim\frac14{k^2},
-\end{equation}
-H\"ammerer and Hofmeister \cite{Hammerer-Hofmeister:1976} proved in
-1976 by an explicit construction
-of a $2$-basis that
-\[
-n(2,k)\ge \frac {5}{18}{k^2}+O(k),
-\]
-which disproves the conjecture of Rohrbach
-(\ref{eqn:Rohrbach's.conjecture.on.n_{alpha}(2,k)}).
-The  best known lower bound for $n(2,k)$ was proved by Mrose \cite{Mrose1979}
-\begin{equation}\label{eqn:n(2k)}
-n(2, k) \geq \frac{2}{7}k^2 + \frac{12}{7}k + O(1)\qquad  \text{as}\quad  k \to \infty.
-\end{equation}
-If  $d\mathscr{A}\supseteq[0, n]$ then  $d\mathscr{A}=\Z_{n+1}$. Therefore, for all positive integers $d$ and $k$ we have 
-\[
-m(d, k) \geq n(d, k)+1.
-\]
-This implies the best known lower bound for $m(2,k)$ in (\ref{eqn:m(d,2)>27}) before our result in this paper.
- Our proof uses a similar construction to one used by Torleiv Klove and Mossige used to prove the above lower bound on $n(2,k)$ in (\ref{eqn:n(2k)}).  We used a computer program to test candidates for the values that appeared in the proof as the subscripts $\mu,\ \nu$ and $\eta$.  It is likely that our result could be improved upon by a more complicated construction using a larger number of the same types of subsets.  However, testing larger constructions becomes computationally difficult, and there is a theoretical limit of $1/3$ on the leading coefficient of such a construction.  Any lower bound better than $\displaystyle\frac13k^2 + O(k)$ would be of interest.
-
- Other open problems include: 
+\section{Open Problems}
 \begin{enumerate}[\bf 1.]
 \item  Finding a non-trivial lower bound for $m(3,k)$, $m(4,k)$, etc.
 
@@ -501,12 +668,17 @@ exists, and the value is known for $k = 1,$ $2$ and $3$.  It is not known whethe
 \lim_{d \to \infty}{\frac{m(d,k)}{d^k}}
 \]
 exists for every k, and the value is only known for $k = 1$ and $2$. \\
-
+\item The limits
+\[
+\lim_{d \to \infty}{\frac{m(d,k)}{n(d,k)}} \text{ and}
+\lim_{k \to \infty}{\frac{m(d,k)}{n(d,k)}}
+\]
+are also of interest, if they exist.
 \item  We may define the undirected version of our extremal function $M(d,k)$ to be the largest $M$ such that there exists of symmetric set $\mathscr{A}$ of $k$ elements and their additive inverses such that $\diam(Cay(\Z_M,\mathscr{A})) \leq d$.  Little is known about $M(d,k)$, for fixed $d$ and $k \geq 3$. \\
+\item We may also define the average version of our extremal function $\bar{m}(d,k)$ to be the largest $m$ such that there exists a set $\mathscr{A}$ of $k$ elements such that the average distance between any two vertices in $Cay(\Z_m,\mathscr{A})$ is less than $d$. New lower bounds for $k \geq 3$ would be interesting for this function as well.
+\item Although this paper is primarily concerned with lower bounds, upper bounds on $m(d,k)$ (and related functions) are also of interest.
+
 \end{enumerate}
 
-\bibliographystyle{abbrv}	
-\bibliography{myrefs}		
 
 \end {document}
-
