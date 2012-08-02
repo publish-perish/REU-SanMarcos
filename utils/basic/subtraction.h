@@ -27,12 +27,11 @@ class Subtractions{
 
     void clear();
    
-   	int f_borrowed;
-	int e_borrowed;
-    int d_borrowed;
-    int c_borrowed;
-    int b_borrowed;
-    int m_subtracted;
+	int e[5];
+    int d[5];
+    int c[5];
+    int b[5];
+    int m;
 
     Subtractions operator=(const Subtractions&);
     Subtractions operator=(int);

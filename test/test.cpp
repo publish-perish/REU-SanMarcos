@@ -12,61 +12,37 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     clock_t start, end;
-    if(argc<5){
-       std::cout<< "Usage: ./executables/tables diameter numprocs b c1\n";
-       return 0;
-    }
-    else{
-       start = clock();
-       XCoTable XTable;
-       GenTable GenTable;
-       MCoTable MTable;
-       //std::cout << "Coefficients:";
-        XTable.makeXCoTable(atoi(argv[1]), atoi(argv[2]));
-       //MTable.makeMCoTable(atoi(argv[1]), atoi(argv[3]), atoi(argv[4]), atoi(argv[2]));
-       //std::cout << "\n Generators: \n";
-       GenTable.makeGenTable(atoi(argv[1]));
-       end = clock();
-       std::cout<<"Tables were generated in "<<(double)(end - start)/(double)CLOCKS_PER_SEC<<" seconds.\n";
-       std::cout <<"\nSize of X-Coeff Table:" << XTable.size << "\nSize of Generator Table:" << GenTable.size<<endl;;
-       //std::cout<<"\nTesting M-Coeff Table, size is :"<<MTable.size<<endl;
 
-       ifstream gens;
+    int list1[] = {1,2,1,3,1,1,1,1,1,1,1,1,1,1,1,1};
+    int list2[] = {1,2,1,1,5,1,1,1,1,1,1,1,1,1,1,1};
+    int base[] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
-       T A, B;
-       B = T(1, 2, 4);
-       A = T(3, 5, 4);
-cout<<"A "<<A<<" B "<<B<<endl;
-       A = B;
-       cout<<"B "<<B<<endl;
-       B = T(3, 3, 3);
-       cout<<"B "<<B<<endl;
-       Polynomial P;
+    vector<int> vec1(list1, list1+(sizeof(list1)/sizeof(list1[0])));
+    vector<int> vec2(list2, list2+(sizeof(list2)/sizeof(list2[0])));
+    vector<int> bvec(base, base+(sizeof(base)/sizeof(base[0])));
 
-       Polynomial p(B, A);
+    cout<<"first "<<vec1[0];
 
-cout<<p;
+    T A1(vec1);
+    T A2(vec2);
+    T B(bvec);
 
-       cout<<P;
-       P.A = A;
+    T Array1[6], Array2[6];
 
-cout<<P;
-P.Y = p.Y;
-cout<<P;
+    Array1[0] = A1;
+    Array2[0] = A2;
+
+    Polynomial X(Array1, B);
+    cout<<"X "<<X;
+
+    Polynomial M(Array2, B);
+    cout<<"M "<<M;
+
+    Polynomial sub(X-M);
+    cout<<"sub "<<sub;
 
        
-       /*
-       cout<<B<<endl;
-       gens.open("./permutationtables/GenTable.txt");
-       if(gens){
-           while(!gens.eof()){
-           gens >> A >> B;
-
-       Polynomial P(A, B);
-cout<< P;}}*/
        return 0;
-    }
-
-    }
 
 
+}
