@@ -45,7 +45,7 @@ int main (int argc, char *argv[]) {
 
     if(mbest != 0)
     {
-        printf("\nDiameter: %d \nGenerators: (%d, %d, %d, %d, %d, %d), Location: (%d, %d, %d, %d, %d)\n", diam, mbest.A[0], mbest.A[1], mbest.A[2], mbest.A[3], mbest.A[4], mbest.A[5], mbest.Y[0], mbest.Y[1], mbest.Y[2], mbest.Y[3], mbest.A[4], mbest.Y[5]); 
+        cout<<mbest;
     }
     else
     {
@@ -72,7 +72,11 @@ void master(int diam, int &numgens, Polynomial &mbest)
    {
           if(M.value() > mbest.value())
           {
-              mbest.A = M.A; mbest.Y = M.Y;
+              for(i=0; i<6; i++)
+              {
+                    mbest.A[i] = M.A[i];
+              }
+              mbest.Y = M.Y;
               cout<< "Found new M: "<<M;
           }
  
@@ -82,14 +86,14 @@ void master(int diam, int &numgens, Polynomial &mbest)
           list.push_back(K4*L4);
           list.push_back(L5);
           list.push_back(I1*J1*K1*L1);
-          list.push_back(J3*K3*L3);
-          list.push_back(K4*L4);
-          list.push_back(L5);
+          list.push_back(J2*K2*L2);
+          list.push_back(K3*L3);
+          list.push_back(L4);
           list.push_back(J1*K1*L1);
-          list.push_back(K4*L4);
-          list.push_back(L5);
+          list.push_back(K3*L3);
+          list.push_back(L4);
           list.push_back(K1*L1);
-          list.push_back(L5);
+          list.push_back(L4);
           list.push_back(L1);
           list.push_back(1);
 
@@ -144,83 +148,62 @@ void slave(int diam, T &A, Polynomial &mbest)
 
 void check_cover(int diam, T &A, Polynomial &mbest)
 {
-   int i,j,k;
-   T x;
+   int i,j,k,l,m,n,p,q,r,s,t,u,v,w;
    Polynomial M;
    vector<bool> cover;
    vector<int> list;
    bool covered = false;
    
    // Loop over m and xcoeffs
-   for(int i=1; i < (float)(diam*diam*diam*diam*diam*diam / (720*A[0])); ++i)
+   for(i=1; i < (float)(diam*diam*diam*diam*diam*diam / (720*A[0])); ++i)
    {
-      for(int j=1; j < (float)(A[0] / A[5]); ++j)
+      for(j=1; j < (float)(A[0] / A[5]); ++j)
       {
-         for(int k=1; k < (float)(A[5] / A[9]); ++k)
+         for(k=1; k < (float)(A[5] / A[9]); ++k)
          {
-         	for(int l=1; l < (float)(A[9] / A[12]); ++l)
+         	for(l=1; l < (float)(A[9] / A[12]); ++l)
          	{	
-				for(int m=1; m < (float)(A[12] / A[14]); ++m)
+				for(m=1; m < (float)(A[12] / A[14]); ++m)
          		{
-         			for(int n=1; n < 12; ++n)
+         			for(n=1; n < 12; ++n)
          			{
                        list.push_back(i);
-                       list.push_back(1);
-                       list.push_back(1);
-                       list.push_back(1);
-                       list.push_back(1);
                        list.push_back(j);
-                       list.push_back(1);
-                       list.push_back(1);
-                       list.push_back(1);
                        list.push_back(k);
-                       list.push_back(1);
-                       list.push_back(1);
                        list.push_back(l);
-                       list.push_back(1);
                        list.push_back(m);
                        list.push_back(n);
             		   T Q(list);
                        list.clear();
                      //cout<<"Q "<<Q<<endl;
-                       Polynomial M(A, Q);
+                       Polynomial M(&A, Q);
                      //cout<<"M "<<M;
                        cover.clear();
                        cover.resize(diam*diam*diam*diam*diam*diam);
                      if((M.sum() > mbest.sum()) && (M.sum() > diam*diam*diam*diam*diam*diam/(6*5*4*3*2))) //ignore M that are too small, or badly formed
                      {cout<<"Found an M\n";
-                     for(int i=0; i <= diam-6; i++)
+                     for(p=0; p <= diam-6; p++)
                      {
-                      for(int j=0; j <= diam - (6+i); ++j)
+                      for(q=0;  q <= diam - (6+q); ++q)
                       {
-                         for(int k=0; k <= diam - (6+i+j); ++k)
+                         for(r=0; r <= diam - (6+r+q); ++r)
                          {
-                            for(int l=0; l <= diam - (6 +i +j +k); ++l)
+                            for(s=0; s <= diam - (6 +s +r +q); ++s)
                             {
-                                for(int m=0; m <= diam - (6 +i +j +k +l); ++m)
+                                for(t=0; t <= diam - (6 +t +s +r +q); ++t)
                                 {
-                                    for(int n=0; n <= diam - (6 +i +j +k +l+ m); ++n)
+                                    for(int u=0; u <= diam - (6 +u +t +s +r+ q); ++u)
                                     {
-                                         list.push_back(i);
-                                         list.push_back(1);
-                                         list.push_back(1);
-                                         list.push_back(1);
-                                         list.push_back(1);
-                                         list.push_back(j);
-                                         list.push_back(1);
-                                         list.push_back(1);
-                                         list.push_back(1);
-                                         list.push_back(k);
-                                         list.push_back(1);
-                                         list.push_back(1);
-                                         list.push_back(l);
-                                         list.push_back(1);
-                                         list.push_back(m);
-                                         list.push_back(n);
+                                         list.push_back(p);
+                                         list.push_back(q);
+                                         list.push_back(r);
+                                         list.push_back(s);
+                                         list.push_back(t);
+                                         list.push_back(u);
                                          T x(list);
                                          list.clear();
                                          //cout << "x "<<x<<endl;
-                                         Polynomial X(A, x);
+                                         Polynomial X(&A, x);
                                          cout<<"X "<<X;
                                          Polynomial X_prime(X-M);
                                          cout<<"X_prime "<<X_prime;
@@ -238,9 +221,9 @@ void check_cover(int diam, T &A, Polynomial &mbest)
                      }
                          // check covering
                          covered = true;
-                         for(int i=0; i < M.sum(); ++i) //only check the first m of them
+                         for(v=0; v < M.sum(); ++v) //only check the first m of them
                          {
-                            if(cover[i]==0) //we are not covered
+                            if(cover[v]==0) //we are not covered
                             {
                               covered = false;
                               break;
@@ -248,7 +231,11 @@ void check_cover(int diam, T &A, Polynomial &mbest)
                          }
                          if(covered)//(accumulate(cover.begin(),cover.end(),0) == M.sum())
                          {
-                            mbest.A = M.A; mbest.Y = M.Y;
+                            for(w=0; w<M.Y.size(); ++w)
+                            {
+                                mbest.A[w] = M.A[w];
+                            }
+                            mbest.Y = M.Y;
                          }
                       }
                    }

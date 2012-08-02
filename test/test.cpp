@@ -21,14 +21,21 @@ int main(int argc, char *argv[])
     vector<int> vec2(list2, list2+(sizeof(list2)/sizeof(list2[0])));
     vector<int> bvec(base, base+(sizeof(base)/sizeof(base[0])));
 
+    cout<<"first "<<vec1[0];
+
     T A1(vec1);
     T A2(vec2);
     T B(bvec);
 
-    Polynomial X(B, A1);
+    T Array1[6], Array2[6];
+
+    Array1[0] = A1;
+    Array2[0] = A2;
+
+    Polynomial X(Array1, B);
     cout<<"X "<<X;
 
-    Polynomial M(B, A2);
+    Polynomial M(Array2, B);
     cout<<"M "<<M;
 
     Polynomial sub(X-M);

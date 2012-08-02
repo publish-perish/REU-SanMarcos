@@ -9,9 +9,7 @@
 #include "subtraction.h"
 
 
-typedef std::vector<T6> Vec;
-
-class Subtractions;
+typedef std::vector<T> Vec;
 
 class Polynomial{
 
@@ -21,14 +19,13 @@ class Polynomial{
 
       //Polynomial(T &a, T &y);
       //Polynomial(T a, int, int, int);
-      Polynomial(T a, T y);
-      Polynomial(T a, int, int, int, int, int);
+      Polynomial(T a[], T y);
+      Polynomial(T a[], int, int, int, int, int);
       Polynomial(const Polynomial&);
 
-      T A;
+      Tuple<int, 6> A[6];;
       T Y;
-      Subtractions s;
-
+      int s[6];
 
       int value()const;
       int sum()const;
