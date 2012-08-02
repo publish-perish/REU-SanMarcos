@@ -54,20 +54,20 @@ escapeinside={\%*}          % if you want to add a comment within your code
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
  
-\title{Extremal Functions on Cayley Digraphs of\\ Finite Cyclic Groups\footnote{Supported in part by National Science Foundation (NSF).}}
-\author{{\sc Jordan Blocher}\\ 
+\title{Extremal Functions on Cayley Digraphs of\\ Finite Cyclic Groups\footnote{Supported in part by National Science Foundation (NSF) and Texas State University-San Marcos}}
+\author{{\sc Jordan F. Blocher}\\ 
 Department of Mathematics\\ 
 University of Nevada-Reno\\ 
 Reno, Nevada, USA\\
 {\tt jordanblocher@gmail.com}
 \and 
-{\sc Samantha Hampton}\\
+{\sc Samantha M. Hampton}\\
 Department of Mathematics\\
 University of Arkansas\\
 Fayetteville, Arkansas, USA\\
 {\tt smhampto@uark.edu}
 \and 
-{\sc Christopher Linden}\\
+{\sc Christopher E. Linden}\thanks{Send all editorial correspondence to C. E. Linden at lindenechris@gmail.com.}\\
 Department of Mathematics\\
 University of California  at Los Angeles\\
 Los Angeles, California, USA\\
@@ -213,22 +213,22 @@ Cayley digraphs $\Cay(\Z_{m},\mathscr A)$ of $\Z_{m}$ are called $\emph{circulan
 
  Cayley digraphs, and circulant graphs in particular are often used as models for interconnection networks. As such, it is naturally desirable to maximize the number of vertices which can be connected with constraints on diameter and degree.
 
-For any positive integer $d$ we define
+For any positive integer $d$ and subset $\mathscr{A}$ of integers we define
 \[
-m(d,\mathscr{A}) =\ \max\{m \  \vert \  \diam(Cay(m,\mathscr{A})) \leq d\},
+m(d,\mathscr{A}) =\ \max\{m \  \vert \  \diam(\Cay(\mathbb{Z}_m,\mathscr{A})) \leq d\},
 \]
-the largest positive integer $m$ such that the diameter, $d(m,\mathscr{A})$, of the Cayley digraph $Cay(m,\mathscr{A})$ is less than or equal to $d$. For positive integers $d$ and $k$,
+where $\diam(G)$ denotes the diameter of a graph $G$. For any positive integers $d$ and $k$, define
 \[
-m(d, k) = \max_{\scriptstyle \mathscr{A}\subseteq\mathbb Z^{+}\atop\scriptstyle |\mathscr{A}|=k}\{m\  |\  \diam(Cay(m,\mathscr{A})) \leq d\}
+m(d, k) = \max_{\scriptstyle |\mathscr{A}|=k}{m(d,\mathscr{A})}
 \]
-the maximum modulus $m$ such that there exists a generating set with cardinality equal to $k$ and the diameter of the Cayley digraph is less than or equal to $d$. 
+In other words, the maximum positive integer $m$ such that there exists a $k$-element set $\mathscr{A}$ of integers such that the diameter of the Cayley digraph $\Cay(\mathbb{Z}_m,\mathscr{A})$ is less than or equal to $d$. 
 
 It is clear that $m(1,k) = k+1$ and $m(d,1) = d+1$.
 In 1974 Wong and Coppersmith \cite{Wong-Coppersmith:1974} proved that, for positive integers $d$ and $k$,
 \[
 \left \lfloor \frac dk + 1 \right \rfloor^k \leq m(d, k) \leq  \binom{k + d}k . 
 \]
-To see the the upper bound, let $|\mathscr{A}| = k$ such that $\diam(Cay(\Z_m, \mathscr{A})) \leq d$. Noting that every element in $\Z_m$ is the sum of at most $d$ not necessarily distinct elements of $\mathscr{A}$, and the commutativity of integers,  we see that
+To see the the upper bound, let $|\mathscr{A}| = k$ such that $\diam(\Cay(\Z_m, \mathscr{A})) \leq d$. Noting that every element in $\Z_m$ is the sum of at most $d$ not necessarily distinct elements of $\mathscr{A}$, and the commutativity of integers,  we see that
 \[
 m \leq \binom{k + 1 + d - 1}k = \binom{k + d}k,
 \] 
@@ -243,7 +243,7 @@ Since
 \[
 \sum_{i=1}^{k} c_i \leq k(t - 1) = k \left \lfloor \frac dk \right \rfloor  \leq d,
 \]
-we see that $d(0, x) \leq d$. Hence, $\diam(Cay(\Z_{t^k}, \mathscr{A}) \leq d$. Thus we see
+we see that $d(0, x) \leq d$. Hence, $\diam(\Cay(\Z_{t^k}, \mathscr{A}) \leq d$. Thus we see
 \[m(d, k) \geq t^k  = \left \lfloor \frac dk + 1 \right \rfloor^k.
 \]
 
@@ -415,7 +415,7 @@ Theorem~\ref{thm:m(2k)} is proved.
 Before we start the proof of Theorem~\ref{thm:m(dk)}, we state the following addition lemma for $m(d,k)$. Reader can find a proof of this lemma in \cite{Hsu-Jia:CombinatorialNetworks}.
 
 \begin{lemma}\label{lemma:addition}
-Given positive integers $d_{1}$, $d_{2}$, $k_{1}\ge2$ and $k_{2}\ge 2$, we have
+Given positive integers $d_{1} \ge2$, $d_{2}$, $k_{1}$ and $k_{2}$, we have
 \[
 m(d_1+d_2,k_1+k_2) \geq m(d_1,k_1)m(d_2,k_2) 
 \]
@@ -424,6 +424,7 @@ m(d_1+d_2,k_1+k_2) \geq m(d_1,k_1)m(d_2,k_2)
 
 \begin{proof}[Proof of Theorem~\ref{thm:m(dk)}]
 Let $d = 2q +r$ where $q =\displaystyle\left \lfloor \frac{d}{2}\right\rfloor$ and $k = du +v$ where $u =\displaystyle \left \lfloor \frac{k}{d}\right\rfloor$. We separate the calculation into two cases.
+
 Case 1: If $r = 0$, then
 \begin{align*}
 m(d,k) &= m(2q, du +v)\\
@@ -449,7 +450,7 @@ Hence
 \[
 m(d,k) \geq \left(\frac{148}{121}\right)^{\lfloor \frac{d}{2}\rfloor}\left(\frac{k}{d}\right)^d + O(k^{d-1}).
 \]
-The proof of Theorem~\ref{thm:m(dk)} is complete.
+Therefore the proof of Theorem~\ref{thm:m(dk)} is complete.
 \end{proof}
 
 
@@ -502,7 +503,7 @@ exists, and the value is known for $k = 1,$ $2$ and $3$.  It is not known whethe
 \]
 exists for every k, and the value is only known for $k = 1$ and $2$. \\
 
-\item  We may define the undirected version of our extremal function $M(d,k)$ to be the largest $M$ such that there exists of symmetric set $\mathscr{A}$ of $k$ elements and their additive inverses such that $\diam(Cay(\Z_M,\mathscr{A})) \leq d$.  Little is known about $M(d,k)$, for fixed $d$ and $k \geq 3$. \\
+\item  We may define the undirected version of our extremal function $M(d,k)$ to be the largest $M$ such that there exists of symmetric set $\mathscr{A}$ of $k$ elements and their additive inverses such that $\diam(\Cay(\Z_M,\mathscr{A})) \leq d$.  Little is known about $M(d,k)$, for fixed $d$ and $k \geq 3$. \\
 \end{enumerate}
 
 \bibliographystyle{abbrv}	
