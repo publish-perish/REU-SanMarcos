@@ -2,14 +2,35 @@
 \documentclass{beamer}
 \usetheme{Montpellier} 
 \usecolortheme{dolphin} 
-\usepackage{tikz}
-\usepackage{tkz-berge}
 \usepackage{parskip}
 \setlength{\parskip}{\smallskipamount} 
-\usepackage{amsmath}
 \usepackage{array}
 \usepackage{fancybox}
 \usepackage{mathrsfs}
+
+\usepackage{enumerate}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathrsfs} % to use mathscr fonts
+
+\usepackage{pstricks}
+\usepackage{pst-solides3d}
+\usepackage{pstricks-add}
+\usepackage{graphicx}
+\usepackage{pst-tree}
+\usepackage{pst-poly}
+\usepackage{calc,ifthen}
+\usepackage{float}\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{tikz}
+\usepackage{tkz-berge}
+\usepackage{fancyhdr}
+\usepackage{algorithmicx,algpseudocode}
+\usepackage{changepage}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{fancyvrb}
 
 \title{Extremal Cayley Graphs}
 \author{Jordan Blocher, Christopher Linden,  Samantha Hampton}
@@ -32,9 +53,31 @@
 \def\Geom{\operatorname{\cal G}}
 \def\diam{\operatorname{diam}}
 \def\rank{\operatorname{rank}}
+\def\n{\\ \vspace{1.7mm}}
+
+\lstset{ %
+language=C++,                % choose the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=none,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=none,           % adds a frame around the code
+tabsize=2,          % sets default tabsize to 2 spaces
+captionpos=b,           % sets the caption-position to bottom
+breaklines=true,        % sets automatic line breaking
+breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}          % if you want to add a comment within your code
+}
+
 
 
 \begin{document}
+
 
 \frame{\titlepage}
 \frame{
@@ -363,15 +406,157 @@ m(d,2) &= \left\lfloor \frac{d(d+4)}{3} \right\rfloor+1 \text{ for all } d\geq2.
 	\end{itemize}
 }
 }
+
 \frame{
 	\frametitle{\underline{The Algorithm}}
 	\only<1>{
-	\begin{itemize}
-                  \item<1-> ??
+    \begin{itemize}
+        \item<1->Designed iterate through permutations of the generating set and possible coverings, giving as an output the maximal generating set as well as the optimal polynomial bound. 
+        \item<1->The algorithm takes advantage of the fact that there exists a one-to-one correspondance between representations of the residual classes of $\Z_m$ and the set of integers $[0, m-1]$.
+    \end{itemize}
+}}
+
+\frame{
+	\frametitle{\underline{Polynomial Construction}}
+	\only<1>{
+    \begin{itemize}
+    \item<1->Let $d$ be the diameter for $\Cay(m, \mathscr{A})$.
+    \item<1->Our lower bound on $m(d, k)$ will be defined as a polynomial in terms of $\lambda$. 
+    \end{itemize}
+\n
+$\lambda$ is a large number determined by $d$. The parameter $\lambda$ will not appear in the code, but it enables us to compute a lower bound as a function of $d$.
+\n
+Given $d$ define \emph{\bf{$d_{1}$ fixed}} to be $\frac{d}{\lambda}$. This will be the $d$ referred to in the algorithm.\n
+}}
+
+\frame{
+	\frametitle{\underline{Data Structures}}
+	\only<1>{
+\noindent
+The purpose of the data structures is to provide containers for the following:\n
+    \begin{itemize}
+    \item<1->Define $\mathscr{A}$ to be a \emph{set of generators}, $\mathscr{A} = (a_{i})$ such that $ a_{i} = \alpha_{i+1}a_{i+1}\lambda,  \forall i \in [0, k-1] $, where $a_i$ a sequence of nonnegative coefficients, and $\vert \mathscr{A} \vert = k$.\n
+    \item<1->Define a \emph{set of non-negative coefficients} $c_1, c_2, .. , c_k$ such that $c_{i+1} < \alpha_{i} \lambda$.\n
+    \item<1->Lastly, define a \emph{second set of non-negative coefficients} $x_1, x_2, .., x_{k}$ such that $x_{i+1} < d - \sum_{0}^{i}x_i$.
+    \end{itemize}
+\n \noindent
+Assume that the set of generator combinations is defined as an upper-triangular two-dimensional array of unordered coefficients represented by tuples, the sequences of coefficients are defined as ordered lists of tuples.
+}}
+
+\frame{
+	\frametitle{\underline{Polynomial Representation}}
+	\only<1>{
+ Our representative polynomial can now be defined.
+\begin{align*}
+m(d, k) &= a_{1}c_{1} + a_{2}c_{2} \cdots + a_{k}c_{k} 
+\\
+&= (\Pi_{1}^{k}\alpha_{i})c_{1}\lambda^k + (\Pi_{2}^{k}\alpha_{i})c_{2}\lambda^{k-1} \cdots (\alpha_{k})c_{k}\lambda
+\end{align*}
+\noindent
+For all constructed polynomials $x = x_1a_{1} + x_2a_{2} + .. + x_{k}a_{k}$, we define a representative $x' \in [1, m-1]$ to which we will map all congruent polynomials, forming our residue class $\bar{x}$ of regular polynomials.\n
+}}
+
+\frame{
+	\frametitle{\underline{Polynomial Representation}}
+	\only<1>{
+    \begin{itemize}
+    \item<1->The constructed polynomial $x$ is defined to be \textbf{regular} if $x \in [0, m-1]$.
+    \item<1->$ \{ (x_1, x_2, ... , x_k) \vert x_{1} \leq c_1, x_{2} \leq c_2, .. , x_{k} \leq c_k$, and $\sum_{i} x_i \leq d_{1} \}$ define polynomials $x$ that are considered to be \textbf{minimal}.\n
+    \end{itemize}
+\n
+We will use regular polynomials to determine whether or not $d \mathscr{A} = \Z_m$ by only considering a single covering of $\Z_m$.\n
+\noindent
+Note that a regular polynomial need not be minimal.\n
+\noindent
+We check for regularity by comparing the coefficients $(x_1, x_2, .. , x_{k})$ and $(c_1, c_2, .. , c_k)$ from their respective polynomials.\n
+}}
+
+\frame{
+	\frametitle{\underline{Polynomial Representation}}
+	\only<1>{
+    \begin{itemize}
+    \item<1->$\forall x \in d \mathscr{A}$ if $x \notin [0, m-1]$, we can identify $x$ with point $x' = (x'_1, x'_2, .. , x'_k) \in [0, m-1]$ congruent to $x$ $(mod$ $m)$.  Then if every point $n \in \Z_m$ is either equal to some $x$ or $x'$, then $d \mathscr{A} \cong \Z_m$.\n
+    \end{itemize}
+\noindent
+The number of times that the representative set cycles $\Z_m$ as well as the number of times that a generator needs to be "borrowed" into the next lowest-order term is saved to use to create the intervals bounding the representative coefficients in the mathematical proof.
+}}
+
+\frame{
+	\frametitle{\underline{Parallelization}}
+	\only<1>{
+The looping nature of the program makes it a natural candidate for optimization using parallel processing techniques. The largest dataset that is iterated over is the M-Coefficients, and can be a "bottleneck" in the program. Parallelization solves this problem by allowing a number of nodes that compute extremely large datasets to compute for an extended time or even without completion. These larger computations will not interfere with nodes that are computing bounds based on subsequent generating sets. The effect of the multiple processes is that we are able to check a larger set of generators, in fact checking up to the current trivial lower bound of $\frac{d^k}{k!}$.
+}}
+
+\frame{
+	\frametitle{\underline{Complexity}}
+	\only<1>{
+The generation of the polynomial bound is again a nested loop structure which checks each possible representative for each possible combination for each generating set that can be created where each generator is the largest possible multiple it can take for its position up to the trivial upper bound. 
+    \begin{itemize}
+    \item<1->We can describe the complexity of this main program as $\mathcal{O}(d^k) \cdot \Theta(d^k) \cdot \mathcal{O}(d^k) = \mathcal{O}(d^{k^3})$.
+    \end{itemize}
+    As we found, the size of the coefficient set for the polynomial bound depends largely on the specific generating set being examined, significantly affecting the complexity of the inner loops (or coefficient loops).
+}}
+
+
+\frame{
+    \frametitle{\underline{Future Work}}
+    \only<1>{
+        Upon completion, the results from the current implementation of the algorithm in C++ did not give an improvement to current lower bound for $k = 3, 4, 5, 6$. It was decided that improvements to the accuracy of the polynomial representation were needed in order to improve the result. Towards this effort, we extend each generator to include lower-order polynomial terms.
+
+        We now define $\mathscr{A}$ to be a \emph{set of generators}, $\mathscr{A} = \{a_{i}\}$ such that $a_{i+1} = \sum_{i}^{k}\alpha_{ij}a_{j},  \forall i \in [1, k-1] $, with $\{a_i\}$ a sequence of polynomial representations, and $\vert \mathscr{A} \vert = k$.\n
+}}
+
+\frame{
+    \frametitle{\underline{Construction of the Generating Set for $k=6$}}
+    \only<1>{
+
+\lstinline{typedef Tuple<int, k> T;}
+
+\lstinline{// Construction of Generators}
+
+\lstinline{A[0] = (N, I1, J1, K1, L1, 0);}
+
+\lstinline{A[1] = (0, I2, J2, K2, L2, 0);}
+
+\lstinline{A[2] = (0, 0, J3, K3, L3, 0);}
+
+\lstinline{A[3] = (0, 0, 0, K4, L4, 0);}
+
+\lstinline{A[4] = (0, 0, 0, 0, L5, 0);}
+
+\lstinline{A[5] = (0, 0, 0, 0, 0, 1);}
+
+}}
+
+
+\frame{
+    \frametitle{Polynomial Data Structure}
+    \only<1>{
+        
+    The basic polynomial data structure uses a 2D upper-triangular array to store the generating set.
+
+\lstinline{class Polynomial}
+\{
+
+\lstinline{Tuple A[k];  // container for Generators}
+
+\lstinline{Tuple Y;  // container for M-Coefficients or X-Coefficients}
+
+\lstinline{int subtractions[k];}
+
+\}
+
+In the case where Polynomial \lstinline{P.Y} is a container for the M or X-Coefficients, the class instance is a representation of the polynomial $x$ or $X'$.
+\lstinline{P.Y[0]} will refer to the largest polynomial coefficient. \lstinline{P.A[i][0]} will refer to the largest corresponding generator where $i = 1, 2, \cdots, k$.
+}}
+
+\frame{
+	\frametitle{\underline{Analysis}}
+	\only<1>{
+ The complexity of the loop constructing the generators has increased to $\mathcal{O}(d^{k^2})$, increasing the complexity of the complete algorithm is $\mathcal{O}(d^{k^4})$.
                   
-	\end{itemize}
-}
-}
+}}
+
 
 \frame{
 	\frametitle{\underline{The General Case}}

@@ -6,20 +6,27 @@ The algorithm takes advantage of the fact that there exists a one-to-one corresp
 \subsection{Polynomial Construction}
 \noindent
 Let $d$ be the diameter for $\Cay(m, \mathscr{A})$.\n 
+Our lower bound on $m(d, k)$ will be defined as a polynomial in terms of $\lambda$. Note that in the code, the representative data structures will be ordered from the higher-order to lower-order polynomial terms.
+$\lambda$ is a large number determined by $d$. The parameter $\lambda$ will not appear in the code, but it enables us to compute a lower bound as a function of $d$.\n
 
 \subsubsection{Permutations of Generators and Coefficients}
-The algorithm producing generators and coefficients with which the lower bound is constructed is the heart of functionality for the algorithm. \n
 The permutations tested may be stored as data structures or file tables.
 
 \noindent
 Given $d$ define \emph{\bf{$d_{1}$ fixed}} to be $\frac{d}{\lambda}$. This will be the $d$ referred to in the algorithm.\n
 
 The purpose of the following data structures is to provide containers for the following:\n
-Define $\mathscr{A}$ to be a \emph{set of generators}, $\mathscr{A} = \{ (a_{i}) \vert a_{i+1} = \alpha_{i}a_{i},  \forall i \in [0, k-1] \} $, with $a_i$ a sequence of nonnegative coefficients, and $\vert \mathscr{A} \vert = k$.\n
-Define a \emph{set of non-negative coefficients} $c_1, c_2, .. , c_k$ such that $a_{i+1} = \alpha_{i}a_{i} \lambda$, where ($\alpha_{i}$) is any sequence of coefficients.\n
+Define $\mathscr{A}$ to be a \emph{set of generators}, $\mathscr{A} = (a_{i})$ such that $ a_{i} = \alpha_{i+1}a_{i+1}\lambda,  \forall i \in [0, k-1] $, where $a_i$ a sequence of nonnegative coefficients, and $\vert \mathscr{A} \vert = k$.\n
+Define a \emph{set of non-negative coefficients} $c_1, c_2, .. , c_k$ such that $c_{i+1} < \alpha_{i} \lambda$.\n
 Lastly, define a \emph{second set of non-negative coefficients} $x_1, x_2, .., x_{k}$ such that $x_{i+1} < d - \sum_{0}^{i}x_i$.
 \noindent
 Assume that the set of generator combinations is defined as an upper-triangular two-dimensional array of unordered coefficients represented by tuples, the sequences of coefficients are defined as ordered lists of tuples.
+
+Our representative polynomial can now be defined.
+\[
+m(d, k) = a_{1}c_{1} + a_{2}c_{2} \cdots + a_{k}c_{k} = (\Pi_{1}^{k}\alpha_{i})c_{1}\lambda^k + (\Pi_{2}^{k}\alpha_{i})c_{2}\lambda^{k-1} \cdots (\alpha_{k})c_{k}\lambda
+\]
+
 
 \subsubsection*{Tuple Data Structure}
 
@@ -110,9 +117,6 @@ Polynomial P(Tuple A, Tuple Y);
 
 \end{lstlisting}
 
-\noindent
-($\lambda$ is a large number determined by $d$. The parameter $\lambda$ will not appear in the code, but it enables us to compute a lower bound as a function of $d$.)\n
-
 \subsection*{Polynomial Data Structure} The basic polynomial data structure may be defined as follows:
 
 \begin{lstlisting}
@@ -121,7 +125,7 @@ class Polynomial{
 
     Tuple A;  // container for Generators
     Tuple Y;  // container for M-Coefficients or X-Coefficients
-
+    int subtractions[k];
     ...
 };
 
@@ -153,7 +157,8 @@ $\forall x \in d \mathscr{A}$ if $x \notin [0, m-1]$, we can identify $x$ with p
 \end{proposition}
 
 \noindent
-Consider the case, $x > m(d, k)$, where $x$ is not regular. We perform a recursive polynomial subtraction of the coefficients where $c_1, c_2, c_3$ is subtracted term-by-term from $x_1, x_2, x_3, ... , x_k$. The resulting low-order coefficients are then forced to be positive by adding the generator associated with the next higher-order term.\n
+Consider the case, $x > m(d, k)$, where $x$ is not regular. We perform a recursive polynomial subtraction of the coefficients where $c_1, c_2, c_3$ is subtracted term-by-term from $x_1, x_2, x_3, ... , x_k$. The resulting low-order coefficients are then forced to be non-negative by adding the generator associated with the next higher-order term.\n
+The number of times that the representative set cycles $\Z_m$ as well as the number of times that a generator needs to be "borrowed" into the next lowest-order term is saved to use to create the intervals bounding the representative coefficients in the mathematical proof.
 
 \begin{lstlisting}
 
@@ -164,26 +169,30 @@ Polynomial Polynomial::operator-(Polynomial m)
     while( Y > rhs.Y )
     {
           Y = T(Y[0] - rhs.Y[0], Y[1] - rhs.Y[1], Y[2] - rhs.Y[2], ... , Y[k] - rhs.Y[k]);
+          ++subtractions[0];
     }
     while( Y[1] < 0 )
     {
           Y = T(Y[0], Y[1] + (A[0] / A[1]), Y[2], ... , Y[k]);
+          ++subtractions[1];
     }
     while( Y[2] < 0 )
     {
           Y = T(Y[0], Y[1], Y[2] + (A[1] / A[2]), ... , Y[k]);
+          ++subtractions[2];
     }
     while( Y[3] < 0 )
     {
           Y = T(Y[0], Y[1], Y[2], Y[3] + (A[2] / A[3]), ... , Y[k]);
+          ++subtractions[3];
     }
 
     ...
 
-    while( Y[k] < 0 )
+    while( Y[k-1] < 0 )
     {
-         Y = T(Y[0], Y[1], Y[2], Y[3] + (A[2] / A[3]), ... , Y[k] + (A[k-1] / A[k]));
-
+         Y = T(Y[0], Y[1], Y[2], Y[3] + (A[2] / A[3]), ... , Y[k-1] + (A[k-2] / A[k-1]));
+         ++subtractions[k-1];
     }
     if( Y > rhs.Y ){ goto loop; } 
 
@@ -208,8 +217,8 @@ TP Polynomial::value()
     return (a1*y1 + a2*y2 +   + ak*yk);
 }
 
-\\ Define a class function to check that x' is well-formed
-bool Polynomial::wellFormed()const
+\\ Define a class function to check that x' is regular
+bool Polynomial::isRegular()const
 {
        return (Y[1] < ( A[0] / A[1]) && Y[2] < (A[1] / A[2]) && .. && Y[k] < (A[k-1] / A[k]));
 }
@@ -276,8 +285,8 @@ The looping nature of the program makes it a natural candidate for optimization 
 
 \subsubsection{Generators and Coefficients}
 
-The complexity of the algorithm depends both on the number of generators as well as the chosen diameter, however since our program deals with smaller values of $k$, and our chosen diameter may be arbitrarily large, we will formulate our complexity analysis in terms of $d$. As we are checking all permutations of generators up to the upper bound $\frac{d^k}{k!}$, we are able to treat the coefficient $\frac{1}{(k!)^{k}}$ as a constant term and express the compexity as an average case in big-$\mathcal{O}$ notation. The number of operations per loop in the construction of the generators is on the order of $\mathcal{O}(d^{2k})$. The construction of the coefficients to generate our representative polynomial $m$ is dependent on the individual generating set for which it is being constructed. In the worst case, the generating set will have large generators, allowing for the outermost loop to finish quickly, however, this will make it possible for the inner loops to approach or surpass the complexity of the larger, outermost loop. The complexity in this case is $\mathcal{O}(\max_{a \in \mathscr{A}}(a \cdot d)^k)$, where for most $a \in \mathscr{A}$, $a < d$. In the best case, the generating set will have small coefficients, in which case the outermost loop will have complexity of $\Omega(\max_{a \in \mathscr{A}} (\frac{d}{a^k})^k)$, and the inner loops will finish quickly. The final complexity of the loop structure in this case can be described as $\Theta(d^k)$. Finally, the coefficients for our representative polynomial are generated in $\mathcal{O}(d^k)$.
+The complexity of the algorithm depends both on the number of generators as well as the chosen diameter, however since our program deals with smaller values of $k$, and our chosen diameter may be arbitrarily large, we will formulate our complexity analysis in terms of $d$. As we are checking all permutations of generators up to the upper bound $\frac{d^k}{k!}$, we are able to treat the coefficient $\frac{1}{(k!)^{k}}$ as a constant term and express the compexity as an average case in big-$\mathcal{O}$ notation. The number of operations per loop in the construction of the generators is on the order of $\mathcal{O}(d^{k})$. The construction of the coefficients to generate our representative polynomial $m$ is dependent on the individual generating set for which it is being constructed. In the worst case, the generating set will have large generators, allowing for the outermost loop to finish quickly, however, this will make it possible for the inner loops to approach or surpass the complexity of the larger, outermost loop. The complexity in this case is $\mathcal{O}(\max_{a \in \mathscr{A}}(a \cdot d)^k)$, where for most $a \in \mathscr{A}$, $a < d$. In the best case, the generating set will have small coefficients, in which case the outermost loop will have complexity of $\Omega(\max_{a \in \mathscr{A}} (\frac{d}{a})^k)$, and the inner loops will finish quickly. The final complexity of the loop structure in this case can be described as $\Theta(d^k)$. Finally, the coefficients for our representative polynomial are generated in $\mathcal{O}(d^k)$.
 
 \subsubsection{Polynomial Bound}
 
-The generation of the polynomial bound is again a nested loop structure which checks each possible representative for each possible combination for each generating set that can be created where each generator is the largest possible multiple it can take for its position up to the trivial upper bound. We can describe the complexity of this main program as $\mathcal{O}(d^k) \cdot \Theta(d^k) \cdot \mathcal{O}(d^k) = \mathcal{O}(d^{3k})$. As we found, the size of the coefficient set for the polynomial bound depends largely on the specific generating set being examined, significantly affecting the complexity of the inner loops (or coefficient loops).
+The generation of the polynomial bound is again a nested loop structure which checks each possible representative for each possible combination for each generating set that can be created where each generator is the largest possible multiple it can take for its position up to the trivial upper bound. We can describe the complexity of this main program as $\mathcal{O}(d^k) \cdot \Theta(d^k) \cdot \mathcal{O}(d^k) = \mathcal{O}(d^{k^3})$. As we found, the size of the coefficient set for the polynomial bound depends largely on the specific generating set being examined, significantly affecting the complexity of the inner loops (or coefficient loops).
