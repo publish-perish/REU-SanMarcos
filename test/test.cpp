@@ -8,7 +8,7 @@
 
 using namespace std;
 
-
+/*
 int main(int argc, char *argv[])
 {
     clock_t start, end;
@@ -45,4 +45,27 @@ int main(int argc, char *argv[])
        return 0;
 
 
+}
+*/
+int main()
+{
+T A1(1,2,3,4,5,6);
+T A2(1,1,1,1,1,1);
+Polynomial result;
+cout << A1 << endl;
+T AA[6];
+AA[0] = T(6,6,6,6,6,6);
+AA[1] = T(0,5,5,5,5,5);
+AA[2] = T(0,0,4,4,4,4);
+AA[3] = T(0,0,0,3,3,3);
+AA[4] = T(0,0,0,0,2,2);
+AA[5] = T(0,0,0,0,0,1);
+Polynomial P1(AA, A1);
+Polynomial P2(AA, A2);
+cout << "Successful construction" << endl;
+cout << P1 << endl;
+cout << "Successful output" << endl;
+result = P1 - P2;
+cout << result << endl;
+return 0; 
 }

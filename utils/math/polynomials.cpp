@@ -54,7 +54,7 @@ int Polynomial::sum()const
     return sum;
 }
 
-bool Polynomial::wellFormed()const
+bool Polynomial::wellFormed()const //should just be A[i][i], and start at i = 1
 {
    for(int i=0; i<Y.size()-1; ++i)
    {
@@ -75,6 +75,7 @@ bool Polynomial::operator==(const Polynomial &p)
 
 bool Polynomial::operator>=(const Polynomial &p)
 {
+return Y >= p.Y;
 }
 
 bool Polynomial::operator!=(const Polynomial &p)
@@ -118,7 +119,7 @@ Polynomial Polynomial::operator-(Polynomial m)
     loop:
     while( Y > m.Y )
     {
-    cout<<"Subtracting m : "<<*this<<" minus "<< m<< " with generators "<<A;
+    cout<<"Subtracting m : "<<*this<<" minus "<< m;
         ++s[0];;
         for(i=0; i<Y.size(); ++i)
         {
@@ -137,7 +138,7 @@ Polynomial Polynomial::operator-(Polynomial m)
               }
               ++s[i];
         }
-        while(Y[i] >= A[i][i])
+        while(Y[i] > A[i][i])
         {
             for(j=i; j<6; ++j)
             {cout<<"Carrying "<<i<<"th coeff by subtracting A"<<j<<"= "<<A[j]<<" from Y"<<j<<"= "<<Y[j]<<endl;
@@ -166,20 +167,18 @@ std::ostream& operator<<(std::ostream& ostr, const Polynomial &p)
     ostr <<"A: \n";
     for(i=0; i<p.Y.size(); ++i)
     {
+    	//cout << "printing A's, i= "<< i << endl;
         ostr<<"(";
-        for(j=0; j<(p.A[0]).size(); ++j)
-        {
-            ostr << p.A[i] <<" ";
-        }
+        ostr << p.A[i];
         ostr<<")\n";
     }
-    ostr<<")\n";
-
+    //cout << "out clean" << endl;
+    return ostr;
 }
 
 std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
 {
-    int i,j;
+  int i,j;
     ofstr <<"Y: (";
     for(i=0; i<p.Y.size(); ++i)
     {
@@ -191,15 +190,10 @@ std::ofstream& operator<<(std::ofstream& ofstr, const Polynomial &p)
     for(i=0; i<p.Y.size(); ++i)
     {
         ofstr<<"(";
-        for(j=0; j<(p.A[0]).size(); ++j)
-        {
-            ofstr << p.A[i] <<" ";
-        }
+        ofstr << p.A[i];
         ofstr<<")\n";
     }
-    ofstr<<")\n";
-
-
+	return ofstr;
 }
 
 
